@@ -73,7 +73,7 @@ int CGame::IsKeyUp(int KeyCode)
 void CGame::InitKeyboard(LPKEYEVENTHANDLER handler)
 {
 	HRESULT hr = DirectInput8Create(
-			(HINSTANCE)GetWindowLong(hWnd, GWL_HINSTANCE),
+			(HINSTANCE)GetWindowLong(hWnd, GWLP_HINSTANCE),
 			DIRECTINPUT_VERSION,
 			IID_IDirectInput8, (VOID**)&di, NULL);
 

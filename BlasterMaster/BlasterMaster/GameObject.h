@@ -3,7 +3,7 @@
 
 
 #include "GlobalConfig.h"
-#include "Sprites.h"
+#include "Animations.h"
 
 
 using namespace std;

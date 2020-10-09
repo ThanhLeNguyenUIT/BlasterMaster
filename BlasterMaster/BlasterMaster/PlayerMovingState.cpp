@@ -14,6 +14,7 @@ PlayerMovingState::PlayerMovingState(DWORD timeFinish) {
 		StateName = MOVING_LEFT;
 		player->vx = -CAR_MOVING_SPEED;
 	}
+	
 	player->stateBoundingBox = CAR_BOUNDING_BOX;
 }
 

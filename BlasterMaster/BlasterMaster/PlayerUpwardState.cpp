@@ -8,14 +8,9 @@ PlayerUpwardState::PlayerUpwardState() {
 	player->allow[JUMPING] = true;
 	player->allow[MOVING] = true;
 	player->allow[STANDING] = true;
-	if (player->CurAnimation->IsLastFrame) {
-		//DebugOut(L"ThanhZzz");
-
-		player->CurAnimation->currentFrame = player->CurAnimation->GetFramesSize() - 2;
-		DebugOut(L"ThanhZzz %d", player->CurAnimation->currentFrame);
-	}
-	player->y = player->y - CAR_BBOX_HEIGHT ;
 	
+	player->y = player->y - (CAR_UP_BBOX_HEIGHT - CAR_BBOX_HEIGHT) ;
+	player->IsUp = true;
 	player->vx = 0;
 	player->vy = 0;
 	
@@ -34,12 +29,6 @@ PlayerUpwardState::~PlayerUpwardState() {
 }
 
 void PlayerUpwardState::Update() {
-	if (player->CurAnimation->IsLastFrame) {
-		//DebugOut(L"ThanhZzz");
-
-		player->CurAnimation->currentFrame = player->CurAnimation->GetFramesSize() -2 ;
-		DebugOut(L"ThanhZzz %d", player->CurAnimation->currentFrame);
-	}
 	this->HandleKeyboard();
 }
 
@@ -48,8 +37,8 @@ void PlayerUpwardState::HandleKeyboard() {
 		player->ChangeAnimation(new PlayerUpState());
 	}
 	else {
-		player->y = player->y + CAR_BBOX_HEIGHT;
-		player->ChangeAnimation(new PlayerStandingState());
+		player->y = player->y + (CAR_UP_BBOX_HEIGHT - CAR_BBOX_HEIGHT);
 		player->IsUp = false;
+		player->ChangeAnimation(new PlayerStandingState());
 	}
 }

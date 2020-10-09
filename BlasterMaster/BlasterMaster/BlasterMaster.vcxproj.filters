@@ -50,6 +50,9 @@
     <Image Include="Textures\misc.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Textures\title1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -109,6 +112,12 @@
     <ClCompile Include="Brick.cpp">
       <Filter>Source Files\GameObjects\Item</Filter>
     </ClCompile>
+    <ClCompile Include="Animations.cpp">
+      <Filter>Source Files\GameComponents\Images</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerUpwardMoving.cpp">
+      <Filter>Source Files\GameObjects\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprites.h">
@@ -167,6 +176,12 @@
     </ClInclude>
     <ClInclude Include="Brick.h">
       <Filter>Source Files\GameObjects\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Animations.h">
+      <Filter>Source Files\GameComponents\Images</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerUpwardMoving.h">
+      <Filter>Source Files\GameObjects\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

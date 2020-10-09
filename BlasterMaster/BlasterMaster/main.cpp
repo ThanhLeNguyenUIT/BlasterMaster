@@ -98,9 +98,9 @@ void LoadResources(){
 	sprites->LoadResources();
 	
 	CAnimations* animations = CAnimations::GetInstance();
-	animations->LoadResource();
+	animations->LoadResources();
 
-	//Map::GetInstance()->LoadResources(1);
+	Map::GetInstance()->LoadResources(1);
 
 	//// sprite car moving right
 	////sprites->Add(10001, 146, 5, 172, 23, textCar); // state idle
@@ -241,7 +241,7 @@ void LoadResources(){
 	{
 		CBrick* brick = new CBrick();
 		brick->AdAnimation(600);
-		brick->SetPosition(0 + i * 16.0f, 245);
+		brick->SetPosition(0 + i * 16.0f, 150);
 		objects.push_back(brick);
 	}
 

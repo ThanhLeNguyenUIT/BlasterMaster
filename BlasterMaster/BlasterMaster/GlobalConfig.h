@@ -39,14 +39,16 @@ using namespace std;
 
 #define CAR_BOUNDING_BOX	111
 #define CAR_UP_BOUNDING_BOX 112
+
 #define CAR_BBOX_WIDTH		26
 #define CAR_BBOX_HEIGHT		18
+
 #define CAR_UP_BBOX_WIDTH 26
-#define CAR_UP_BBOX_HEIGHT 33
+#define CAR_UP_BBOX_HEIGHT 34
 
 //// SCREEN /////
-#define SCREEN_WIDTH 550	
-#define SCREEN_HEIGHT 475
+#define SCREEN_WIDTH 320
+#define SCREEN_HEIGHT 240
 
 #define TITLE_WIDTH 32
 #define TITLE_HEIGHT 32

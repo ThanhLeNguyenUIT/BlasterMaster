@@ -122,8 +122,16 @@ void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 void CCar::Render() {
 
 	int alpha = 255;
+	bool rev;
 
-	CurAnimation->Render(x, y, alpha);
+	if (!IsUp) {
+		rev = false;
+		CurAnimation->Render(x, y, alpha);
+	}
+	else {
+		rev = true;
+		CurAnimation->Render(x, y, alpha, rev);
+	}
 
 	RenderBoundingBox();
 

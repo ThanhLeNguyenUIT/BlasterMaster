@@ -1,4 +1,5 @@
 #include "PlayerFallingState.h"
+#include "PlayerFallingMovingState.h"
 #include "PlayerStandingState.h"
 #include "PlayerJumpingState.h"
 
@@ -24,5 +25,14 @@ void PlayerFallingState::Update() {
 }
 
 void PlayerFallingState::HandleKeyboard() {
-
+	if ((keyCode[DIK_RIGHT]))
+	{
+		player->ChangeAnimation(new PlayerFallingMovingState());
+	}
+	else if ((keyCode[DIK_LEFT]))
+	{
+		player->ChangeAnimation(new PlayerFallingMovingState());
+	}
+	else 
+		player->ChangeAnimation(new PlayerFallingState());
 }

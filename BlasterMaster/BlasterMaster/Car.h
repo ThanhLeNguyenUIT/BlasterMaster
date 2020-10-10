@@ -2,9 +2,9 @@
 #include "GameObject.h"
 #include "Bullet.h"
 
-#define CAR_MOVING_SPEED             0.2f
-#define CAR_JUMP_SPEED_Y             0.5f
-#define CAR_GRAVITY                  0.002f
+#define CAR_MOVING_SPEED             0.1f
+#define CAR_JUMP_SPEED_Y             0.8f
+#define CAR_GRAVITY                  0.001f
 #define CAR_JUMP_DEFLECT_SPEED     0.2f
 #define CAR_DIE_DEFLECT_SPEED	   0.5f
 

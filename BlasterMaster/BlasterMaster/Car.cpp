@@ -8,24 +8,29 @@
 #include "PlayerFallingState.h"
 #include "PlayerDeadState.h"
 #include "PlayerJumpingState.h"
+#include "PlayerJumpingMovingState.h"
 #include "PlayerMovingState.h"
 #include "PlayerStandingState.h"
 
 CCar* CCar::_instance = NULL;
 
 CCar::CCar() :CGameObject() {
-	AdAnimation(400, STANDING_RIGHT);
-	AdAnimation(401, STANDING_LEFT);
-	AdAnimation(500, MOVING_RIGHT);
-	AdAnimation(501, MOVING_LEFT);
-	AdAnimation(400, JUMPING_RIGHT);
-	AdAnimation(401, JUMPING_LEFT);
-	AdAnimation(400, FALLING_RIGHT);
-	AdAnimation(401, FALLING_LEFT);
-    AdAnimation(510, UPWARD_RIGHT);
-    AdAnimation(511, UPWARD_LEFT);
-	AdAnimation(512, UP_RIGHT);
-	AdAnimation(513, UP_LEFT);
+	AdAnimation(101, STANDING_RIGHT);
+	AdAnimation(102, STANDING_LEFT);
+	AdAnimation(201, MOVING_RIGHT);
+	AdAnimation(202, MOVING_LEFT);
+	AdAnimation(401, JUMPING_RIGHT);
+	AdAnimation(402, JUMPING_LEFT);
+	AdAnimation(501, JUMPING_MOVING_RIGHT);
+	AdAnimation(502, JUMPING_MOVING_LEFT);
+	AdAnimation(601, FALLING_RIGHT);
+	AdAnimation(602, FALLING_LEFT);
+	AdAnimation(701, FALLING_MOVING_RIGHT);
+	AdAnimation(702, FALLING_MOVING_LEFT);
+    AdAnimation(801, UPWARD_RIGHT);
+    AdAnimation(802, UPWARD_LEFT);
+	AdAnimation(901, UP_RIGHT);
+	AdAnimation(902, UP_LEFT);
 	
 	tag = PLAYER;
 }
@@ -40,6 +45,7 @@ void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	CGameObject::Update(dt);
 	
 	// Simple fall down
+	
     vy += CAR_GRAVITY*dt;
 	
 	state->Update();
@@ -186,12 +192,12 @@ void CCar::Render() {
 void CCar::AddBullet() {
 	bullet = new CBullet;
 	if (nx > 0) {
-		bullet->AdAnimation(800);
+		bullet->AdAnimation(1004);
 		bullet->SetPosition(x + CAR_BBOX_WIDTH, y + 7 / CAR_BBOX_HEIGHT);
 		bullet->SetState(BULLET_STATE_MOVING_RIGHT);
 	}
 	else {
-		bullet->AdAnimation(800);
+		bullet->AdAnimation(1004);
 		bullet->SetPosition(x, y + 7 / CAR_BBOX_HEIGHT);
 		bullet->SetState(BULLET_STATE_MOVING_LEFT);
 	}
@@ -251,13 +257,13 @@ void CCar::OnKeyDown(int key) {
 			{
 				vx = CAR_MOVING_SPEED;
 				nx = 1;
-				ChangeAnimation(new PlayerJumpingState());
+				ChangeAnimation(new PlayerJumpingMovingState());
 			}
 			else if ((keyCode[DIK_LEFT]))
 			{
 				vx = -CAR_MOVING_SPEED;
 				nx = -1;
-				ChangeAnimation(new PlayerJumpingState());
+				ChangeAnimation(new PlayerJumpingMovingState());
 			}
 			else
 			{

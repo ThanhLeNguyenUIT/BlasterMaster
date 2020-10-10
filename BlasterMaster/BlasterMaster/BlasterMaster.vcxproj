@@ -39,7 +39,9 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="PlayerDeadState.cpp" />
+    <ClCompile Include="PlayerFallingMovingState.cpp" />
     <ClCompile Include="PlayerFallingState.cpp" />
+    <ClCompile Include="PlayerJumpingMovingState.cpp" />
     <ClCompile Include="PlayerJumpingState.cpp" />
     <ClCompile Include="PlayerMovingState.cpp" />
     <ClCompile Include="PlayerStandingState.cpp" />
@@ -61,7 +63,9 @@
     <ClInclude Include="Goomba.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="PlayerDeadState.h" />
+    <ClInclude Include="PlayerFallingMovingState.h" />
     <ClInclude Include="PlayerFallingState.h" />
+    <ClInclude Include="PlayerJumpingMovingState.h" />
     <ClInclude Include="PlayerJumpingState.h" />
     <ClInclude Include="PlayerMovingState.h" />
     <ClInclude Include="PlayerStandingState.h" />

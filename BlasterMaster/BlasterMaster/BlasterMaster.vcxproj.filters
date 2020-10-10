@@ -118,6 +118,12 @@
     <ClCompile Include="PlayerUpwardMoving.cpp">
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerJumpingMovingState.cpp">
+      <Filter>Source Files\GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerFallingMovingState.cpp">
+      <Filter>Source Files\GameObjects\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprites.h">
@@ -181,6 +187,12 @@
       <Filter>Source Files\GameComponents\Images</Filter>
     </ClInclude>
     <ClInclude Include="PlayerUpwardMoving.h">
+      <Filter>Source Files\GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerJumpingMovingState.h">
+      <Filter>Source Files\GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerFallingMovingState.h">
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClInclude>
   </ItemGroup>

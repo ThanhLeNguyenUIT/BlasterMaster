@@ -11,7 +11,7 @@ void Map::LoadResources(int level)
 {
 	ifstream File;
 	char gridFileName[30];
-	sprintf_s(gridFileName, "text\\Level%d.txt", level);
+	sprintf_s(gridFileName, "text\\map%d.txt", level);
 	File.open(gridFileName, level);
 	File >> col >> row;
 	mapTiles = new int* [row];
@@ -33,22 +33,18 @@ void Map::Render(int level)
 	LPDIRECT3DTEXTURE9 texMap;
 	texMap = textures->Get(60);
 	CSprites* sprites = CSprites::GetInstance();
-	sprites->Add(99999, 0, 0, 32, 1568, texMap);
+	sprites->Add(99999, 0, 0, 2048, 2048, texMap);
 
 	CSprite* sprite = sprites->Get(99999);
 
+	RECT r; // bounding box of title red
+	r.left = 0;
+	r.top =  0;
+	r.right = 0;
+	r.bottom = 0;
+	//if (IsCollision(cam->GetBound(), r)) // if title rect touch the Camera rect then do not draw 
+	sprite->Draw(0,0);
 
-	for (int i = 0; i < row; ++i)
-		for (int j = 0; j < col; ++j)
-		{
-			RECT r; // bounding box of title red
-			r.left = j * TITLE_WIDTH;
-			r.top = i * TITLE_HEIGHT;
-			r.right = r.left + TITLE_WIDTH;
-			r.bottom = r.top + TITLE_HEIGHT;
-			//if (IsCollision(cam->GetBound(), r)) // if title rect touch the Camera rect then do not draw 
-			sprite->Draw(r.left, r.top - 60, TITLE_WIDTH * mapTiles[i][j] - TITLE_WIDTH, 0, TITLE_HEIGHT * mapTiles[i][j], TITLE_HEIGHT);
-		}
 
 }
 //bool Map::IsCollision(RECT rect1, RECT rect2)

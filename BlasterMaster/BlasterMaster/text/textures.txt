@@ -3,5 +3,5 @@
 30 Textures\\item.png 255 0 255
 40 Textures\\enemies.png 255 0 255
 50 Textures\\misc.png 255 0 255
-60 Textures\\title1.png 245 245 245
+60 Textures\\map2.png 245 245 245
 

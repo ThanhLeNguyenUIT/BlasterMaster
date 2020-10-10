@@ -10,8 +10,8 @@
 #define GOOMBA_STATE_WALKING 100
 #define GOOMBA_STATE_DIE 200
 
-#define GOOMBA_ANI_WALKING 0
-#define GOOMBA_ANI_DIE 1
+#define GOOMBA_ANI_WALKING 1002
+#define GOOMBA_ANI_DIE 1003
 
 class CGoomba : public CGameObject
 {

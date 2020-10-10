@@ -100,147 +100,26 @@ void LoadResources(){
 	CAnimations* animations = CAnimations::GetInstance();
 	animations->LoadResources();
 
-	Map::GetInstance()->LoadResources(1);
-
-	//// sprite car moving right
-	////sprites->Add(10001, 146, 5, 172, 23, textCar); // state idle
-	//sprites->Add(10001, 146, 31, 172, 48, textCar);
-	//sprites->Add(10002, 146, 56, 172, 72, textCar);
-	////sprites->Add(10004, 178, 5, 204, 23, textCar);
-	//sprites->Add(10003, 178, 31, 204, 48, textCar);
-	//sprites->Add(10004, 177, 56, 203, 72, textCar);
-	//sprites->Add(10005, 211, 5, 237, 23, textCar);
-	//sprites->Add(10006, 242, 5, 268, 23, textCar);
-
-
-	// //sprite car moving left
-	//sprites->Add(10011, 109, 5, 135, 23, textCar);
-	//sprites->Add(10012, 77, 5, 103, 23, textCar);
-	//sprites->Add(10013, 44, 5, 70, 23, textCar);
-	//sprites->Add(10014, 13, 5, 39, 23, textCar);
-
-	////sprite car upward right
-	//sprites->Add(10020, 146, 187, 171, 213, textCar);
-	//sprites->Add(10021, 146, 218, 171, 246, textCar);
-	//sprites->Add(10022, 146, 250, 171, 280, textCar);
-	//sprites->Add(10023, 146, 283, 172, 317, textCar);
-
-	////sprite car upward left
-	//sprites->Add(10024, 110, 187, 135, 213, textCar);
-	//sprites->Add(10025, 110, 218, 135, 246, textCar);
-	//sprites->Add(10026, 110, 250, 135, 280, textCar);
-	//sprites->Add(10027, 109, 283, 135, 317, textCar);
-
-
-	////sprite car jump
-
-	////sprite car gun up
-
-	// //sprite brick
-	//LPDIRECT3DTEXTURE9 texMisc = textures->Get(ID_TEX_MISC);
-	//sprites->Add(20001, 408, 225, 424, 241, texMisc);
-
-	////sprite goomba
-	//LPDIRECT3DTEXTURE9 texEnemy = textures->Get(ID_TEX_ENEMY);
-	//sprites->Add(30001, 5, 14, 21, 29, texEnemy);
-	//sprites->Add(30002, 25, 14, 41, 29, texEnemy);
-
-	//sprites->Add(30003, 45, 21, 61, 29, texEnemy); // die sprite
-
-	////sprite bullet
-	//LPDIRECT3DTEXTURE9 textBullet = textures->Get(ID_TEX_BULLET);
-	//sprites->Add(40000, 300, 113, 326, 121, textBullet);
-	//sprites->Add(40001, 304, 158, 322, 176, textBullet); // bullet explose
-	
-	/*LPANIMATION ani;*/
-
-	//ani = new CAnimation(100); // standing right
-	//ani->Add(10001);
-	//animations->Add(400, ani);
-
-	//ani = new CAnimation(100); // standing left
-	//ani->Add(10011);
-	//animations->Add(401, ani);
-
-	//ani = new CAnimation(100); // animtation moving right
-	//ani->Add(10001);
-	//ani->Add(10002);
-	//ani->Add(10003);
-	//ani->Add(10004);
-	//ani->Add(10005);
-	//ani->Add(10006);
-	////ani->Add(10007);
-	////ani->Add(10008);
-	//animations->Add(500, ani);
-
-	//ani = new CAnimation(100); // animation moving left
-	//ani->Add(10011);
-	//ani->Add(10012);
-	//ani->Add(10013);
-	//ani->Add(10014);
-	//animations->Add(501, ani);	
-
-	//ani = new CAnimation(100); // Upward right
-	//ani->Add(10020);
-	//ani->Add(10021);
-	//ani->Add(10022);
-	//ani->Add(10023);
-	//animations->Add(510, ani);
-
-	//ani = new CAnimation(100); // Upward left
-	//ani->Add(10024);
-	//ani->Add(10025);
-	//ani->Add(10026);
-	//ani->Add(10027);
-	//animations->Add(511, ani);
-
-	//ani = new CAnimation(100); // Up right
-	//ani->Add(10023);
-	//animations->Add(512, ani);
-	//ani = new CAnimation(100); // Up left
-	//ani->Add(10027);
-	//animations->Add(513, ani);
-
-	//ani = new CAnimation(100);		// brick
-	//ani->Add(20001);
-	//animations->Add(600, ani);
-
-	//ani = new CAnimation(300);		// Goomba walk
-	//ani->Add(30001);
-	//ani->Add(30002);
-	//animations->Add(700, ani);
-
-	//ani = new CAnimation(1000);		// Goomba dead
-	//ani->Add(30003);
-	//animations->Add(701, ani);
-
-	//ani = new CAnimation(100);   // bullet
-	//ani->Add(40000);
-	//animations->Add(800, ani);
-
-	//ani = new CAnimation(100);  // bullet explose
-	//ani->Add(40001);
-	//animations->Add(801, ani);
-
+	Map::GetInstance()->LoadResources(2);
 
 	car = player;
 	car->Revival();
 	objects.push_back(car);
 
 	CBrick* brick = new CBrick();
-	brick->AdAnimation(600);
+	brick->AdAnimation(1001);
 	brick->SetPosition(100.0, 134.0f);
 	objects.push_back(brick);
 
 	brick = new CBrick();
-	brick->AdAnimation(600);
+	brick->AdAnimation(1001);
 	brick->SetPosition(100.0f, 118.0f);
 	objects.push_back(brick);
 
 	for (int i = 0; i < 50; i++)
 	{
 		CBrick* brick = new CBrick();
-		brick->AdAnimation(600);
+		brick->AdAnimation(1001);
 		brick->SetPosition(0 + i * 16.0f, 150);
 		objects.push_back(brick);
 	}
@@ -248,8 +127,8 @@ void LoadResources(){
 	/*for (int i = 0; i < 4; i++)
 	{
 		goomba = new CGoomba();
-		goomba->AdAnimation(700);
-		goomba->AdAnimation(701);
+		goomba->AdAnimation(1002);
+		goomba->AdAnimation(1003);
 		goomba->SetPosition(200 + i * 60, 135);
 		goomba->SetState(GOOMBA_STATE_WALKING);
 		objects.push_back(goomba);
@@ -281,7 +160,9 @@ void Update(DWORD dt){
 	//}
 	cx -= SCREEN_WIDTH / 2;
 	cy -= SCREEN_HEIGHT / 2;
-
+	if (cx < 0) {
+		cx = 0;
+	}
 	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
 }
 
@@ -297,7 +178,7 @@ void Render()
 	if (d3ddv->BeginScene()) {
 		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
-		//Map::GetInstance()->Render(1);
+		Map::GetInstance()->Render(2);
 		for (int i = 0; i < objects.size(); i++)
 			objects[i]->Render();
 		 
@@ -379,7 +260,6 @@ int Run()
 		if (dt >= tickPerFrame)
 		{
 			frameStart = now;
-
 			game->ProcessKeyboard();
 			Update(dt);
 			Render();

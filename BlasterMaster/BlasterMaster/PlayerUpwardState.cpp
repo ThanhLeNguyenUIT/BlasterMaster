@@ -40,5 +40,6 @@ void PlayerUpwardState::HandleKeyboard() {
 		player->y = player->y + (CAR_UP_BBOX_HEIGHT - CAR_BBOX_HEIGHT);
 		player->IsUp = false;
 		player->ChangeAnimation(new PlayerStandingState());
+		player->CurAnimation->currentFrame = -1;
 	}
 }

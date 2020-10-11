@@ -3,7 +3,7 @@
 #include "PlayerFallingState.h"
 
 PlayerJumpingState::PlayerJumpingState() {
-	player->allow[JUMPING] = false;
+	//player->allow[JUMPING] = false;
 
 	if (!player->IsJumping) {
 		player->vy = -CAR_JUMPING_SPEED_Y;

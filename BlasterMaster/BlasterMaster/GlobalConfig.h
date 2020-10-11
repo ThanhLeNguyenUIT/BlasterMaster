@@ -45,6 +45,9 @@ using namespace std;
 
 #define CAR_UP_BBOX_WIDTH 26
 #define CAR_UP_BBOX_HEIGHT 34
+//CAR ANIMATIONS ID //
+
+
 
 //// SCREEN /////
 #define SCREEN_WIDTH 320

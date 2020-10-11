@@ -281,7 +281,12 @@ void CCar::OnKeyDown(int key) {
 }
 
 void CCar::OnKeyUp(int key) {
-	
+	switch (key) {
+	case DIK_UPARROW:
+		player->IsUp = false;
+		player->CurAnimation->currentFrame = -1;
+		break;
+	}
 }
 
 void CCar::Revival() {

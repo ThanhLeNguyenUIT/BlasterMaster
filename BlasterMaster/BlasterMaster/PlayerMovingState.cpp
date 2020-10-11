@@ -1,7 +1,7 @@
 #include "PlayerStandingState.h"
 #include "PlayerMovingState.h"
 
-PlayerMovingState::PlayerMovingState(DWORD timeFinish) {
+PlayerMovingState::PlayerMovingState(DWORD timeFinish, int idFrame) {
 	timeWalk = GetTickCount();
 	this->timeFinish = timeFinish;
 	player->allow[JUMPING] = true;

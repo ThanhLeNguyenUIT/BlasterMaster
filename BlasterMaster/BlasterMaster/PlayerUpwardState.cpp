@@ -5,23 +5,20 @@
 #include "PlayerStandingState.h"
 
 PlayerUpwardState::PlayerUpwardState() {
-	player->allow[JUMPING] = true;
+	/*player->allow[JUMPING] = true;
 	player->allow[MOVING] = true;
-	player->allow[STANDING] = true;
+	player->allow[STANDING] = true;*/
 	
 	player->y = player->y - (CAR_UP_BBOX_HEIGHT - CAR_BBOX_HEIGHT) ;
 	player->IsUp = true;
 	player->vx = 0;
 	player->vy = 0;
-	
+	DebugOut(L"Thanh");
 	if (player->nx > 0) {
 		StateName = UPWARD_RIGHT;
 
 	}
-	else if (player->nx < 0 ) {
-		StateName = UPWARD_LEFT;
-	
-	}
+	else StateName = UPWARD_LEFT;
 	player->stateBoundingBox = CAR_UP_BOUNDING_BOX;
 }
 
@@ -38,8 +35,6 @@ void PlayerUpwardState::HandleKeyboard() {
 	}
 	else {
 		player->y = player->y + (CAR_UP_BBOX_HEIGHT - CAR_BBOX_HEIGHT);
-		player->IsUp = false;
 		player->ChangeAnimation(new PlayerStandingState());
-		player->CurAnimation->currentFrame = -1;
 	}
 }

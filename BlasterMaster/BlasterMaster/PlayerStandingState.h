@@ -4,6 +4,7 @@
 
 class PlayerStandingState : public PlayerState {
 public:
+	int idFrame;
 	void Update();
 	void HandleKeyboard();
 	PlayerStandingState();

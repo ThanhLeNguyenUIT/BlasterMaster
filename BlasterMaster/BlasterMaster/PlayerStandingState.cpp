@@ -4,13 +4,16 @@
 #include "PlayerUpState.h"
 
 PlayerStandingState::PlayerStandingState() {
-	player->allow[JUMPING] = true;
+	/*player->allow[JUMPING] = true;
 	player->allow[MOVING] = true;
-	player->allow[UPWARD] = true;
+	player->allow[UPWARD] = true;*/
 	
 	player->vx = 0;
 	player->vy = 0;
+
 	player->IsJumping = false;
+	player->IsUp = false;
+
 	if (player->nx > 0) {
 		StateName = STANDING_RIGHT;
 	}

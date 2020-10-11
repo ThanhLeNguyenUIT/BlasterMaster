@@ -38,7 +38,7 @@ CGame* game;
 CCar* car;
 CGoomba* goomba;
 CBullet* bullet;
-Map* map = Map::GetInstance();
+Map* map;
 //CGameObject* brick;
 
 vector<LPGAMEOBJECT> objects;
@@ -101,7 +101,6 @@ void LoadResources(){
 	animations->LoadResources();
 
 	Map::GetInstance()->LoadResources(2);
-
 	car = player;
 	car->Revival();
 	objects.push_back(car);

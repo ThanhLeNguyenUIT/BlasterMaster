@@ -9,6 +9,8 @@
 #include "PlayerDeadState.h"
 #include "PlayerJumpingState.h"
 #include "PlayerJumpingMovingState.h"
+#include "PlayerUpwardJumpingState.h"
+#include "PlayerUpwardJumpingMovingState.h"
 #include "PlayerMovingState.h"
 #include "PlayerStandingState.h"
 
@@ -29,9 +31,13 @@ CCar::CCar() :CGameObject() {
 	AdAnimation(702, FALLING_MOVING_LEFT);
     AdAnimation(801, UPWARD_RIGHT);
     AdAnimation(802, UPWARD_LEFT);
-	AdAnimation(901, UP_RIGHT);
-	AdAnimation(902, UP_LEFT);
-	
+	AdAnimation(901, UPWARD_MOVING_RIGHT);
+	AdAnimation(902, UPWARD_MOVING_LEFT);
+	AdAnimation(801, UPWARD_JUMPING_RIGHT);
+	AdAnimation(802, UPWARD_JUMPING_LEFT);
+	AdAnimation(901, UPWARD_JUMPING_MOVING_RIGHT);
+	AdAnimation(902, UPWARD_JUMPING_MOVING_LEFT);
+	IsStop = true;
 	tag = PLAYER;
 }
 
@@ -43,10 +49,10 @@ void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
-	
+
 	// Simple fall down
 	
-    vy += CAR_GRAVITY*dt;
+	vy += CAR_GRAVITY*dt;
 	
 	state->Update();
 
@@ -82,13 +88,16 @@ void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 		// block 
-
-		IsJumping = false;
+		
+	
 		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
 		y += min_ty * dy + ny * 0.4f;
 
 		if (nx != 0) vx = 0;
-		if (ny == -1) vy = 0;
+		if (ny == -1) {
+			vy = 0;
+			IsJumping = false;
+		}
 		if (ny == 1)
 		{
 			y += dy;
@@ -120,25 +129,27 @@ void CCar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 			}
 		}
 	}
-
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
 }
 
 void CCar::Render() {
-
 	int alpha = 255;
-	bool rev;
 
 	if (!IsUp) {
+		if (state->StateName == STANDING_RIGHT)
 		rev = false;
-		CurAnimation->Render(x, y, alpha);
+		CurAnimation->Render(x, y, alpha, idFrame, renderOneFrame);
 	}
 	else {
 		rev = true;
-		CurAnimation->Render(x, y, alpha, rev);
+		if (state->StateName == UPWARD_MOVING_RIGHT || state->StateName == UPWARD_MOVING_LEFT
+			|| state->StateName == UPWARD_JUMPING_MOVING_RIGHT || state->StateName == UPWARD_JUMPING_MOVING_LEFT)
+			rev = false;
+		CurAnimation->Render(x, y, alpha, idFrame, renderOneFrame, rev);
 	}
-
+	
 	RenderBoundingBox();
 
 	for (int i = 0; i < bullets.size(); i++) {
@@ -191,18 +202,26 @@ void CCar::Render() {
 
 void CCar::AddBullet() {
 	bullet = new CBullet;
-	if (nx > 0) {
-		bullet->AdAnimation(1004);
-		bullet->SetPosition(x + CAR_BBOX_WIDTH, y + 7 / CAR_BBOX_HEIGHT);
-		bullet->SetState(BULLET_STATE_MOVING_RIGHT);
+	if (!IsUp) {
+		if (nx > 0) {
+			bullet->AdAnimation(2004);
+			bullet->SetPosition(x + CAR_BBOX_WIDTH, y + 7 / CAR_BBOX_HEIGHT);
+			bullet->SetState(BULLET_STATE_MOVING_RIGHT);
+		}
+		else {
+			bullet->AdAnimation(2005);
+			bullet->SetPosition(x, y + 7 / CAR_BBOX_HEIGHT);
+			bullet->SetState(BULLET_STATE_MOVING_LEFT);
+		}
 	}
 	else {
-		bullet->AdAnimation(1004);
-		bullet->SetPosition(x, y + 7 / CAR_BBOX_HEIGHT);
-		bullet->SetState(BULLET_STATE_MOVING_LEFT);
+		if (nx != 0) {
+			bullet->AdAnimation(2006);
+			bullet->SetPosition(x + CAR_BBOX_WIDTH/3, y);
+			bullet->SetState(BULLET_STATE_MOVING_UP);
+		}
 	}
-	//bullet->AdAnimation(801);
-	
+
 	if (bullets.size() < 3) {
 		bullets.push_back(bullet);
 	}
@@ -211,6 +230,9 @@ void CCar::AddBullet() {
 void CCar::DeleteBullet() {
 	for (int i = 0; i < bullets.size(); i++) {
 		if (bullets[i]->GetX() >= x + 150.0f || bullets[i]->GetX() <= x - 150.0f) {
+			bullets.erase(bullets.begin() + i);
+		}
+		else if (bullets[i]->GetY() <= y - 100.0f) {
 			bullets.erase(bullets.begin() + i);
 		}
 		else if (bullets[i]->GetState() == BULLET_STATE_HIT) {
@@ -223,6 +245,7 @@ void CCar::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
 	top = y;
+
 	if (stateBoundingBox == CAR_BOUNDING_BOX) {
 		right = x + CAR_BBOX_WIDTH;
 		bottom = y + CAR_BBOX_HEIGHT;
@@ -241,33 +264,81 @@ CCar* CCar::GetInstance() {
 	return _instance;
 }
 
-void CCar::ChangeAnimation(PlayerState* newState) {
+
+void CCar::ChangeAnimation(PlayerState* newState, int stateId) {
 	delete state;
+	if (stateId == 1) {
+		renderOneFrame = false;
+		idFrame = CurAnimation->currentFrame * 2;
+	}
+	else if (stateId == 2) {
+		renderOneFrame = true;
+		if (CurAnimation->currentFrame == 0 || CurAnimation->currentFrame == 7) {
+			idFrame = 0;
+		}
+		else if (CurAnimation->currentFrame == 1 || CurAnimation->currentFrame == 2) {
+			idFrame = 1;
+		}
+		else if (CurAnimation->currentFrame == 3 || CurAnimation->currentFrame == 4) {
+			idFrame = 2;
+		}
+		else if (CurAnimation->currentFrame == 5 || CurAnimation->currentFrame == 6) {
+			idFrame = 3;
+		}
+	}
+	else if (stateId == 3) {
+		idFrame = CurAnimation->currentFrame;
+	}
+
 	state = newState;
-	state->StateName = newState->StateName;
+
 	CurAnimation = animations[newState->StateName];
+
 }
 
 void CCar::OnKeyDown(int key) {
 	switch (key) {
 	case DIK_SPACE:
-		if (!IsJumping && allow[JUMPING])
-		{
-			if ((keyCode[DIK_RIGHT]))
+		if (!IsUp) {
+			if (!IsJumping)
 			{
-				vx = CAR_MOVING_SPEED;
-				nx = 1;
-				ChangeAnimation(new PlayerJumpingMovingState());
+				if ((keyCode[DIK_RIGHT]))
+				{
+					vx = CAR_MOVING_SPEED;
+					nx = 1;
+					ChangeAnimation(new PlayerJumpingMovingState());
+				}
+				else if ((keyCode[DIK_LEFT]))
+				{
+					vx = -CAR_MOVING_SPEED;
+					nx = -1;
+					ChangeAnimation(new PlayerJumpingMovingState());
+				}
+				else
+				{
+					ChangeAnimation(new PlayerJumpingState(),3);
+				}
 			}
-			else if ((keyCode[DIK_LEFT]))
+		}
+		else {
+			if (!IsJumping)
 			{
-				vx = -CAR_MOVING_SPEED;
-				nx = -1;
-				ChangeAnimation(new PlayerJumpingMovingState());
-			}
-			else
-			{
-				ChangeAnimation(new PlayerJumpingState());
+				if ((keyCode[DIK_RIGHT]))
+				{
+					vx = CAR_MOVING_SPEED;
+					nx = 1;
+					ChangeAnimation(new PlayerUpwardJumpingMovingState());
+				}
+				else if ((keyCode[DIK_LEFT]))
+				{
+					vx = -CAR_MOVING_SPEED;
+					nx = -1;
+					ChangeAnimation(new PlayerUpwardJumpingMovingState());
+				}
+				else
+				{
+					ChangeAnimation(new PlayerUpwardJumpingState());
+				}
 			}
 		}
 		break;
@@ -283,9 +354,19 @@ void CCar::OnKeyDown(int key) {
 void CCar::OnKeyUp(int key) {
 	switch (key) {
 	case DIK_UPARROW:
-		player->IsUp = false;
-		player->CurAnimation->currentFrame = -1;
+		IsUp = false;
+		CurAnimation->currentFrame = -1;
+		y = y + (CAR_UP_BBOX_HEIGHT - CAR_BBOX_HEIGHT);
+		ChangeAnimation(new PlayerStandingState());
 		break;
+	/*case DIK_RIGHT:
+		if (IsUp) 
+			y = y + (CAR_UP_BBOX_HEIGHT - CAR_BBOX_HEIGHT);
+		break;
+	case DIK_LEFT:
+		if (IsUp)
+			y = y + (CAR_UP_BBOX_HEIGHT - CAR_BBOX_HEIGHT);
+		break;*/
 	}
 }
 

@@ -45,8 +45,9 @@
     <ClCompile Include="PlayerJumpingState.cpp" />
     <ClCompile Include="PlayerMovingState.cpp" />
     <ClCompile Include="PlayerStandingState.cpp" />
-    <ClCompile Include="PlayerUpState.cpp" />
-    <ClCompile Include="PlayerUpwardMoving.cpp" />
+    <ClCompile Include="PlayerUpwardJumpingMovingState.cpp" />
+    <ClCompile Include="PlayerUpwardJumpingState.cpp" />
+    <ClCompile Include="PlayerUpwardMovingState.cpp" />
     <ClCompile Include="PlayerUpwardState.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
@@ -70,8 +71,9 @@
     <ClInclude Include="PlayerMovingState.h" />
     <ClInclude Include="PlayerStandingState.h" />
     <ClInclude Include="PlayerState.h" />
-    <ClInclude Include="PlayerUpState.h" />
-    <ClInclude Include="PlayerUpwardMoving.h" />
+    <ClInclude Include="PlayerUpwardJumpingMovingState.h" />
+    <ClInclude Include="PlayerUpwardJumpingState.h" />
+    <ClInclude Include="PlayerUpwardMovingState.h" />
     <ClInclude Include="PlayerUpwardState.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Textures.h" />

@@ -1,11 +1,13 @@
 #include "PlayerStandingState.h"
 #include "PlayerMovingState.h"
+#include "PlayerUpwardState.h"
 
-PlayerMovingState::PlayerMovingState(DWORD timeFinish, int idFrame) {
+PlayerMovingState::PlayerMovingState(DWORD timeFinish) {
 	timeWalk = GetTickCount();
 	this->timeFinish = timeFinish;
-	player->allow[JUMPING] = true;
-	player->ny = 1;
+
+	player->renderOneFrame = false;
+
 	if (player->nx > 0) {
 		StateName = MOVING_RIGHT;
 		player->vx = CAR_MOVING_SPEED;
@@ -18,9 +20,10 @@ PlayerMovingState::PlayerMovingState(DWORD timeFinish, int idFrame) {
 	player->stateBoundingBox = CAR_BOUNDING_BOX;
 }
 
-void PlayerMovingState::walking(DWORD dt) {
-	player->ChangeAnimation(new PlayerMovingState());
-}
+//void PlayerMovingState::walking(DWORD dt) {
+//	idFrame = player->CurAnimation->currentFrame;
+//	player->ChangeAnimation(new PlayerMovingState(idFrame));
+//}
 
 void PlayerMovingState::Update() {
 	
@@ -31,6 +34,14 @@ void PlayerMovingState::HandleKeyboard() {
 	if (keyCode[DIK_RIGHT] && keyCode[DIK_LEFT]) {
 		player->ChangeAnimation(new PlayerStandingState());
 	}
+	else if (keyCode[DIK_UP] && keyCode[DIK_RIGHT]) {
+		player->nx = 1;
+		player->ChangeAnimation(new PlayerUpwardState());
+	}
+	else if (keyCode[DIK_UP] && keyCode[DIK_LEFT]) {
+		player->nx = -1;
+		player->ChangeAnimation(new PlayerUpwardState());
+	}
 	else if (keyCode[DIK_RIGHT]) {
 		player->nx = 1;
 		player->ChangeAnimation(new PlayerMovingState());
@@ -40,6 +51,6 @@ void PlayerMovingState::HandleKeyboard() {
 		player->ChangeAnimation(new PlayerMovingState());
 	}
 	else {
-		player->ChangeAnimation(new PlayerStandingState());
+		player->ChangeAnimation(new PlayerStandingState(),2);
 	}
 }

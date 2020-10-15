@@ -88,9 +88,6 @@
     <ClCompile Include="PlayerStandingState.cpp">
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerUpState.cpp">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerUpwardState.cpp">
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClCompile>
@@ -115,13 +112,19 @@
     <ClCompile Include="Animations.cpp">
       <Filter>Source Files\GameComponents\Images</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerUpwardMoving.cpp">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerJumpingMovingState.cpp">
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClCompile>
     <ClCompile Include="PlayerFallingMovingState.cpp">
+      <Filter>Source Files\GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerUpwardMovingState.cpp">
+      <Filter>Source Files\GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerUpwardJumpingState.cpp">
+      <Filter>Source Files\GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerUpwardJumpingMovingState.cpp">
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClCompile>
   </ItemGroup>
@@ -159,9 +162,6 @@
     <ClInclude Include="PlayerState.h">
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerUpState.h">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerUpwardState.h">
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClInclude>
@@ -186,13 +186,19 @@
     <ClInclude Include="Animations.h">
       <Filter>Source Files\GameComponents\Images</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerUpwardMoving.h">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerJumpingMovingState.h">
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClInclude>
     <ClInclude Include="PlayerFallingMovingState.h">
+      <Filter>Source Files\GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerUpwardMovingState.h">
+      <Filter>Source Files\GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerUpwardJumpingState.h">
+      <Filter>Source Files\GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerUpwardJumpingMovingState.h">
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClInclude>
   </ItemGroup>

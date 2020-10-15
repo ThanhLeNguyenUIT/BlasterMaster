@@ -5,8 +5,8 @@
 #include "PlayerFallingMovingState.h"
 
 PlayerFallingMovingState::PlayerFallingMovingState() {
-	player->allow[JUMPING] = false;
-	DebugOut(L"Thanh");
+	player->renderOneFrame = false;
+
 	if (!player->IsJumping) {
 		player->vy = -CAR_JUMPING_SPEED_Y;
 	}
@@ -26,7 +26,7 @@ PlayerFallingMovingState::~PlayerFallingMovingState() {
 
 void PlayerFallingMovingState::Update() {
 	if (!player->IsJumping) {
-		player->ChangeAnimation(new PlayerStandingState());
+		player->ChangeAnimation(new PlayerStandingState(),3);
 		return;
 	}
 	this->HandleKeyboard();

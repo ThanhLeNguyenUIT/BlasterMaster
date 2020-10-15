@@ -9,7 +9,7 @@ public:
 	void Update();
 	void HandleKeyboard();
 	void walking(DWORD dt);
-	PlayerMovingState(DWORD timeFinish = 0, int idFrame = 0);
+	PlayerMovingState(DWORD timeFinish = 0);
 	~PlayerMovingState();
 };
 

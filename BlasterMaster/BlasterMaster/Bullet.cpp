@@ -12,11 +12,13 @@ void CBullet::GetBoundingBox(float& left, float& top, float& right, float& botto
 void CBullet::Render() {
 	int ani;
 	if (state == BULLET_STATE_MOVING_RIGHT) {
-		ani = BULLET_ANI_MOVING;
+		ani = BULLET_ANI_MOVING_RIGHT;
 	}
 	else if (state == BULLET_STATE_MOVING_LEFT) {
-		ani = BULLET_ANI_MOVING;
-		
+		ani = BULLET_ANI_MOVING_LEFT;
+	}
+	else if (state == BULLET_STATE_MOVING_UP) {
+		ani = BULLET_ANI_MOVING_UP;
 	}
 	else if (state == BULLET_STATE_HIT) {
 		ani = BULLET_ANI_HIT;
@@ -40,6 +42,7 @@ void CBullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	if (coEvents.size() == 0)
 	{
 		x += dx;
+		y += dy;
 	}
 	else {
 		float min_tx, min_ty, nx = 0, ny;
@@ -84,6 +87,9 @@ void CBullet::SetState(int state) {
 		break;
 	case BULLET_STATE_MOVING_LEFT:
 		vx = -BULLET_MOVING_SPEED;
+		break;
+	case BULLET_STATE_MOVING_UP:
+		vy = -BULLET_MOVING_SPEED;
 		break;
 	case BULLET_STATE_HIT:
 		vx = 0;

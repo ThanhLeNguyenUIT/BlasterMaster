@@ -13,17 +13,6 @@ void Map::LoadResources(int level)
 	char gridFileName[30];
 	sprintf_s(gridFileName, "text\\map%d.txt", level);
 	File.open(gridFileName, level);
-	File >> col >> row;
-	mapTiles = new int* [row];
-	for (int r = 0; r < row; ++r)
-	{
-		mapTiles[r] = new int[col];
-		for (int c = 0; c < col; ++c)
-		{
-			File >> mapTiles[r][c];
-		}
-	}
-
 	File.close();
 }
 

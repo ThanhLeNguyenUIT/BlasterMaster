@@ -4,6 +4,7 @@
 #include "PlayerJumpingState.h"
 
 PlayerFallingState::PlayerFallingState() {
+	player->renderOneFrame = true;
 	if (player->nx > 0) {
 		StateName = FALLING_RIGHT;
 	}
@@ -18,7 +19,7 @@ PlayerFallingState::~PlayerFallingState() {
 
 void PlayerFallingState::Update() {
 	if (!player->IsJumping) {
-		player->ChangeAnimation(new PlayerStandingState());
+		player->ChangeAnimation(new PlayerStandingState(),3);
 		return;
 	}
 	this->HandleKeyboard();

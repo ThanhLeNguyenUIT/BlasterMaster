@@ -1,7 +1,7 @@
 #include "Brick.h"
 
 void CBrick::Render() {
-	animations[1001]->Render(x,y);
+	animations[2001]->Render(x,y);
 	RenderBoundingBox();
 }
 

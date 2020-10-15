@@ -8,22 +8,6 @@
 #define CAR_JUMP_DEFLECT_SPEED     0.2f
 #define CAR_DIE_DEFLECT_SPEED	   0.5f
 
-//#define CAR_STATE_IDLE              0
-//#define CAR_STATE_MOVING_RIGHT      100
-//#define CAR_STATE_MOVING_LEFT       200
-//#define CAR_STATE_JUMP_RIGHT        300
-//#define CAR_STATE_JUMP_LEFT			400
-//#define CAR_STATE_JUMP              500
-//#define CAR_STATE_FIRE				600
-//#define CAR_STATE_NOT_FIRE			700
-
-#define CAR_ANI_IDLE_RIGHT		0
-#define CAR_ANI_IDLE_LEFT		1
-#define CAR_ANI_MOVING_RIGHT	2
-#define CAR_ANI_MOVING_LEFT		3
-
-#define CAR_STATE_DIE       4
-
 
 
 class PlayerState;
@@ -33,8 +17,6 @@ class CCar : public CGameObject
 {
 	CBullet* bullet ;
 	vector<CBullet*> bullets;
-	void AddBullet();
-	void DeleteBullet();
 	
 private:
 	static CCar* _instance;
@@ -48,16 +30,23 @@ public:
 	//bool IsJumping() { return this->isJumping; }
 	bool IsJumping;
 	bool IsOnGround;
+	bool IsWalking;
+	bool IsStop;
 	bool IsFiring;
 	bool IsDead;
 	bool IsUp;
+	bool rev;
+	int idFrame = 0;
+	bool renderOneFrame = false;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void Revival();
 
 	CCar();
 	~CCar();
-	void ChangeAnimation(PlayerState* state);
+	void ChangeAnimation(PlayerState* state, int stateId = 0);
 	static CCar* GetInstance();
+	void AddBullet();
+	void DeleteBullet();
 	void OnKeyUp(int key);
 	void OnKeyDown(int key);
 };

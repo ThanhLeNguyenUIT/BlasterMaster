@@ -70,6 +70,7 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 	player->OnKeyUp(KeyCode);
 }
 
+
 void CSampleKeyHandler::KeyState(BYTE *states) {
 
 }
@@ -106,19 +107,19 @@ void LoadResources(){
 	objects.push_back(car);
 
 	CBrick* brick = new CBrick();
-	brick->AdAnimation(1001);
+	brick->AdAnimation(2001);
 	brick->SetPosition(100.0, 134.0f);
 	objects.push_back(brick);
 
 	brick = new CBrick();
-	brick->AdAnimation(1001);
+	brick->AdAnimation(2001);
 	brick->SetPosition(100.0f, 118.0f);
 	objects.push_back(brick);
 
 	for (int i = 0; i < 50; i++)
 	{
 		CBrick* brick = new CBrick();
-		brick->AdAnimation(1001);
+		brick->AdAnimation(2001);
 		brick->SetPosition(0 + i * 16.0f, 150);
 		objects.push_back(brick);
 	}
@@ -126,8 +127,8 @@ void LoadResources(){
 	/*for (int i = 0; i < 4; i++)
 	{
 		goomba = new CGoomba();
-		goomba->AdAnimation(1002);
-		goomba->AdAnimation(1003);
+		goomba->AdAnimation(2002);
+		goomba->AdAnimation(2003);
 		goomba->SetPosition(200 + i * 60, 135);
 		goomba->SetState(GOOMBA_STATE_WALKING);
 		objects.push_back(goomba);

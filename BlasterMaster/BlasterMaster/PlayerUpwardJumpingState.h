@@ -1,5 +1,6 @@
 #pragma once
 #include "PlayerState.h"
+#include "Sophia.h"
 
 class PlayerUpwardJumpingState :public PlayerState {
 public:

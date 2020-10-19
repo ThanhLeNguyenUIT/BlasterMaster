@@ -6,7 +6,7 @@
 
 PlayerUpwardState::PlayerUpwardState() {
 
-	player->y = player->y - (CAR_UP_BBOX_HEIGHT - CAR_BBOX_HEIGHT) ;
+	player->y = player->y - (SOPHIA_UP_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT) ;
 	player->IsUp = true;
 	player->renderOneFrame = false;
 
@@ -16,7 +16,7 @@ PlayerUpwardState::PlayerUpwardState() {
 		StateName = UPWARD_RIGHT;
 	}
 	else StateName = UPWARD_LEFT;
-	player->stateBoundingBox = CAR_UP_BOUNDING_BOX;
+	player->stateBoundingBox = SOPHIA_UP_BOUNDING_BOX;
 }
 
 PlayerUpwardState::~PlayerUpwardState() {
@@ -30,7 +30,7 @@ void PlayerUpwardState::HandleKeyboard() {
 	if (keyCode[DIK_LEFT] && keyCode[DIK_RIGHT]) {
 		player->ChangeAnimation(new PlayerUpwardState());
 	}
-	else if (keyCode[DIK_LEFT] || keyCode[DIK_RIGHT]) {
+	/*else if (keyCode[DIK_LEFT] || keyCode[DIK_RIGHT]) {
 		player->ChangeAnimation(new PlayerUpwardMovingState());
-	}
+	}*/
 }

@@ -1,25 +1,23 @@
 #pragma once
-
-
-
 #include "GlobalConfig.h"
 #include "Animations.h"
+#include "Sprites.h"
 
 
 using namespace std;
 
 #define ID_TEX_BBOX -100		// special texture to draw object bounding box
-
-class CGameObject;
-typedef CGameObject* LPGAMEOBJECT;
-class CAnimation;
-struct CCollisionEvent;
-typedef CCollisionEvent* LPCOLLISIONEVENT;
-struct CCollisionEvent
+#define ID_TEX_MAP 50
+class GameObject;
+typedef GameObject* LPGAMEOBJECT;
+class Animation;
+struct CollisionEvent;
+typedef CollisionEvent* LPCOLLISIONEVENT;
+struct CollisionEvent
 {
 	LPGAMEOBJECT obj;
 	float t, nx, ny;
-	CCollisionEvent(float t, float nx, float ny, LPGAMEOBJECT obj = NULL) { this->t = t; this->nx = nx; this->ny = ny; this->obj = obj; }
+	CollisionEvent(float t, float nx, float ny, LPGAMEOBJECT obj = NULL) { this->t = t; this->nx = nx; this->ny = ny; this->obj = obj; }
 
 	static bool compare(const LPCOLLISIONEVENT& a, LPCOLLISIONEVENT& b)
 	{
@@ -29,7 +27,7 @@ struct CCollisionEvent
 
 
 
-class CGameObject
+class GameObject
 {
 public:
 
@@ -49,7 +47,8 @@ public:
 	TAG tag;
 	DWORD dt;
 
-	std::unordered_map<int, CAnimation*> animations;
+	LPANIMATION_SET animation_set;
+	//
 
 public:
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
@@ -63,6 +62,8 @@ public:
 
 	void RenderBoundingBox();
 
+	void SetAnimationSet(LPANIMATION_SET ani_set) { animation_set = ani_set; }
+
 	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);
 	void CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects, vector<LPCOLLISIONEVENT>& coEvents);
 	void FilterCollision(
@@ -73,17 +74,14 @@ public:
 		float& nx,
 		float& ny);
 
-	void AdAnimation(int aniId, STATENAME NameState);
-	void AdAnimation(int aniId);
-
-	CGameObject();
+	GameObject();
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) = 0;
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 	virtual void Render() = 0;
 	virtual void SetState(int state) { this->state = state; }
+	//void AddAnimation(int aniId, STATENAME NameState);
 
-
-	~CGameObject();
+	~GameObject();
 };
 

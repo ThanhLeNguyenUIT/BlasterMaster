@@ -8,7 +8,7 @@ PlayerJumpingState::PlayerJumpingState() {
 	//player->allow[JUMPING] = false;
 	player->renderOneFrame = true;
 	if (!player->IsJumping) {
-		player->vy = -CAR_JUMPING_SPEED_Y;
+		player->vy = -SOPHIA_JUMPING_SPEED_Y;
 	}
 	player->IsJumping = true;
 	if (player->nx > 0) {
@@ -17,7 +17,7 @@ PlayerJumpingState::PlayerJumpingState() {
 	else {
 		StateName = JUMPING_LEFT;
 	}
-	player->stateBoundingBox = CAR_BOUNDING_BOX;
+	player->stateBoundingBox = SOPHIA_BOUNDING_BOX;
 }
 
 PlayerJumpingState::~PlayerJumpingState() {
@@ -26,7 +26,7 @@ PlayerJumpingState::~PlayerJumpingState() {
 
 void PlayerJumpingState::Update() {
 	if (player->vy > 0) {
-		player->ChangeAnimation(new PlayerFallingState(),3);
+		player->ChangeAnimation(new PlayerFallingState());
 		return;
 	}
 	this->HandleKeyboard();
@@ -41,8 +41,8 @@ void PlayerJumpingState::HandleKeyboard() {
 		player->nx = -1;
 		player->ChangeAnimation(new PlayerJumpingMovingState());
 	}
-	else if (keyCode[DIK_UP]) {
+	/*else if (keyCode[DIK_UP]) {
 		player->ChangeAnimation(new PlayerUpwardJumpingState());
-	}
+	}*/
 }
 

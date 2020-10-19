@@ -8,18 +8,18 @@ PlayerJumpingMovingState::PlayerJumpingMovingState() {
 	player->renderOneFrame = false;
 
 	if (!player->IsJumping) {
-		player->vy = -CAR_JUMPING_SPEED_Y;
+		player->vy = -SOPHIA_JUMPING_SPEED_Y;
 	}
 	player->IsJumping = true;
 	if (player->nx > 0) {
-		player->vx = CAR_MOVING_SPEED;
+		player->vx = SOPHIA_MOVING_SPEED;
 		StateName = JUMPING_MOVING_RIGHT;
 	}
 	else {
-		player->vx = -CAR_MOVING_SPEED;
+		player->vx = -SOPHIA_MOVING_SPEED;
 		StateName = JUMPING_MOVING_LEFT;
 	}
-	player->stateBoundingBox = CAR_BOUNDING_BOX;
+	player->stateBoundingBox = SOPHIA_BOUNDING_BOX;
 }
 
 PlayerJumpingMovingState::~PlayerJumpingMovingState() {

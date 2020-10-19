@@ -1,34 +1,34 @@
 #include "Bullet.h"
 #include "Goomba.h"
 
-void CBullet::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+void Bullet::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
 	top = y;
-	right = x + BULLET_BBOX_WIDTH;
-	bottom = y + BULLET_BBOX_HEIGHT;
+	right = x + BULLET_SMALL_BBOX_WIDTH;
+	bottom = y + BULLET_SMALL_BBOX_HEIGHT;
 }
 
-void CBullet::Render() {
+void Bullet::Render() {
 	int ani;
 	if (state == BULLET_STATE_MOVING_RIGHT) {
-		ani = BULLET_ANI_MOVING_RIGHT;
+		ani = SOPHIA_BULLET_SMALL_ANI_RIGHT;
 	}
 	else if (state == BULLET_STATE_MOVING_LEFT) {
-		ani = BULLET_ANI_MOVING_LEFT;
+		ani = SOPHIA_BULLET_SMALL_ANI_LEFT;
 	}
 	else if (state == BULLET_STATE_MOVING_UP) {
-		ani = BULLET_ANI_MOVING_UP;
+		ani = SOPHIA_BULLET_SMALL_ANI_UP;
 	}
 	else if (state == BULLET_STATE_HIT) {
-		ani = BULLET_ANI_HIT;
+		ani = SOPHIA_BULLET_ANI_HIT;
 	}
-	animations[ani]->Render(x, y);
+	animation_set->at(ani)->Render(x, y);
 	//RenderBoundingBox();
 }
 
-void CBullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
-	CGameObject::Update(dt, coObjects);
+void Bullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
+	GameObject::Update(dt, coObjects);
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEvents.clear();
@@ -57,30 +57,30 @@ void CBullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 		if (ny != 0) vy = 0;
 		
 		// Collision logic with Goombas
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
+		//for (UINT i = 0; i < coEventsResult.size(); i++)
+		//{
+		//	LPCOLLISIONEVENT e = coEventsResult[i];
 
-			if (dynamic_cast<CGoomba*>(e->obj)) // if e->obj is Goomba 
-			{
-				CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
-				
-				// jump on top >> kill Goomba and deflect a bit 
-				if (e->nx < 0 || e->nx > 0)
-				{
-					if (goomba->GetState() != GOOMBA_STATE_DIE)
-					{
-						goomba->SetState(GOOMBA_STATE_DIE);
-						state = BULLET_STATE_HIT;
-					}
-				}
-			}
-		}
+		//	if (dynamic_cast<CGoomba*>(e->obj)) // if e->obj is Goomba 
+		//	{
+		//		CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+		//		
+		//		// jump on top >> kill Goomba and deflect a bit 
+		//		if (e->nx < 0 || e->nx > 0)
+		//		{
+		//			if (goomba->GetState() != GOOMBA_STATE_DIE)
+		//			{
+		//				goomba->SetState(GOOMBA_STATE_DIE);
+		//				state = BULLET_STATE_HIT;
+		//			}
+		//		}
+		//	}
+		//}
 	}
 }
 
-void CBullet::SetState(int state) {
-	CGameObject::SetState(state);
+void Bullet::SetState(int state) {
+	GameObject::SetState(state);
 	switch (state) {
 	case BULLET_STATE_MOVING_RIGHT:
 		vx = BULLET_MOVING_SPEED;

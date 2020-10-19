@@ -1,105 +1,103 @@
 #include "Animations.h"
+#include "debug.h"
 #include <cmath>
 
-void CAnimation::Add(int spriteId, DWORD time)
+
+AnimationSets* AnimationSets::__instance = NULL;
+
+void Animation::Add(int spriteId, DWORD time)
 {
 	int t = time;
 	if (time == 0) t = this->defaultTime;
 
-	LPSPRITE sprite = CSprites::GetInstance()->Get(spriteId);
-	LPANIMATION_FRAME frame = new CAnimationFrame(sprite, t);
+	LPSPRITE sprite = Sprites::GetInstance()->Get(spriteId);
+
+	if (sprite == NULL)
+	{
+		DebugOut(L"[ERROR] Sprite ID %d cannot be found!\n", spriteId);
+	}
+
+	LPANIMATION_FRAME frame = new AnimationFrame(sprite, t);
 	frames.push_back(frame);
 }
 
-void CAnimation::Render(float x, float y, int alpha, int idFrame, bool renderOneFrame, bool rev )
+void Animation::Render(float x, float y, int alpha)
 {
 	DWORD now = GetTickCount();
-	if (!renderOneFrame) {
-		if (currentFrame <= -1)
+	if (currentFrame == -1)
+	{
+		currentFrame = 0;
+		lastFrameTime = now;
+	}
+	else
+	{
+		DWORD t = frames[currentFrame]->GetTime();
+		if (now - lastFrameTime > t)
 		{
-			currentFrame = 0;
+			currentFrame++;
 			lastFrameTime = now;
+			if (currentFrame == frames.size()) currentFrame = 0;
 		}
-		else
-		{
-			DWORD t = frames[currentFrame]->GetTime();
-			if (now - lastFrameTime > t)
-			{
-				currentFrame++;
-				lastFrameTime = now;
-				if (currentFrame == frames.size())
-				{
-					if (!rev) {
-						currentFrame = 0;
-					}
-					else
-						currentFrame = frames.size() - 1;
-					isLastFrame = true;
-				}
+	}
 
-			}
-			else
-			{
-				isLastFrame = false;
-				t += now - lastFrameTime;
-			}
-		}
-	}
-	else {
-		currentFrame = idFrame;
-		//DebugOut(L"curFrame %d", idFrame);
-	}
 	frames[currentFrame]->GetSprite()->Draw(x, y, alpha);
 }
 
-CAnimations* CAnimations::__instance = NULL;
+Animations* Animations::__instance = NULL;
 
-CAnimations* CAnimations::GetInstance()
+Animations* Animations::GetInstance()
 {
-	if (__instance == NULL) __instance = new CAnimations();
+	if (__instance == NULL) __instance = new Animations();
 	return __instance;
 }
-void CAnimations::LoadResources()
-{
-	ifstream File;
-	File.open(L"text\\animations.txt");
-	vector<int> ParaAni;
-	ParaAni.clear();
-	vector<int>::iterator it;
-	int reader;
-	int time;
-	while (!File.eof())
-	{
-		File >> reader;
-		if (reader > -1)
-		{
-			ParaAni.push_back(reader);
-		}
-		else
-		{
-			LPANIMATION ani;
-			if (reader < -1)
-				ani = new CAnimation(abs(reader));
-			else
-				ani = new CAnimation(100);
-			for (auto it = ParaAni.begin(); it != ParaAni.end() - 1; ++it)
-				ani->Add(*it);
-			it = ParaAni.end() - 1;
-			Add(*it, ani);
-			ParaAni.clear();
-		}
-	}
-	File.close();
-}
-void CAnimations::Add(int id, LPANIMATION ani)
+
+void Animations::Add(int id, LPANIMATION ani)
 {
 	animations[id] = ani;
 }
 
-LPANIMATION CAnimations::Get(int id)
+LPANIMATION Animations::Get(int id)
 {
-	return animations[id];
+	LPANIMATION ani = animations[id];
+	if (ani == NULL)
+		DebugOut(L"[ERROR] Failed to find animation id: %d\n", id);
+	return ani;
 }
+
+void Animations::Clear()
+{
+	for (auto x : animations)
+	{
+		LPANIMATION ani = x.second;
+		delete ani;
+	}
+
+	animations.clear();
+}
+
+AnimationSets::AnimationSets(){
+}
+
+AnimationSets* AnimationSets::GetInstance()
+{
+	if (__instance == NULL) __instance = new AnimationSets();
+	return __instance;
+}
+
+LPANIMATION_SET AnimationSets::Get(unsigned int id)
+{
+	LPANIMATION_SET ani_set = animation_sets[id];
+	if (ani_set == NULL)
+		DebugOut(L"[ERROR] Failed to find animation set id: %d\n", id);
+
+	return ani_set;
+}
+
+void AnimationSets::Add(int id, LPANIMATION_SET ani_set)
+{
+	animation_sets[id] = ani_set;
+}
+
 
 
 

@@ -30,15 +30,15 @@
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Bullet.cpp" />
-    <ClCompile Include="Car.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GlobalConfig.cpp" />
     <ClCompile Include="Goomba.cpp" />
+    <ClCompile Include="KeyboardHandler.h" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
-    <ClCompile Include="PlayerDeadState.cpp" />
     <ClCompile Include="PlayerFallingMovingState.cpp" />
     <ClCompile Include="PlayerFallingState.cpp" />
     <ClCompile Include="PlayerJumpingMovingState.cpp" />
@@ -49,6 +49,10 @@
     <ClCompile Include="PlayerUpwardJumpingState.cpp" />
     <ClCompile Include="PlayerUpwardMovingState.cpp" />
     <ClCompile Include="PlayerUpwardState.cpp" />
+    <ClCompile Include="PlayScene.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="Sophia.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
   </ItemGroup>
@@ -56,25 +60,28 @@
     <ClInclude Include="Animations.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Bullet.h" />
-    <ClInclude Include="Car.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GlobalConfig.h" />
     <ClInclude Include="Goomba.h" />
     <ClInclude Include="Map.h" />
-    <ClInclude Include="PlayerDeadState.h" />
     <ClInclude Include="PlayerFallingMovingState.h" />
     <ClInclude Include="PlayerFallingState.h" />
     <ClInclude Include="PlayerJumpingMovingState.h" />
     <ClInclude Include="PlayerJumpingState.h" />
     <ClInclude Include="PlayerMovingState.h" />
+    <ClInclude Include="PlayScene.h" />
     <ClInclude Include="PlayerStandingState.h" />
     <ClInclude Include="PlayerState.h" />
     <ClInclude Include="PlayerUpwardJumpingMovingState.h" />
     <ClInclude Include="PlayerUpwardJumpingState.h" />
     <ClInclude Include="PlayerUpwardMovingState.h" />
     <ClInclude Include="PlayerUpwardState.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="Sophia.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Textures.h" />
   </ItemGroup>
@@ -152,6 +159,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
+      <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

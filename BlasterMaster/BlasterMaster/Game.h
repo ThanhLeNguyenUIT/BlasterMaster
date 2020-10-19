@@ -1,27 +1,16 @@
 #pragma once
 #include <Windows.h>
 #include "GlobalConfig.h"
-#include <dinput.h>
+#include "KeyboardHandler.h"
+#include "Scene.h"
 #pragma comment(lib,"dinput8")
 
 #define DIRECTINPUT_VERSION 0x0800
 #define KEYBOARD_BUFFER_SIZE 1024
-/*
-Abstract class to define keyboard event handlers
-*/
-class CKeyEventHandler
-{
-public:
-	virtual void KeyState(BYTE* state) = 0;
-	virtual void OnKeyDown(int KeyCode) = 0;
-	virtual void OnKeyUp(int KeyCode) = 0;
-};
 
-typedef CKeyEventHandler* LPKEYEVENTHANDLER;
-
-class CGame
+class Game
 {
-	static CGame* __instance;
+	static Game* __instance;
 	HWND hWnd;									// Window handle
 
 	LPDIRECT3D9 d3d = NULL;						// Direct3D handle
@@ -38,17 +27,31 @@ class CGame
 
 	LPKEYEVENTHANDLER keyHandler;
 
-	float cam_x = 0.0f;
-	float cam_y = 0.0f;
+	int screen_height;
+	int screen_width;
+
+	unordered_map<int, LPSCENE> scenes;
+	int current_scene;
+
+	void _ParseSection_SETTINGS(string line);
+	void _ParseSection_SCENES(string line);
 
 public:
-	void InitKeyboard(LPKEYEVENTHANDLER handler);
+	void InitKeyboard();
+	void SetKeyHandler(LPKEYEVENTHANDLER handler) { keyHandler = handler; }
 	void Init(HWND hWnd);
 	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha = 255);
 
 	int IsKeyDown(int KeyCode);
 	int IsKeyUp(int KeyCode);
 	void ProcessKeyboard();
+
+	void Load(LPCWSTR gameFile);
+	LPSCENE GetCurrentScene() { return scenes[current_scene]; }
+	void SwitchScene(int idScene);
+
+	int GetScreenWidth() { return screen_width; }
+	int GetScreenHeight() { return screen_height; }
 
 	static void SweptAABB(
 		float ml,			// move left 
@@ -69,11 +72,9 @@ public:
 	LPDIRECT3DSURFACE9 GetBackBuffer() { return backBuffer; }
 	LPD3DXSPRITE GetSpriteHandler() { return this->spriteHandler; }
 
-	void SetCamPos(float x, float y) { cam_x = x; cam_y = y; }
+	static Game* GetInstance();
 
-	static CGame* GetInstance();
-
-	~CGame();
+	~Game();
 };
 
 

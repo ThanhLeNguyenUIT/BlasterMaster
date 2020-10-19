@@ -1,57 +1,73 @@
 #pragma once
-
-
 #include <Windows.h>
-#include <d3d9.h>
 #include <d3dx9.h>
-#include "debug.h"
-#include "Textures.h"
+#include <unordered_map>
+
 #include "Sprites.h"
+
 /*
-	Sprite animation
+Sprite animation
 */
-class CSprite;
-class CAnimationFrame
+class AnimationFrame
 {
-	CSprite* sprite;
+	LPSPRITE sprite;
 	DWORD time;
 
 public:
-	CAnimationFrame(CSprite* sprite, int time) { this->sprite = sprite; this->time = time; }
+	AnimationFrame(LPSPRITE sprite, int time) { this->sprite = sprite; this->time = time; }
 	DWORD GetTime() { return time; }
-	CSprite* GetSprite() { return sprite; }
+	LPSPRITE GetSprite() { return sprite; }
 };
 
-typedef CAnimationFrame* LPANIMATION_FRAME;
+typedef AnimationFrame* LPANIMATION_FRAME;
 
-class CAnimation
+class Animation
 {
 	DWORD lastFrameTime;
 	int defaultTime;
 	vector<LPANIMATION_FRAME> frames;
-
 public:
 	int currentFrame;
-	bool isLastFrame;
-	CAnimation(int defaultTime) { this->defaultTime = defaultTime; lastFrameTime = -1; currentFrame = -1; isLastFrame = false; }
+	Animation(int defaultTime = 100) { this->defaultTime = defaultTime; lastFrameTime = -1; currentFrame = -1; }
 	void Add(int spriteId, DWORD time = 0);
-	void Render(float x, float y, int alpha = 255, int idFrame = 0, bool renderOneFrame = false, bool rev = false);
-	int GetCurrentFrame() { return this->currentFrame; }
+	int GetCurrentFrame() { return this->currentFrame; } 	
 	void SetCurrentFrame(int currentFrame) { this->currentFrame = currentFrame; }
+	void Render(float x, float y, int alpha = 255);
 };
 
-typedef CAnimation* LPANIMATION;
+typedef Animation* LPANIMATION;
 
-class CAnimations
+class Animations
 {
-	static CAnimations* __instance;
+	static Animations* __instance;
 
-	unordered_map<int, CAnimation*> animations;
+	unordered_map<int, LPANIMATION> animations;
 
 public:
-	void Add(int id, CAnimation* ani);
-	CAnimation* Get(int id);
-	void LoadResources();
-	static CAnimations* GetInstance();
+	void Add(int id, LPANIMATION ani);
+	LPANIMATION Get(int id );
+	void Clear();
+
+	static Animations* GetInstance();
 };
 
+typedef vector<LPANIMATION> AnimationSet;
+
+typedef AnimationSet* LPANIMATION_SET;
+
+/*
+	Manage animation set database
+*/
+class AnimationSets
+{
+	static AnimationSets* __instance;
+
+	unordered_map<int, LPANIMATION_SET> animation_sets;
+
+public:
+	AnimationSets();
+	void Add(int id, LPANIMATION_SET ani);
+	LPANIMATION_SET Get(unsigned int id);
+
+	static AnimationSets* GetInstance();
+};

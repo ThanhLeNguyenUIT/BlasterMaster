@@ -19,7 +19,7 @@ PlayerFallingState::~PlayerFallingState() {
 
 void PlayerFallingState::Update() {
 	if (!player->IsJumping) {
-		player->ChangeAnimation(new PlayerStandingState(),3);
+		player->ChangeAnimation(new PlayerStandingState());
 		return;
 	}
 	this->HandleKeyboard();

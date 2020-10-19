@@ -9,15 +9,15 @@ PlayerUpwardMovingState::PlayerUpwardMovingState() {
 	player->IsUp = true;
 
 	if (player->nx > 0) {
-		StateName = UPWARD_MOVING_RIGHT;
-		player->vx = CAR_MOVING_SPEED;
+		//StateName = UPWARD_MOVING_RIGHT;
+		player->vx = SOPHIA_MOVING_SPEED;
 	}
 	else {
-		StateName = UPWARD_MOVING_LEFT;
-		player->vx = -CAR_MOVING_SPEED;
+		//StateName = UPWARD_MOVING_LEFT;
+		player->vx = -SOPHIA_MOVING_SPEED;
 	}
 
-	player->stateBoundingBox = CAR_UP_BOUNDING_BOX;
+	player->stateBoundingBox = SOPHIA_UP_BOUNDING_BOX;
 }
 
 PlayerUpwardMovingState::~PlayerUpwardMovingState() {
@@ -42,6 +42,6 @@ void PlayerUpwardMovingState::HandleKeyboard() {
 	}
 	else {
 		player->ChangeAnimation(new PlayerUpwardState());
-		player->y = player->y + (CAR_UP_BBOX_HEIGHT - CAR_BBOX_HEIGHT);
+		player->y = player->y + (SOPHIA_UP_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
 	}
 }

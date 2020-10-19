@@ -1,7 +1,0 @@
-0 Textures\\car.png 176 224 248
--100 Textures\\bbox.png 255 255 255
-30 Textures\\item.png 255 0 255
-40 Textures\\enemies.png 255 0 255
-50 Textures\\misc.png 255 0 255
-60 Textures\\map2.png 245 245 245
-

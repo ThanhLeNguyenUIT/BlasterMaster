@@ -1,53 +1,61 @@
 #include "Sprites.h"
-#include "Textures.h"
+#include "Game.h"
+#include "debug.h"
 
-CSprite::CSprite(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 texture) {
+Sprite::Sprite(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex)
+{
 	this->id = id;
 	this->left = left;
 	this->top = top;
 	this->right = right;
 	this->bottom = bottom;
-	this->texture = texture;
+	this->texture = tex;
 }
 
-CSprites* CSprites::__instance = NULL;
+Sprites* Sprites::__instance = NULL;
 
-CSprites* CSprites::GetInstance() {
-	if (__instance == NULL) __instance = new CSprites();
+Sprites* Sprites::GetInstance()
+{
+	if (__instance == NULL) __instance = new Sprites();
 	return __instance;
 }
 
-void CSprite::Draw(float x, float y, int alpha) {
-	CGame* game = CGame::GetInstance();
-	game->Draw(x, y, texture, left, top, right, bottom);
-}
-
-void CSprite::Draw(float x, float y, float left, float top, float right, float bottom)
+void Sprite::Draw(float x, float y, int alpha)
 {
-	CGame* game = CGame::GetInstance();
-	game->Draw(x, y, texture, left, top, right, bottom, 245);
+	Game* game = Game::GetInstance();
+	game->Draw(x, y, texture, left, top, right, bottom, alpha);
 }
 
-void CSprites::Add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 texture) {
-	LPSPRITE s = new CSprite(id, left, top, right, bottom, texture);
-	CSprites::sprites[id] = s;
+void Sprite::Draw(float x, float y, float left, float top, float right, float bottom) { 
+	Game* game = Game::GetInstance(); 	game->Draw(x, y, texture, left, top, right, bottom, 245); 
 }
 
-void CSprites::LoadResources() {
-	ifstream File;
-	File.open(L"text\\sprites.txt");
-	int idSprites, left, top, right, bottom, idTex;
-	CTextures* textures = CTextures::GetInstance();
-	while (!File.eof()) {
-		File >> idSprites >> left >> top >> right >> bottom >> idTex;
-		LPDIRECT3DTEXTURE9 textCar = textures->Get(idTex);
-		Add(idSprites, left, top, right, bottom, textCar);
-	}
-	File.close();
+void Sprites::Add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex)
+{
+	LPSPRITE s = new Sprite(id, left, top, right, bottom, tex);
+	sprites[id] = s;
+
+	//DebugOut(L"[INFO] sprite added: %d, %d, %d, %d, %d \n", id, left, top, right, bottom);
 }
 
-LPSPRITE CSprites::Get(int id) {
+LPSPRITE Sprites::Get(int id)
+{
 	return sprites[id];
 }
+
+/*
+	Clear all loaded textures
+*/
+void Sprites::Clear()
+{
+	for (auto x : sprites)
+	{
+		LPSPRITE s = x.second;
+		delete s;
+	}
+
+	sprites.clear();
+}
+
 
 

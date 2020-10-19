@@ -1,10 +1,12 @@
 ﻿#include "Game.h"
+#include "Camera.h"
 #include "debug.h"
+#include "PlayScene.h"
 
-CGame* CGame::__instance = NULL;
+Game* Game::__instance = NULL;
 
 
-void CGame::Init(HWND hWnd)
+void Game::Init(HWND hWnd)
 {
 	LPDIRECT3D9 d3d = Direct3DCreate9(D3D_SDK_VERSION);
 
@@ -24,6 +26,9 @@ void CGame::Init(HWND hWnd)
 
 	d3dpp.BackBufferHeight = r.bottom + 1;
 	d3dpp.BackBufferWidth = r.right + 1;
+
+	screen_height = r.bottom + 1;
+	screen_width = r.right + 1;
 
 	d3d->CreateDevice(
 		D3DADAPTER_DEFAULT,
@@ -50,9 +55,9 @@ void CGame::Init(HWND hWnd)
 /*
 	Utility function to wrap LPD3DXSPRITE::Draw
 */
-void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
+void Game::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
 {
-	D3DXVECTOR3 p(floor(x - cam_x), floor(y - cam_y), 0);
+	D3DXVECTOR3 p(floor(x - Camera::GetInstance()->GetCamPosX()), floor(y - Camera::GetInstance()->GetCamPosY()), 0);
 	RECT r;
 	r.left = left;
 	r.top = top;
@@ -61,16 +66,16 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
 }
 
-int CGame::IsKeyDown(int KeyCode)
+int Game::IsKeyDown(int KeyCode)
 {
 	return (keyStates[KeyCode] & 0x80) > 0;
 }
-int CGame::IsKeyUp(int KeyCode)
+int Game::IsKeyUp(int KeyCode)
 {
 	return (keyStates[KeyCode] & 0x80) <= 0;
 }
 
-void CGame::InitKeyboard(LPKEYEVENTHANDLER handler)
+void Game::InitKeyboard()
 {
 	HRESULT hr = DirectInput8Create(
 			(HINSTANCE)GetWindowLong(hWnd, GWLP_HINSTANCE),
@@ -82,7 +87,7 @@ void CGame::InitKeyboard(LPKEYEVENTHANDLER handler)
 		DebugOut(L"[ERROR] DirectInput8Create failed!\n");
 		return;
 	}
-
+	DebugOut(L"Init key\n");
 	hr = di->CreateDevice(GUID_SysKeyboard, &didv, NULL);
 
 	// TO-DO: put in exception handling
@@ -118,12 +123,10 @@ void CGame::InitKeyboard(LPKEYEVENTHANDLER handler)
 		return;
 	}
 
-	this->keyHandler = handler;
-
 	DebugOut(L"[INFO] Keyboard has been initialized successfully\n");
 }
 
-void CGame::ProcessKeyboard()
+void Game::ProcessKeyboard()
 {
 	HRESULT hr;
 
@@ -173,7 +176,7 @@ void CGame::ProcessKeyboard()
 	}
 }
 
-CGame::~CGame()
+Game::~Game()
 {
 	if (spriteHandler != NULL) spriteHandler->Release();
 	if (backBuffer != NULL) backBuffer->Release();
@@ -184,7 +187,7 @@ CGame::~CGame()
 /*
 	SweptAABB
 */
-void CGame::SweptAABB(
+void Game::SweptAABB(
 	float ml, float mt, float mr, float mb,
 	float dx, float dy,
 	float sl, float st, float sr, float sb,
@@ -282,8 +285,86 @@ void CGame::SweptAABB(
 
 }
 
-CGame* CGame::GetInstance()
+Game* Game::GetInstance()
 {
-	if (__instance == NULL) __instance = new CGame();
+	if (__instance == NULL) __instance = new Game();
 	return __instance;
+}
+
+#define MAX_GAME_LINE 1024
+
+
+#define GAME_FILE_SECTION_UNKNOWN -1
+#define GAME_FILE_SECTION_SETTINGS 1
+#define GAME_FILE_SECTION_SCENES 2
+
+
+void Game::_ParseSection_SETTINGS(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 2) return;
+	if (tokens[0] == "start")
+		current_scene = atoi(tokens[1].c_str());
+	else
+		DebugOut(L"[ERROR] Unknown game setting %s\n", ToWSTR(tokens[0]).c_str());
+}
+
+void Game::_ParseSection_SCENES(string line)
+{
+	vector<string> tokens = split(line);
+	if (tokens.size() < 2) return;
+	int id = atoi(tokens[0].c_str());
+	LPCWSTR path = ToLPCWSTR(tokens[1]);
+	LPSCENE scene = new PlayScene(id, path);
+	scenes[id] = scene;
+}
+
+void Game::Load(LPCWSTR gameFile) {
+	DebugOut(L"[INFO] Start loading game file : %s\n", gameFile);
+
+	ifstream f;
+	f.open(gameFile);
+	char str[MAX_GAME_LINE];
+
+	// current resource section flag
+	int section = GAME_FILE_SECTION_UNKNOWN;
+
+	while (f.getline(str, MAX_GAME_LINE))
+	{
+		string line(str);
+
+		if (line[0] == '#') continue;	// skip comment lines	
+
+		if (line == "[SETTINGS]") { section = GAME_FILE_SECTION_SETTINGS; continue; }
+		if (line == "[SCENES]") { section = GAME_FILE_SECTION_SCENES; continue; }
+
+		//
+		// data section
+		//
+		switch (section)
+		{
+		case GAME_FILE_SECTION_SETTINGS: _ParseSection_SETTINGS(line); break;
+		case GAME_FILE_SECTION_SCENES: _ParseSection_SCENES(line); break;
+		}
+	}
+	f.close();
+
+	DebugOut(L"[INFO] Loading game file : %s has been loaded successfully\n", gameFile);
+
+	SwitchScene(current_scene);
+}
+
+void Game::SwitchScene(int scene_id) {
+	DebugOut(L"[INFO] Switching to scene %d\n", scene_id);
+	scenes[current_scene]->Unload();
+
+	Textures::GetInstance()->Clear();
+	Sprites::GetInstance()->Clear();
+	Animations::GetInstance()->Clear();
+
+	current_scene = scene_id;
+	LPSCENE s = scenes[scene_id];
+	Game::GetInstance()->SetKeyHandler(s->GetKeyEventHandler());
+	s->Load();
 }

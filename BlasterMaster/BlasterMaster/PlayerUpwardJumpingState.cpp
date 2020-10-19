@@ -6,16 +6,16 @@ PlayerUpwardJumpingState::PlayerUpwardJumpingState() {
 	player->IsUp = true;
 
 	if (!player->IsJumping) {
-		player->vy = -CAR_JUMPING_SPEED_Y;
+		player->vy = -SOPHIA_JUMPING_SPEED_Y;
 	}
 	player->IsJumping = true;
 	if (player->nx > 0) {
-		StateName = UPWARD_JUMPING_RIGHT;
+		//StateName = UPWARD_JUMPING_RIGHT;
 	}
 	else {
-		StateName = UPWARD_JUMPING_LEFT;
+		//StateName = UPWARD_JUMPING_LEFT;
 	}
-	player->stateBoundingBox = CAR_UP_BOUNDING_BOX;
+	player->stateBoundingBox = SOPHIA_UP_BOUNDING_BOX;
 }
 
 PlayerUpwardJumpingState::~PlayerUpwardJumpingState() {

@@ -1,6 +1,6 @@
 #include "Goomba.h"
 
-void CGoomba::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+void Goomba::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
 	top = y;
@@ -12,9 +12,9 @@ void CGoomba::GetBoundingBox(float& left, float& top, float& right, float& botto
 		bottom = y + GOOMBA_BBOX_HEIGHT;
 }
 
-void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void Goomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CGameObject::Update(dt, coObjects);
+	GameObject::Update(dt, coObjects);
 
 	//
 	// TO-DO: make sure Goomba can interact with the world and to each of them too!
@@ -32,20 +32,20 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 }
 
-void CGoomba::Render()
+void Goomba::Render()
 {
 	int ani = GOOMBA_ANI_WALKING;
 	if (state == GOOMBA_STATE_DIE) {
 		ani = GOOMBA_ANI_DIE;
 	}
 
-	animations[ani]->Render(x, y);
+	//animations[ani]->Render(x, y);
 	//RenderBoundingBox();
 }
 
-void CGoomba::SetState(int state)
+void Goomba::SetState(int state)
 {
-	CGameObject::SetState(state);
+	GameObject::SetState(state);
 	switch (state)
 	{
 	case GOOMBA_STATE_DIE:

@@ -1,21 +1,18 @@
 #pragma once
 #include <unordered_map>
-#include "debug.h"
-#include "GlobalConfig.h"
-#include "Game.h"
-#include <fstream>
+#include <d3dx9.h>
 
 using namespace std;
 
-class CTextures {
-	static CTextures* __instance;
+class Textures {
+	static Textures* __instance;
 	unordered_map <int, LPDIRECT3DTEXTURE9> textures;
 public:
-	CTextures();
+	Textures();
 	void Add(int id, LPCWSTR filePath, D3DCOLOR transparentColor);
 	LPDIRECT3DTEXTURE9 Get(unsigned int i);
 
-	void LoadResources();
+	void Clear();
 
-	static CTextures* GetInstance();
+	static Textures* GetInstance();
 };

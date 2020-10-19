@@ -1,29 +1,32 @@
 #pragma once
 #include "GameObject.h"
+#include "PlayerState.h"
 #include "Bullet.h"
 
-#define CAR_MOVING_SPEED             0.1f
-#define CAR_JUMP_SPEED_Y             0.8f
-#define CAR_GRAVITY                  0.001f
-#define CAR_JUMP_DEFLECT_SPEED     0.2f
-#define CAR_DIE_DEFLECT_SPEED	   0.5f
+#define SOPHIA_MOVING_SPEED             0.1f
+#define SOPHIA_JUMP_SPEED_Y             0.8f
+#define SOPHIA_GRAVITY                  0.001f
+#define SOPHIA_JUMP_DEFLECT_SPEED     0.2f
+#define SOPHIA_DIE_DEFLECT_SPEED	   0.5f
+
+#define SOPHIA_ANIMATIONS_SET			1
 
 
-
-class PlayerState;
-class CGameObject;
-
-class CCar : public CGameObject
+class Sophia : public GameObject
 {
-	CBullet* bullet ;
-	vector<CBullet*> bullets;
-	
+	Bullet* bullet;
+	vector<Bullet*> bullets;
+
+	float start_x;			// initial position of Mario at scene
+	float start_y;
+
 private:
-	static CCar* _instance;
 public:
+	static Sophia* _instance;
 	int stateBoundingBox;
 	PlayerState* state;
-	CAnimation* CurAnimation;
+	AnimationSet* CurAnimationSet;
+
 	std::unordered_map<STATENAME, bool> allow;
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
@@ -39,12 +42,12 @@ public:
 	int idFrame = 0;
 	bool renderOneFrame = false;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-	void Revival();
 
-	CCar();
-	~CCar();
+	Sophia();
+	~Sophia();
 	void ChangeAnimation(PlayerState* state, int stateId = 0);
-	static CCar* GetInstance();
+	static Sophia* GetInstance();
+	void Reset();
 	void AddBullet();
 	void DeleteBullet();
 	void OnKeyUp(int key);

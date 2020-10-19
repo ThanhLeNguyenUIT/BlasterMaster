@@ -1,21 +1,18 @@
-
+#pragma once
 
 #include <windows.h>
 #include <d3d9.h>
 #include <d3dx9.h>
-
+#include "Map.h"
 #include "debug.h"
 #include "Game.h"
 #include "GameObject.h"
 #include "Textures.h"
-#include "Map.h"
 
-#include "Car.h"
+#include "Sophia.h"
 #include "Brick.h"
-#include "Goomba.h"
 #include "Bullet.h"
 
-#include "PlayerStandingState.h"
 
 #define WINDOW_CLASS_NAME L"Game"
 #define MAIN_WINDOW_TITLE L"Game"
@@ -34,47 +31,11 @@
 
 //using namespace std;
 
-CGame* game;
-CCar* car;
-CGoomba* goomba;
-CBullet* bullet;
-Map* map;
+Game* game;
+
 //CGameObject* brick;
 
 vector<LPGAMEOBJECT> objects;
-
-class CSampleKeyHandler : public CKeyEventHandler {
-	virtual void KeyState(BYTE* states);
-	virtual void OnKeyDown(int KeyCode);
-	virtual void OnKeyUp(int KeyCode);
-};
-
-CSampleKeyHandler* keyHandler;
-
-void CSampleKeyHandler::OnKeyDown(int KeyCode) {
-	
-	keyCode[KeyCode] = true;
-	player->OnKeyDown(KeyCode);
-	
-	switch (KeyCode) {
-	case DIK_A:
-		car = new CCar();
-		car = player;
-		car->Revival();
-	}
-}
-
-void CSampleKeyHandler::OnKeyUp(int KeyCode)
-{
-	keyCode[KeyCode] = false;
-	player->OnKeyUp(KeyCode);
-}
-
-
-void CSampleKeyHandler::KeyState(BYTE *states) {
-
-}
-
 
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -89,81 +50,8 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-
-
-void LoadResources(){
-	CTextures* textures = CTextures::GetInstance();
-	textures->LoadResources();
-
-	CSprites* sprites = CSprites::GetInstance();
-	sprites->LoadResources();
-	
-	CAnimations* animations = CAnimations::GetInstance();
-	animations->LoadResources();
-
-	Map::GetInstance()->LoadResources(2);
-	car = player;
-	car->Revival();
-	objects.push_back(car);
-
-	CBrick* brick = new CBrick();
-	brick->AdAnimation(2001);
-	brick->SetPosition(100.0, 134.0f);
-	objects.push_back(brick);
-
-	brick = new CBrick();
-	brick->AdAnimation(2001);
-	brick->SetPosition(100.0f, 118.0f);
-	objects.push_back(brick);
-
-	for (int i = 0; i < 50; i++)
-	{
-		CBrick* brick = new CBrick();
-		brick->AdAnimation(2001);
-		brick->SetPosition(0 + i * 16.0f, 150);
-		objects.push_back(brick);
-	}
-
-	/*for (int i = 0; i < 4; i++)
-	{
-		goomba = new CGoomba();
-		goomba->AdAnimation(2002);
-		goomba->AdAnimation(2003);
-		goomba->SetPosition(200 + i * 60, 135);
-		goomba->SetState(GOOMBA_STATE_WALKING);
-		objects.push_back(goomba);
-	}*/
-
-	
-}
 void Update(DWORD dt){
-	vector<LPGAMEOBJECT> coObjects;
-
-	float cx, cy;
-	float bx, by;
-	bool isFiring = false;
-	car->GetPosition(cx, cy);
-
-	for (int i = 1; i < objects.size(); i++)
-	{
-		coObjects.push_back(objects[i]);
-	}
-
-	for (int i = 0; i < objects.size(); i++)
-	{
-		objects[i]->Update(dt, &coObjects);
-	}
-	//for (int i = 0; i < objects.size(); i++) {
-	//	if (objects[i]->GetState() == GOOMBA_STATE_DIE) {
-	//		objects.erase(objects.begin() + i);
-	//	}
-	//}
-	cx -= SCREEN_WIDTH / 2;
-	cy -= SCREEN_HEIGHT / 2;
-	if (cx < 0) {
-		cx = 0;
-	}
-	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
+	Game::GetInstance()->GetCurrentScene()->Update(dt);
 }
 
 /*
@@ -178,10 +66,10 @@ void Render()
 	if (d3ddv->BeginScene()) {
 		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
-		Map::GetInstance()->Render(2);
-		for (int i = 0; i < objects.size(); i++)
-			objects[i]->Render();
-		 
+		
+		Game::GetInstance()->GetCurrentScene()->Render();
+		Map::GetInstance()->Render();
+		player->Render();
 		spriteHandler->End();
 		d3ddv->EndScene();
 	}
@@ -275,15 +163,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
 	HWND hWnd = CreateGameWindow(hInstance, nCmdShow, SCREEN_WIDTH, SCREEN_HEIGHT);
 	
-	game = CGame::GetInstance();
+	game = Game::GetInstance();
 	game->Init(hWnd);
-
-	keyHandler = new CSampleKeyHandler();
-	game->InitKeyboard(keyHandler);
+	game->InitKeyboard();
 	
+	game->Load(L"text\\blaster-master.txt"); 
+	DebugOut(L"Thanh");
+
 	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH * 2, SCREEN_HEIGHT * 2, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 
-	LoadResources();
 	Run();
 
 	return 0;

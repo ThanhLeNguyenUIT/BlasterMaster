@@ -7,18 +7,18 @@ PlayerUpwardJumpingMovingState::PlayerUpwardJumpingMovingState() {
 	player->IsUp = true;
 
 	if (!player->IsJumping) {
-		player->vy = -CAR_JUMPING_SPEED_Y;
+		player->vy = -SOPHIA_JUMPING_SPEED_Y;
 	}
 	player->IsJumping = true;
 	if (player->nx > 0) {
-		player->vx = CAR_MOVING_SPEED;
-		StateName = UPWARD_JUMPING_MOVING_RIGHT;
+		player->vx = SOPHIA_MOVING_SPEED;
+		//StateName = UPWARD_JUMPING_MOVING_RIGHT;
 	}
 	else {
-		player->vx = -CAR_MOVING_SPEED;
-		StateName = UPWARD_JUMPING_MOVING_LEFT;
+		player->vx = -SOPHIA_MOVING_SPEED;
+		//StateName = UPWARD_JUMPING_MOVING_LEFT;
 	}
-	player->stateBoundingBox = CAR_UP_BOUNDING_BOX;
+	player->stateBoundingBox = SOPHIA_UP_BOUNDING_BOX;
 }
 
 PlayerUpwardJumpingMovingState::~PlayerUpwardJumpingMovingState() {
@@ -28,7 +28,7 @@ PlayerUpwardJumpingMovingState::~PlayerUpwardJumpingMovingState() {
 void PlayerUpwardJumpingMovingState::Update() {
 	if (!player->IsJumping) {
 		player->ChangeAnimation(new PlayerUpwardState());
-		player->y = player->y + (CAR_UP_BBOX_HEIGHT - CAR_BBOX_HEIGHT);
+		player->y = player->y + (SOPHIA_UP_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
 		return;
 	}
 	this->HandleKeyboard();

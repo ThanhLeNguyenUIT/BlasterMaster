@@ -7,6 +7,7 @@
 #include "Sprites.h"
 #include "Map.h"
 #include "PlayerStandingState.h"
+#include "BulletMovingState.h"
 
 using namespace std;
 
@@ -21,9 +22,6 @@ PlayScene::PlayScene(int id, LPCWSTR filePath) :
 #define SCENE_SECTION_ANIMATIONS 4
 #define SCENE_SECTION_ANIMATION_SETS	5
 #define SCENE_SECTION_OBJECTS	6
-
-#define OBJECT_TYPE_CAR			0
-#define OBJECT_TYPE_BRICK		1
 
 #define MAX_SCENE_LINE 1024
 
@@ -79,10 +77,8 @@ void PlayScene::_ParseSection_ANIMATIONS(string line)
 
 	if (tokens.size() < 3) return; // skip invalid lines - an animation must at least has 1 frame and 1 frame time
 
-	//DebugOut(L"--> %s\n",ToWSTR(line).c_str());
-
 	LPANIMATION ani = new Animation();
-
+	//DebugOut(L"--> %s\n", ToWSTR(line).c_str());
 	int ani_id = atoi(tokens[0].c_str());
 	for (int i = 1; i < tokens.size(); i += 2)	// why i+=2 ?  sprite_id | frame_time  
 	{
@@ -90,7 +86,7 @@ void PlayScene::_ParseSection_ANIMATIONS(string line)
 		int frame_time = atoi(tokens[i + 1].c_str());
 		ani->Add(sprite_id, frame_time);
 	}
-	//DebugOut(L"AddAniMation id: %d", ani_id);
+
 	Animations::GetInstance()->Add(ani_id, ani);
 }
 
@@ -100,65 +96,99 @@ void PlayScene::_ParseSection_ANIMATION_SETS(string line)
 
 	if (tokens.size() < 2) return; // skip invalid lines - an animation set must at least id and one animation id
 
-	int ani_set_id = atoi(tokens[0].c_str());
+	int types = atoi(tokens[0].c_str());
+	int ani_set_id = atoi(tokens[1].c_str());
 
-	LPANIMATION_SET s = new AnimationSet();
+	TYPE type = static_cast<TYPE>(types);
 
-	Animations* animations = Animations::GetInstance();
 
-	for (int i = 1; i < tokens.size(); i++)
+	if (type == PLAYER)
 	{
-		int ani_id = atoi(tokens[i].c_str());
-
-		LPANIMATION ani = animations->Get(ani_id);
-		s->push_back(ani);
+		TYPE type = static_cast<TYPE>(ani_set_id);
+		LPANIMATION_SET set = new AnimationSet();
+		for (int i = 2; i < tokens.size(); i += 2)
+		{
+			int ani_id = atoi(tokens[i].c_str());
+			int state = atoi(tokens[i + 1].c_str());
+			STATENAME stateName = static_cast<STATENAME>(state);
+			set->Add(ani_id, stateName);
+		}
+		DebugOut(L"--> %s\n", ToWSTR(line).c_str());
+		AnimationSets::GetInstance()->Add(type, set);
 	}
-
-	AnimationSets::GetInstance()->Add(ani_set_id, s);
+	else
+	{
+		TYPE type = static_cast<TYPE>(ani_set_id);
+		LPANIMATION_SET set = new AnimationSet();
+		for (int i = 2; i < tokens.size(); i += 2)
+		{
+			int ani_id = atoi(tokens[i].c_str());
+			int types = atoi(tokens[i + 1].c_str());
+			STATEOBJECT type = static_cast<STATEOBJECT>(types);
+			set->Add(ani_id, type);
+		}
+		DebugOut(L"--> %s\n", ToWSTR(line).c_str());
+		AnimationSets::GetInstance()->Add(type, set);
+	}
 }
 
 void PlayScene::_ParseSection_OBJECTS(string line) {
 	vector<string> tokens = split(line);
-
 	//(L"--> %s\n",ToWSTR(line).c_str());
 
 	if (tokens.size() < 3) return; // skip invalid lines - an object set must have at least id, x, y
 
 	int object_type = atoi(tokens[0].c_str());
+	TYPE  type = static_cast<TYPE>(object_type);
+
 	float x = atof(tokens[1].c_str());
 	float y = atof(tokens[2].c_str());
+	int id_state = atoi(tokens[3].c_str());
+	int width;
+	int height;
+	
+	// get width and height of brick
+	if (type == BRICK) {
+		width = (int)atoi(tokens[4].c_str()) * BIT;
+		height = (int)atoi(tokens[5].c_str()) * BIT;
+	}
+	// General object setup
 
-	int ani_set_id = atoi(tokens[3].c_str());
+	GameObject* obj = NULL;
 
 	AnimationSets* animation_sets = AnimationSets::GetInstance();
 
-	GameObject* obj = NULL;
-	switch (object_type) {
+	switch (type) {
 		// switch cac' loai quai vat va brick
-	case OBJECT_TYPE_CAR:
-		if (sophia != NULL)
-		{
-			DebugOut(L"[ERROR] CAR object was created before!\n");
-			return;
+	case PLAYER:
+		if (sophia != NULL) {
+			DebugOut(L"[ERROR] Sophia was created before");
 		}
 		obj = player;
 		sophia = (Sophia*)obj;
-		sophia->ChangeAnimation(new PlayerStandingState());
-		//player->SetPosition(x, y);
-		//sophia = (Sophia*)obj; // maybe error
-
-		DebugOut(L"[INFO] CAR object created!\n");
+		x = x * BIT; // change value to 16 bit
+		y = y * BIT; // change value to 16 bit
+		sophia->Reset(x, y);
+		DebugOut(L"[INFO] Player object created!\n");
 		break;
-	case OBJECT_TYPE_BRICK: obj = new Brick(); break;
+	case BRICK: 
+		x = x * BIT; // change value to 16 bit
+		y = y * BIT; // change value to 16 bit
+		obj = new Brick(width, height);
+		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
 	}
-
+	
 	obj->SetPosition(x, y);
-	LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
-
-	obj->SetAnimationSet(ani_set);
+	if (type != PLAYER)
+	{
+		int type_ani = atoi(tokens[0].c_str());
+		TYPE types = static_cast<TYPE>(type_ani);
+		LPANIMATION_SET ani_set = animation_sets->Get(types);
+		obj->SetAnimationSet(ani_set);
+	}
 	listObjects.push_back(obj);
 }
 
@@ -213,28 +243,39 @@ void PlayScene::Update(DWORD dt) {
 	for (size_t i = 1; i < listObjects.size(); i++){
 		coObjects.push_back(listObjects[i]);
 	}
-	for (size_t i = 1; i < listObjects.size(); i++)
+	for (size_t i = 0; i < listObjects.size(); i++)
 	{
 		listObjects[i]->Update(dt, &coObjects);
 	}
-	sophia->Update(dt, &coObjects);
 	// skip the rest if scene was already unloaded (Car::Update might trigger PlayScene::Unload)
-	//if (sophia == NULL) return;
 
 	// Update camera to follow player
 
 	float cx, cy;
-	player->GetPosition(cx, cy);
+	sophia->GetPosition(cx, cy);
+
+	if (bullet) {
+		bullet->Update(dt, &coObjects);
+	}
 
 	Game* game = Game::GetInstance();
 	cx -= game->GetScreenWidth() / 2;
 	cy -= game->GetScreenHeight() / 2;
 
+	if (cx < 0) {
+		cx = 0;
+	}
+	if (cy < 0) {
+		cy = 0;
+	}
 	gameCamera = Camera::GetInstance();
-	gameCamera->SetCamPos(cx, 0.0f/*cy*/);
+	gameCamera->SetCamPos(cx, cy);
 }
 
 void PlayScene::Render() {
+	Map::GetInstance()->Render();
+	if(bullet)
+		bullet->Render();
 	for (int i = 0; i < listObjects.size(); i++) {
 		listObjects[i]->Render();
 	}
@@ -245,7 +286,7 @@ void PlayScene::Unload() {
 		delete listObjects[i];
 
 	listObjects.clear();
-	//player = NULL;
+	sophia = NULL;
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
@@ -258,7 +299,7 @@ void PlaySceneKeyHandler::OnKeyDown(int KeyCode){
 
 void PlaySceneKeyHandler::OnKeyUp(int KeyCode) {
 	Sophia* sophia = ((PlayScene*)scene)->GetPlayer();
-	keyCode[KeyCode] = true;
+	keyCode[KeyCode] = false;
 	sophia->OnKeyUp(KeyCode);
 }
 

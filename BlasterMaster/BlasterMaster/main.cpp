@@ -8,7 +8,7 @@
 #include "Game.h"
 #include "GameObject.h"
 #include "Textures.h"
-
+#include "PlayScene.h"
 #include "Sophia.h"
 #include "Brick.h"
 #include "Bullet.h"
@@ -32,7 +32,7 @@
 //using namespace std;
 
 Game* game;
-
+PlaySceneKeyHandler* keyHandler;
 //CGameObject* brick;
 
 vector<LPGAMEOBJECT> objects;
@@ -66,10 +66,7 @@ void Render()
 	if (d3ddv->BeginScene()) {
 		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
-		
 		Game::GetInstance()->GetCurrentScene()->Render();
-		Map::GetInstance()->Render();
-		player->Render();
 		spriteHandler->End();
 		d3ddv->EndScene();
 	}

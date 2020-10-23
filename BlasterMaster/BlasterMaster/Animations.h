@@ -17,6 +17,7 @@ public:
 	AnimationFrame(LPSPRITE sprite, int time) { this->sprite = sprite; this->time = time; }
 	DWORD GetTime() { return time; }
 	LPSPRITE GetSprite() { return sprite; }
+	int GetSpriteId() { return sprite->id; }
 };
 
 typedef AnimationFrame* LPANIMATION_FRAME;
@@ -32,7 +33,7 @@ public:
 	void Add(int spriteId, DWORD time = 0);
 	int GetCurrentFrame() { return this->currentFrame; } 	
 	void SetCurrentFrame(int currentFrame) { this->currentFrame = currentFrame; }
-	void Render(float x, float y, int alpha = 255);
+	void Render(float x, float y, int alpha = 255, int idFrame = 0, bool renderOneFrame = false, bool rev = false);
 };
 
 typedef Animation* LPANIMATION;
@@ -51,7 +52,14 @@ public:
 	static Animations* GetInstance();
 };
 
-typedef vector<LPANIMATION> AnimationSet;
+class AnimationSet {
+	unordered_map<int, LPANIMATION> animations;
+public:
+	void Add(int aniId, STATENAME StateName);
+	void Add(int aniId, STATEOBJECT StateObject);
+	LPANIMATION Get(STATENAME NameState);
+	LPANIMATION Get(STATEOBJECT type);
+};
 
 typedef AnimationSet* LPANIMATION_SET;
 
@@ -66,8 +74,8 @@ class AnimationSets
 
 public:
 	AnimationSets();
-	void Add(int id, LPANIMATION_SET ani);
-	LPANIMATION_SET Get(unsigned int id);
+	void Add(TYPE type, LPANIMATION_SET ani);
+	LPANIMATION_SET Get(TYPE type);
 
 	static AnimationSets* GetInstance();
 };

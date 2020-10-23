@@ -1,12 +1,14 @@
 #pragma once
 #include <Windows.h>
 #include "GlobalConfig.h"
-#include "KeyboardHandler.h"
+#include "KeyEventHandler.h"
 #include "Scene.h"
 #pragma comment(lib,"dinput8")
 
 #define DIRECTINPUT_VERSION 0x0800
 #define KEYBOARD_BUFFER_SIZE 1024
+
+
 
 class Game
 {
@@ -27,8 +29,8 @@ class Game
 
 	LPKEYEVENTHANDLER keyHandler;
 
-	int screen_height;
-	int screen_width;
+	int screen_height = 240;
+	int screen_width = 320;
 
 	unordered_map<int, LPSCENE> scenes;
 	int current_scene;

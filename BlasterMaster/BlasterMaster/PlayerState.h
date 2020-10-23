@@ -7,4 +7,5 @@ public:
 	virtual void Update() = 0;
 	
 	STATENAME StateName;
+	STATEOBJECT StateObject;
 };

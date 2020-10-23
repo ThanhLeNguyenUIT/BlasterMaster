@@ -1,28 +1,24 @@
 #include "PlayerStandingState.h"
 #include "PlayerMovingState.h"
+#include "PlayerUpwardState.h"
 
 PlayerMovingState::PlayerMovingState(DWORD timeFinish) {
-	timeWalk = GetTickCount();
-	this->timeFinish = timeFinish;
 
 	player->renderOneFrame = false;
 
 	if (player->nx > 0) {
+		
 		StateName = MOVING_RIGHT;
 		player->vx = SOPHIA_MOVING_SPEED;
 	}
 	else {
+
 		StateName = MOVING_LEFT;
 		player->vx = -SOPHIA_MOVING_SPEED;
 	}
 	
 	player->stateBoundingBox = SOPHIA_BOUNDING_BOX;
 }
-
-//void PlayerMovingState::walking(DWORD dt) {
-//	idFrame = player->CurAnimation->currentFrame;
-//	player->ChangeAnimation(new PlayerMovingState(idFrame));
-//}
 
 void PlayerMovingState::Update() {
 	
@@ -50,6 +46,6 @@ void PlayerMovingState::HandleKeyboard() {
 		player->ChangeAnimation(new PlayerMovingState());
 	}
 	else {
-		player->ChangeAnimation(new PlayerStandingState());
+		player->ChangeAnimation(new PlayerStandingState(), MOVE_TO_STAND);
 	}
 }

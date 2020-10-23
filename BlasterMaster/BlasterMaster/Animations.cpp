@@ -21,25 +21,29 @@ void Animation::Add(int spriteId, DWORD time)
 	frames.push_back(frame);
 }
 
-void Animation::Render(float x, float y, int alpha)
+void Animation::Render(float x, float y, int alpha, int idFrame, bool renderOneFrame, bool rev)
 {
 	DWORD now = GetTickCount();
-	if (currentFrame == -1)
-	{
-		currentFrame = 0;
-		lastFrameTime = now;
-	}
-	else
-	{
-		DWORD t = frames[currentFrame]->GetTime();
-		if (now - lastFrameTime > t)
+	if (!renderOneFrame) {
+		if (currentFrame <= -1)
 		{
-			currentFrame++;
+			currentFrame = 0;
 			lastFrameTime = now;
-			if (currentFrame == frames.size()) currentFrame = 0;
+		}
+		else
+		{
+			DWORD t = frames[currentFrame]->GetTime();
+			if (now - lastFrameTime > t)
+			{
+				currentFrame++;
+				lastFrameTime = now;
+				if (currentFrame == frames.size()) currentFrame = 0;
+			}
 		}
 	}
-
+	else {
+		currentFrame = idFrame;
+	}
 	frames[currentFrame]->GetSprite()->Draw(x, y, alpha);
 }
 
@@ -75,6 +79,27 @@ void Animations::Clear()
 	animations.clear();
 }
 
+///// animation set
+void AnimationSet::Add(int aniId, STATENAME StateName)
+{
+	LPANIMATION ani = Animations::GetInstance()->Get(aniId);
+	animations[StateName] = ani;
+}
+void AnimationSet::Add(int aniId, STATEOBJECT StateObject)
+{
+	LPANIMATION ani = Animations::GetInstance()->Get(aniId);
+	animations[StateObject] = ani;
+}
+LPANIMATION AnimationSet::Get(STATENAME NameState)
+{
+	return animations[NameState];
+}
+LPANIMATION AnimationSet::Get(STATEOBJECT type)
+{
+	return animations[type];
+}
+
+///// animations sets
 AnimationSets::AnimationSets(){
 }
 
@@ -84,18 +109,14 @@ AnimationSets* AnimationSets::GetInstance()
 	return __instance;
 }
 
-LPANIMATION_SET AnimationSets::Get(unsigned int id)
+LPANIMATION_SET AnimationSets::Get(TYPE type)
 {
-	LPANIMATION_SET ani_set = animation_sets[id];
-	if (ani_set == NULL)
-		DebugOut(L"[ERROR] Failed to find animation set id: %d\n", id);
-
-	return ani_set;
+	return animation_sets[type];
 }
 
-void AnimationSets::Add(int id, LPANIMATION_SET ani_set)
+void AnimationSets::Add(TYPE type, LPANIMATION_SET ani_set)
 {
-	animation_sets[id] = ani_set;
+	animation_sets[type] = ani_set;
 }
 
 

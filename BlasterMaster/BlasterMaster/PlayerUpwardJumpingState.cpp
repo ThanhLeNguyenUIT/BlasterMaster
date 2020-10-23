@@ -4,16 +4,17 @@
 PlayerUpwardJumpingState::PlayerUpwardJumpingState() {
 
 	player->IsUp = true;
+	player->renderOneFrame = true;
 
 	if (!player->IsJumping) {
 		player->vy = -SOPHIA_JUMPING_SPEED_Y;
 	}
 	player->IsJumping = true;
 	if (player->nx > 0) {
-		//StateName = UPWARD_JUMPING_RIGHT;
+		StateName = UPWARD_MOVING_RIGHT;
 	}
 	else {
-		//StateName = UPWARD_JUMPING_LEFT;
+		StateName = UPWARD_MOVING_LEFT;
 	}
 	player->stateBoundingBox = SOPHIA_UP_BOUNDING_BOX;
 }
@@ -29,10 +30,10 @@ void PlayerUpwardJumpingState::Update() {
 void PlayerUpwardJumpingState::HandleKeyboard() {
 	if (keyCode[DIK_RIGHT]) {
 		player->nx = 1;
-		player->ChangeAnimation(new PlayerUpwardJumpingMovingState());
+		player->ChangeAnimation(new PlayerUpwardJumpingMovingState(), BACK_TO_NORMAL);
 	}
 	else if (keyCode[DIK_LEFT]) {
 		player->nx = -1;
-		player->ChangeAnimation(new PlayerUpwardJumpingMovingState());
+		player->ChangeAnimation(new PlayerUpwardJumpingMovingState(), BACK_TO_NORMAL);
 	}
 }

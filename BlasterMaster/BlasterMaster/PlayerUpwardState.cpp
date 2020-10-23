@@ -13,9 +13,10 @@ PlayerUpwardState::PlayerUpwardState() {
 	player->vx = 0;
 	player->vy = 0;
 	if (player->nx > 0) {
-		StateName = UPWARD_RIGHT;
+			StateName = static_cast<STATENAME>(player->idFrame + 12);
 	}
-	else StateName = UPWARD_LEFT;
+	else StateName = static_cast<STATENAME>(player->idFrame + 16);
+
 	player->stateBoundingBox = SOPHIA_UP_BOUNDING_BOX;
 }
 
@@ -30,7 +31,7 @@ void PlayerUpwardState::HandleKeyboard() {
 	if (keyCode[DIK_LEFT] && keyCode[DIK_RIGHT]) {
 		player->ChangeAnimation(new PlayerUpwardState());
 	}
-	/*else if (keyCode[DIK_LEFT] || keyCode[DIK_RIGHT]) {
+	else if (keyCode[DIK_LEFT] || keyCode[DIK_RIGHT]) {
 		player->ChangeAnimation(new PlayerUpwardMovingState());
-	}*/
+	}
 }

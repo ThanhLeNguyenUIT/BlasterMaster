@@ -28,7 +28,7 @@ void Map::Render()
 	r.right = 0;
 	r.bottom = 0;
 	//if (IsCollision(cam->GetBound(), r)) // if title rect touch the Camera rect then do not draw 
-	sprite->Draw(0,0);
+	sprite->Draw(r.left, r.top);
 
 
 }

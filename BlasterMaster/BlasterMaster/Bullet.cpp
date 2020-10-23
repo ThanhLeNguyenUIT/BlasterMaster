@@ -9,22 +9,35 @@ void Bullet::GetBoundingBox(float& left, float& top, float& right, float& bottom
 	bottom = y + BULLET_SMALL_BBOX_HEIGHT;
 }
 
+void Bullet::ChangeAnimation(STATEOBJECT StateObject) {
+	this->StateObject = StateObject;
+	AnimationSets* animation_sets = AnimationSets::GetInstance();
+	LPANIMATION_SET animationSet = animation_sets->Get(typeBullet);
+	CurAnimation = animationSet->Get(this->StateObject);
+	switch (this->StateObject)
+	{
+	case BULLET_SMALL_MOVING_RIGHT:
+		vx = BULLET_MOVING_SPEED;
+		break;
+	case BULLET_SMALL_MOVING_LEFT:
+		vx = -BULLET_MOVING_SPEED;
+		break;
+	case BULLET_SMALL_MOVING_UP:
+		vy = -BULLET_MOVING_SPEED;
+		break;
+	case BULLET_SMALL_HIT:
+		vx = 0;
+		vy = 0;
+		break;
+	default:
+		break;
+	}
+}
+
 void Bullet::Render() {
-	int ani;
-	if (state == BULLET_STATE_MOVING_RIGHT) {
-		ani = SOPHIA_BULLET_SMALL_ANI_RIGHT;
-	}
-	else if (state == BULLET_STATE_MOVING_LEFT) {
-		ani = SOPHIA_BULLET_SMALL_ANI_LEFT;
-	}
-	else if (state == BULLET_STATE_MOVING_UP) {
-		ani = SOPHIA_BULLET_SMALL_ANI_UP;
-	}
-	else if (state == BULLET_STATE_HIT) {
-		ani = SOPHIA_BULLET_ANI_HIT;
-	}
-	animation_set->at(ani)->Render(x, y);
-	//RenderBoundingBox();
+	int alpha = 255;
+	CurAnimation->Render(x, y, alpha);
+	RenderBoundingBox();
 }
 
 void Bullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
@@ -32,12 +45,8 @@ void Bullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEvents.clear();
-	//x += dx;
-
-	// turn off collision when bullet hit 
-	if (state != BULLET_STATE_HIT) {
-		CalcPotentialCollisions(coObjects, coEvents);
-	}
+	
+	CalcPotentialCollisions(coObjects, coEvents);
 
 	if (coEvents.size() == 0)
 	{
@@ -53,7 +62,7 @@ void Bullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
 		y += min_ty * dy + ny * 0.4f;
 
-		if (nx != 0) state = BULLET_STATE_HIT;
+		if (nx != 0) StateObject = BULLET_SMALL_HIT;
 		if (ny != 0) vy = 0;
 		
 		// Collision logic with Goombas
@@ -79,21 +88,3 @@ void Bullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	}
 }
 
-void Bullet::SetState(int state) {
-	GameObject::SetState(state);
-	switch (state) {
-	case BULLET_STATE_MOVING_RIGHT:
-		vx = BULLET_MOVING_SPEED;
-		break;
-	case BULLET_STATE_MOVING_LEFT:
-		vx = -BULLET_MOVING_SPEED;
-		break;
-	case BULLET_STATE_MOVING_UP:
-		vy = -BULLET_MOVING_SPEED;
-		break;
-	case BULLET_STATE_HIT:
-		vx = 0;
-		vy = 0;
-		break;
-	}
-}

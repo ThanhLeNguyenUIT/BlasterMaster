@@ -2,6 +2,7 @@
 #include "PlayerJumpingMovingState.h"
 #include "PlayerMovingState.h"
 #include "PlayerFallingState.h"
+#include "PlayerFallingMovingState.h"
 #include "PlayerUpwardJumpingState.h"
 
 PlayerJumpingState::PlayerJumpingState() {
@@ -26,7 +27,7 @@ PlayerJumpingState::~PlayerJumpingState() {
 
 void PlayerJumpingState::Update() {
 	if (player->vy > 0) {
-		player->ChangeAnimation(new PlayerFallingState());
+		player->ChangeAnimation(new PlayerFallingState(), BACK_TO_NORMAL);
 		return;
 	}
 	this->HandleKeyboard();
@@ -35,14 +36,14 @@ void PlayerJumpingState::Update() {
 void PlayerJumpingState::HandleKeyboard() {
 	if (keyCode[DIK_RIGHT]) {
 		player->nx = 1;
-		player->ChangeAnimation(new PlayerJumpingMovingState());
+		player->ChangeAnimation(new PlayerJumpingMovingState(), BACK_TO_NORMAL);
 	}
 	else if (keyCode[DIK_LEFT]) {
 		player->nx = -1;
-		player->ChangeAnimation(new PlayerJumpingMovingState());
+		player->ChangeAnimation(new PlayerJumpingMovingState(), BACK_TO_NORMAL);
 	}
-	/*else if (keyCode[DIK_UP]) {
-		player->ChangeAnimation(new PlayerUpwardJumpingState());
-	}*/
+	else if (keyCode[DIK_UP]) {
+		player->ChangeAnimation(new PlayerUpwardJumpingState(), BACK_TO_NORMAL);
+	}
 }
 

@@ -14,10 +14,9 @@
 
 class PlayScene : public Scene {
 protected:
-	Bullet* bullet;
 	Sophia* sophia;
+	Bullet* bullet;
 	vector<LPGAMEOBJECT> listObjects;
-	vector<LPBULLET> listBullets;
 	Camera* gameCamera;
 	//Sophia* sophia;
 	void _ParseSection_TEXTURES(string line);
@@ -42,8 +41,7 @@ public:
 	//friend class PlaySceneKeyHandler;
 };
 
-class PlaySceneKeyHandler : public SceneKeyHandler
-{
+class PlaySceneKeyHandler : public SceneKeyHandler{
 public:
 	virtual void KeyState(BYTE* states);
 	virtual void OnKeyDown(int KeyCode);

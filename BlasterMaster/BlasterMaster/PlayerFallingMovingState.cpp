@@ -5,6 +5,7 @@
 #include "PlayerFallingMovingState.h"
 
 PlayerFallingMovingState::PlayerFallingMovingState() {
+	player->renderOneFrame = false;
 
 	if (!player->IsJumping) {
 		player->vy = -SOPHIA_JUMPING_SPEED_Y;

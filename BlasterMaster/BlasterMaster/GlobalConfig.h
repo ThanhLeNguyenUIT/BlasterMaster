@@ -40,7 +40,11 @@ using namespace std;
 #define SOPHIA_UP_BBOX_HEIGHT 34
 //CAR ANIMATIONS ID //
 
-
+// STATE CHANGE
+#define STAND			0
+#define STAND_TO_MOVE	1
+#define MOVE_TO_STAND	2
+#define BACK_TO_NORMAL	3
 
 //// SCREEN /////
 #define SCREEN_WIDTH 320
@@ -49,7 +53,7 @@ using namespace std;
 #define TITLE_WIDTH 32
 #define TITLE_HEIGHT 32
 
-
+#define BIT 16
 /// variable ///
 extern std::unordered_map<int, bool> keyCode;	// manage info keycode have been pressed or not
 #define GAME Game::GetInstance()
@@ -69,25 +73,48 @@ extern enum STATENAME {
 	JUMPING_MOVING_LEFT,
 	FALLING_MOVING_RIGHT,
 	FALLING_MOVING_LEFT,
-	UPWARD_RIGHT,
-	UPWARD_LEFT,
+	UPWARD_RIGHT_0,
 	UPWARD_RIGHT_1,
 	UPWARD_RIGHT_2,
 	UPWARD_RIGHT_3,
+	UPWARD_LEFT_0,
 	UPWARD_LEFT_1,
 	UPWARD_LEFT_2,
 	UPWARD_LEFT_3,
-	UPWARD_LEFT_4,
+	UPWARD_MOVING_RIGHT,
+	UPWARD_MOVING_LEFT,
 	DEAD
+};
+
+extern enum STATEOBJECT {
+	BULLET_SMALL_MOVING_RIGHT,
+	BULLET_SMALL_MOVING_LEFT,
+	BULLET_SMALL_MOVING_UP,
+	BULLET_SMALL_HIT,
+	BULLET_BIG_MOVING_RIGHT,
+	BULLET_BIG_MOVING_LEFT,
+	BULLET_BIG_MOVING_UP,
+	BULLET_BIG_HIT,
+	BULLET_ELECTRIC,
+	BRICK_NORMAL
+};
+
+extern enum TYPE {
+	PLAYER,
+	SOPHIA,
+	JASON,
+	BULLET_SMALL,
+	BULLET_BIG,
+	BRICK
 };
 
 extern enum  TAG
 {
-	PLAYER,
+	/*PLAYER,
 	ENEMY ,
 	BOX ,
 	ITEM ,
-	EFFECT 
+	EFFECT */
 };
 
 //extern std::unordered_map<std::string, TYPE>   TYPEString;

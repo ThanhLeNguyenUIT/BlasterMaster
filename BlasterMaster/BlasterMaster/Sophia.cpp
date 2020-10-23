@@ -9,17 +9,20 @@
 //#include "PlayerDeadState.h"
 #include "PlayerJumpingState.h"
 #include "PlayerJumpingMovingState.h"
-//#include "PlayerUpwardJumpingState.h"
-//#include "PlayerUpwardJumpingMovingState.h"
+#include "PlayerUpwardState.h"
+#include "PlayerUpwardJumpingState.h"
+#include "PlayerUpwardJumpingMovingState.h"
 #include "PlayerMovingState.h"
 #include "PlayerStandingState.h"
+
+#include "BulletMovingState.h"
 
 Sophia* Sophia::_instance = NULL;
 
 Sophia::Sophia() :GameObject() {
-	IsStop = true;
-	//ChangeAnimation(new PlayerStandingState());
-	tag = PLAYER;
+	IsUp = false;
+	IsJumping = false;
+	playerType = SOPHIA;
 }
 
 Sophia::~Sophia() {
@@ -27,7 +30,6 @@ Sophia::~Sophia() {
 }
 
 void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
-
 	// Calculate dx, dy 
 	GameObject::Update(dt);
 
@@ -35,7 +37,7 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 
 	vy += SOPHIA_GRAVITY * dt;
 
-	state->Update();
+	state->Update(); 
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -46,7 +48,7 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 		bullets[i]->Update(dt, coObjects);
 	}
 	for (int i = 0; i < bullets.size(); i++) {
-		if (bullets[i]->GetState() == BULLET_STATE_HIT) {
+		if (bullets[i]->GetStateObject() == BULLET_SMALL_HIT) {
 			bullets.erase(bullets.begin() + i);
 		}
 	}
@@ -85,70 +87,50 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 			IsJumping = true;
 		}
 
-		// Collision logic with Goombas
-		//for (UINT i = 0; i < coEventsResult.size(); i++)
-		//{
-		//	LPCOLLISIONEVENT e = coEventsResult[i];
+		// Collision logic with Enemies
 
-		//	if (dynamic_cast<Goomba*>(e->obj)) // if e->obj is Goomba 
-		//	{
-		//		Goomba* goomba = dynamic_cast<Goomba*>(e->obj);
-
-		//		// jump on top >> kill Goomba and deflect a bit 
-		//		if (e->ny < 0)
-		//		{
-		//			if (goomba->GetState() != GOOMBA_STATE_DIE)
-		//			{
-		//				goomba->SetState(GOOMBA_STATE_DIE);
-		//				/*vy = -Sophia_JUMP_DEFLECT_SPEED;*/
-		//			}
-		//		}
-		//		/*else if (e->nx != 0)
-		//		{
-		//			SetState(Sophia_STATE_DIE);
-		//		}*/
-		//	}
-		//}
 	}
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
 }
 
-void Sophia::ChangeAnimation(PlayerState* newState, int stateId) {
+void Sophia::ChangeAnimation(PlayerState* newState, int stateChange) {
 	delete state;
-	//AnimationSets* animation_sets = AnimationSets::GetInstance();
-	/*if (stateId == 1) {
-		renderOneFrame = false;
+
+	if (stateChange == STAND_TO_MOVE) {
 		idFrame = CurAnimation->currentFrame * 2;
 	}
-	else if (stateId == 2) {
-		renderOneFrame = true;
-		if (CurAnimation->currentFrame == 0 || CurAnimation->currentFrame == 7) {
+	if (stateChange == MOVE_TO_STAND) {
+		//DebugOut(L"frame %d", CurAnimation->currentFrame);
+		if (CurAnimation->currentFrame == 0 || CurAnimation->currentFrame == 4) {
 			idFrame = 0;
 		}
-		else if (CurAnimation->currentFrame == 1 || CurAnimation->currentFrame == 2) {
+		else if (CurAnimation->currentFrame == 1 || CurAnimation->currentFrame == 5) {
 			idFrame = 1;
 		}
-		else if (CurAnimation->currentFrame == 3 || CurAnimation->currentFrame == 4) {
+		else if (CurAnimation->currentFrame == 2 || CurAnimation->currentFrame == 6) {
 			idFrame = 2;
 		}
-		else if (CurAnimation->currentFrame == 5 || CurAnimation->currentFrame == 6) {
+		else if (CurAnimation->currentFrame == 3 || CurAnimation->currentFrame == 7) {
 			idFrame = 3;
 		}
 	}
-	else if (stateId == 3) {
+	if (stateChange == BACK_TO_NORMAL) {
 		idFrame = CurAnimation->currentFrame;
-	}*/
+	}
 
+	AnimationSets* animation_sets = AnimationSets::GetInstance();
 	state = newState;
-	
-	//CurAnimationSet = animation_sets->Get(SOPHIA_ANIMATIONS_SET);
+	LPANIMATION_SET animationSet = animation_sets->Get(playerType);
+	CurAnimation = animationSet->Get(newState->StateName);
 }
 
 void Sophia::Render() {
 	int alpha = 255;
-	animation_set->at(state->StateName)->Render(x, y, alpha);
+
+	CurAnimation->Render(x, y, alpha, idFrame, renderOneFrame);
+
 	RenderBoundingBox();
 
 	for (int i = 0; i < bullets.size(); i++) {
@@ -156,31 +138,23 @@ void Sophia::Render() {
 	}
 }
 
-void Sophia::AddBullet() {
+void Sophia::Fire() {
 	bullet = new Bullet();
-	AnimationSets* animation_sets = AnimationSets::GetInstance();
-	LPANIMATION_SET ani_set = animation_sets->Get(SOPHIA_BULLET_ANIMATION_SET);
+	bullet->typeBullet = BULLET_SMALL;
 	if (!IsUp) {
 		if (nx > 0) {
-
-			bullet->animation_set = ani_set;
-			bullet->animation_set->at(SOPHIA_BULLET_SMALL_ANI_RIGHT);
 			bullet->SetPosition(x + SOPHIA_BBOX_WIDTH, y + 7 / SOPHIA_BBOX_HEIGHT);
-			bullet->SetState(BULLET_STATE_MOVING_RIGHT);
+			bullet->ChangeAnimation(BULLET_SMALL_MOVING_RIGHT);
 		}
 		else {
-			bullet->animation_set = ani_set;
-			bullet->animation_set->at(SOPHIA_BULLET_SMALL_ANI_LEFT);
 			bullet->SetPosition(x, y + 7 / SOPHIA_BBOX_HEIGHT);
-			bullet->SetState(BULLET_STATE_MOVING_LEFT);
+			bullet->ChangeAnimation(BULLET_SMALL_MOVING_LEFT);
 		}
 	}
 	else {
 		if (nx != 0) {
-			bullet->animation_set = ani_set;
-			bullet->animation_set->at(SOPHIA_BULLET_SMALL_ANI_UP);
 			bullet->SetPosition(x + SOPHIA_BBOX_WIDTH / 3, y);
-			bullet->SetState(BULLET_STATE_MOVING_UP);
+			bullet->ChangeAnimation(BULLET_SMALL_MOVING_UP);
 		}
 	}
 
@@ -197,7 +171,7 @@ void Sophia::DeleteBullet() {
 		else if (bullets[i]->GetY() <= y - 100.0f) {
 			bullets.erase(bullets.begin() + i);
 		}
-		else if (bullets[i]->GetState() == BULLET_STATE_HIT) {
+		else if (bullets[i]->GetStateObject() == BULLET_SMALL_HIT) {
 			bullets.erase(bullets.begin() + i);
 		}
 	}
@@ -247,11 +221,11 @@ void Sophia::OnKeyDown(int key) {
 				}
 				else
 				{
-					ChangeAnimation(new PlayerJumpingState());
+					ChangeAnimation(new PlayerJumpingState(), BACK_TO_NORMAL);
 				}
 			}
 		}
-		/*else {
+		else {
 			if (!IsJumping)
 			{
 				if ((keyCode[DIK_RIGHT]))
@@ -271,16 +245,15 @@ void Sophia::OnKeyDown(int key) {
 					ChangeAnimation(new PlayerUpwardJumpingState());
 				}
 			}
-		}*/
-		break;
-	case DIK_S:
-		IsFiring = true;
-		AddBullet();
-		DeleteBullet();
-		IsFiring = false;
+		}
 		break;
 	case DIK_A:
 		Reset();
+		break;
+	case DIK_S:
+		Fire();
+		DeleteBullet();
+		break;
 	}
 }
 
@@ -288,15 +261,23 @@ void Sophia::OnKeyUp(int key) {
 	switch (key) {
 	case DIK_UPARROW:
 		IsUp = false;
-		CurAnimationSet->at(state->StateName)->currentFrame = -1;
+		CurAnimation->currentFrame = -1;
 		y = y + (SOPHIA_UP_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
 		ChangeAnimation(new PlayerStandingState());
 		break;
+	case DIK_RIGHT:
+		if (IsUp) {
+			if (!IsJumping) {
+				ChangeAnimation(new PlayerUpwardState(), BACK_TO_NORMAL);
+				y = y + (SOPHIA_UP_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
+			}
+		}
 	}
 }
 
-void Sophia::Reset() {
-	SetPosition(start_x, start_y);
-	SetSpeed(0, 0);
+void Sophia::Reset(float x, float y) {
+	SetPosition(x,y);
 	ChangeAnimation(new PlayerStandingState());
+	SetSpeed(0, 0);
 }
+

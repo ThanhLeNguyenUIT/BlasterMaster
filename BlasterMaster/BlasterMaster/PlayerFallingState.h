@@ -1,6 +1,5 @@
 #pragma once
 #include "PlayerState.h"
-#include "Sophia.h"
 
 class PlayerFallingState : public PlayerState {
 public:

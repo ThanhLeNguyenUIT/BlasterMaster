@@ -27,9 +27,6 @@ void Game::Init(HWND hWnd)
 	d3dpp.BackBufferHeight = r.bottom + 1;
 	d3dpp.BackBufferWidth = r.right + 1;
 
-	screen_height = r.bottom + 1;
-	screen_width = r.right + 1;
-
 	d3d->CreateDevice(
 		D3DADAPTER_DEFAULT,
 		D3DDEVTYPE_HAL,
@@ -78,16 +75,16 @@ int Game::IsKeyUp(int KeyCode)
 void Game::InitKeyboard()
 {
 	HRESULT hr = DirectInput8Create(
-			(HINSTANCE)GetWindowLong(hWnd, GWLP_HINSTANCE),
-			DIRECTINPUT_VERSION,
-			IID_IDirectInput8, (VOID**)&di, NULL);
+		(HINSTANCE)GetWindowLong(hWnd, GWLP_HINSTANCE),
+		DIRECTINPUT_VERSION,
+		IID_IDirectInput8, (VOID**)&di, NULL);
 
 	if (hr != DI_OK)
 	{
 		DebugOut(L"[ERROR] DirectInput8Create failed!\n");
 		return;
 	}
-	DebugOut(L"Init key\n");
+
 	hr = di->CreateDevice(GUID_SysKeyboard, &didv, NULL);
 
 	// TO-DO: put in exception handling
@@ -123,6 +120,7 @@ void Game::InitKeyboard()
 		return;
 	}
 
+
 	DebugOut(L"[INFO] Keyboard has been initialized successfully\n");
 }
 
@@ -151,7 +149,7 @@ void Game::ProcessKeyboard()
 		}
 	}
 
-		keyHandler->KeyState((BYTE*)&keyStates);
+	keyHandler->KeyState((BYTE*)&keyStates);
 
 
 
@@ -183,6 +181,7 @@ Game::~Game()
 	if (d3ddv != NULL) d3ddv->Release();
 	if (d3d != NULL) d3d->Release();
 }
+
 
 /*
 	SweptAABB

@@ -33,6 +33,9 @@
     <Filter Include="Source Files\GameObjects\Item">
       <UniqueIdentifier>{fe2f76af-2a6a-4516-a0f9-ecbd6a170885}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GameObjects\Bullet">
+      <UniqueIdentifier>{0c2f1440-0214-455c-98be-f8f3f6f58655}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Textures\bbox.png">
@@ -94,9 +97,6 @@
     <ClCompile Include="GlobalConfig.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>Source Files\GameObjects\Item</Filter>
-    </ClCompile>
     <ClCompile Include="Goomba.cpp">
       <Filter>Source Files\GameObjects\Enemy</Filter>
     </ClCompile>
@@ -133,11 +133,14 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\GameComponents</Filter>
     </ClCompile>
-    <ClCompile Include="KeyboardHandler.h">
-      <Filter>Source Files\GameComponents</Filter>
-    </ClCompile>
     <ClCompile Include="Sophia.cpp">
       <Filter>Source Files\GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Source Files\GameObjects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletMovingState.cpp">
+      <Filter>Source Files\GameObjects\Bullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -180,9 +183,6 @@
     <ClInclude Include="GlobalConfig.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>Source Files\GameObjects\Item</Filter>
-    </ClInclude>
     <ClInclude Include="Goomba.h">
       <Filter>Source Files\GameObjects\Enemy</Filter>
     </ClInclude>
@@ -221,6 +221,15 @@
     </ClInclude>
     <ClInclude Include="Sophia.h">
       <Filter>Source Files\GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyEventHandler.h">
+      <Filter>Source Files\GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Source Files\GameObjects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletMovingState.h">
+      <Filter>Source Files\GameObjects\Bullet</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -16,17 +16,14 @@ class Sophia : public GameObject
 {
 	Bullet* bullet;
 	vector<Bullet*> bullets;
-
 	float start_x;			// initial position of Mario at scene
 	float start_y;
-
-private:
 public:
 	static Sophia* _instance;
 	int stateBoundingBox;
 	PlayerState* state;
-	AnimationSet* CurAnimationSet;
-
+	Animation* CurAnimation;
+	TYPE playerType;
 	std::unordered_map<STATENAME, bool> allow;
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
@@ -45,11 +42,12 @@ public:
 
 	Sophia();
 	~Sophia();
-	void ChangeAnimation(PlayerState* state, int stateId = 0);
+	void SetPlayerType(TYPE playerType) { this->playerType = playerType; }
+	void ChangeAnimation(PlayerState* state, int stateChange = 0);
 	static Sophia* GetInstance();
-	void Reset();
-	void AddBullet();
+	void Fire();
 	void DeleteBullet();
+	void Reset(float x = 48, float y = 96);
 	void OnKeyUp(int key);
 	void OnKeyDown(int key);
 };

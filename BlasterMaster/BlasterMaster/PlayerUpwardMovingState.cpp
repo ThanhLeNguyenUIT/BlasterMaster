@@ -34,10 +34,10 @@ void PlayerUpwardMovingState::HandleKeyboard() {
 	}
 	else if (keyCode[DIK_RIGHT]) {
 		player->nx = 1;
-		player->ChangeAnimation(new PlayerUpwardMovingState());
+		player->ChangeAnimation(new PlayerUpwardMovingState(), UPWARD_TO_NORMAL);
 	}
 	else if (keyCode[DIK_LEFT]) {
 		player->nx = -1;
-		player->ChangeAnimation(new PlayerUpwardMovingState());
+		player->ChangeAnimation(new PlayerUpwardMovingState(), UPWARD_TO_NORMAL);
 	}
 }

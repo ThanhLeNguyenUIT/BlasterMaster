@@ -8,15 +8,18 @@
 #include "Camera.h"
 #include "Sophia.h"
 #include "Bullet.h"
+#include "Portal.h"
 
 #include "GlobalConfig.h"
 
+using namespace std;
 
 class PlayScene : public Scene {
 protected:
 	Sophia* sophia;
 	Bullet* bullet;
 	vector<LPGAMEOBJECT> listObjects;
+	vector<Portal*>Portals;
 	Camera* gameCamera;
 	//Sophia* sophia;
 	void _ParseSection_TEXTURES(string line);
@@ -35,7 +38,7 @@ public:
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();
-
+	void ChangeScene(int id_scene);
 	Sophia* GetPlayer() { return sophia; }
 
 	//friend class PlaySceneKeyHandler;

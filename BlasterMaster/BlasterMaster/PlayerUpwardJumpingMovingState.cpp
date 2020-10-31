@@ -28,7 +28,7 @@ PlayerUpwardJumpingMovingState::~PlayerUpwardJumpingMovingState() {
 
 void PlayerUpwardJumpingMovingState::Update() {
 	if (!player->IsJumping) {
-		player->ChangeAnimation(new PlayerUpwardState(), BACK_TO_NORMAL);
+		player->ChangeAnimation(new PlayerUpwardState(), NORMAL);
 		player->y = player->y + (SOPHIA_UP_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
 		return;
 	}

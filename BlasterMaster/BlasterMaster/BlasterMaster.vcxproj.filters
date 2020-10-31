@@ -33,7 +33,10 @@
     <Filter Include="Source Files\GameObjects\Item">
       <UniqueIdentifier>{fe2f76af-2a6a-4516-a0f9-ecbd6a170885}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GameObjects\Bullet">
+    <Filter Include="Source Files\GameObjects\Item\Brick">
+      <UniqueIdentifier>{d0d22bd2-987a-448f-ac8f-01bbbecc20b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameObjects\Item\Bullet">
       <UniqueIdentifier>{0c2f1440-0214-455c-98be-f8f3f6f58655}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -100,9 +103,6 @@
     <ClCompile Include="Goomba.cpp">
       <Filter>Source Files\GameObjects\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Brick.cpp">
-      <Filter>Source Files\GameObjects\Item</Filter>
-    </ClCompile>
     <ClCompile Include="Animations.cpp">
       <Filter>Source Files\GameComponents\Images</Filter>
     </ClCompile>
@@ -137,10 +137,22 @@
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
-      <Filter>Source Files\GameObjects\Bullet</Filter>
+      <Filter>Source Files\GameObjects\Item\Bullet</Filter>
     </ClCompile>
     <ClCompile Include="BulletMovingState.cpp">
-      <Filter>Source Files\GameObjects\Bullet</Filter>
+      <Filter>Source Files\GameObjects\Item\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Brick.cpp">
+      <Filter>Source Files\GameObjects\Item\Brick</Filter>
+    </ClCompile>
+    <ClCompile Include="Portal.cpp">
+      <Filter>Source Files\GameObjects\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerTurningState.cpp">
+      <Filter>Source Files\GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerOpenState.cpp">
+      <Filter>Source Files\GameObjects\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -186,9 +198,6 @@
     <ClInclude Include="Goomba.h">
       <Filter>Source Files\GameObjects\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Brick.h">
-      <Filter>Source Files\GameObjects\Item</Filter>
-    </ClInclude>
     <ClInclude Include="Animations.h">
       <Filter>Source Files\GameComponents\Images</Filter>
     </ClInclude>
@@ -226,10 +235,22 @@
       <Filter>Source Files\GameComponents</Filter>
     </ClInclude>
     <ClInclude Include="Bullet.h">
-      <Filter>Source Files\GameObjects\Bullet</Filter>
+      <Filter>Source Files\GameObjects\Item\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="BulletMovingState.h">
-      <Filter>Source Files\GameObjects\Bullet</Filter>
+      <Filter>Source Files\GameObjects\Item\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Brick.h">
+      <Filter>Source Files\GameObjects\Item\Brick</Filter>
+    </ClInclude>
+    <ClInclude Include="Portal.h">
+      <Filter>Source Files\GameObjects\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerTurningState.h">
+      <Filter>Source Files\GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerOpenState.h">
+      <Filter>Source Files\GameObjects\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

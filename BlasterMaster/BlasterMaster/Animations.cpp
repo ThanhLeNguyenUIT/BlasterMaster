@@ -36,14 +36,60 @@ void Animation::Render(float x, float y, int alpha, int idFrame, bool renderOneF
 			if (now - lastFrameTime > t)
 			{
 				currentFrame++;
+				if(currentFrame == frames.size()-1)
+					isLastFrame = true;
 				lastFrameTime = now;
-				if (currentFrame == frames.size()) currentFrame = 0;
+				if (currentFrame == frames.size()) {
+					currentFrame = 0;
+				}
+			}
+			else
+			{
+				//isLastFrame = false;
+				t += now - lastFrameTime;
 			}
 		}
 	}
 	else {
+		if (idFrame >= frames.size() || idFrame == -1) idFrame = 0;
 		currentFrame = idFrame;
 	}
+	frames[currentFrame]->GetSprite()->Draw(x, y, alpha);
+}
+
+void Animation::RenderBack(float x, float y, int alpha, int idFrame, bool renderOneFrame, bool rev) {
+	DWORD now = GetTickCount();
+	if (!renderOneFrame) {
+		if (currentFrame <= -1)
+		{
+			currentFrame = frames.size()-1;
+			lastFrameTime = now;
+		}
+		else
+		{
+			DWORD t = frames[currentFrame]->GetTime();
+			if (now - lastFrameTime > t)
+			{
+				currentFrame--;
+				lastFrameTime = now;
+				if (currentFrame == 0) {
+					isLastFrame = true;
+				}
+				if (currentFrame <= -1) {
+					currentFrame = frames.size()-1;
+				}
+			}
+			else
+			{
+				isLastFrame = false;
+				t += now - lastFrameTime;
+			}
+		}
+	}
+	/*else {
+		if (idFrame >= frames.size() || idFrame == -1) idFrame = 0;
+		currentFrame = idFrame;
+	}*/
 	frames[currentFrame]->GetSprite()->Draw(x, y, alpha);
 }
 

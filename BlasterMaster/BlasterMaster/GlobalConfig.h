@@ -41,12 +41,16 @@ using namespace std;
 //CAR ANIMATIONS ID //
 
 // STATE CHANGE
-#define STAND			0
-#define STAND_TO_MOVE	1
-#define MOVE_TO_STAND	2
-#define BACK_TO_NORMAL	3
+#define STAND_TO_MOVE		1
+#define MOVE_TO_NORMAL		2
+#define NORMAL				3
+#define UPWARD_TO_NORMAL	4
+#define TURN_TO_NORMAL		5
 
 //// SCREEN /////
+//#define SCREEN_WIDTH 320
+//#define SCREEN_HEIGHT 240
+
 #define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 240
 
@@ -83,7 +87,16 @@ extern enum STATENAME {
 	UPWARD_LEFT_3,
 	UPWARD_MOVING_RIGHT,
 	UPWARD_MOVING_LEFT,
-	DEAD
+	TURN_0,
+	TURN_1,
+	TURN_2,
+	TURN_3,
+	JUMPING_TURN_0,
+	JUMPING_TURN_1,
+	JUMPING_TURN_2,
+	JUMPING_TURN_3,
+	DEAD,
+	OPEN
 };
 
 extern enum STATEOBJECT {

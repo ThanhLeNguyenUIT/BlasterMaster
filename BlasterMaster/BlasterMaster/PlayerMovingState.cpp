@@ -29,23 +29,18 @@ void PlayerMovingState::HandleKeyboard() {
 	if (keyCode[DIK_RIGHT] && keyCode[DIK_LEFT]) {
 		player->ChangeAnimation(new PlayerStandingState());
 	}
-	/*else if (keyCode[DIK_UP] && keyCode[DIK_RIGHT]) {
-		player->nx = 1;
-		player->ChangeAnimation(new PlayerUpwardState());
+	else if (keyCode[DIK_UP]) {
+		player->ChangeAnimation(new PlayerUpwardState(), NORMAL);
 	}
-	else if (keyCode[DIK_UP] && keyCode[DIK_LEFT]) {
-		player->nx = -1;
-		player->ChangeAnimation(new PlayerUpwardState());
-	}*/
 	else if (keyCode[DIK_RIGHT]) {
 		player->nx = 1;
-		player->ChangeAnimation(new PlayerMovingState());
+		player->ChangeAnimation(new PlayerMovingState(), NORMAL);
 	}
 	else if (keyCode[DIK_LEFT]) {
 		player->nx = -1;
-		player->ChangeAnimation(new PlayerMovingState());
+		player->ChangeAnimation(new PlayerMovingState(), NORMAL);
 	}
 	else {
-		player->ChangeAnimation(new PlayerStandingState(), MOVE_TO_STAND);
+		player->ChangeAnimation(new PlayerStandingState(), MOVE_TO_NORMAL);
 	}
 }

@@ -30,10 +30,10 @@ void PlayerUpwardJumpingState::Update() {
 void PlayerUpwardJumpingState::HandleKeyboard() {
 	if (keyCode[DIK_RIGHT]) {
 		player->nx = 1;
-		player->ChangeAnimation(new PlayerUpwardJumpingMovingState(), BACK_TO_NORMAL);
+		player->ChangeAnimation(new PlayerUpwardJumpingMovingState(), NORMAL);
 	}
 	else if (keyCode[DIK_LEFT]) {
 		player->nx = -1;
-		player->ChangeAnimation(new PlayerUpwardJumpingMovingState(), BACK_TO_NORMAL);
+		player->ChangeAnimation(new PlayerUpwardJumpingMovingState(), NORMAL);
 	}
 }

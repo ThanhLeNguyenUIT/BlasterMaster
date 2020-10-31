@@ -3,6 +3,8 @@
 
 #include "Sophia.h"
 #include "Game.h"
+#include "Portal.h"
+#include "Camera.h"
 
 #include "PlayerState.h"
 #include "PlayerFallingState.h"
@@ -72,37 +74,84 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 		// block 
 
+		x += min_tx * dx + nx * 0.1f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+		y += min_ty * dy + ny * 0.3f;
 
-		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-		y += min_ty * dy + ny * 0.4f;
-
-		if (nx != 0) vx = 0;
+		if (!IsJumping) {
+			if (nx != 0) vx = 0;
+		}
+		else if (nx != 0) {
+			if (nx == -1)
+				vx = SOPHIA_MOVING_SPEED;
+			else
+				vx = -SOPHIA_MOVING_SPEED;
+		}
+		
 		if (ny == -1) {
 			vy = 0;
 			IsJumping = false;
 		}
 		if (ny == 1)
 		{
-			y += dy;
-			IsJumping = true;
+			vy = 0;
+			if (!IsUp)
+				ChangeAnimation(new PlayerFallingState());
 		}
 
 		// Collision logic with Enemies
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
 
+			//if (dynamic_cast<CGoomba*>(e->obj)) // if e->obj is Goomba 
+			//{
+			//	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+
+			//	// jump on top >> kill Goomba and deflect a bit 
+			//	if (e->ny < 0)
+			//	{
+			//		if (goomba->GetState() != GOOMBA_STATE_DIE)
+			//		{
+			//			goomba->SetState(GOOMBA_STATE_DIE);
+			//			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			//		}
+			//	}
+			//	else if (e->nx != 0)
+			//	{
+			//		if (untouchable == 0)
+			//		{
+			//			if (goomba->GetState() != GOOMBA_STATE_DIE)
+			//			{
+			//				if (level > MARIO_LEVEL_SMALL)
+			//				{
+			//					level = MARIO_LEVEL_SMALL;
+			//					StartUntouchable();
+			//				}
+			//				else
+			//					SetState(MARIO_STATE_DIE);
+			//			}
+			//		}
+			//	}
+			//} // if Goomba
+			if (dynamic_cast<Portal*>(e->obj))
+			{
+				if (e->nx != 0) x += dx;
+				Portal* p = dynamic_cast<Portal*>(e->obj);
+				IsTouchPortal = true;
+				scene_id = p->scene_id;
+			}
+		}
 	}
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
 }
 
-void Sophia::ChangeAnimation(PlayerState* newState, int stateChange) {
-	delete state;
-
+void Sophia::CheckState(int stateChange) {
 	if (stateChange == STAND_TO_MOVE) {
 		idFrame = CurAnimation->currentFrame * 2;
 	}
-	if (stateChange == MOVE_TO_STAND) {
-		//DebugOut(L"frame %d", CurAnimation->currentFrame);
+	if (stateChange == MOVE_TO_NORMAL) {
 		if (CurAnimation->currentFrame == 0 || CurAnimation->currentFrame == 4) {
 			idFrame = 0;
 		}
@@ -116,20 +165,47 @@ void Sophia::ChangeAnimation(PlayerState* newState, int stateChange) {
 			idFrame = 3;
 		}
 	}
-	if (stateChange == BACK_TO_NORMAL) {
+	if (stateChange == NORMAL) {
 		idFrame = CurAnimation->currentFrame;
 	}
+	if (stateChange == UPWARD_TO_NORMAL) {
+		
+	}
+	/*if (stateChange == TURN_TO_NORMAL) {
+		if (nx > 0) {
+			for (int i = 0; i < 4; i++) {
+				if (state->StateName == static_cast<STATENAME>(i + 22))
+					idFrame = i;
+			}
+		}
+		else {
+			for (int i = 3; i >= 0; i--) {
+				if (state->StateName == static_cast<STATENAME>(25-i))
+					idFrame = i;
+			}
+		}
+	}*/
+}
 
+void Sophia::ChangeAnimation(PlayerState* newState, int stateChange) {
+	delete state;
 	AnimationSets* animation_sets = AnimationSets::GetInstance();
 	state = newState;
+	CheckState(stateChange);
 	LPANIMATION_SET animationSet = animation_sets->Get(playerType);
 	CurAnimation = animationSet->Get(newState->StateName);
 }
 
 void Sophia::Render() {
 	int alpha = 255;
-
-	CurAnimation->Render(x, y, alpha, idFrame, renderOneFrame);
+	if (!IsTouchPortal) {
+		if (!IsRenderBack) {
+			CurAnimation->Render(x, y, alpha, idFrame, renderOneFrame);
+		}
+		else {
+			CurAnimation->RenderBack(x, y, alpha, idFrame, renderOneFrame);
+		}
+	}
 
 	RenderBoundingBox();
 
@@ -221,7 +297,7 @@ void Sophia::OnKeyDown(int key) {
 				}
 				else
 				{
-					ChangeAnimation(new PlayerJumpingState(), BACK_TO_NORMAL);
+					ChangeAnimation(new PlayerJumpingState(), NORMAL);
 				}
 			}
 		}
@@ -232,17 +308,17 @@ void Sophia::OnKeyDown(int key) {
 				{
 					vx = SOPHIA_MOVING_SPEED;
 					nx = 1;
-					ChangeAnimation(new PlayerUpwardJumpingMovingState());
+					ChangeAnimation(new PlayerUpwardJumpingMovingState(), UPWARD_TO_NORMAL);
 				}
 				else if ((keyCode[DIK_LEFT]))
 				{
 					vx = -SOPHIA_MOVING_SPEED;
 					nx = -1;
-					ChangeAnimation(new PlayerUpwardJumpingMovingState());
+					ChangeAnimation(new PlayerUpwardJumpingMovingState(), UPWARD_TO_NORMAL);
 				}
 				else
 				{
-					ChangeAnimation(new PlayerUpwardJumpingState());
+					ChangeAnimation(new PlayerUpwardJumpingState(),UPWARD_TO_NORMAL);
 				}
 			}
 		}
@@ -254,28 +330,53 @@ void Sophia::OnKeyDown(int key) {
 		Fire();
 		DeleteBullet();
 		break;
+	case DIK_Q:
+		break;
 	}
 }
 
 void Sophia::OnKeyUp(int key) {
 	switch (key) {
-	case DIK_UPARROW:
+	case DIK_UP:
 		IsUp = false;
 		CurAnimation->currentFrame = -1;
-		y = y + (SOPHIA_UP_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
+		if (!player->IsJumping)
+			y = y + (SOPHIA_UP_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
+		if (nx > 0) {
+			for (int i = 0; i < 4; i++) {
+				if (state->StateName == static_cast<STATENAME>(i + 12))
+					idFrame = i;
+			}
+		}
+		else {
+			for (int i = 0; i < 4; i++) {
+				if (state->StateName == static_cast<STATENAME>(i + 16))
+					idFrame = i;
+			}
+		}
 		ChangeAnimation(new PlayerStandingState());
 		break;
 	case DIK_RIGHT:
 		if (IsUp) {
 			if (!IsJumping) {
-				ChangeAnimation(new PlayerUpwardState(), BACK_TO_NORMAL);
+				ChangeAnimation(new PlayerUpwardState(), NORMAL);
 				y = y + (SOPHIA_UP_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
 			}
 		}
+		break;
+	case DIK_LEFT:
+		if (IsUp) {
+			if (!IsJumping) {
+				ChangeAnimation(new PlayerUpwardState(), NORMAL);
+				y = y + (SOPHIA_UP_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
+			}
+		}
+		break;
 	}
 }
 
 void Sophia::Reset(float x, float y) {
+	nx = 1;
 	SetPosition(x,y);
 	ChangeAnimation(new PlayerStandingState());
 	SetSpeed(0, 0);

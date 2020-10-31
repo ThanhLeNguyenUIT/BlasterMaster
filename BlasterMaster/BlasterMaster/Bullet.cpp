@@ -63,7 +63,7 @@ void Bullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 		y += min_ty * dy + ny * 0.4f;
 
 		if (nx != 0) StateObject = BULLET_SMALL_HIT;
-		if (ny != 0) vy = 0;
+		if (ny != 0) StateObject = BULLET_SMALL_HIT;
 		
 		// Collision logic with Goombas
 		//for (UINT i = 0; i < coEventsResult.size(); i++)

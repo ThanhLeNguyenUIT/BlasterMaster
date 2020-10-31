@@ -27,7 +27,7 @@ PlayerJumpingState::~PlayerJumpingState() {
 
 void PlayerJumpingState::Update() {
 	if (player->vy > 0) {
-		player->ChangeAnimation(new PlayerFallingState(), BACK_TO_NORMAL);
+		player->ChangeAnimation(new PlayerFallingState(), NORMAL);
 		return;
 	}
 	this->HandleKeyboard();
@@ -36,14 +36,14 @@ void PlayerJumpingState::Update() {
 void PlayerJumpingState::HandleKeyboard() {
 	if (keyCode[DIK_RIGHT]) {
 		player->nx = 1;
-		player->ChangeAnimation(new PlayerJumpingMovingState(), BACK_TO_NORMAL);
+		player->ChangeAnimation(new PlayerJumpingMovingState(), NORMAL);
 	}
 	else if (keyCode[DIK_LEFT]) {
 		player->nx = -1;
-		player->ChangeAnimation(new PlayerJumpingMovingState(), BACK_TO_NORMAL);
+		player->ChangeAnimation(new PlayerJumpingMovingState(), NORMAL);
 	}
 	else if (keyCode[DIK_UP]) {
-		player->ChangeAnimation(new PlayerUpwardJumpingState(), BACK_TO_NORMAL);
+		player->ChangeAnimation(new PlayerUpwardJumpingState(), NORMAL);
 	}
 }
 

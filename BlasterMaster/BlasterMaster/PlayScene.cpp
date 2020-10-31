@@ -7,6 +7,7 @@
 #include "Sprites.h"
 #include "Map.h"
 #include "PlayerStandingState.h"
+#include "PlayerMovingState.h"
 #include "BulletMovingState.h"
 
 using namespace std;
@@ -22,6 +23,8 @@ PlayScene::PlayScene(int id, LPCWSTR filePath) :
 #define SCENE_SECTION_ANIMATIONS 4
 #define SCENE_SECTION_ANIMATION_SETS	5
 #define SCENE_SECTION_OBJECTS	6
+
+#define OBJECT_TYPE_PORTAL	50
 
 #define MAX_SCENE_LINE 1024
 
@@ -146,12 +149,12 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 	int id_state = atoi(tokens[3].c_str());
 	int width;
 	int height;
-	
+	x = x * BIT; // change value to 16 bit
+	y = y * BIT; // change value to 16 bit
 	// get width and height of brick
-	if (type == BRICK) {
-		width = (int)atoi(tokens[4].c_str()) * BIT;
-		height = (int)atoi(tokens[5].c_str()) * BIT;
-	}
+	/*if (type == BRICK) {
+		
+	}*/
 	// General object setup
 
 	GameObject* obj = NULL;
@@ -166,29 +169,39 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 		}
 		obj = player;
 		sophia = (Sophia*)obj;
-		x = x * BIT; // change value to 16 bit
-		y = y * BIT; // change value to 16 bit
+		
 		sophia->Reset(x, y);
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
 	case BRICK: 
-		x = x * BIT; // change value to 16 bit
-		y = y * BIT; // change value to 16 bit
+		width = (int)atoi(tokens[4].c_str()) * BIT;
+		height = (int)atoi(tokens[5].c_str()) * BIT;
 		obj = new Brick(width, height);
 		break;
+	case OBJECT_TYPE_PORTAL:
+	{
+		float r = atof(tokens[4].c_str()) *BIT;
+		float b = atof(tokens[5].c_str()) *BIT;
+		int scene_id = atoi(tokens[6].c_str());
+		Portal* portal = new Portal(x, y, r, b, scene_id);
+		Portals.push_back(portal);
+	}
+	break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
 	}
 	
+	if(type != OBJECT_TYPE_PORTAL)
 	obj->SetPosition(x, y);
-	if (type != PLAYER)
+	/*if (type != PLAYER)
 	{
 		int type_ani = atoi(tokens[0].c_str());
 		TYPE types = static_cast<TYPE>(type_ani);
 		LPANIMATION_SET ani_set = animation_sets->Get(types);
 		obj->SetAnimationSet(ani_set);
-	}
+	}*/
+	if (type != OBJECT_TYPE_PORTAL)
 	listObjects.push_back(obj);
 }
 
@@ -240,36 +253,27 @@ void PlayScene::Load() {
 
 void PlayScene::Update(DWORD dt) {
 	vector<LPGAMEOBJECT> coObjects;
-	for (size_t i = 1; i < listObjects.size(); i++){
+	for (size_t i = 1; i < listObjects.size(); i++) {
 		coObjects.push_back(listObjects[i]);
+	}
+	for (size_t i = 0; i < Portals.size(); i++) {
+		coObjects.push_back(Portals[i]);
 	}
 	for (size_t i = 0; i < listObjects.size(); i++)
 	{
 		listObjects[i]->Update(dt, &coObjects);
 	}
-	// skip the rest if scene was already unloaded (Car::Update might trigger PlayScene::Unload)
-
-	// Update camera to follow player
-
-	float cx, cy;
-	sophia->GetPosition(cx, cy);
-
 	if (bullet) {
 		bullet->Update(dt, &coObjects);
 	}
+	// skip the rest if scene was already unloaded (Car::Update might trigger PlayScene::Unload)
 
-	Game* game = Game::GetInstance();
-	cx -= game->GetScreenWidth() / 2;
-	cy -= game->GetScreenHeight() / 2;
+	// Update camera to follow player
+	Camera::GetInstance()->Update();
+}
 
-	if (cx < 0) {
-		cx = 0;
-	}
-	if (cy < 0) {
-		cy = 0;
-	}
-	gameCamera = Camera::GetInstance();
-	gameCamera->SetCamPos(cx, cy);
+void PlayScene::ChangeScene(int id_scene) {
+
 }
 
 void PlayScene::Render() {
@@ -278,6 +282,9 @@ void PlayScene::Render() {
 		bullet->Render();
 	for (int i = 0; i < listObjects.size(); i++) {
 		listObjects[i]->Render();
+	}
+	for (int i = 0; i < Portals.size(); i++) {
+		Portals[i]->Render();
 	}
 }
 

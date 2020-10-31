@@ -3,6 +3,7 @@
 #include "PlayerState.h"
 #include "Bullet.h"
 
+
 #define SOPHIA_MOVING_SPEED             0.1f
 #define SOPHIA_JUMP_SPEED_Y             0.8f
 #define SOPHIA_GRAVITY                  0.001f
@@ -19,6 +20,7 @@ class Sophia : public GameObject
 	float start_x;			// initial position of Mario at scene
 	float start_y;
 public:
+	int scene_id;
 	static Sophia* _instance;
 	int stateBoundingBox;
 	PlayerState* state;
@@ -35,7 +37,11 @@ public:
 	bool IsFiring;
 	bool IsDead;
 	bool IsUp;
+	bool IsTouchPortal;
+	bool IsUntouchable = false;
+	bool IsRenderBack = false;
 	bool rev;
+	int count = 0;
 	int idFrame = 0;
 	bool renderOneFrame = false;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
@@ -47,7 +53,8 @@ public:
 	static Sophia* GetInstance();
 	void Fire();
 	void DeleteBullet();
-	void Reset(float x = 48, float y = 96);
+	void CheckState(int stateChange);
+	void Reset(float x = 384, float y = 112);
 	void OnKeyUp(int key);
 	void OnKeyDown(int key);
 };

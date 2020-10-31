@@ -5,13 +5,14 @@
 #include "PlayerUpwardMovingState.h"
 
 PlayerUpwardState::PlayerUpwardState() {
-
-	player->y = player->y - (SOPHIA_UP_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT) ;
+	if(!player->IsJumping)
+		player->y = player->y - (SOPHIA_UP_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT) ;
 	player->IsUp = true;
 	player->renderOneFrame = false;
 
 	player->vx = 0;
 	player->vy = 0;
+
 	if (player->nx > 0) {
 			StateName = static_cast<STATENAME>(player->idFrame + 12);
 	}
@@ -32,6 +33,7 @@ void PlayerUpwardState::HandleKeyboard() {
 		player->ChangeAnimation(new PlayerUpwardState());
 	}
 	else if (keyCode[DIK_LEFT] || keyCode[DIK_RIGHT]) {
+		
 		player->ChangeAnimation(new PlayerUpwardMovingState());
 	}
 }

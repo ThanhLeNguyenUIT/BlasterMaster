@@ -3,22 +3,20 @@
 #include "PlayerTurningState.h"
 
 PlayerTurningState::PlayerTurningState() {
-	player->IsRenderBack = false;
+	player->RenderBack = false;
 	player->renderOneFrame = false;
 
 	if (player->nx > 0) {
 		player->nx = -1;
 
-		player->IsRenderBack = false;
+		player->RenderBack = false;
 		StateName = static_cast<STATENAME>(player->idFrame + 22);
-		DebugOut(L"stateName:", StateName);
 	}
 	else {
 		player->nx = 1;
 
-		player->IsRenderBack = true;
+		player->RenderBack = true;
 		StateName = static_cast<STATENAME>(25 - player->idFrame);
-		DebugOut(L"stateName:", StateName);
 	}
 
 	player->stateBoundingBox = SOPHIA_BOUNDING_BOX;
@@ -42,7 +40,6 @@ void PlayerTurningState::Update() {
 		}
 	}
 	this->HandleKeyboard();
-	DebugOut(L"curFrame:%d", player->CurAnimation->currentFrame);
 }
 
 void PlayerTurningState::HandleKeyboard() {

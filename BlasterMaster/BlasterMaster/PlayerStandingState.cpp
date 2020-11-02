@@ -4,18 +4,33 @@
 #include "PlayerTurningState.h"
 
 PlayerStandingState::PlayerStandingState() {
-	player->vx = 0;
-	player->vy = 0;
-	player->renderOneFrame = true;
-	player->IsRenderBack = false;
+	if (player->allow[SOPHIA]) {
+		player->vx = 0;
+		player->vy = 0;
+		player->renderOneFrame = true;
+		player->RenderBack = false;
 
-	if (player->nx > 0)  {
-		StateName = STANDING_RIGHT;
+		if (player->nx > 0) {
+			StateName = SOPHIA_STANDING_RIGHT;
+		}
+		else {
+			StateName = SOPHIA_STANDING_LEFT;
+		}
+		player->stateBoundingBox = SOPHIA_BOUNDING_BOX;
 	}
-	else{
-		StateName = STANDING_LEFT;
+	else if (player->allow[JASON]) {
+		playerSmall->vx = 0;
+		playerSmall->vy = 0;
+		playerSmall->renderOneFrame = true;
+		playerSmall->RenderBack = false;
+
+		if (playerSmall->nx > 0) {
+			StateName = JASON_STANDING_RIGHT;
+		}
+		else {
+			StateName = JASON_STANDING_LEFT;
+		}
 	}
-	player->stateBoundingBox = SOPHIA_BOUNDING_BOX;
 }
 
 PlayerStandingState::~PlayerStandingState() {
@@ -40,8 +55,6 @@ void PlayerStandingState::HandleKeyboard() {
 			player->CurAnimation->currentFrame = -1;
 			player->CurAnimation->isLastFrame = false;
 		}
-
-			
 	}
 	else if (keyCode[DIK_RIGHT]) {
 		if (player->nx > 0)

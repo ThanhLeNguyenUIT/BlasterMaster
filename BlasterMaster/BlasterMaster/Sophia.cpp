@@ -2,13 +2,13 @@
 #include <assert.h>
 
 #include "Sophia.h"
+#include "Jason.h"
 #include "Game.h"
 #include "Portal.h"
 #include "Camera.h"
 
 #include "PlayerState.h"
 #include "PlayerFallingState.h"
-//#include "PlayerDeadState.h"
 #include "PlayerJumpingState.h"
 #include "PlayerJumpingMovingState.h"
 #include "PlayerUpwardState.h"
@@ -16,6 +16,7 @@
 #include "PlayerUpwardJumpingMovingState.h"
 #include "PlayerMovingState.h"
 #include "PlayerStandingState.h"
+#include "PlayerOpenState.h"
 
 #include "BulletMovingState.h"
 
@@ -25,6 +26,8 @@ Sophia::Sophia() :GameObject() {
 	IsUp = false;
 	IsJumping = false;
 	playerType = SOPHIA;
+	allow[SOPHIA] = true;
+	allow[JASON] = false;
 }
 
 Sophia::~Sophia() {
@@ -199,7 +202,7 @@ void Sophia::ChangeAnimation(PlayerState* newState, int stateChange) {
 void Sophia::Render() {
 	int alpha = 255;
 	if (!IsTouchPortal) {
-		if (!IsRenderBack) {
+		if (!RenderBack) {
 			CurAnimation->Render(x, y, alpha, idFrame, renderOneFrame);
 		}
 		else {
@@ -266,6 +269,10 @@ void Sophia::GetBoundingBox(float& left, float& top, float& right, float& bottom
 		right = x + SOPHIA_UP_BBOX_WIDTH;
 		bottom = y + SOPHIA_UP_BBOX_HEIGHT;
 	}
+	else if (stateBoundingBox == SOPHIA_OPEN_BOUNDING_BOX) {
+		right = x + SOPHIA_OPEN_BBOX_WIDTH;
+		bottom = y + SOPHIA_OPEN_BBOX_HEIGHT;
+	}
 
 }
 
@@ -328,9 +335,25 @@ void Sophia::OnKeyDown(int key) {
 		break;
 	case DIK_S:
 		Fire();
+	
 		DeleteBullet();
 		break;
 	case DIK_Q:
+		if (!IsOpen) {
+			vx = 0;
+			vy = 0;
+			IsOpen = true;
+			ChangeAnimation(new PlayerOpenState());
+			allow[SOPHIA] = false;
+			allow[JASON] = true; // allow jason to get out of car
+			playerSmall->Reset(player->x, player->y);
+			playerSmall->IsRender = true;
+		}
+		else {
+			IsOpen = false;
+			player->y = player->y + (SOPHIA_OPEN_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
+			ChangeAnimation(new PlayerStandingState());
+		}
 		break;
 	}
 }
@@ -359,6 +382,8 @@ void Sophia::OnKeyUp(int key) {
 	case DIK_RIGHT:
 		if (IsUp) {
 			if (!IsJumping) {
+				idFrame = 3;
+				CurAnimation->currentFrame = -1;
 				ChangeAnimation(new PlayerUpwardState(), NORMAL);
 				y = y + (SOPHIA_UP_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
 			}
@@ -367,6 +392,8 @@ void Sophia::OnKeyUp(int key) {
 	case DIK_LEFT:
 		if (IsUp) {
 			if (!IsJumping) {
+				idFrame = 3;
+				CurAnimation->currentFrame = -1;
 				ChangeAnimation(new PlayerUpwardState(), NORMAL);
 				y = y + (SOPHIA_UP_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
 			}

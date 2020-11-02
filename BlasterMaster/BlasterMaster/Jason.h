@@ -4,24 +4,24 @@
 #include "Bullet.h"
 
 
-#define SOPHIA_MOVING_SPEED             0.1f
-#define SOPHIA_JUMP_SPEED_Y             0.8f
-#define SOPHIA_GRAVITY                  0.001f
-#define SOPHIA_JUMP_DEFLECT_SPEED     0.2f
-#define SOPHIA_DIE_DEFLECT_SPEED	   0.5f
+#define JASON_MOVING_SPEED             0.1f
+#define JASON_JUMP_SPEED_Y             0.8f
+#define JASON_GRAVITY                  0.001f
+#define JASON_JUMP_DEFLECT_SPEED     0.2f
+#define JASON_DIE_DEFLECT_SPEED	   0.5f
 
-#define SOPHIA_ANIMATIONS_SET			1
+#define JASON_ANIMATIONS_SET			2
 
 
-class Sophia : public GameObject
+class Jason : public GameObject
 {
 	Bullet* bullet;
 	vector<Bullet*> bullets;
-	float start_x;			// initial position of Mario at scene
+	float start_x;			// initial position of Jason at scene
 	float start_y;
 public:
 	int scene_id;
-	static Sophia* _instance;
+	static Jason* _instance;
 	int stateBoundingBox;
 	PlayerState* state;
 	Animation* CurAnimation;
@@ -40,6 +40,7 @@ public:
 	bool IsTouchPortal;
 	bool IsUntouchable = false;
 	bool IsOpen = false;
+	bool IsRender = false;
 	bool rev;
 	int count = 0;
 	int idFrame = 0;
@@ -47,14 +48,14 @@ public:
 	bool RenderBack = false;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 
-	Sophia();
-	~Sophia();
+	Jason();
+	~Jason();
 	void SetPlayerType(TYPE playerType) { this->playerType = playerType; }
 	void ChangeAnimation(PlayerState* state, int stateChange = 0);
-	static Sophia* GetInstance();
-	void Fire();
-	void DeleteBullet();
-	void CheckState(int stateChange);
+	static Jason* GetInstance();
+	//void Fire();
+	//void DeleteBullet();
+	//void CheckState(int stateChange);
 	void Reset(float x = 384, float y = 112);
 	void OnKeyUp(int key);
 	void OnKeyDown(int key);

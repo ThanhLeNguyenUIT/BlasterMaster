@@ -7,6 +7,7 @@
 //#include "SceneManager.h"
 #include "Camera.h"
 #include "Sophia.h"
+#include "Jason.h"
 #include "Bullet.h"
 #include "Portal.h"
 
@@ -17,6 +18,7 @@ using namespace std;
 class PlayScene : public Scene {
 protected:
 	Sophia* sophia;
+	Jason* jason;
 	Bullet* bullet;
 	vector<LPGAMEOBJECT> listObjects;
 	vector<Portal*>Portals;

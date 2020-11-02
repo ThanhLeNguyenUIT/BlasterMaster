@@ -133,9 +133,6 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\GameComponents</Filter>
     </ClCompile>
-    <ClCompile Include="Sophia.cpp">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Bullet.cpp">
       <Filter>Source Files\GameObjects\Item\Bullet</Filter>
     </ClCompile>
@@ -152,6 +149,12 @@
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClCompile>
     <ClCompile Include="PlayerOpenState.cpp">
+      <Filter>Source Files\GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Jason.cpp">
+      <Filter>Source Files\GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Sophia.cpp">
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClCompile>
   </ItemGroup>
@@ -228,9 +231,6 @@
     <ClInclude Include="Camera.h">
       <Filter>Source Files\GameComponents</Filter>
     </ClInclude>
-    <ClInclude Include="Sophia.h">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClInclude>
     <ClInclude Include="KeyEventHandler.h">
       <Filter>Source Files\GameComponents</Filter>
     </ClInclude>
@@ -250,6 +250,12 @@
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClInclude>
     <ClInclude Include="PlayerOpenState.h">
+      <Filter>Source Files\GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Jason.h">
+      <Filter>Source Files\GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Sophia.h">
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClInclude>
   </ItemGroup>

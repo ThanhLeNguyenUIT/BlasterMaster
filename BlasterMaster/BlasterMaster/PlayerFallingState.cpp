@@ -6,10 +6,10 @@
 PlayerFallingState::PlayerFallingState() {
 	player->renderOneFrame = true;
 	if (player->nx > 0) {
-		StateName = FALLING_RIGHT;
+		StateName = SOPHIA_FALLING_RIGHT;
 	}
 	else {
-		StateName = FALLING_LEFT;
+		StateName = SOPHIA_FALLING_LEFT;
 	}
 }
 

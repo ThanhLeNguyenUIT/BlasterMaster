@@ -9,11 +9,11 @@ PlayerUpwardMovingState::PlayerUpwardMovingState() {
 	player->IsUp = true;
 
 	if (player->nx > 0) {
-		StateName = UPWARD_MOVING_RIGHT;
+		StateName = SOPHIA_UPWARD_MOVING_RIGHT;
 		player->vx = SOPHIA_MOVING_SPEED;
 	}
 	else {
-		StateName = UPWARD_MOVING_LEFT;
+		StateName = SOPHIA_UPWARD_MOVING_LEFT;
 		player->vx = -SOPHIA_MOVING_SPEED;
 	}
 
@@ -29,10 +29,7 @@ void PlayerUpwardMovingState::Update() {
 }
 
 void PlayerUpwardMovingState::HandleKeyboard() {
-	if (keyCode[DIK_RIGHT] && keyCode[DIK_LEFT]) {
-		player->ChangeAnimation(new PlayerUpwardState());
-	}
-	else if (keyCode[DIK_RIGHT]) {
+	if (keyCode[DIK_RIGHT]) {
 		player->nx = 1;
 		player->ChangeAnimation(new PlayerUpwardMovingState(), UPWARD_TO_NORMAL);
 	}

@@ -13,11 +13,11 @@ PlayerUpwardJumpingMovingState::PlayerUpwardJumpingMovingState() {
 	player->IsJumping = true;
 	if (player->nx > 0) {
 		player->vx = SOPHIA_MOVING_SPEED;
-		StateName = UPWARD_MOVING_RIGHT;
+		StateName = SOPHIA_UPWARD_MOVING_RIGHT;
 	}
 	else {
 		player->vx = -SOPHIA_MOVING_SPEED;
-		StateName = UPWARD_MOVING_LEFT;
+		StateName = SOPHIA_UPWARD_MOVING_LEFT;
 	}
 	player->stateBoundingBox = SOPHIA_UP_BOUNDING_BOX;
 }

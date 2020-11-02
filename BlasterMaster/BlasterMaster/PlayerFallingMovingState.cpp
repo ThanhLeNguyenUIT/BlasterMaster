@@ -12,10 +12,10 @@ PlayerFallingMovingState::PlayerFallingMovingState() {
 	}
 	player->IsJumping = true;
 	if (player->nx > 0) {
-		StateName = FALLING_MOVING_RIGHT;
+		StateName = SOPHIA_FALLING_MOVING_RIGHT;
 	}
 	else {
-		StateName = FALLING_MOVING_LEFT;
+		StateName = SOPHIA_FALLING_MOVING_LEFT;
 	}
 	player->stateBoundingBox = SOPHIA_BOUNDING_BOX;
 }

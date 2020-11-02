@@ -146,7 +146,7 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 
 	float x = atof(tokens[1].c_str());
 	float y = atof(tokens[2].c_str());
-	int id_state = atoi(tokens[3].c_str());
+	//int id_state = atoi(tokens[3].c_str());
 	int width;
 	int height;
 	x = x * BIT; // change value to 16 bit
@@ -163,26 +163,35 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 
 	switch (type) {
 		// switch cac' loai quai vat va brick
-	case PLAYER:
+	case SOPHIA:
 		if (sophia != NULL) {
 			DebugOut(L"[ERROR] Sophia was created before");
 		}
 		obj = player;
 		sophia = (Sophia*)obj;
-		
 		sophia->Reset(x, y);
-		DebugOut(L"[INFO] Player object created!\n");
+		DebugOut(L"[INFO] SOPHIA object created!\n");
+		break;
+	case JASON:
+		if (jason != NULL) {
+			DebugOut(L"[ERROR] Jason was created before");
+		}
+		obj = playerSmall;
+		jason = (Jason*)obj;
+		jason->Reset(x, y);
+		jason->IsRender = false; // turn off render of jason
+		DebugOut(L"[INFO] JASON object created!\n");
 		break;
 	case BRICK: 
-		width = (int)atoi(tokens[4].c_str()) * BIT;
-		height = (int)atoi(tokens[5].c_str()) * BIT;
+		width = (int)atoi(tokens[3].c_str()) * BIT;
+		height = (int)atoi(tokens[4].c_str()) * BIT;
 		obj = new Brick(width, height);
 		break;
 	case OBJECT_TYPE_PORTAL:
 	{
-		float r = atof(tokens[4].c_str()) *BIT;
-		float b = atof(tokens[5].c_str()) *BIT;
-		int scene_id = atoi(tokens[6].c_str());
+		float r = atof(tokens[3].c_str()) *BIT;
+		float b = atof(tokens[4].c_str()) *BIT;
+		int scene_id = atoi(tokens[5].c_str());
 		Portal* portal = new Portal(x, y, r, b, scene_id);
 		Portals.push_back(portal);
 	}

@@ -8,12 +8,12 @@ PlayerMovingState::PlayerMovingState(DWORD timeFinish) {
 
 	if (player->nx > 0) {
 		
-		StateName = MOVING_RIGHT;
+		StateName = SOPHIA_MOVING_RIGHT;
 		player->vx = SOPHIA_MOVING_SPEED;
 	}
 	else {
 
-		StateName = MOVING_LEFT;
+		StateName = SOPHIA_MOVING_LEFT;
 		player->vx = -SOPHIA_MOVING_SPEED;
 	}
 	
@@ -41,6 +41,7 @@ void PlayerMovingState::HandleKeyboard() {
 		player->ChangeAnimation(new PlayerMovingState(), NORMAL);
 	}
 	else {
+		DebugOut(L"thanh");
 		player->ChangeAnimation(new PlayerStandingState(), MOVE_TO_NORMAL);
 	}
 }

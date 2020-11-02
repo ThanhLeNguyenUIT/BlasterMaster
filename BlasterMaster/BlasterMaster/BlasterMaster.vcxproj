@@ -37,6 +37,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GlobalConfig.cpp" />
     <ClCompile Include="Goomba.cpp" />
+    <ClCompile Include="Jason.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="PlayerFallingMovingState.cpp" />
@@ -70,6 +71,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GlobalConfig.h" />
     <ClInclude Include="Goomba.h" />
+    <ClInclude Include="Jason.h" />
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="PlayerFallingMovingState.h" />

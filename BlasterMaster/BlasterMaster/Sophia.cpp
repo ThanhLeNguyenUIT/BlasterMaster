@@ -11,10 +11,8 @@
 #include "PlayerState.h"
 #include "PlayerFallingState.h"
 #include "PlayerJumpingState.h"
-#include "PlayerJumpingMovingState.h"
 #include "PlayerUpwardState.h"
 #include "PlayerUpwardJumpingState.h"
-#include "PlayerUpwardJumpingMovingState.h"
 #include "PlayerUpwardMovingState.h"
 #include "PlayerMovingState.h"
 #include "PlayerStandingState.h"
@@ -27,8 +25,8 @@ Sophia* Sophia::_instance = NULL;
 Sophia::Sophia() :GameObject() {
 	IsUp = false;
 	playerType = SOPHIA;
-	allow[SOPHIA] = true;
-	allow[JASON] = false;
+	Allow[SOPHIA] = true;
+	Allow[JASON] = false;
 }
 
 Sophia::~Sophia() {
@@ -41,7 +39,7 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	// Simple fall down
 	
 	vy += SOPHIA_GRAVITY * dt;
-	if(allow[SOPHIA])
+	if(Allow[SOPHIA])
 		state->Update(); 
 
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -262,12 +260,12 @@ void Sophia::OnKeyDown(int key) {
 	case DIK_SPACE:
 		if (!IsJumping) {
 			if (!IsUp) {
-				player->IsJumping = true;
 				ChangeAnimation(new PlayerJumpingState(), NORMAL);
+				player->IsJumping = true;
 			}
 			else {
-				player->IsJumping = true;
 				ChangeAnimation(new PlayerUpwardJumpingState());
+				player->IsJumping = true;
 				renderOneFrame = true;
 			}
 		}
@@ -280,14 +278,12 @@ void Sophia::OnKeyDown(int key) {
 		DeleteBullet();
 		break;
 	case DIK_Q:
-		if (allow[SOPHIA]) {
+		if (Allow[SOPHIA]) {
 			if (!IsOpen) {
-				vx = 0;
-				vy = 0;
 				IsOpen = true;
 				ChangeAnimation(new PlayerOpenState());
-				allow[SOPHIA] = false;
-				allow[JASON] = true; // allow jason to get out of car
+				Allow[SOPHIA] = false;
+				Allow[JASON] = true; // allow jason to get out of car
 				playerSmall->IsRender = true;
 				playerSmall->Reset(player->x + (SOPHIA_BBOX_WIDTH / 3), player->y);
 			}

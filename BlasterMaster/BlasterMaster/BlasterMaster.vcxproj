@@ -40,16 +40,14 @@
     <ClCompile Include="Jason.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
-    <ClCompile Include="PlayerFallingMovingState.cpp" />
     <ClCompile Include="PlayerFallingState.cpp" />
-    <ClCompile Include="PlayerJumpingMovingState.cpp" />
     <ClCompile Include="PlayerJumpingState.cpp" />
+    <ClCompile Include="PlayerJumpTurningState.cpp" />
     <ClCompile Include="PlayerMovingState.cpp" />
     <ClCompile Include="PlayerOpenState.cpp" />
     <ClCompile Include="PlayerStandingState.cpp" />
     <ClCompile Include="PlayerTurningState.cpp" />
     <ClCompile Include="PlayerUpperState.cpp" />
-    <ClCompile Include="PlayerUpwardJumpingMovingState.cpp" />
     <ClCompile Include="PlayerUpwardJumpingState.cpp" />
     <ClCompile Include="PlayerUpwardMovingState.cpp" />
     <ClCompile Include="PlayerUpwardState.cpp" />
@@ -75,10 +73,9 @@
     <ClInclude Include="Jason.h" />
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="Map.h" />
-    <ClInclude Include="PlayerFallingMovingState.h" />
     <ClInclude Include="PlayerFallingState.h" />
-    <ClInclude Include="PlayerJumpingMovingState.h" />
     <ClInclude Include="PlayerJumpingState.h" />
+    <ClInclude Include="PlayerJumpTurningState.h" />
     <ClInclude Include="PlayerMovingState.h" />
     <ClInclude Include="PlayerOpenState.h" />
     <ClInclude Include="PlayerTurningState.h" />
@@ -86,7 +83,6 @@
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="PlayerStandingState.h" />
     <ClInclude Include="PlayerState.h" />
-    <ClInclude Include="PlayerUpwardJumpingMovingState.h" />
     <ClInclude Include="PlayerUpwardJumpingState.h" />
     <ClInclude Include="PlayerUpwardMovingState.h" />
     <ClInclude Include="PlayerUpwardState.h" />

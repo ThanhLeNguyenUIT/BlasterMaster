@@ -11,10 +11,8 @@
 #include "PlayerState.h"
 #include "PlayerFallingState.h"
 #include "PlayerJumpingState.h"
-#include "PlayerJumpingMovingState.h"
 #include "PlayerUpwardState.h"
 #include "PlayerUpwardJumpingState.h"
-#include "PlayerUpwardJumpingMovingState.h"
 #include "PlayerMovingState.h"
 #include "PlayerStandingState.h"
 #include "PlayerOpenState.h"
@@ -40,7 +38,7 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 
 	vy += JASON_GRAVITY * dt;
 
-	if(player->allow[JASON])
+	if(Allow[JASON])
 		state->Update();
 
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -48,14 +46,14 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 
 	coEvents.clear();
 
-	/*for (int i = 0; i < bullets.size(); i++) {
+	for (int i = 0; i < bullets.size(); i++) {
 		bullets[i]->Update(dt, coObjects);
 	}
 	for (int i = 0; i < bullets.size(); i++) {
 		if (bullets[i]->GetStateObject() == BULLET_SMALL_HIT) {
 			bullets.erase(bullets.begin() + i);
 		}
-	}*/
+	}
 
 	// turn off collision when die 
 
@@ -143,9 +141,9 @@ void Jason::Render() {
 		RenderBoundingBox();
 	}
 
-	/*for (int i = 0; i < bullets.size(); i++) {
+	for (int i = 0; i < bullets.size(); i++) {
 		bullets[i]->Render();
-	}*/
+	}
 }
 
 void Jason::GetBoundingBox(float& left, float& top, float& right, float& bottom){
@@ -169,21 +167,24 @@ void Jason::OnKeyDown(int key) {
 	switch (key) {
 	case DIK_SPACE:
 		ChangeAnimation(new PlayerJumpingState());
+		playerSmall->IsJumping = true;
 		break;
 	case DIK_3:
 		SetPosition(565, 112);
 		break;
 	case DIK_Q: // get on the car
-		if (player->allow[JASON] && (x >= player->x + (SOPHIA_BBOX_WIDTH / 3)||x<= player->x + SOPHIA_BBOX_WIDTH)) {
+		if (Allow[JASON] && (x >= player->x + (SOPHIA_BBOX_WIDTH / 3)||x<= player->x + SOPHIA_BBOX_WIDTH)) {
 			IsRender = false;
 			player->IsOpen = false;
-			player->allow[JASON] = false;
-			player->allow[SOPHIA] = true;
+			Allow[JASON] = false;
+			Allow[SOPHIA] = true;
 			player->y = player->y + (SOPHIA_OPEN_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
 			player->ChangeAnimation(new PlayerStandingState());
 			break;
 		}
 	case DIK_S:
+		Fire();
+		DeleteBullet();
 		break;
 	}
 }
@@ -204,18 +205,12 @@ void Jason::Fire() {
 	bullet->typeBullet = BULLET_SMALL;
 	if (!IsUp) {
 		if (nx > 0) {
-			bullet->SetPosition(x + SOPHIA_BBOX_WIDTH, y + 7 / SOPHIA_BBOX_HEIGHT);
+			bullet->SetPosition(x + JASON_BBOX_WIDTH, y + JASON_BBOX_HEIGHT / 3);
 			bullet->ChangeAnimation(BULLET_SMALL_MOVING_RIGHT);
 		}
 		else {
-			bullet->SetPosition(x, y + 7 / SOPHIA_BBOX_HEIGHT);
+			bullet->SetPosition(x, y + JASON_BBOX_HEIGHT / 3 );
 			bullet->ChangeAnimation(BULLET_SMALL_MOVING_LEFT);
-		}
-	}
-	else {
-		if (nx != 0) {
-			bullet->SetPosition(x + SOPHIA_BBOX_WIDTH / 3, y);
-			bullet->ChangeAnimation(BULLET_SMALL_MOVING_UP);
 		}
 	}
 

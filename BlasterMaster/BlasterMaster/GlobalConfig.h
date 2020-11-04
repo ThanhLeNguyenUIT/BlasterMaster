@@ -69,7 +69,7 @@ extern std::unordered_map<int, bool> keyCode;	// manage info keycode have been p
 #define GAME Game::GetInstance()
 #define player Sophia::GetInstance()
 #define playerSmall Jason::GetInstance()
-extern std::unordered_map<int, bool> Allow;
+
 
 extern enum STATENAME {
 	///// SOPHIA ///////
@@ -81,10 +81,6 @@ extern enum STATENAME {
 	SOPHIA_JUMPING_LEFT,
 	SOPHIA_FALLING_RIGHT,
 	SOPHIA_FALLING_LEFT,
-	SOPHIA_JUMPING_MOVING_RIGHT,
-	SOPHIA_JUMPING_MOVING_LEFT,
-	SOPHIA_FALLING_MOVING_RIGHT,
-	SOPHIA_FALLING_MOVING_LEFT,
 	SOPHIA_UPWARD_RIGHT_0,
 	SOPHIA_UPWARD_RIGHT_1,
 	SOPHIA_UPWARD_RIGHT_2,
@@ -155,7 +151,7 @@ extern enum  TAG
 //#define ADDITEM(x)  TYPEString.insert(std::pair<std::string,TYPE>(#x,x));
 //
 extern std::unordered_map<std::string, STATENAME>   STATEString;
-
+extern std::unordered_map<TYPE, bool> Allow;
 #define ADDSTATE(x)  STATEString.insert(std::pair<std::string,STATENAME>(#x,x));
 
 class CGlobalConfig

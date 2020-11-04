@@ -307,12 +307,12 @@ void PlayScene::Unload() {
 void PlaySceneKeyHandler::OnKeyDown(int KeyCode){
 	Sophia* sophia = ((PlayScene*)scene)->GetSophia();
 	Jason* jason = ((PlayScene*)scene)->GetJason();
-	if (player->allow[SOPHIA])
+	if (Allow[SOPHIA])
 	{
 		keyCode[KeyCode] = true;
 		sophia->OnKeyDown(KeyCode);
 	}
-	else if (player->allow[JASON])
+	else if (Allow[JASON])
 	{
 		keyCode[KeyCode] = true;
 		jason->OnKeyDown(KeyCode);
@@ -323,11 +323,11 @@ void PlaySceneKeyHandler::OnKeyUp(int KeyCode) {
 	Sophia* sophia = ((PlayScene*)scene)->GetSophia();
 	Jason* jason = ((PlayScene*)scene)->GetJason();
 	
-	if (player->allow[SOPHIA]) {
+	if (Allow[SOPHIA]) {
 		keyCode[KeyCode] = false;
 		sophia->OnKeyUp(KeyCode);
 	}
-	else if (player->allow[JASON]) {
+	else if (Allow[JASON]) {
 		keyCode[KeyCode] = false;
 		jason->OnKeyUp(KeyCode);
 	}

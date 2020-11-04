@@ -1,17 +1,17 @@
 #include "PlayerJumpingState.h"
-#include "PlayerJumpingMovingState.h"
 #include "PlayerMovingState.h"
 #include "PlayerFallingState.h"
-#include "PlayerFallingMovingState.h"
 #include "PlayerUpwardJumpingState.h"
 #include "PlayerStandingState.h"
 #include "PlayerUpwardState.h"
+#include "PlayerJumpTurningState.h"
 
 PlayerJumpingState::PlayerJumpingState() {
 
-	if (player->allow[SOPHIA]) {
+	if (Allow[SOPHIA]) {
 		player->renderOneFrame = true;
-		player->vy = -SOPHIA_JUMPING_SPEED_Y;
+		if(!player->IsJumping)
+			player->vy = -SOPHIA_JUMPING_SPEED_Y;
 		
 		if (player->nx > 0) {
 			StateName = SOPHIA_JUMPING_RIGHT;
@@ -21,9 +21,9 @@ PlayerJumpingState::PlayerJumpingState() {
 		}
 		player->stateBoundingBox = SOPHIA_BOUNDING_BOX;
 	}
-	else if (player->allow[JASON]) {
-		playerSmall->vy = -JASON_JUMP_SPEED_Y;
-		playerSmall->IsJumping = true;
+	else if (Allow[JASON]) {
+		if(!playerSmall->IsJumping)
+			playerSmall->vy = -JASON_JUMP_SPEED_Y;
 		if (playerSmall->nx > 0) {
 			StateName = JASON_JUMPING_RIGHT;
 		}
@@ -39,13 +39,13 @@ PlayerJumpingState::~PlayerJumpingState() {
 }
 
 void PlayerJumpingState::Update() {
-	if (player->allow[SOPHIA]) {
+	if (Allow[SOPHIA]) {
 		if (player->vy > 0) {
 			player->ChangeAnimation(new PlayerFallingState(), NORMAL);
 			return;
 		}
 	}
-	else if (player->allow[JASON]) {
+	else if (Allow[JASON]) {
 		if (playerSmall->vy > 0) {
 			playerSmall->ChangeAnimation(new PlayerFallingState());
 			return;
@@ -56,27 +56,49 @@ void PlayerJumpingState::Update() {
 
 void PlayerJumpingState::HandleKeyboard() {
 	if (keyCode[DIK_RIGHT]) {
-		if (player->allow[SOPHIA]) {
-			player->nx = 1;
-			player->ChangeAnimation(new PlayerJumpingMovingState(), NORMAL);
+		if (Allow[SOPHIA]) {
+			if (player->nx > 0) {
+				player->nx = 1;
+				player->vx = SOPHIA_MOVING_SPEED;
+				player->ChangeAnimation(new PlayerJumpingState(), NORMAL);
+				player->renderOneFrame = false;
+			}
+			else {
+				player->vx = -SOPHIA_MOVING_SPEED;
+				player->ChangeAnimation(new PlayerJumpTurningState(), NORMAL);
+				player->CurAnimation->currentFrame = -1;
+				player->CurAnimation->isLastFrame = false;
+			}
 		}
-		else if (player->allow[JASON]) {
+		else if (Allow[JASON]) {
 			playerSmall->nx = 1;
-			playerSmall->ChangeAnimation(new PlayerJumpingMovingState());
+			playerSmall->vx = JASON_MOVING_SPEED;
+			playerSmall->ChangeAnimation(new PlayerJumpingState());
 		}
 	}
 	else if (keyCode[DIK_LEFT]) {
-		if (player->allow[SOPHIA]) {
-			player->nx = -1;
-			player->ChangeAnimation(new PlayerJumpingMovingState(), NORMAL);
+		if (Allow[SOPHIA]) {
+			if (player->nx < 0) {
+				player->nx = -1;
+				player->vx = -SOPHIA_MOVING_SPEED;
+				player->ChangeAnimation(new PlayerJumpingState(), NORMAL);
+				player->renderOneFrame = false;
+			}
+			else {
+				player->vx = SOPHIA_MOVING_SPEED;
+				player->ChangeAnimation(new PlayerJumpTurningState(), NORMAL);
+				player->CurAnimation->currentFrame = -1;
+				player->CurAnimation->isLastFrame = false;
+			}
 		}
-		else if (player->allow[JASON]) {
+		else if (Allow[JASON]) {
 			playerSmall->nx = -1;
-			playerSmall->ChangeAnimation(new PlayerJumpingMovingState());
+			playerSmall->vx = -JASON_MOVING_SPEED;
+			playerSmall->ChangeAnimation(new PlayerJumpingState());
 		}
 	}
 	else if (keyCode[DIK_UP]) {
-		if(player->allow[SOPHIA])
+		if(Allow[SOPHIA])
 			player->ChangeAnimation(new PlayerUpwardState(), NORMAL);
 	}
 }

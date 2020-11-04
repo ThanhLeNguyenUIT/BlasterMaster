@@ -7,11 +7,10 @@
 PlayerMovingState::PlayerMovingState(DWORD timeFinish) {
 
 	/////////// SOPHIA ////////////
-	if (player->allow[SOPHIA]) {
+	if (Allow[SOPHIA]) {
 		player->renderOneFrame = false;
 		player->IsMoving = true;
 		if (player->nx > 0) {
-
 			StateName = SOPHIA_MOVING_RIGHT;
 			player->vx = SOPHIA_MOVING_SPEED;
 		}
@@ -24,7 +23,7 @@ PlayerMovingState::PlayerMovingState(DWORD timeFinish) {
 		player->stateBoundingBox = SOPHIA_BOUNDING_BOX;
 	}
 	/////////// JASON /////////////////
-	else if (player->allow[JASON]) {
+	else if (Allow[JASON]) {
 		if (playerSmall->nx > 0) {
 			StateName = JASON_MOVING_RIGHT;
 			playerSmall->vx = JASON_MOVING_SPEED;
@@ -45,13 +44,16 @@ void PlayerMovingState::Update() {
 
 void PlayerMovingState::HandleKeyboard() {
 	if (keyCode[DIK_RIGHT] && keyCode[DIK_LEFT]) {
-		if (player->allow[SOPHIA])
+		/////////// SOPHIA ////////////
+		if (Allow[SOPHIA])
 			player->ChangeAnimation(new PlayerStandingState(), MOVE_TO_NORMAL);
-		else if (player->allow[JASON])
+		/////////// JASON /////////////////
+		else if (Allow[JASON])
 			playerSmall->ChangeAnimation(new PlayerStandingState());
 	}
 	else if (keyCode[DIK_UP]) {
-		if (player->allow[SOPHIA]) {
+		/////////// SOPHIA ////////////
+		if (Allow[SOPHIA]) {
 			if(!player->IsUp)
 				player->y = player->y - (SOPHIA_UP_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
 			player->IsUp = true;
@@ -59,29 +61,33 @@ void PlayerMovingState::HandleKeyboard() {
 		}
 	}
 	else if (keyCode[DIK_RIGHT]) {
-		if (player->allow[SOPHIA]) {
+		/////////// SOPHIA ////////////
+		if (Allow[SOPHIA]) {
 			player->nx = 1;
 			player->ChangeAnimation(new PlayerMovingState(), NORMAL);
 		}
-		else if (player->allow[JASON]) {
+		/////////// JASON /////////////////
+		else if (Allow[JASON]) {
 			playerSmall->nx = 1;
 			playerSmall->ChangeAnimation(new PlayerMovingState());
 		}
 	}
 	else if (keyCode[DIK_LEFT]) {
-		if (player->allow[SOPHIA]) {
+		/////////// SOPHIA ////////////
+		if (Allow[SOPHIA]) {
 			player->nx = -1;
 			player->ChangeAnimation(new PlayerMovingState(), NORMAL);
 		}
-		if (player->allow[JASON]) {
+		/////////// JASON /////////////////
+		if (Allow[JASON]) {
 			playerSmall->nx = -1;
 			playerSmall->ChangeAnimation(new PlayerMovingState());
 		}
 	}
 	else {
-		if (player->allow[SOPHIA])
+		if (Allow[SOPHIA])
 			player->ChangeAnimation(new PlayerStandingState(), MOVE_TO_NORMAL);
-		if (player->allow[JASON])
+		if (Allow[JASON])
 			playerSmall->ChangeAnimation(new PlayerStandingState());
 	}
 }

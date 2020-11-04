@@ -4,7 +4,7 @@
 #include "PlayerTurningState.h"
 
 PlayerStandingState::PlayerStandingState() {
-	if (player->allow[SOPHIA]) {
+	if (Allow[SOPHIA]) {
 		player->vx = 0;
 		player->IsMoving = false;
 		player->renderOneFrame = true;
@@ -18,7 +18,7 @@ PlayerStandingState::PlayerStandingState() {
 		}
 		player->stateBoundingBox = SOPHIA_BOUNDING_BOX;
 	}
-	else if (player->allow[JASON]) {
+	else if (Allow[JASON]) {
 		playerSmall->vx = 0;
 		playerSmall->vy = 0;
 
@@ -43,13 +43,13 @@ void PlayerStandingState::Update() {
 
 void PlayerStandingState::HandleKeyboard() {
 	if (keyCode[DIK_LEFT] && keyCode[DIK_RIGHT]) {
-		if (player->allow[SOPHIA])
+		if (Allow[SOPHIA])
 			player->ChangeAnimation(new PlayerStandingState(), NORMAL);
-		else if (player->allow[JASON])
+		else if (Allow[JASON])
 			playerSmall->ChangeAnimation(new PlayerStandingState());
 	}
 	else if (keyCode[DIK_LEFT]) {
-		if (player->allow[SOPHIA]) {
+		if (Allow[SOPHIA]) {
 			if (player->nx < 0)
 				player->ChangeAnimation(new PlayerMovingState(), STAND_TO_MOVE);
 			else
@@ -59,13 +59,13 @@ void PlayerStandingState::HandleKeyboard() {
 				player->CurAnimation->isLastFrame = false;
 			}
 		}
-		else if (player->allow[JASON]) {
+		else if (Allow[JASON]) {
 			playerSmall->ChangeAnimation(new PlayerMovingState());
 		}
 
 	}
 	else if (keyCode[DIK_RIGHT]) {
-		if (player->allow[SOPHIA]) {
+		if (Allow[SOPHIA]) {
 			if (player->nx > 0)
 				player->ChangeAnimation(new PlayerMovingState(), STAND_TO_MOVE);
 			else
@@ -75,13 +75,13 @@ void PlayerStandingState::HandleKeyboard() {
 				player->CurAnimation->isLastFrame = false;
 			}
 		}
-		else if (player->allow[JASON]) {
+		else if (Allow[JASON]) {
 			playerSmall->ChangeAnimation(new PlayerMovingState());
 		}
 
 	}
 	else if (keyCode[DIK_UPARROW]) {
-		if (player->allow[SOPHIA])
+		if (Allow[SOPHIA])
 			player->ChangeAnimation(new PlayerUpwardState());
 	}
 }

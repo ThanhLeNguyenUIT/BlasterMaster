@@ -1,5 +1,4 @@
 #include "PlayerUpwardMovingState.h"
-#include "PlayerUpwardJumpingMovingState.h"
 #include "PlayerUpwardState.h"
 #include "PlayerStandingState.h"
 
@@ -31,10 +30,10 @@ void PlayerUpwardMovingState::Update() {
 void PlayerUpwardMovingState::HandleKeyboard() {
 	if (keyCode[DIK_RIGHT]) {
 		player->nx = 1;
-		player->ChangeAnimation(new PlayerUpwardMovingState(), UPWARD_TO_NORMAL);
+		player->ChangeAnimation(new PlayerUpwardMovingState());
 	}
 	else if (keyCode[DIK_LEFT]) {
 		player->nx = -1;
-		player->ChangeAnimation(new PlayerUpwardMovingState(), UPWARD_TO_NORMAL);
+		player->ChangeAnimation(new PlayerUpwardMovingState());
 	}
 }

@@ -10,13 +10,13 @@ PlayerTurningState::PlayerTurningState() {
 		player->nx = -1;
 
 		player->RenderBack = false;
-		StateName = static_cast<STATENAME>(player->idFrame + 22);
+		StateName = static_cast<STATENAME>(player->idFrame + 18);
 	}
 	else {
 		player->nx = 1;
 
 		player->RenderBack = true;
-		StateName = static_cast<STATENAME>(25 - player->idFrame);
+		StateName = static_cast<STATENAME>(21 - player->idFrame);
 	}
 
 	player->stateBoundingBox = SOPHIA_BOUNDING_BOX;
@@ -29,13 +29,13 @@ PlayerTurningState::~PlayerTurningState() {
 void PlayerTurningState::Update() {
 	if (player->nx > 0) {
 		for (int i = 0; i < 4; i++) {
-			if (StateName == static_cast<STATENAME>(i + 22))
+			if (StateName == static_cast<STATENAME>(i + 18))
 				player->idFrame = i;
 		}
 	}
 	else {
 		for (int i = 3; i >= 0; i--) {
-			if (StateName == static_cast<STATENAME>(25 - i))
+			if (StateName == static_cast<STATENAME>(21 - i))
 				player->idFrame = i;
 		}
 	}

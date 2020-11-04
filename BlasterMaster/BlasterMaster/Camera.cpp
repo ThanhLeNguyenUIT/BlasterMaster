@@ -23,7 +23,10 @@ Camera::~Camera() {}
 void Camera::Update()
 {
 	float cx, cy;
-	player->GetPosition(cx, cy);
+	if (player->allow[SOPHIA])
+		player->GetPosition(cx, cy);
+	else if (player->allow[JASON])
+		playerSmall->GetPosition(cx, cy);
 	Game* game = Game::GetInstance();
 	cx -= game->GetScreenWidth() / 2;
 	cy -= game->GetScreenHeight() / 2;

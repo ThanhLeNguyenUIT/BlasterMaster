@@ -20,7 +20,5 @@ void PlayerOpenState::Update() {
 }
 
 void PlayerOpenState::HandleKeyboard() {
-	/*if (keyCode[DIK_Q]) {
-		player->ChangeAnimation(new PlayerStandingState());
-	}*/
+
 }

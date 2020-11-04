@@ -17,6 +17,7 @@ public:
 	AnimationFrame(LPSPRITE sprite, int time) { this->sprite = sprite; this->time = time; }
 	DWORD GetTime() { return time; }
 	LPSPRITE GetSprite() { return sprite; }
+	void SetSpriteId(int id) { this->sprite->id = id; }
 	int GetSpriteId() { return sprite->id; }
 };
 
@@ -24,10 +25,12 @@ typedef AnimationFrame* LPANIMATION_FRAME;
 
 class Animation
 {
-	DWORD lastFrameTime;
+	
 	int defaultTime;
 	vector<LPANIMATION_FRAME> frames;
 public:
+	DWORD lastFrameTime;
+	bool IsFinish = false;
 	int currentFrame = 0;
 	bool isLastFrame;
 	Animation(int defaultTime = 100) { this->defaultTime = defaultTime; lastFrameTime = -1; currentFrame = -1; }

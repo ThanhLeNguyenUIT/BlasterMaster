@@ -6,7 +6,7 @@
 30	Textures/car.png	255	0	255
 40	Textures/enemies.png	255	0	255
 50	Textures/map2.png	255	255	255
-60	Textures/jason.png
+60	Textures/jason.png	255	0	255
 # id	left	top	right	bottom	texture_id
 [SPRITES]
 #=========== SMALL JASON =============
@@ -31,8 +31,8 @@
 #crawl left
 1310	49	10	65	20	60
 1311	33	10	16	20	60		
-# car	state	right	wheel	number
-#  5	  0	  0	  0	  0
+# car	state	right	wheel
+#  5	  00	  0	  0	  
 # stand + moving right
 50000	146	5	172	23	30
 50001	178	5	204	23	30
@@ -227,12 +227,16 @@
 602	40001	100
 #============== SMALL JASON =========
 100	1000	100
-101	1001	100
+101	1010	100
 110	1100	100	1101	100	1102	100
 111	1110	100	1111	100	1112	100
 120	1200	100	1210	100
 130	1300	100	1301	100
 131	1310	100	1311	100
+140	1100	100
+141	1110	100
+150	1100	100
+151	1110	100
 #==============BULLET=================
 #small bullet sophia right
 700	20001	100
@@ -260,7 +264,7 @@
 #id    type	ani   state
 #	
 0	1	500	0	501	1	510	2	511	3	520	4	521	5	530	6	531	7	520	8	521	9	530	10	531	11	550	12	551	13	552	14	553	15	560	16	561	17	562	18	563	19	540	20	541	21	570	22	571	23	572	24	573	25	580	26	581	27	582	28	583	29	900	30	600	31
-0	2	100	32	101	33	110	34	111	35	120	36	130	37	131	38
+0	2	100	32	101	33	110	34	111	35	120	36	130	37	131	38	140	39	141	40	150	41	151	42
 # BRICK 
 5	5	602	7
 #=== BULLET ======
@@ -272,9 +276,9 @@
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = PLAYER , 1 = SOPHIA, 2 = JASON, 5 = BRICK
 # SOPHIA
-1	24	7
+1	35	7
 #JASON
-2	0	0
+2	24	7
 # BRICK
 # SCENE 2.0
 #group1

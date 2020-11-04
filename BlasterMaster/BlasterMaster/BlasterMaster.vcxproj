@@ -48,6 +48,7 @@
     <ClCompile Include="PlayerOpenState.cpp" />
     <ClCompile Include="PlayerStandingState.cpp" />
     <ClCompile Include="PlayerTurningState.cpp" />
+    <ClCompile Include="PlayerUpperState.cpp" />
     <ClCompile Include="PlayerUpwardJumpingMovingState.cpp" />
     <ClCompile Include="PlayerUpwardJumpingState.cpp" />
     <ClCompile Include="PlayerUpwardMovingState.cpp" />
@@ -81,6 +82,7 @@
     <ClInclude Include="PlayerMovingState.h" />
     <ClInclude Include="PlayerOpenState.h" />
     <ClInclude Include="PlayerTurningState.h" />
+    <ClInclude Include="PlayerUpperState.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="PlayerStandingState.h" />
     <ClInclude Include="PlayerState.h" />

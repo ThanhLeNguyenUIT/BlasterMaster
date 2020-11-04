@@ -5,11 +5,8 @@ PlayerUpwardJumpingState::PlayerUpwardJumpingState() {
 
 	player->IsUp = true;
 	player->renderOneFrame = true;
+	player->vy = -SOPHIA_JUMPING_SPEED_Y;
 
-	if (!player->IsJumping) {
-		player->vy = -SOPHIA_JUMPING_SPEED_Y;
-	}
-	player->IsJumping = true;
 	if (player->nx > 0) {
 		StateName = SOPHIA_UPWARD_MOVING_RIGHT;
 	}

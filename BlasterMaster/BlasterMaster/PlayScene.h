@@ -41,7 +41,8 @@ public:
 	virtual void Render();
 	virtual void Unload();
 	void ChangeScene(int id_scene);
-	Sophia* GetPlayer() { return sophia; }
+	Sophia* GetSophia() { return sophia; }
+	Jason* GetJason() { return jason; }
 
 	//friend class PlaySceneKeyHandler;
 };

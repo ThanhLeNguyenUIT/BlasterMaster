@@ -151,10 +151,7 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 	int height;
 	x = x * BIT; // change value to 16 bit
 	y = y * BIT; // change value to 16 bit
-	// get width and height of brick
-	/*if (type == BRICK) {
-		
-	}*/
+
 	// General object setup
 
 	GameObject* obj = NULL;
@@ -308,15 +305,32 @@ void PlayScene::Unload() {
 }
 
 void PlaySceneKeyHandler::OnKeyDown(int KeyCode){
-	Sophia* sophia = ((PlayScene*)scene)->GetPlayer();
-	keyCode[KeyCode] = true;
-	sophia->OnKeyDown(KeyCode);
+	Sophia* sophia = ((PlayScene*)scene)->GetSophia();
+	Jason* jason = ((PlayScene*)scene)->GetJason();
+	if (player->allow[SOPHIA])
+	{
+		keyCode[KeyCode] = true;
+		sophia->OnKeyDown(KeyCode);
+	}
+	else if (player->allow[JASON])
+	{
+		keyCode[KeyCode] = true;
+		jason->OnKeyDown(KeyCode);
+	}
 }
 
 void PlaySceneKeyHandler::OnKeyUp(int KeyCode) {
-	Sophia* sophia = ((PlayScene*)scene)->GetPlayer();
-	keyCode[KeyCode] = false;
-	sophia->OnKeyUp(KeyCode);
+	Sophia* sophia = ((PlayScene*)scene)->GetSophia();
+	Jason* jason = ((PlayScene*)scene)->GetJason();
+	
+	if (player->allow[SOPHIA]) {
+		keyCode[KeyCode] = false;
+		sophia->OnKeyUp(KeyCode);
+	}
+	else if (player->allow[JASON]) {
+		keyCode[KeyCode] = false;
+		jason->OnKeyUp(KeyCode);
+	}
 }
 
 void PlaySceneKeyHandler::KeyState(BYTE* states) {

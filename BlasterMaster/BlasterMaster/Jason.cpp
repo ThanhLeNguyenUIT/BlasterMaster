@@ -6,6 +6,7 @@
 #include "Game.h"
 #include "Portal.h"
 #include "Camera.h"
+#include "Brick.h"
 
 #include "PlayerState.h"
 #include "PlayerFallingState.h"
@@ -26,7 +27,6 @@ Jason::Jason() {
 	IsUp = false;
 	IsJumping = false;
 	playerType = JASON;
-	allow[SOPHIA] = true;
 }
 
 Jason::~Jason() {
@@ -40,8 +40,8 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 
 	vy += JASON_GRAVITY * dt;
 
-	
-	//state->Update();
+	if(player->allow[JASON])
+		state->Update();
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -64,6 +64,7 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 
 
 	// No collision occured, proceed normally
+	
 	if (coEvents.size() == 0)
 	{
 		x += dx;
@@ -72,69 +73,47 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	else
 	{
 		float min_tx, min_ty, nx = 0, ny;
-
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 		// block 
 
 		x += min_tx * dx + nx * 0.1f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
 		y += min_ty * dy + ny * 0.3f;
 
-		if (!IsJumping) {
-			if (nx != 0) vx = 0;
-		}
-		else if (nx != 0) {
-			if (nx == -1)
-				vx = JASON_MOVING_SPEED;
-			else
-				vx = -JASON_MOVING_SPEED;
-		}
-
-		if (ny == -1) {
-			vy = 0;
-			IsJumping = false;
-		}
-		if (ny == 1)
-		{
-			vy = 0;
-			if (!IsUp)
-				ChangeAnimation(new PlayerFallingState());
-		}
-
 		// Collision logic with Enemies
+
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (dynamic_cast<Sophia*>(e->obj)) {
+				if (e->nx != 0) x += dx;
+				if (e->ny != 0) y += dy;
+			}
 
-			//if (dynamic_cast<CGoomba*>(e->obj)) // if e->obj is Goomba 
-			//{
-			//	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+			if (dynamic_cast<Brick*>(e->obj)) {
+				if (e->nx != 0) {
 
-			//	// jump on top >> kill Goomba and deflect a bit 
-			//	if (e->ny < 0)
-			//	{
-			//		if (goomba->GetState() != GOOMBA_STATE_DIE)
-			//		{
-			//			goomba->SetState(GOOMBA_STATE_DIE);
-			//			vy = -MARIO_JUMP_DEFLECT_SPEED;
-			//		}
-			//	}
-			//	else if (e->nx != 0)
-			//	{
-			//		if (untouchable == 0)
-			//		{
-			//			if (goomba->GetState() != GOOMBA_STATE_DIE)
-			//			{
-			//				if (level > MARIO_LEVEL_SMALL)
-			//				{
-			//					level = MARIO_LEVEL_SMALL;
-			//					StartUntouchable();
-			//				}
-			//				else
-			//					SetState(MARIO_STATE_DIE);
-			//			}
-			//		}
-			//	}
-			//} // if Goomba
+					if (!IsJumping) {
+						 vx = 0;
+					}
+					else  {
+						if (this->nx == 1)
+							vx = JASON_MOVING_SPEED;
+						else
+							vx = -JASON_MOVING_SPEED;
+					}
+				}
+				if (e->ny == -1)
+				{
+						vy = 0;
+						IsJumping = false;
+				}
+				else if (e->ny == 1)
+				{
+						vy = 0;
+						ChangeAnimation(new PlayerFallingState());
+				}
+			}
+
 			if (dynamic_cast<Portal*>(e->obj))
 			{
 				if (e->nx != 0) x += dx;
@@ -160,7 +139,7 @@ void Jason::ChangeAnimation(PlayerState* newState, int stateChange) {
 void Jason::Render() {
 	int alpha = 255;
 	if (IsRender) {
-		CurAnimation->Render(x, y, alpha, idFrame, renderOneFrame);
+		CurAnimation->Render(x, y, alpha, idFrame, RenderOneFrame);
 		RenderBoundingBox();
 	}
 
@@ -170,7 +149,13 @@ void Jason::Render() {
 }
 
 void Jason::GetBoundingBox(float& left, float& top, float& right, float& bottom){
+	left = x;
+	top = y;
 
+	if (stateBoundingBox == JASON_BOUNDING_BOX) {
+		right = x + JASON_BBOX_WIDTH;
+		bottom = y + JASON_BBOX_HEIGHT;
+	}
 }
 
 Jason* Jason::GetInstance() {
@@ -181,117 +166,30 @@ Jason* Jason::GetInstance() {
 }
 
 void Jason::OnKeyDown(int key) {
-	//switch (key) {
-	//case DIK_SPACE:
-	//	if (!IsUp) {
-	//		if (!IsJumping)
-	//		{
-	//			if ((keyCode[DIK_RIGHT]))
-	//			{
-	//				vx = SOPHIA_MOVING_SPEED;
-	//				nx = 1;
-	//				ChangeAnimation(new PlayerJumpingMovingState());
-	//			}
-	//			else if ((keyCode[DIK_LEFT]))
-	//			{
-	//				vx = -SOPHIA_MOVING_SPEED;
-	//				nx = -1;
-	//				ChangeAnimation(new PlayerJumpingMovingState());
-	//			}
-	//			else
-	//			{
-	//				ChangeAnimation(new PlayerJumpingState(), NORMAL);
-	//			}
-	//		}
-	//	}
-	//	else {
-	//		if (!IsJumping)
-	//		{
-	//			if ((keyCode[DIK_RIGHT]))
-	//			{
-	//				vx = SOPHIA_MOVING_SPEED;
-	//				nx = 1;
-	//				ChangeAnimation(new PlayerUpwardJumpingMovingState(), UPWARD_TO_NORMAL);
-	//			}
-	//			else if ((keyCode[DIK_LEFT]))
-	//			{
-	//				vx = -SOPHIA_MOVING_SPEED;
-	//				nx = -1;
-	//				ChangeAnimation(new PlayerUpwardJumpingMovingState(), UPWARD_TO_NORMAL);
-	//			}
-	//			else
-	//			{
-	//				ChangeAnimation(new PlayerUpwardJumpingState(), UPWARD_TO_NORMAL);
-	//			}
-	//		}
-	//	}
-	//	break;
-	//case DIK_A:
-	//	Reset();
-	//	break;
-	///*case DIK_S:
-	//	Fire();
-
-	//	DeleteBullet();
-	//	break;*/
-	//case DIK_Q:
-	//	if (!IsOpen) {
-	//		vx = 0;
-	//		vy = 0;
-	//		IsOpen = true;
-	//		ChangeAnimation(new PlayerOpenState());
-	//	}
-	//	else {
-	//		IsOpen = false;
-	//		player->y = player->y + (SOPHIA_OPEN_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
-	//		ChangeAnimation(new PlayerStandingState());
-	//	}
-	//	break;
-	//}
+	switch (key) {
+	case DIK_SPACE:
+		ChangeAnimation(new PlayerJumpingState());
+		break;
+	case DIK_3:
+		SetPosition(565, 112);
+		break;
+	case DIK_Q: // get on the car
+		if (player->allow[JASON] && (x >= player->x + (SOPHIA_BBOX_WIDTH / 3)||x<= player->x + SOPHIA_BBOX_WIDTH)) {
+			IsRender = false;
+			player->IsOpen = false;
+			player->allow[JASON] = false;
+			player->allow[SOPHIA] = true;
+			player->y = player->y + (SOPHIA_OPEN_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
+			player->ChangeAnimation(new PlayerStandingState());
+			break;
+		}
+	case DIK_S:
+		break;
+	}
 }
 
 void Jason::OnKeyUp(int key) {
-	/*switch (key) {
-	case DIK_UP:
-		IsUp = false;
-		CurAnimation->currentFrame = -1;
-		if (!player->IsJumping)
-			y = y + (SOPHIA_UP_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
-		if (nx > 0) {
-			for (int i = 0; i < 4; i++) {
-				if (state->StateName == static_cast<STATENAME>(i + 12))
-					idFrame = i;
-			}
-		}
-		else {
-			for (int i = 0; i < 4; i++) {
-				if (state->StateName == static_cast<STATENAME>(i + 16))
-					idFrame = i;
-			}
-		}
-		ChangeAnimation(new PlayerStandingState());
-		break;
-	case DIK_RIGHT:
-		if (IsUp) {
-			if (!IsJumping) {
-				idFrame = 3;
-				CurAnimation->currentFrame = -1;
-				ChangeAnimation(new PlayerUpwardState(), NORMAL);
-				y = y + (SOPHIA_UP_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
-			}
-		}
-		break;
-	case DIK_LEFT:
-		if (IsUp) {
-			if (!IsJumping) {
-				idFrame = 3;
-				CurAnimation->currentFrame = -1;
-				ChangeAnimation(new PlayerUpwardState(), NORMAL);
-				y = y + (SOPHIA_UP_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
-			}
-		}
-		break;
-	}*/
+	
 }
 
 void Jason::Reset(float x, float y) {
@@ -301,3 +199,41 @@ void Jason::Reset(float x, float y) {
 	SetSpeed(0, 0);
 }
 
+void Jason::Fire() {
+	bullet = new Bullet();
+	bullet->typeBullet = BULLET_SMALL;
+	if (!IsUp) {
+		if (nx > 0) {
+			bullet->SetPosition(x + SOPHIA_BBOX_WIDTH, y + 7 / SOPHIA_BBOX_HEIGHT);
+			bullet->ChangeAnimation(BULLET_SMALL_MOVING_RIGHT);
+		}
+		else {
+			bullet->SetPosition(x, y + 7 / SOPHIA_BBOX_HEIGHT);
+			bullet->ChangeAnimation(BULLET_SMALL_MOVING_LEFT);
+		}
+	}
+	else {
+		if (nx != 0) {
+			bullet->SetPosition(x + SOPHIA_BBOX_WIDTH / 3, y);
+			bullet->ChangeAnimation(BULLET_SMALL_MOVING_UP);
+		}
+	}
+
+	if (bullets.size() < 3) {
+		bullets.push_back(bullet);
+	}
+}
+
+void Jason::DeleteBullet() {
+	for (int i = 0; i < bullets.size(); i++) {
+		if (bullets[i]->GetX() >= x + 150.0f || bullets[i]->GetX() <= x - 150.0f) {
+			bullets.erase(bullets.begin() + i);
+		}
+		else if (bullets[i]->GetY() <= y - 100.0f) {
+			bullets.erase(bullets.begin() + i);
+		}
+		else if (bullets[i]->GetStateObject() == BULLET_SMALL_HIT) {
+			bullets.erase(bullets.begin() + i);
+		}
+	}
+}

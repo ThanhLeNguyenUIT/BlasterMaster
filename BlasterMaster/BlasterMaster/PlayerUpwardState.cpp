@@ -11,7 +11,6 @@ PlayerUpwardState::PlayerUpwardState() {
 	player->renderOneFrame = false;
 
 	player->vx = 0;
-	player->vy = 0;
 
 	if (player->nx > 0) {
 			StateName = static_cast<STATENAME>(player->idFrame + 12);

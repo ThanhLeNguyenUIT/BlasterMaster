@@ -159,7 +159,7 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 	AnimationSets* animation_sets = AnimationSets::GetInstance();
 
 	switch (type) {
-		// switch cac' loai quai vat va brick
+
 	case SOPHIA:
 		if (sophia != NULL) {
 			DebugOut(L"[ERROR] Sophia was created before");
@@ -269,9 +269,86 @@ void PlayScene::Update(DWORD dt) {
 	{
 		listObjects[i]->Update(dt, &coObjects);
 	}
-	if (bullet) {
-		bullet->Update(dt, &coObjects);
+	
+	// create bullet
+	// SOPHIA
+	if (sophia->IsFiring && GetTickCount() - sophia->timeStartAttack >= 180) {
+		bullet = new Bullet();
+		bullet->typeBullet = BULLET_SMALL;
+		if (!sophia->IsUp) {
+			if (sophia->nx > 0) {
+				bullet->SetPosition(sophia->x + SOPHIA_BBOX_WIDTH, sophia->y + 7 / SOPHIA_BBOX_HEIGHT);
+				bullet->ChangeAnimation(BULLET_SMALL_MOVING_RIGHT);
+			}
+			else {
+				bullet->SetPosition(sophia->x, sophia->y + 7 / SOPHIA_BBOX_HEIGHT);
+				bullet->ChangeAnimation(BULLET_SMALL_MOVING_LEFT);
+			}
+		}
+		else {
+			if (sophia->nx != 0) {
+				bullet->SetPosition(sophia->x + SOPHIA_BBOX_WIDTH / 3, sophia->y);
+				bullet->ChangeAnimation(BULLET_SMALL_MOVING_UP);
+			}
+		}
+
+		if (bullets.size() < 3) {
+			bullets.push_back(bullet);
+		}
 	}
+	// JASON
+	if (jason->IsFiring && GetTickCount() - jason->timeStartAttack >= 180) {
+		bullet = new Bullet();
+		bullet->typeBullet = JASON_BULLET_SMALL;
+		if (jason->nx > 0) {
+			bullet->SetPosition(jason->x + JASON_BBOX_WIDTH, jason->y + JASON_BBOX_HEIGHT / 3);
+			bullet->ChangeAnimation(JASON_BULLET_SMALL_MOVING);
+		}
+		else {
+			bullet->SetPosition(jason->x, jason->y + JASON_BBOX_HEIGHT / 3);
+			bullet->ChangeAnimation(JASON_BULLET_SMALL_MOVING);
+		}
+
+		if (bullets.size() < 3) {
+			bullets.push_back(bullet);
+		}
+	}
+	// update bullet
+	for (int i = 0; i < bullets.size(); i++) {
+		if (Allow[SOPHIA]) {
+			if (bullets[i]->GetX() >= sophia->x + 150.0f || bullets[i]->GetX() <= sophia->x - 150.0f) {
+				bullets.erase(bullets.begin() + i);
+			}
+			else if (bullets[i]->GetY() <= sophia->y - 100.0f) {
+				bullets.erase(bullets.begin() + i);
+			}
+			else if (bullets[i]->GetStateObject() == BULLET_SMALL_HIT) {
+				if (bullets[i]->CurAnimation->isLastFrame) {
+					bullets[i]->CurAnimation->isLastFrame = false;
+					bullets.erase(bullets.begin() + i);
+				}
+			}
+		}
+		else if (Allow[JASON]) {
+			if (bullets[i]->GetX() >= jason->x + 150.0f || bullets[i]->GetX() <= jason->x - 150.0f) {
+				bullets.erase(bullets.begin() + i);
+			}
+			else if (bullets[i]->GetY() <= jason->y - 100.0f) {
+				bullets.erase(bullets.begin() + i);
+			}
+			else if (bullets[i]->GetStateObject() == BULLET_SMALL_HIT) {
+				if (bullets[i]->CurAnimation->isLastFrame) {
+					bullets[i]->CurAnimation->isLastFrame = false;
+					bullets.erase(bullets.begin() + i);
+				}
+			}
+		}
+	}
+	for (int i = 0; i < bullets.size(); i++) {
+		bullets[i]->Update(dt, &coObjects);
+	}
+	
+
 	// skip the rest if scene was already unloaded (Car::Update might trigger PlayScene::Unload)
 
 	// Update camera to follow player
@@ -284,13 +361,15 @@ void PlayScene::ChangeScene(int id_scene) {
 
 void PlayScene::Render() {
 	Map::GetInstance()->Render();
-	if(bullet)
-		bullet->Render();
+
 	for (int i = 0; i < listObjects.size(); i++) {
 		listObjects[i]->Render();
 	}
 	for (int i = 0; i < Portals.size(); i++) {
 		Portals[i]->Render();
+	}
+	for (int i = 0; i < bullets.size(); i++) {
+		bullets[i]->Render();
 	}
 }
 

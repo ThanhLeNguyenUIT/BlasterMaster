@@ -44,7 +44,6 @@ public:
 	int ny;
 
 	int state;
-	TAG tag;
 	DWORD dt;
 
 	LPANIMATION_SET animation_set;

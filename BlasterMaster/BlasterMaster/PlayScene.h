@@ -20,6 +20,7 @@ protected:
 	Sophia* sophia;
 	Jason* jason;
 	Bullet* bullet;
+	vector<Bullet*> bullets;
 	vector<LPGAMEOBJECT> listObjects;
 	vector<Portal*>Portals;
 	Camera* gameCamera;

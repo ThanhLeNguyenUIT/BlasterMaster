@@ -21,7 +21,7 @@ void Animation::Add(int spriteId, DWORD time)
 	frames.push_back(frame);
 }
 
-void Animation::Render(float x, float y, int alpha, int idFrame, bool renderOneFrame, bool isup)
+void Animation::Render(float x, float y, int alpha, int idFrame, bool renderOneFrame)
 {
 	DWORD now = GetTickCount();
 	if (!renderOneFrame) {
@@ -46,7 +46,7 @@ void Animation::Render(float x, float y, int alpha, int idFrame, bool renderOneF
 			}
 			else
 			{
-				//isLastFrame = false;
+				isLastFrame = false;
 				IsFinish = false;
 				t += now - lastFrameTime;
 			}
@@ -60,7 +60,7 @@ void Animation::Render(float x, float y, int alpha, int idFrame, bool renderOneF
 	frames[currentFrame]->GetSprite()->Draw(x, y, alpha);
 }
 
-void Animation::RenderBack(float x, float y, int alpha, int idFrame, bool renderOneFrame, bool rev) {
+void Animation::RenderBack(float x, float y, int alpha, int idFrame, bool renderOneFrame) {
 	DWORD now = GetTickCount();
 	if (!renderOneFrame) {
 		if (currentFrame <= -1)

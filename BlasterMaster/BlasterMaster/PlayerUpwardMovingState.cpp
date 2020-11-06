@@ -4,7 +4,7 @@
 
 PlayerUpwardMovingState::PlayerUpwardMovingState() {
 
-	player->renderOneFrame = false;
+	player->RenderOneFrame = false;
 	player->IsUp = true;
 
 	if (player->nx > 0) {

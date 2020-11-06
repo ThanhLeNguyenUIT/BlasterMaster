@@ -5,7 +5,7 @@
 
 PlayerFallingState::PlayerFallingState() {
 	if (Allow[SOPHIA]) {
-		player->renderOneFrame = true;
+		player->RenderOneFrame = true;
 		if (player->nx > 0) {
 			StateName = SOPHIA_FALLING_RIGHT;
 		}
@@ -53,7 +53,7 @@ void PlayerFallingState::HandleKeyboard() {
 				player->nx = 1;
 				player->vx = SOPHIA_MOVING_SPEED;
 				player->ChangeAnimation(new PlayerFallingState(), NORMAL);
-				player->renderOneFrame = false;
+				player->RenderOneFrame = false;
 			}
 			else {
 				player->vx = -SOPHIA_MOVING_SPEED;
@@ -66,7 +66,7 @@ void PlayerFallingState::HandleKeyboard() {
 			playerSmall->nx = 1;
 			playerSmall->vx = JASON_MOVING_SPEED;
 			playerSmall->ChangeAnimation(new PlayerFallingState());
-			player->renderOneFrame = false;
+			player->RenderOneFrame = false;
 		}
 	}
 	else if ((keyCode[DIK_LEFT]))
@@ -76,7 +76,7 @@ void PlayerFallingState::HandleKeyboard() {
 				player->nx = -1;
 				player->vx = -SOPHIA_MOVING_SPEED;
 				player->ChangeAnimation(new PlayerFallingState(), NORMAL);
-				player->renderOneFrame = false;
+				player->RenderOneFrame = false;
 			}
 			else {
 				player->vx = SOPHIA_MOVING_SPEED;

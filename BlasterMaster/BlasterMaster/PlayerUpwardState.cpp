@@ -8,7 +8,7 @@ PlayerUpwardState::PlayerUpwardState() {
 	if(!player->IsJumping)
 		player->y = player->y - (SOPHIA_UP_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT) ;
 	player->IsUp = true;
-	player->renderOneFrame = false;
+	player->RenderOneFrame = false;
 
 	player->vx = 0;
 

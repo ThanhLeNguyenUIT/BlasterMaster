@@ -13,37 +13,45 @@
 
 using namespace std;
 
+
+#define TIME_DEFAULT		0
+#define TIME_FIRING			200
 ///// JASON /////
-#define JASON_MOVING_SPEED             0.08f
-#define JASON_JUMP_SPEED_Y             0.4f
-#define JASON_GRAVITY                  0.001f
-#define JASON_JUMP_DEFLECT_SPEED     0.2f
-#define JASON_DIE_DEFLECT_SPEED	   0.5f
+#define JASON_MOVING_SPEED						0.08f
+#define JASON_JUMP_SPEED_Y						0.4f
+#define JASON_GRAVITY							0.001f
+#define JASON_JUMP_DEFLECT_SPEED				0.2f
+#define JASON_DIE_DEFLECT_SPEED					0.5f
 
-#define JASON_BOUNDING_BOX	114
+#define JASON_BOUNDING_BOX						114
+#define JASON_CRAWLING_BOUNDING_BOX						115
 
-#define JASON_BBOX_WIDTH	10
-#define JASON_BBOX_HEIGHT	17
-///// CAR /////
-#define SOPHIA_MOVING_SPEED				0.1f
-#define SOPHIA_JUMPING_SPEED_Y             0.4f
-#define SOPHIA_GRAVITY						0.001f
-#define SOPHIA_JUMPING_DEFLECT_SPEED		0.2f
-#define SOPHIA_DIE_DEFLECT_SPEED			0.5f
+#define JASON_BBOX_WIDTH						10
+#define JASON_BBOX_HEIGHT						17
 
+#define JASON_CRAWLING_BBOX_WIDTH				16
+#define JASON_CRAWLING_BBOX_HEIGHT				10
+///// SOPHIA /////
+#define SOPHIA_MOVING_SPEED						0.1f
+#define SOPHIA_JUMPING_SPEED_Y					0.4f
+#define SOPHIA_GRAVITY							0.001f
+#define SOPHIA_JUMPING_DEFLECT_SPEED			0.2f
+#define SOPHIA_DIE_DEFLECT_SPEED				0.5f
+#define SOPHIA_MOVING_DECLERATION				0.00015f
+#define SOPHIA_MOVING_ACCLERATION				0.00015f
 
-#define SOPHIA_BOUNDING_BOX			111
-#define SOPHIA_UP_BOUNDING_BOX		112
-#define SOPHIA_OPEN_BOUNDING_BOX	113
+#define SOPHIA_BOUNDING_BOX						111
+#define SOPHIA_UP_BOUNDING_BOX					112
+#define SOPHIA_OPEN_BOUNDING_BOX				113
 
-#define SOPHIA_BBOX_WIDTH		26
-#define SOPHIA_BBOX_HEIGHT		18
+#define SOPHIA_BBOX_WIDTH						26
+#define SOPHIA_BBOX_HEIGHT						18
 
-#define SOPHIA_UP_BBOX_WIDTH 26
-#define SOPHIA_UP_BBOX_HEIGHT 34
+#define SOPHIA_UP_BBOX_WIDTH					26
+#define SOPHIA_UP_BBOX_HEIGHT					34
 
-#define SOPHIA_OPEN_BBOX_WIDTH	26
-#define SOPHIA_OPEN_BBOX_HEIGHT	26
+#define SOPHIA_OPEN_BBOX_WIDTH					26
+#define SOPHIA_OPEN_BBOX_HEIGHT					26
 //CAR ANIMATIONS ID //
 
 // STATE CHANGE
@@ -57,13 +65,13 @@ using namespace std;
 //#define SCREEN_WIDTH 320
 //#define SCREEN_HEIGHT 240
 
-#define SCREEN_WIDTH 320
-#define SCREEN_HEIGHT 240
+#define SCREEN_WIDTH		320
+#define SCREEN_HEIGHT		240
 
-#define TITLE_WIDTH 32
-#define TITLE_HEIGHT 32
+#define TITLE_WIDTH			32
+#define TITLE_HEIGHT		32
 
-#define BIT 16
+#define BIT					16
 /// variable ///
 extern std::unordered_map<int, bool> keyCode;	// manage info keycode have been pressed or not
 #define GAME Game::GetInstance()
@@ -125,7 +133,8 @@ extern enum STATEOBJECT {
 	BULLET_BIG_MOVING_UP,
 	BULLET_BIG_HIT,
 	BULLET_ELECTRIC,
-	BRICK_NORMAL
+	BRICK_NORMAL,
+	JASON_BULLET_SMALL_MOVING
 };
 
 extern enum TYPE {
@@ -134,25 +143,14 @@ extern enum TYPE {
 	JASON,
 	BULLET_SMALL,
 	BULLET_BIG,
-	BRICK
+	BRICK,
+	PORTAL,
+	JASON_BULLET_SMALL
 };
 
-extern enum  TAG
-{
-	/*PLAYER,
-	ENEMY ,
-	BOX ,
-	ITEM ,
-	EFFECT */
-};
 
-//extern std::unordered_map<std::string, TYPE>   TYPEString;
-//
-//#define ADDITEM(x)  TYPEString.insert(std::pair<std::string,TYPE>(#x,x));
-//
 extern std::unordered_map<std::string, STATENAME>   STATEString;
 extern std::unordered_map<TYPE, bool> Allow;
-#define ADDSTATE(x)  STATEString.insert(std::pair<std::string,STATENAME>(#x,x));
 
 class CGlobalConfig
 {

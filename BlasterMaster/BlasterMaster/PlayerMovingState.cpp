@@ -8,7 +8,7 @@ PlayerMovingState::PlayerMovingState(DWORD timeFinish) {
 
 	/////////// SOPHIA ////////////
 	if (Allow[SOPHIA]) {
-		player->renderOneFrame = false;
+		player->RenderOneFrame = false;
 		player->IsMoving = true;
 		if (player->nx > 0) {
 			StateName = SOPHIA_MOVING_RIGHT;
@@ -24,6 +24,7 @@ PlayerMovingState::PlayerMovingState(DWORD timeFinish) {
 	}
 	/////////// JASON /////////////////
 	else if (Allow[JASON]) {
+		playerSmall->RenderOneFrame = false;
 		if (playerSmall->nx > 0) {
 			StateName = JASON_MOVING_RIGHT;
 			playerSmall->vx = JASON_MOVING_SPEED;

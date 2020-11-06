@@ -11,11 +11,9 @@
 #include "PlayerState.h"
 #include "PlayerFallingState.h"
 #include "PlayerJumpingState.h"
-#include "PlayerUpwardState.h"
-#include "PlayerUpwardJumpingState.h"
 #include "PlayerMovingState.h"
 #include "PlayerStandingState.h"
-#include "PlayerOpenState.h"
+#include "PlayerCrawlingState.h"
 
 #include "BulletMovingState.h"
 
@@ -59,7 +57,11 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 
 	CalcPotentialCollisions(coObjects, coEvents);
 
-
+	// time fire bullet
+	if (GetTickCount() - timeStartAttack >= TIME_FIRING) {
+		timeStartAttack = TIME_DEFAULT;
+		IsFiring = false;
+	}
 
 	// No collision occured, proceed normally
 	
@@ -154,6 +156,10 @@ void Jason::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 		right = x + JASON_BBOX_WIDTH;
 		bottom = y + JASON_BBOX_HEIGHT;
 	}
+	else if (stateBoundingBox == JASON_CRAWLING_BOUNDING_BOX) {
+		right = x + JASON_CRAWLING_BBOX_WIDTH;
+		bottom = y + JASON_CRAWLING_BBOX_HEIGHT;
+	}
 }
 
 Jason* Jason::GetInstance() {
@@ -180,11 +186,27 @@ void Jason::OnKeyDown(int key) {
 			Allow[SOPHIA] = true;
 			player->y = player->y + (SOPHIA_OPEN_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
 			player->ChangeAnimation(new PlayerStandingState());
-			break;
 		}
+		break;
 	case DIK_S:
-		Fire();
-		DeleteBullet();
+		if (timeStartAttack == TIME_DEFAULT) {
+			timeStartAttack = GetTickCount();
+		}
+		IsFiring = true;
+		break;
+	case DIK_DOWN:
+		if (!IsCrawling) {
+			ChangeAnimation(new PlayerCrawlingState());
+			RenderOneFrame = true;
+			IsCrawling = true;
+		}
+		break;
+	case DIK_UP:
+		if (IsCrawling) {
+			playerSmall->y -= (JASON_BBOX_HEIGHT - JASON_CRAWLING_BBOX_HEIGHT);
+			ChangeAnimation(new PlayerStandingState());
+			IsCrawling = false;
+		}
 		break;
 	}
 }
@@ -200,35 +222,4 @@ void Jason::Reset(float x, float y) {
 	SetSpeed(0, 0);
 }
 
-void Jason::Fire() {
-	bullet = new Bullet();
-	bullet->typeBullet = BULLET_SMALL;
-	if (!IsUp) {
-		if (nx > 0) {
-			bullet->SetPosition(x + JASON_BBOX_WIDTH, y + JASON_BBOX_HEIGHT / 3);
-			bullet->ChangeAnimation(BULLET_SMALL_MOVING_RIGHT);
-		}
-		else {
-			bullet->SetPosition(x, y + JASON_BBOX_HEIGHT / 3 );
-			bullet->ChangeAnimation(BULLET_SMALL_MOVING_LEFT);
-		}
-	}
 
-	if (bullets.size() < 3) {
-		bullets.push_back(bullet);
-	}
-}
-
-void Jason::DeleteBullet() {
-	for (int i = 0; i < bullets.size(); i++) {
-		if (bullets[i]->GetX() >= x + 150.0f || bullets[i]->GetX() <= x - 150.0f) {
-			bullets.erase(bullets.begin() + i);
-		}
-		else if (bullets[i]->GetY() <= y - 100.0f) {
-			bullets.erase(bullets.begin() + i);
-		}
-		else if (bullets[i]->GetStateObject() == BULLET_SMALL_HIT) {
-			bullets.erase(bullets.begin() + i);
-		}
-	}
-}

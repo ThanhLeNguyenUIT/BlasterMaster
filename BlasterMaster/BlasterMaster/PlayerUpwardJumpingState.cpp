@@ -4,7 +4,7 @@
 PlayerUpwardJumpingState::PlayerUpwardJumpingState() {
 
 	player->IsUp = true;
-	player->renderOneFrame = true;
+	player->RenderOneFrame = true;
 	if(!player->IsJumping)
 		player->vy = -SOPHIA_JUMPING_SPEED_Y;
 
@@ -23,7 +23,7 @@ PlayerUpwardJumpingState::~PlayerUpwardJumpingState() {
 
 void PlayerUpwardJumpingState::Update() {
 	if (!player->IsJumping) {
-		player->renderOneFrame = true;
+		player->RenderOneFrame = true;
 		player->ChangeAnimation(new PlayerUpwardState(), NORMAL);
 		player->CurAnimation->currentFrame = 2;
 		player->y = player->y + (SOPHIA_UP_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
@@ -37,12 +37,12 @@ void PlayerUpwardJumpingState::HandleKeyboard() {
 		player->nx = 1;
 		player->vx = SOPHIA_MOVING_SPEED;
 		player->ChangeAnimation(new PlayerUpwardJumpingState(), NORMAL);
-		player->renderOneFrame = false;
+		player->RenderOneFrame = false;
 	}
 	else if (keyCode[DIK_LEFT]) {
 		player->nx = -1;
 		player->vx = -SOPHIA_MOVING_SPEED;
 		player->ChangeAnimation(new PlayerUpwardJumpingState(), NORMAL);
-		player->renderOneFrame = false;
+		player->RenderOneFrame = false;
 	}
 }

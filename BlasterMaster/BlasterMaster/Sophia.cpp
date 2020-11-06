@@ -17,6 +17,7 @@
 #include "PlayerMovingState.h"
 #include "PlayerStandingState.h"
 #include "PlayerOpenState.h"
+#include "PlayerJumpTurningState.h"
 
 #include "BulletMovingState.h"
 
@@ -47,20 +48,15 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 
 	coEvents.clear();
 
-	for (int i = 0; i < bullets.size(); i++) {
-		bullets[i]->Update(dt, coObjects);
-	}
-	for (int i = 0; i < bullets.size(); i++) {
-		if (bullets[i]->GetStateObject() == BULLET_SMALL_HIT) {
-			bullets.erase(bullets.begin() + i);
-		}
-	}
-
 	// turn off collision when die 
 
 	CalcPotentialCollisions(coObjects, coEvents);
 
-
+	// time fire bullet
+	if (GetTickCount() - timeStartAttack >= TIME_FIRING) {
+		timeStartAttack = TIME_DEFAULT;
+		IsFiring = false;
+	}
 
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
@@ -155,7 +151,6 @@ void Sophia::ChangeAnimation(PlayerState* newState, int stateChange) {
 	state = newState;
 	CheckState(stateChange);
 	LPANIMATION_SET animationSet = animation_sets->Get(playerType);
-	//DebugOut(L"sophia state: %d \n", newState->StateName);
 	CurAnimation = animationSet->Get(newState->StateName);
 }
 
@@ -163,10 +158,10 @@ void Sophia::Render() {
 	int alpha = 255;
 	if (!IsTouchPortal) {
 		if (!RenderBack) {
-			CurAnimation->Render(x, y, alpha, idFrame, renderOneFrame);
+			CurAnimation->Render(x, y, alpha, idFrame, RenderOneFrame);
 		}
 		else {
-			CurAnimation->RenderBack(x, y, alpha, idFrame, renderOneFrame);
+			CurAnimation->RenderBack(x, y, alpha, idFrame, RenderOneFrame);
 		}
 	}
 
@@ -188,44 +183,7 @@ void Sophia::Render() {
 		RenderBoundingBox();
 }
 
-void Sophia::Fire() {
-	bullet = new Bullet();
-	bullet->typeBullet = BULLET_SMALL;
-	if (!IsUp) {
-		if (nx > 0) {
-			bullet->SetPosition(x + SOPHIA_BBOX_WIDTH, y + 7 / SOPHIA_BBOX_HEIGHT);
-			bullet->ChangeAnimation(BULLET_SMALL_MOVING_RIGHT);
-		}
-		else {
-			bullet->SetPosition(x, y + 7 / SOPHIA_BBOX_HEIGHT);
-			bullet->ChangeAnimation(BULLET_SMALL_MOVING_LEFT);
-		}
-	}
-	else {
-		if (nx != 0) {
-			bullet->SetPosition(x + SOPHIA_BBOX_WIDTH / 3, y);
-			bullet->ChangeAnimation(BULLET_SMALL_MOVING_UP);
-		}
-	}
 
-	if (bullets.size() < 3) {
-		bullets.push_back(bullet);
-	}
-}
-
-void Sophia::DeleteBullet() {
-	for (int i = 0; i < bullets.size(); i++) {
-		if (bullets[i]->GetX() >= x + 150.0f || bullets[i]->GetX() <= x - 150.0f) {
-			bullets.erase(bullets.begin() + i);
-		}
-		else if (bullets[i]->GetY() <= y - 100.0f) {
-			bullets.erase(bullets.begin() + i);
-		}
-		else if (bullets[i]->GetStateObject() == BULLET_SMALL_HIT) {
-			bullets.erase(bullets.begin() + i);
-		}
-	}
-}
 
 void Sophia::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -261,12 +219,12 @@ void Sophia::OnKeyDown(int key) {
 		if (!IsJumping) {
 			if (!IsUp) {
 				ChangeAnimation(new PlayerJumpingState(), NORMAL);
-				player->IsJumping = true;
+				IsJumping = true;
 			}
 			else {
 				ChangeAnimation(new PlayerUpwardJumpingState());
-				player->IsJumping = true;
-				renderOneFrame = true;
+				IsJumping = true;
+				RenderOneFrame = true;
 			}
 		}
 		break;
@@ -274,8 +232,10 @@ void Sophia::OnKeyDown(int key) {
 		Reset();
 		break;
 	case DIK_S:
-		Fire();
-		DeleteBullet();
+		if (timeStartAttack == TIME_DEFAULT) {
+			timeStartAttack = GetTickCount();
+		}
+		IsFiring = true;
 		break;
 	case DIK_Q:
 		if (Allow[SOPHIA]) {
@@ -294,11 +254,15 @@ void Sophia::OnKeyDown(int key) {
 
 void Sophia::OnKeyUp(int key) {
 	switch (key) {
+	case DIK_SPACE:
+		vy += SOPHIA_GRAVITY * dt * 10;
+		//ChangeAnimation()
+		break;
 	case DIK_UP:
 		IsUp = false;
 		count = 0;
 		CurAnimation->currentFrame = -1;
-		if(!IsJumping)
+		if (!IsJumping)
 			y = y + (SOPHIA_UP_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
 		ChangeAnimation(new PlayerStandingState());
 		break;
@@ -306,7 +270,7 @@ void Sophia::OnKeyUp(int key) {
 		if (IsUp) {
 			if (!IsJumping) {
 				ChangeAnimation(new PlayerUpwardMovingState(), NORMAL);
-				renderOneFrame = true;
+				RenderOneFrame = true;
 				vx = 0;
 				vy = 0;
 			}
@@ -316,7 +280,7 @@ void Sophia::OnKeyUp(int key) {
 		if (IsUp) {
 			if (!IsJumping) {
 				ChangeAnimation(new PlayerUpwardMovingState(), NORMAL);
-				renderOneFrame = true;
+				RenderOneFrame = true;
 				vx = 0;
 				vy = 0;
 			}

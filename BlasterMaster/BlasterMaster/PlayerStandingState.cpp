@@ -7,7 +7,7 @@ PlayerStandingState::PlayerStandingState() {
 	if (Allow[SOPHIA]) {
 		player->vx = 0;
 		player->IsMoving = false;
-		player->renderOneFrame = true;
+		player->RenderOneFrame = true;
 		player->RenderBack = false;
 
 		if (player->nx > 0) {

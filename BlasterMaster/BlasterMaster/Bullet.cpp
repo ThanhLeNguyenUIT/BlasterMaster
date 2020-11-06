@@ -1,5 +1,7 @@
+#pragma once
 #include "Bullet.h"
 #include "Goomba.h"
+#include "Jason.h"
 
 void Bullet::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -25,9 +27,16 @@ void Bullet::ChangeAnimation(STATEOBJECT StateObject) {
 	case BULLET_SMALL_MOVING_UP:
 		vy = -BULLET_MOVING_SPEED;
 		break;
+	case JASON_BULLET_SMALL_MOVING:
+		if (playerSmall->nx > 0)
+			vx = BULLET_MOVING_SPEED;
+		else vx = -BULLET_MOVING_SPEED;
+		break;
 	case BULLET_SMALL_HIT:
 		vx = 0;
 		vy = 0;
+		IsHitting = true;
+		if (timeStartCol = TIME_DEFAULT) timeStartCol = GetTickCount();
 		break;
 	default:
 		break;
@@ -62,8 +71,9 @@ void Bullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
 		y += min_ty * dy + ny * 0.4f;
 
-		if (nx != 0) StateObject = BULLET_SMALL_HIT;
-		if (ny != 0) StateObject = BULLET_SMALL_HIT;
+
+		if (nx != 0) ChangeAnimation(BULLET_SMALL_HIT);
+		if (ny != 0) ChangeAnimation(BULLET_SMALL_HIT);
 		
 		// Collision logic with Goombas
 		//for (UINT i = 0; i < coEventsResult.size(); i++)

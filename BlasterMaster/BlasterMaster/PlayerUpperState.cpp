@@ -3,7 +3,7 @@
 #include "PlayerUpwardMovingState.h"
 
 PlayerUpperState::PlayerUpperState() {
-	player->renderOneFrame = false;
+	player->RenderOneFrame = false;
 	if (player->nx > 0) {
 		StateName = static_cast<STATENAME>(player->idFrame + 8);
 		if (StateName > 11) {

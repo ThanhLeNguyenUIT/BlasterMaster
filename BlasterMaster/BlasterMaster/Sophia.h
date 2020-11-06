@@ -25,18 +25,18 @@ public:
 	bool IsOnGround;
 	bool IsWalking;
 	bool IsStop;
-	bool IsFiring;
+	bool IsFiring = false;
 	bool IsDead;
 	bool IsUp = false;
 	bool IsTouchPortal;
 	bool IsUntouchable = false;
 	bool IsOpen = false;
-	bool rev;
-	bool GunUp = false;
-	bool IsMoving = true;
+	bool IsMoving = false;
+	bool IsLoad = false;
+	DWORD timeStartAttack = TIME_DEFAULT;
 	int count = 0;
 	int idFrame = 0;
-	bool renderOneFrame = false;
+	bool RenderOneFrame = false;
 	bool RenderBack = false;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 
@@ -45,8 +45,6 @@ public:
 	void SetPlayerType(TYPE playerType) { this->playerType = playerType; }
 	void ChangeAnimation(PlayerState* state, int stateChange = 0);
 	static Sophia* GetInstance();
-	void Fire();
-	void DeleteBullet();
 	void CheckState(int stateChange);
 	void Reset(float x = 560, float y = 112);
 	void OnKeyUp(int key);

@@ -154,6 +154,15 @@
     <ClCompile Include="PlayerJumpTurningState.cpp">
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClCompile>
+    <ClCompile Include="JasonBig.cpp">
+      <Filter>Source Files\GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerCrawlingState.cpp">
+      <Filter>Source Files\GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerClimbingState.cpp">
+      <Filter>Source Files\GameObjects\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprites.h">
@@ -250,6 +259,15 @@
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClInclude>
     <ClInclude Include="PlayerJumpTurningState.h">
+      <Filter>Source Files\GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="JasonBig.h">
+      <Filter>Source Files\GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerCrawlingState.h">
+      <Filter>Source Files\GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerClimbingState.h">
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClInclude>
   </ItemGroup>

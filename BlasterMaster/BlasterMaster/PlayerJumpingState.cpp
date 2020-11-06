@@ -9,7 +9,7 @@
 PlayerJumpingState::PlayerJumpingState() {
 
 	if (Allow[SOPHIA]) {
-		player->renderOneFrame = true;
+		player->RenderOneFrame = true;
 		if(!player->IsJumping)
 			player->vy = -SOPHIA_JUMPING_SPEED_Y;
 		
@@ -61,7 +61,7 @@ void PlayerJumpingState::HandleKeyboard() {
 				player->nx = 1;
 				player->vx = SOPHIA_MOVING_SPEED;
 				player->ChangeAnimation(new PlayerJumpingState(), NORMAL);
-				player->renderOneFrame = false;
+				player->RenderOneFrame = false;
 			}
 			else {
 				player->vx = -SOPHIA_MOVING_SPEED;
@@ -82,7 +82,7 @@ void PlayerJumpingState::HandleKeyboard() {
 				player->nx = -1;
 				player->vx = -SOPHIA_MOVING_SPEED;
 				player->ChangeAnimation(new PlayerJumpingState(), NORMAL);
-				player->renderOneFrame = false;
+				player->RenderOneFrame = false;
 			}
 			else {
 				player->vx = SOPHIA_MOVING_SPEED;

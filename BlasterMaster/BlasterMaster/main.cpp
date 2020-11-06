@@ -22,21 +22,9 @@
 
 #define MAX_FRAME_RATE 90
 
-#define ID_TEX_CAR 0
-#define ID_TEX_ENEMY 40
-#define ID_TEX_MISC 50
-#define ID_TEX_BULLET 30
 
-
-
-//using namespace std;
 
 Game* game;
-PlaySceneKeyHandler* keyHandler;
-//CGameObject* brick;
-
-vector<LPGAMEOBJECT> objects;
-
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {

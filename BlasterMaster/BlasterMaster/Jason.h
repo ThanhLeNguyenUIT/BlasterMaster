@@ -21,11 +21,13 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
 	//bool IsJumping() { return this->isJumping; }
+	DWORD timeStartAttack = TIME_DEFAULT;
 	bool IsJumping;
 	bool IsOnGround;
-	bool IsWalking;
+	bool IsMoving;
 	bool IsStop;
-	bool IsFiring;
+	bool IsCrawling = false;
+	bool IsFiring = false;
 	bool IsDead;
 	bool IsUp;
 	bool IsTouchPortal;
@@ -43,8 +45,6 @@ public:
 	void SetPlayerType(TYPE playerType) { this->playerType = playerType; }
 	void ChangeAnimation(PlayerState* state, int stateChange = 0);
 	static Jason* GetInstance();
-	void Fire();
-	void DeleteBullet();
 	void Reset(float x = 384, float y = 112);
 	void OnKeyUp(int key);
 	void OnKeyDown(int key);

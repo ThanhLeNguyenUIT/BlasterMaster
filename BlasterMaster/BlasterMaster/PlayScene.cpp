@@ -22,7 +22,9 @@ PlayScene::PlayScene(int id, LPCWSTR filePath) :
 #define SCENE_SECTION_SPRITES 3
 #define SCENE_SECTION_ANIMATIONS 4
 #define SCENE_SECTION_ANIMATION_SETS	5
-#define SCENE_SECTION_OBJECTS	6
+#define SCENE_SECTION_CLEAR_ANIMATIONS_SETS	6
+#define SCENE_SECTION_OBJECTS	7
+#define SCENE_SECTION_SWITCH_SCENE		8
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -93,6 +95,12 @@ void PlayScene::_ParseSection_ANIMATIONS(string line)
 	Animations::GetInstance()->Add(ani_id, ani);
 }
 
+void PlayScene::_ParseSection_SWITCHSCENE(string line) {
+	vector<string> tokens = split(line);
+	int id_scene = atoi(tokens[0].c_str());
+	Game::GetInstance()->SwitchScene(id_scene);
+}
+
 void PlayScene::_ParseSection_ANIMATION_SETS(string line)
 {
 	vector<string> tokens = split(line);
@@ -135,6 +143,14 @@ void PlayScene::_ParseSection_ANIMATION_SETS(string line)
 	}
 }
 
+void PlayScene::_ParseSection_CLEARANIMATION_SETS(string line)
+{
+	vector<string> tokens = split(line);
+	STATEOBJECT idClear = static_cast<STATEOBJECT>(atoi(tokens[0].c_str()));
+	AnimationSets::GetInstance()->ClearAt(idClear);
+	DebugOut(L"[INFO] Cleared Animation Set %d!\n", idClear);
+}
+
 void PlayScene::_ParseSection_OBJECTS(string line) {
 	vector<string> tokens = split(line);
 	//(L"--> %s\n",ToWSTR(line).c_str());
@@ -159,26 +175,6 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 	AnimationSets* animation_sets = AnimationSets::GetInstance();
 
 	switch (type) {
-
-	case SOPHIA:
-		if (sophia != NULL) {
-			DebugOut(L"[ERROR] Sophia was created before");
-		}
-		obj = player;
-		sophia = (Sophia*)obj;
-		sophia->Reset(x, y);
-		DebugOut(L"[INFO] SOPHIA object created!\n");
-		break;
-	case JASON:
-		if (jason != NULL) {
-			DebugOut(L"[ERROR] Jason was created before");
-		}
-		obj = playerSmall;
-		jason = (Jason*)obj;
-		jason->Reset(x, y);
-		jason->IsRender = false; // turn off render of jason
-		DebugOut(L"[INFO] JASON object created!\n");
-		break;
 	case BRICK: 
 		width = (int)atoi(tokens[3].c_str()) * BIT;
 		height = (int)atoi(tokens[4].c_str()) * BIT;
@@ -198,17 +194,11 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 		return;
 	}
 	
-	if(type != OBJECT_TYPE_PORTAL)
-	obj->SetPosition(x, y);
-	/*if (type != PLAYER)
-	{
-		int type_ani = atoi(tokens[0].c_str());
-		TYPE types = static_cast<TYPE>(type_ani);
-		LPANIMATION_SET ani_set = animation_sets->Get(types);
-		obj->SetAnimationSet(ani_set);
-	}*/
-	if (type != OBJECT_TYPE_PORTAL)
-	listObjects.push_back(obj);
+	if (type != SOPHIA && type != JASON && type != OBJECT_TYPE_PORTAL)
+		obj->SetPosition(x, y);
+
+	if (type != SOPHIA && type != JASON && type != OBJECT_TYPE_PORTAL)
+		listObjects.push_back(obj);
 }
 
 void PlayScene::Load() {
@@ -233,8 +223,14 @@ void PlayScene::Load() {
 		if (line == "[ANIMATIONS]") {
 			section = SCENE_SECTION_ANIMATIONS; continue;
 		}
+		if (line == "[SWITCHSCENE]") {
+			section = SCENE_SECTION_SWITCH_SCENE; continue;
+		}
 		if (line == "[ANIMATION_SETS]") {
 			section = SCENE_SECTION_ANIMATION_SETS; continue;
+		}
+		if (line == "[CLEARANIMATIONSETS]") {
+			section = SCENE_SECTION_CLEAR_ANIMATIONS_SETS; continue;
 		}
 		if (line == "[OBJECTS]") {
 			section = SCENE_SECTION_OBJECTS; continue;
@@ -247,7 +243,9 @@ void PlayScene::Load() {
 		case SCENE_SECTION_SPRITES: _ParseSection_SPRITES(line); break;
 		case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
 		case SCENE_SECTION_ANIMATION_SETS: _ParseSection_ANIMATION_SETS(line); break;
+		case SCENE_SECTION_CLEAR_ANIMATIONS_SETS: _ParseSection_CLEARANIMATION_SETS(line); break;
 		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
+		case SCENE_SECTION_SWITCH_SCENE: _ParseSection_SWITCHSCENE(line); break;
 		}
 	}
 	f.close();
@@ -255,6 +253,10 @@ void PlayScene::Load() {
 	Textures::GetInstance()->Add(ID_TEX_BBOX, L"Textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
+
+	player->Reset();
+	playerSmall->Reset();
+	playerSmall->IsRender = false;
 }
 
 void PlayScene::Update(DWORD dt) {
@@ -269,25 +271,27 @@ void PlayScene::Update(DWORD dt) {
 	{
 		listObjects[i]->Update(dt, &coObjects);
 	}
+	player->Update(dt, &coObjects);
+	playerSmall->Update(dt, &coObjects);
 	
 	// create bullet
 	// SOPHIA
-	if (sophia->IsFiring && GetTickCount() - sophia->timeStartAttack >= 180) {
+	if (player->IsFiring && GetTickCount() - player->timeStartAttack >= 180) {
 		bullet = new Bullet();
 		bullet->typeBullet = BULLET_SMALL;
-		if (!sophia->IsUp) {
-			if (sophia->nx > 0) {
-				bullet->SetPosition(sophia->x + SOPHIA_BBOX_WIDTH, sophia->y + 7 / SOPHIA_BBOX_HEIGHT);
+		if (!player->IsUp) {
+			if (player->nx > 0) {
+				bullet->SetPosition(player->x + SOPHIA_BBOX_WIDTH, player->y + 7 / SOPHIA_BBOX_HEIGHT);
 				bullet->ChangeAnimation(BULLET_SMALL_MOVING_RIGHT);
 			}
 			else {
-				bullet->SetPosition(sophia->x, sophia->y + 7 / SOPHIA_BBOX_HEIGHT);
+				bullet->SetPosition(player->x, player->y + 7 / SOPHIA_BBOX_HEIGHT);
 				bullet->ChangeAnimation(BULLET_SMALL_MOVING_LEFT);
 			}
 		}
 		else {
-			if (sophia->nx != 0) {
-				bullet->SetPosition(sophia->x + SOPHIA_BBOX_WIDTH / 3, sophia->y);
+			if (player->nx != 0) {
+				bullet->SetPosition(player->x + SOPHIA_BBOX_WIDTH / 3, player->y);
 				bullet->ChangeAnimation(BULLET_SMALL_MOVING_UP);
 			}
 		}
@@ -297,15 +301,15 @@ void PlayScene::Update(DWORD dt) {
 		}
 	}
 	// JASON
-	if (jason->IsFiring && GetTickCount() - jason->timeStartAttack >= 180) {
+	if (playerSmall->IsFiring && GetTickCount() - playerSmall->timeStartAttack >= 180) {
 		bullet = new Bullet();
 		bullet->typeBullet = JASON_BULLET_SMALL;
-		if (jason->nx > 0) {
-			bullet->SetPosition(jason->x + JASON_BBOX_WIDTH, jason->y + JASON_BBOX_HEIGHT / 3);
+		if (playerSmall->nx > 0) {
+			bullet->SetPosition(playerSmall->x + JASON_BBOX_WIDTH, playerSmall->y + JASON_BBOX_HEIGHT / 3);
 			bullet->ChangeAnimation(JASON_BULLET_SMALL_MOVING);
 		}
 		else {
-			bullet->SetPosition(jason->x, jason->y + JASON_BBOX_HEIGHT / 3);
+			bullet->SetPosition(playerSmall->x, playerSmall->y + JASON_BBOX_HEIGHT / 3);
 			bullet->ChangeAnimation(JASON_BULLET_SMALL_MOVING);
 		}
 
@@ -316,10 +320,10 @@ void PlayScene::Update(DWORD dt) {
 	// update bullet
 	for (int i = 0; i < bullets.size(); i++) {
 		if (Allow[SOPHIA]) {
-			if (bullets[i]->GetX() >= sophia->x + 150.0f || bullets[i]->GetX() <= sophia->x - 150.0f) {
+			if (bullets[i]->GetX() >= player->x + 150.0f || bullets[i]->GetX() <= player->x - 150.0f) {
 				bullets.erase(bullets.begin() + i);
 			}
-			else if (bullets[i]->GetY() <= sophia->y - 100.0f) {
+			else if (bullets[i]->GetY() <= player->y - 100.0f) {
 				bullets.erase(bullets.begin() + i);
 			}
 			else if (bullets[i]->GetStateObject() == BULLET_SMALL_HIT) {
@@ -330,10 +334,10 @@ void PlayScene::Update(DWORD dt) {
 			}
 		}
 		else if (Allow[JASON]) {
-			if (bullets[i]->GetX() >= jason->x + 150.0f || bullets[i]->GetX() <= jason->x - 150.0f) {
+			if (bullets[i]->GetX() >= playerSmall->x + 150.0f || bullets[i]->GetX() <= playerSmall->x - 150.0f) {
 				bullets.erase(bullets.begin() + i);
 			}
-			else if (bullets[i]->GetY() <= jason->y - 100.0f) {
+			else if (bullets[i]->GetY() <= playerSmall->y - 100.0f) {
 				bullets.erase(bullets.begin() + i);
 			}
 			else if (bullets[i]->GetStateObject() == BULLET_SMALL_HIT) {
@@ -371,15 +375,17 @@ void PlayScene::Render() {
 	for (int i = 0; i < bullets.size(); i++) {
 		bullets[i]->Render();
 	}
+	player->Render();
+	playerSmall->Render();
 }
 
 void PlayScene::Unload() {
 	for (int i = 0; i < listObjects.size(); i++)
 		delete listObjects[i];
-
+	for (int i = 0; i < Portals.size(); i++)
+		delete Portals[i];
 	listObjects.clear();
-	sophia = NULL;
-
+	Portals.clear();
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
 
@@ -389,12 +395,12 @@ void PlaySceneKeyHandler::OnKeyDown(int KeyCode){
 	if (Allow[SOPHIA])
 	{
 		keyCode[KeyCode] = true;
-		sophia->OnKeyDown(KeyCode);
+		player->OnKeyDown(KeyCode);
 	}
 	else if (Allow[JASON])
 	{
 		keyCode[KeyCode] = true;
-		jason->OnKeyDown(KeyCode);
+		playerSmall->OnKeyDown(KeyCode);
 	}
 }
 
@@ -404,11 +410,11 @@ void PlaySceneKeyHandler::OnKeyUp(int KeyCode) {
 	
 	if (Allow[SOPHIA]) {
 		keyCode[KeyCode] = false;
-		sophia->OnKeyUp(KeyCode);
+		player->OnKeyUp(KeyCode);
 	}
 	else if (Allow[JASON]) {
 		keyCode[KeyCode] = false;
-		jason->OnKeyUp(KeyCode);
+		playerSmall->OnKeyUp(KeyCode);
 	}
 }
 

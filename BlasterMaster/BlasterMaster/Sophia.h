@@ -11,7 +11,7 @@ class Sophia : public GameObject
 	float start_x;			// initial position of Mario at scene
 	float start_y;
 public:
-	int scene_id;
+	int scene_id = 1;
 	static Sophia* _instance;
 	int stateBoundingBox;
 	PlayerState* state;
@@ -44,9 +44,10 @@ public:
 	~Sophia();
 	void SetPlayerType(TYPE playerType) { this->playerType = playerType; }
 	void ChangeAnimation(PlayerState* state, int stateChange = 0);
+	void ChangeScene();
 	static Sophia* GetInstance();
 	void CheckState(int stateChange);
-	void Reset(float x = 560, float y = 112);
+	void Reset(float x = 67 * BIT, float y = 72 * BIT);
 	void OnKeyUp(int key);
 	void OnKeyDown(int key);
 };

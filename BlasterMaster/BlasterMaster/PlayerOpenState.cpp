@@ -5,7 +5,7 @@
 PlayerOpenState::PlayerOpenState() {
 
 	player->vx = 0;
-	player->vy = 0;
+	//player->vy = 0;
 
 	if (player->nx > 0)
 		StateName = SOPHIA_OPEN;

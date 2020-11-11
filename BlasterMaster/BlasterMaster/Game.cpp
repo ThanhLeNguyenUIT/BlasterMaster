@@ -358,9 +358,8 @@ void Game::SwitchScene(int scene_id) {
 	DebugOut(L"[INFO] Switching to scene %d\n", scene_id);
 	scenes[current_scene]->Unload();
 
-	Textures::GetInstance()->Clear();
-	Sprites::GetInstance()->Clear();
-	Animations::GetInstance()->Clear();
+	/*Sprites::GetInstance()->Clear();
+	Animations::GetInstance()->Clear();*/
 
 	current_scene = scene_id;
 	LPSCENE s = scenes[scene_id];

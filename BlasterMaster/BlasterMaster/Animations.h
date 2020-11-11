@@ -53,7 +53,7 @@ public:
 	void Add(int id, LPANIMATION ani);
 	LPANIMATION Get(int id );
 	void Clear();
-
+	
 	static Animations* GetInstance();
 };
 
@@ -81,6 +81,6 @@ public:
 	AnimationSets();
 	void Add(TYPE type, LPANIMATION_SET ani);
 	LPANIMATION_SET Get(TYPE type);
-
+	void ClearAt(STATEOBJECT state);
 	static AnimationSets* GetInstance();
 };

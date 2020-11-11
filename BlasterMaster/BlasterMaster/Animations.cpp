@@ -128,6 +128,12 @@ void Animations::Clear()
 	animations.clear();
 }
 
+void AnimationSets::ClearAt(STATEOBJECT state) {
+	LPANIMATION_SET aniSet = animation_sets[state];
+	delete aniSet;
+	animation_sets.erase(state);
+}
+
 ///// animation set
 void AnimationSet::Add(int aniId, STATENAME StateName)
 {

@@ -29,8 +29,8 @@ class Game
 
 	LPKEYEVENTHANDLER keyHandler;
 
-	int screen_height = 320;
-	int screen_width = 240;
+	int screen_height = SCREEN_HEIGHT;
+	int screen_width = SCREEN_WIDTH;
 
 	unordered_map<int, LPSCENE> scenes;
 	int current_scene;

@@ -1,0 +1,6 @@
+[OBJECTS]
+#BRICK
+5	32	10	74	2
+##
+# --- SCENE PORTAL ----
+50	61	8	67	10	3

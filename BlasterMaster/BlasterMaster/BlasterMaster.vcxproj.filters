@@ -39,25 +39,31 @@
     <Filter Include="Source Files\GameObjects\Item\Bullet">
       <UniqueIdentifier>{0c2f1440-0214-455c-98be-f8f3f6f58655}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\text">
+      <UniqueIdentifier>{6c6385af-cb7c-4663-a375-af461b4d7e0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\textures">
+      <UniqueIdentifier>{18653d6d-03bf-48ab-af75-3db5d30cf8d2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Textures\bbox.png">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\textures</Filter>
     </Image>
     <Image Include="Textures\car.png">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\textures</Filter>
     </Image>
     <Image Include="Textures\enemies.png">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\textures</Filter>
     </Image>
     <Image Include="Textures\item.png">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\textures</Filter>
     </Image>
     <Image Include="Textures\misc.png">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\textures</Filter>
     </Image>
     <Image Include="Textures\title1.png">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\textures</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
@@ -270,5 +276,13 @@
     <ClInclude Include="PlayerClimbingState.h">
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="text\blaster-master.txt">
+      <Filter>Resource Files\text</Filter>
+    </Text>
+    <Text Include="text\scene1.txt">
+      <Filter>Resource Files\text</Filter>
+    </Text>
   </ItemGroup>
 </Project>

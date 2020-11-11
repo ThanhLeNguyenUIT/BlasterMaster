@@ -35,91 +35,142 @@ Sophia::~Sophia() {
 }
 
 void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
-	// Calculate dx, dy 
-	GameObject::Update(dt);
-	// Simple fall down
+	// Calculate dx, dy
+	//DebugOut(L"vy: %f\n", vy);
+	if (Allow[SOPHIA]) {
 	
-	vy += SOPHIA_GRAVITY * dt;
-	if(Allow[SOPHIA])
-		state->Update(); 
+		GameObject::Update(dt);
+		// Simple fall down
 
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
+		vy += SOPHIA_GRAVITY * dt;
+		
+		state->Update();
+		// change scene 
+		
 
-	coEvents.clear();
+		vector<LPCOLLISIONEVENT> coEvents;
+		vector<LPCOLLISIONEVENT> coEventsResult;
 
-	// turn off collision when die 
+		coEvents.clear();
 
-	CalcPotentialCollisions(coObjects, coEvents);
+		// turn off collision when die 
 
-	// time fire bullet
-	if (GetTickCount() - timeStartAttack >= TIME_FIRING) {
-		timeStartAttack = TIME_DEFAULT;
-		IsFiring = false;
-	}
+		CalcPotentialCollisions(coObjects, coEvents);
 
-	// No collision occured, proceed normally
-	if (coEvents.size() == 0)
-	{
-		x += dx;
-		y += dy;
-	}
-	else
-	{
-		float min_tx, min_ty, nx = 0, ny;
+		// time fire bullet
+		if (GetTickCount() - timeStartAttack >= TIME_FIRING) {
+			timeStartAttack = TIME_DEFAULT;
+			IsFiring = false;
+		}
 
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-		// block 
-		x += min_tx * dx + nx * 0.1f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-		y += min_ty * dy + ny * 0.3f;
-		//vy = 999;
-		// Collision logic with Enemies
-		for (UINT i = 0; i < coEventsResult.size(); i++)
+		// No collision occured, proceed normally
+		if (coEvents.size() == 0)
 		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
+			x += dx;
+			y += dy;
+		}
+		else
+		{
+			float min_tx, min_ty, nx = 0, ny;
 
-			if (dynamic_cast<Jason*>(e->obj)) {
-				if (e->nx != 0) x += dx;
-				if (e->ny != 0) y += dy;
-			}
-
-			if (dynamic_cast<Brick*>(e->obj)) {
-				if (e->nx != 0) {
-
-					if (!IsJumping) {
-						vx = 0;
-					}
-					else {
-						if (this->nx == 1)
-							vx = SOPHIA_MOVING_SPEED;
-						else
-							vx = -SOPHIA_MOVING_SPEED;
-					}
-				}
-				if (e->ny == -1)
-				{
-					vy = 0;
-					IsJumping = false;
-				}
-				else if (e->ny == 1)
-				{
-					vy = 0;
-					ChangeAnimation(new PlayerFallingState());
-				}
-			}
-
-			if (dynamic_cast<Portal*>(e->obj))
+			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+			// block 
+			x += min_tx * dx + nx * 0.1f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+			y += min_ty * dy + ny * 0.4f;
+			//vy = 999;
+			// Collision logic with Enemies
+			for (UINT i = 0; i < coEventsResult.size(); i++)
 			{
-				if (e->nx != 0) x += dx;
-				Portal* p = dynamic_cast<Portal*>(e->obj);
-				IsTouchPortal = true;
-				scene_id = p->scene_id;
+				LPCOLLISIONEVENT e = coEventsResult[i];
+	
+				/*if (dynamic_cast<Jason*>(e->obj)) {
+					if (e->nx != 0) x += dx;
+					if (e->ny != 0) y += dy;
+				}*/
+				if (dynamic_cast<Brick*>(e->obj)) {
+					if (e->nx != 0) {
+
+						if (!IsJumping) {
+							vx = 0;
+						}
+						else {
+							if (this->nx == 1)
+								vx = SOPHIA_MOVING_SPEED;
+							else
+								vx = -SOPHIA_MOVING_SPEED;
+						}
+					}
+					if (e->ny == -1)
+					{
+						vy = 0;
+						IsJumping = false;
+					}
+					else if (e->ny == 1)
+					{
+  						vy = 0;
+						//ChangeAnimation(new PlayerFallingState());
+					}
+				}
+
+				if (dynamic_cast<Portal*>(e->obj))
+				{
+					if (e->nx != 0) x += dx;
+					Portal* p = dynamic_cast<Portal*>(e->obj);
+					IsTouchPortal = true;
+					scene_id = p->scene_id;
+					Game::GetInstance()->SwitchScene(p->GetSceneId());
+					ChangeScene();
+				}
 			}
 		}
+		// clean up collision events
+		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	}
-	// clean up collision events
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+}
 
+void Sophia::ChangeScene() {
+	if (IsTouchPortal && Allow[SOPHIA]) {
+		switch (scene_id) {
+		case 2:
+			ChangeAnimation(new PlayerStandingState());
+			IsTouchPortal = false;
+			if (nx > 0) {
+				SetPosition(80, 1152);
+			}
+			if (nx < 0) {
+				SetPosition(560, 72);
+			}
+			break;
+		case 1:
+			ChangeAnimation(new PlayerStandingState());
+			IsTouchPortal = false;
+			if (nx > 0) {
+				SetPosition(123 * BIT, 72 * BIT);
+			}
+			break;
+		case 3:
+			// change scene from scene 2 to scene 1
+			if (x >= 560 && nx > 0) {
+				ChangeAnimation(new PlayerStandingState());
+				IsTouchPortal = false;
+			}
+			else if (x <= 432 && nx < 0) {
+				ChangeAnimation(new PlayerStandingState());
+				IsTouchPortal = false;
+			}
+			break;
+		case 4:
+			if (x >= 1088 && nx > 0) {
+				ChangeAnimation(new PlayerStandingState());
+				IsTouchPortal = false;
+			}
+			else if (x <= 960 && nx < 0) {
+				ChangeAnimation(new PlayerStandingState());
+				IsTouchPortal = false;
+			}
+			break;
+		}
+	}
 }
 
 void Sophia::CheckState(int stateChange) {
@@ -187,20 +238,23 @@ void Sophia::Render() {
 
 void Sophia::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	left = x;
-	top = y;
-
 	if (stateBoundingBox == SOPHIA_BOUNDING_BOX) {
+		left = x;
+		top = y;
 		right = x + SOPHIA_BBOX_WIDTH;
 		bottom = y + SOPHIA_BBOX_HEIGHT;
 	}
 	else if (stateBoundingBox == SOPHIA_UP_BOUNDING_BOX) {
-		right = x + SOPHIA_UP_BBOX_WIDTH;
-		bottom = y + SOPHIA_UP_BBOX_HEIGHT;
+		left = x;
+		top = y + SOPHIA_UP_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT;
+		right = x + SOPHIA_BBOX_WIDTH;
+		bottom = top + SOPHIA_BBOX_HEIGHT;
 	}
 	else if (stateBoundingBox == SOPHIA_OPEN_BOUNDING_BOX) {
-		right = x + SOPHIA_OPEN_BBOX_WIDTH;
-		bottom = y + SOPHIA_OPEN_BBOX_HEIGHT;
+		left = x;
+		top = y + SOPHIA_OPEN_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT;
+		right = x + SOPHIA_BBOX_WIDTH;
+		bottom = top + SOPHIA_BBOX_HEIGHT;
 	}
 
 }
@@ -242,12 +296,35 @@ void Sophia::OnKeyDown(int key) {
 			if (!IsOpen) {
 				IsOpen = true;
 				ChangeAnimation(new PlayerOpenState());
+				vy = 0;
 				Allow[SOPHIA] = false;
 				Allow[JASON] = true; // allow jason to get out of car
 				playerSmall->IsRender = true;
-				playerSmall->Reset(player->x + (SOPHIA_BBOX_WIDTH / 3), player->y);
+				playerSmall->Reset(player->x + (SOPHIA_BBOX_WIDTH / 3), player->y + 1);
 			}
 		}
+		break;
+		// reset position of sophia
+	case DIK_1:
+		nx = 1;
+		ChangeAnimation(new PlayerStandingState());
+		SetSpeed(0, 0);
+		DebugOut(L"scene_id:%d", player->scene_id);
+		if (player->scene_id != 1) {
+			Game::GetInstance()->SwitchScene(1);
+			player->scene_id = 1;
+		}
+		SetPosition(67 * BIT, 1164);
+		break;
+	case DIK_2:
+		nx = 1;
+		ChangeAnimation(new PlayerStandingState());
+		SetSpeed(0, 0);
+		if (player->scene_id != 2) {
+			Game::GetInstance()->SwitchScene(2);
+			player->scene_id = 2;
+		}
+		SetPosition(4 * BIT, 1164);
 		break;
 	}
 }

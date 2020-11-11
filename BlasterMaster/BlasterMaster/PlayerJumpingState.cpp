@@ -99,7 +99,7 @@ void PlayerJumpingState::HandleKeyboard() {
 	}
 	else if (keyCode[DIK_UP]) {
 		if(Allow[SOPHIA])
-			player->ChangeAnimation(new PlayerUpwardState(), NORMAL);
+			player->ChangeAnimation(new PlayerUpwardJumpingState(), NORMAL);
 	}
 }
 

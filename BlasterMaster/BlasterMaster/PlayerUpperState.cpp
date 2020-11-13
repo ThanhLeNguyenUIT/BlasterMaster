@@ -1,6 +1,7 @@
 #include "PlayerUpperState.h"
 #include "PlayerMovingState.h"
 #include "PlayerUpwardMovingState.h"
+#include "PlayerUpwardState.h"
 
 PlayerUpperState::PlayerUpperState() {
 	player->RenderOneFrame = false;
@@ -31,9 +32,9 @@ void PlayerUpperState::Update() {
 		player->CurAnimation->currentFrame = -1;
 		player->ChangeAnimation(new PlayerUpwardMovingState());
 	}*/
-	if (player->IsJumping) {
+	/*if (player->IsJumping) {
 		player->RenderOneFrame = false;
-	}
+	}*/
 	this->HandleKeyboard();
 }
 
@@ -42,11 +43,17 @@ void PlayerUpperState::HandleKeyboard() {
 		player->CurAnimation->currentFrame = -1;
 		if (keyCode[DIK_RIGHT]) {
 			player->nx = 1;
-			player->ChangeAnimation(new PlayerUpwardMovingState);
+			player->ChangeAnimation(new PlayerUpwardMovingState());
 		}
 		else if (keyCode[DIK_LEFT]) {
 			player->nx = -1;
-			player->ChangeAnimation(new PlayerUpwardMovingState);
+			player->ChangeAnimation(new PlayerUpwardMovingState());
+		}
+		else if (keyCode[DIK_UP]) {
+			player->ChangeAnimation(new PlayerUpwardMovingState());
+			player->CurAnimation->currentFrame = 2;
+			player->RenderOneFrame = true;
+			player->vx = 0;
 		}
 	}
 }

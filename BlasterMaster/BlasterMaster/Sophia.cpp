@@ -271,14 +271,14 @@ Sophia* Sophia::GetInstance() {
 void Sophia::OnKeyDown(int key) {
 	switch (key) {
 	case DIK_SPACE:
-		oldCy = player->y;
+		//oldCy = player->y;
 		if (!IsJumping) {
 			if (!IsUp) {
 				ChangeAnimation(new PlayerJumpingState(), NORMAL);
 				IsJumping = true;
 			}
 			else {
-				ChangeAnimation(new PlayerUpperState());
+				ChangeAnimation(new PlayerUpwardJumpingState());
 				IsJumping = true;
 			}
 		}

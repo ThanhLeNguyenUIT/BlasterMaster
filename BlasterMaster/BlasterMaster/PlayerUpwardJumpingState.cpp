@@ -1,4 +1,5 @@
 #include "PlayerUpwardJumpingState.h"
+#include "PlayerUpwardMovingState.h"
 #include "PlayerUpwardState.h"
 
 PlayerUpwardJumpingState::PlayerUpwardJumpingState() {
@@ -42,13 +43,13 @@ void PlayerUpwardJumpingState::HandleKeyboard() {
 	if (keyCode[DIK_RIGHT]) {
 		player->nx = 1;
 		player->vx = SOPHIA_MOVING_SPEED;
-		player->ChangeAnimation(new PlayerUpwardJumpingState(), NORMAL);
+		player->ChangeAnimation(new PlayerUpwardMovingState(), NORMAL);
 		player->RenderOneFrame = false;
 	}
 	else if (keyCode[DIK_LEFT]) {
 		player->nx = -1;
 		player->vx = -SOPHIA_MOVING_SPEED;
-		player->ChangeAnimation(new PlayerUpwardJumpingState(), NORMAL);
+		player->ChangeAnimation(new PlayerUpwardMovingState(), NORMAL);
 		player->RenderOneFrame = false;
 	}
 }

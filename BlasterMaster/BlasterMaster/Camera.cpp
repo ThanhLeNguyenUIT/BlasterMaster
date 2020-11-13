@@ -34,9 +34,9 @@ void Camera::Update()
 		cy += 16;
 	}
 	// when car jump
-	if (player->IsJumping) {
+	/*if (player->IsJumping) {
 		cy = player->oldCy;
-	}
+	}*/
 	Game* game = Game::GetInstance();
 	cx -= game->GetScreenWidth() / 2;
 	cy -= game->GetScreenHeight() / 2;

@@ -2,7 +2,7 @@
 #include <assert.h>
 
 
-#include "Jason.h"
+#include "BigJason.h"
 #include "Game.h"
 #include "Portal.h"
 #include "Camera.h"
@@ -17,25 +17,25 @@
 
 #include "BulletMovingState.h"
 
-Jason* Jason::_instance = NULL;
+BigJason* BigJason::_instance = NULL;
 
-Jason::Jason() {
+BigJason::BigJason() {
 	IsUp = false;
 	IsJumping = false;
-	playerType = JASON;
+	playerType = BIG_JASON;
 }
 
-Jason::~Jason() {
+BigJason::~BigJason() {
 
 }
 
-void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
-	if (Allow[JASON]) {
+void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
+	if (Allow[BIG_JASON]) {
 		GameObject::Update(dt);
 
 		// Simple fall down
 
-		vy += JASON_GRAVITY * dt;
+		vy += BIG_JASON_GRAVITY * dt;
 		DebugOut(L"vy: %f\n", player->vy);
 		state->Update();
 		
@@ -97,9 +97,9 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 						}
 						else {
 							if (this->nx == 1)
-								vx = JASON_MOVING_SPEED;
+								vx = BIG_JASON_MOVING_SPEED;
 							else
-								vx = -JASON_MOVING_SPEED;
+								vx = -BIG_JASON_MOVING_SPEED;
 						}
 					}
 					if (e->ny == -1)
@@ -130,53 +130,16 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	}
 }
 
-void Jason::ChangeScene() {
+void BigJason::ChangeScene() {
 
-	if (IsTouchPortal && Allow[JASON]) {
+	if (IsTouchPortal && Allow[BIG_JASON]) {
 		switch (scene_id) {
-		case 2:
-			ChangeAnimation(new PlayerStandingState());
-			IsTouchPortal = false;
-			if (nx > 0) {
-				SetPosition(80, 1165);
-			}
-			if (nx < 0) {
-				SetPosition(560, 1165);
-			}
-			break;
-		case 1:
-			ChangeAnimation(new PlayerStandingState());
-			IsTouchPortal = false;
-			if (nx > 0) {
-				SetPosition(123 * BIT, 1165);
-			}
-			break;
-		case 3:
-			// change scene from scene 2 to scene 1
-			if (x >= 560 && nx > 0) {
-				ChangeAnimation(new PlayerStandingState());
-				IsTouchPortal = false;
-			}
-			else if (x <= 432 && nx < 0) {
-				ChangeAnimation(new PlayerStandingState());
-				IsTouchPortal = false;
-			}
-			break;
-		case 4:
-			if (x >= 1088 && nx > 0) {
-				ChangeAnimation(new PlayerStandingState());
-				IsTouchPortal = false;
-			}
-			else if (x <= 960 && nx < 0) {
-				ChangeAnimation(new PlayerStandingState());
-				IsTouchPortal = false;
-			}
-			break;
+		
 		}
 	}
 }
 
-void Jason::ChangeAnimation(PlayerState* newState, int stateChange) {
+void BigJason::ChangeAnimation(PlayerState* newState, int stateChange) {
 	delete state;
 	AnimationSets* animation_sets = AnimationSets::GetInstance();
 	state = newState;
@@ -184,7 +147,7 @@ void Jason::ChangeAnimation(PlayerState* newState, int stateChange) {
 	CurAnimation = animationSet->Get(newState->StateName);
 }
 
-void Jason::Render() {
+void BigJason::Render() {
 	int alpha = 255;
 	if (IsRender && !IsTouchPortal) {
 		CurAnimation->Render(x, y, alpha, idFrame, RenderOneFrame);
@@ -197,77 +160,33 @@ void Jason::Render() {
 
 }
 
-void Jason::GetBoundingBox(float& left, float& top, float& right, float& bottom){
+void BigJason::GetBoundingBox(float& left, float& top, float& right, float& bottom){
 	left = x;
 	top = y;
 
-	if (stateBoundingBox == JASON_BOUNDING_BOX) {
-		right = x + JASON_BBOX_WIDTH;
-		bottom = y + JASON_BBOX_HEIGHT;
-	}
-	else if (stateBoundingBox == JASON_CRAWLING_BOUNDING_BOX) {
-		right = x + JASON_CRAWLING_BBOX_WIDTH;
-		bottom = y + JASON_CRAWLING_BBOX_HEIGHT;
+	if (stateBoundingBox == BIG_JASON_BOUNDING_BOX) {
+		right = x + BIG_JASON_BBOX_WIDTH;
+		bottom = y + BIG_JASON_BBOX_HEIGHT;
 	}
 }
 
-Jason* Jason::GetInstance() {
+BigJason* BigJason::GetInstance() {
 	if (_instance == NULL) {
-		_instance = new Jason();
+		_instance = new BigJason();
 	}
 	return _instance;
 }
 
-void Jason::OnKeyDown(int key) {
+void BigJason::OnKeyDown(int key) {
 	switch (key) {
-	case DIK_SPACE:
-		ChangeAnimation(new PlayerJumpingState());
-		playerSmall->IsJumping = true;
-		break;
-	case DIK_3:
-		SetPosition(565, 112);
-		break;
-	case DIK_Q: // get on the car
-		if (Allow[JASON]){
-			if (x >= player->x && x <= player->x + SOPHIA_BBOX_WIDTH) {
-				playerSmall->ChangeAnimation(new PlayerJumpingState());
-				IsRender = false;
-				player->IsOpen = false;
-				Allow[JASON] = false;
-				Allow[SOPHIA] = true;
-				player->y = player->y + (SOPHIA_OPEN_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
-				player->ChangeAnimation(new PlayerStandingState());
-			}
-		}
-		break;
-	case DIK_S:
-		if (timeStartAttack == TIME_DEFAULT) {
-			timeStartAttack = GetTickCount();
-		}
-		IsFiring = true;
-		break;
-	case DIK_DOWN:
-		if (!IsCrawling) {
-			ChangeAnimation(new PlayerCrawlingState());
-			RenderOneFrame = true;
-			IsCrawling = true;
-		}
-		break;
-	case DIK_UP:
-		if (IsCrawling) {
-			playerSmall->y -= (JASON_BBOX_HEIGHT - JASON_CRAWLING_BBOX_HEIGHT);
-			ChangeAnimation(new PlayerStandingState());
-			IsCrawling = false;
-		}
-		break;
 	}
 }
 
-void Jason::OnKeyUp(int key) {
+void BigJason::OnKeyUp(int key) {
 	
 }
 
-void Jason::Reset(float x, float y) {
+void BigJason::Reset(float x, float y) {
 	nx = 1;
 	SetPosition(x, y);
 	ChangeAnimation(new PlayerStandingState());

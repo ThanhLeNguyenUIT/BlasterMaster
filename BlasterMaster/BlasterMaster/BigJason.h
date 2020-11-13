@@ -1,19 +1,19 @@
 #pragma once
+#pragma once
 #include "GameObject.h"
 #include "PlayerState.h"
 #include "Bullet.h"
 
 
-class Sophia : public GameObject
+class BigJason : public GameObject
 {
 	Bullet* bullet;
 	vector<Bullet*> bullets;
-	float start_x;			// initial position of Mario at scene
+	float start_x;			// initial position of Jason at scene
 	float start_y;
 public:
-	float oldCx, oldCy;
-	int scene_id = 1;
-	static Sophia* _instance;
+	int scene_id;
+	static BigJason* _instance;
 	int stateBoundingBox;
 	PlayerState* state;
 	Animation* CurAnimation;
@@ -22,33 +22,32 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
 	//bool IsJumping() { return this->isJumping; }
-	bool IsJumping = false;
+	DWORD timeStartAttack = TIME_DEFAULT;
+	bool IsJumping;
 	bool IsOnGround;
-	bool IsWalking;
+	bool IsMoving;
 	bool IsStop;
+	bool IsCrawling = false;
 	bool IsFiring = false;
 	bool IsDead;
-	bool IsUp = false;
+	bool IsUp;
 	bool IsTouchPortal;
 	bool IsUntouchable = false;
 	bool IsOpen = false;
-	bool IsMoving = false;
-	bool IsLoad = false;
-	DWORD timeStartAttack = TIME_DEFAULT;
+	bool IsRender;
+	bool RenderOneFrame = false;
+	bool rev;
 	int count = 0;
 	int idFrame = 0;
-	bool RenderOneFrame = false;
-	bool RenderBack = false;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 
-	Sophia();
-	~Sophia();
+	BigJason();
+	~BigJason();
 	void SetPlayerType(TYPE playerType) { this->playerType = playerType; }
 	void ChangeAnimation(PlayerState* state, int stateChange = 0);
 	void ChangeScene();
-	static Sophia* GetInstance();
-	void CheckState(int stateChange);
-	void Reset(float x = 67 * BIT, float y = 72 * BIT);
+	static BigJason* GetInstance();
+	void Reset(float x = 384, float y = 112);
 	void OnKeyUp(int key);
 	void OnKeyDown(int key);
 };

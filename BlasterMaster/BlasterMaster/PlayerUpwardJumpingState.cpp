@@ -22,13 +22,19 @@ PlayerUpwardJumpingState::~PlayerUpwardJumpingState() {
 }
 
 void PlayerUpwardJumpingState::Update() {
-	if (!player->IsJumping) {
-		player->RenderOneFrame = true;
+	/*if (!player->IsJumping) {
+		player->RenderOneFrame = false;
 		player->ChangeAnimation(new PlayerUpwardState(), NORMAL);
 		player->CurAnimation->currentFrame = 2;
 		player->y = player->y + (SOPHIA_UP_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
 		return;
 	}
+	else {
+		player->ChangeAnimation(new PlayerUpwardState(), NORMAL);
+		player->RenderOneFrame = false;
+		player->CurAnimation->currentFrame = 2;
+		return;
+	}*/
 	this->HandleKeyboard();
 }
 

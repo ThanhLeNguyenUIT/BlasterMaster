@@ -37,8 +37,9 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GlobalConfig.cpp" />
     <ClCompile Include="Goomba.cpp" />
+    <ClCompile Include="HUD.cpp" />
     <ClCompile Include="Jason.cpp" />
-    <ClCompile Include="JasonBig.cpp" />
+    <ClCompile Include="BigJason.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="PlayerClimbingState.cpp" />
@@ -73,8 +74,9 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GlobalConfig.h" />
     <ClInclude Include="Goomba.h" />
+    <ClInclude Include="HUD.h" />
     <ClInclude Include="Jason.h" />
-    <ClInclude Include="JasonBig.h" />
+    <ClInclude Include="BigJason.h" />
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="PlayerClimbingState.h" />

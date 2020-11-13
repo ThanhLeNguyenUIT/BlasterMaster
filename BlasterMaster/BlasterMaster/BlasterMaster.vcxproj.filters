@@ -45,6 +45,9 @@
     <Filter Include="Resource Files\textures">
       <UniqueIdentifier>{18653d6d-03bf-48ab-af75-3db5d30cf8d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GameComponents\HUD">
+      <UniqueIdentifier>{389ce24b-3dea-458e-9160-694d3713e602}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Textures\bbox.png">
@@ -160,13 +163,16 @@
     <ClCompile Include="PlayerJumpTurningState.cpp">
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClCompile>
-    <ClCompile Include="JasonBig.cpp">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerCrawlingState.cpp">
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClCompile>
     <ClCompile Include="PlayerClimbingState.cpp">
+      <Filter>Source Files\GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="HUD.cpp">
+      <Filter>Source Files\GameComponents\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="BigJason.cpp">
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClCompile>
   </ItemGroup>
@@ -267,13 +273,16 @@
     <ClInclude Include="PlayerJumpTurningState.h">
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClInclude>
-    <ClInclude Include="JasonBig.h">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerCrawlingState.h">
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClInclude>
     <ClInclude Include="PlayerClimbingState.h">
+      <Filter>Source Files\GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="HUD.h">
+      <Filter>Source Files\GameComponents\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="BigJason.h">
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClInclude>
   </ItemGroup>

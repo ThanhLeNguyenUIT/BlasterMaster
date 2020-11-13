@@ -5,6 +5,7 @@
 #include "PlayerStandingState.h"
 #include "PlayerUpwardState.h"
 #include "PlayerJumpTurningState.h"
+#include "PlayerUpperState.h"
 
 PlayerJumpingState::PlayerJumpingState() {
 
@@ -55,7 +56,15 @@ void PlayerJumpingState::Update() {
 }
 
 void PlayerJumpingState::HandleKeyboard() {
-	if (keyCode[DIK_RIGHT]) {
+	if (keyCode[DIK_RIGHT] && keyCode[DIK_UP]) {
+		if (Allow[SOPHIA])
+			player->ChangeAnimation(new PlayerUpperState(), NORMAL);
+	}
+	else if (keyCode[DIK_LEFT] && keyCode[DIK_UP]) {
+		if (Allow[SOPHIA])
+			player->ChangeAnimation(new PlayerUpperState(), NORMAL);
+	}
+	else if (keyCode[DIK_RIGHT]) {
 		if (Allow[SOPHIA]) {
 			if (player->nx > 0) {
 				player->nx = 1;
@@ -97,9 +106,9 @@ void PlayerJumpingState::HandleKeyboard() {
 			playerSmall->ChangeAnimation(new PlayerJumpingState());
 		}
 	}
-	else if (keyCode[DIK_UP]) {
-		if(Allow[SOPHIA])
-			player->ChangeAnimation(new PlayerUpwardJumpingState(), NORMAL);
+	if (keyCode[DIK_UP]) {
+		if (Allow[SOPHIA])
+			player->ChangeAnimation(new PlayerUpperState(), NORMAL);
 	}
 }
 

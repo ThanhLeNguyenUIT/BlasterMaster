@@ -44,6 +44,7 @@ public:
 	~Jason();
 	void SetPlayerType(TYPE playerType) { this->playerType = playerType; }
 	void ChangeAnimation(PlayerState* state, int stateChange = 0);
+	void ChangeScene();
 	static Jason* GetInstance();
 	void Reset(float x = 384, float y = 112);
 	void OnKeyUp(int key);

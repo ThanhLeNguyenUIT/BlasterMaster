@@ -31,6 +31,19 @@ using namespace std;
 
 #define JASON_CRAWLING_BBOX_WIDTH				16
 #define JASON_CRAWLING_BBOX_HEIGHT				10
+
+///// BIG JASON //////
+#define BIG_JASON_MOVING_SPEED						0.08f
+#define BIG_JASON_JUMP_SPEED_Y						0.4f
+#define BIG_JASON_GRAVITY							0.001f
+#define BIG_JASON_JUMP_DEFLECT_SPEED				0.2f
+#define BIG_JASON_DIE_DEFLECT_SPEED					0.5f
+
+#define BIG_JASON_BOUNDING_BOX						115
+
+#define BIG_JASON_BBOX_WIDTH						10
+#define BIG_JASON_BBOX_HEIGHT						17
+
 ///// SOPHIA /////
 #define SOPHIA_MOVING_SPEED						0.1f
 #define SOPHIA_JUMPING_SPEED_Y					0.35f
@@ -141,6 +154,7 @@ extern enum TYPE {
 	PLAYER,
 	SOPHIA,
 	JASON,
+	BIG_JASON,
 	BULLET_SMALL,
 	BULLET_BIG,
 	BRICK,

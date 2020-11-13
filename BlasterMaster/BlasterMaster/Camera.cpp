@@ -23,14 +23,19 @@ Camera::~Camera() {}
 void Camera::Update()
 {
 	float cx, cy;
-	float oldCx, oldCy;
+	float oldCx, oldCy = 0;
 	if (Allow[SOPHIA]) {
 		player->GetPosition(cx, cy);
 	}
 	else if (Allow[JASON])
 		playerSmall->GetPosition(cx, cy);
+	// when car up
 	if (player->IsUp) {
 		cy += 16;
+	}
+	// when car jump
+	if (player->IsJumping) {
+		cy = player->oldCy;
 	}
 	Game* game = Game::GetInstance();
 	cx -= game->GetScreenWidth() / 2;
@@ -48,44 +53,5 @@ void Camera::Update()
 	if (!player->IsTouchPortal) {
 		SetCamPos(cx, cy);
 	}
-	/*if (cx + (512-player->x) >= 512) {
-		cx = 521 - player->x;
-	}*/
-	// Update camera change scene for SOPHIA
-	
-
-	// Update camera change scene for JASON
-	if (playerSmall->IsTouchPortal && Allow[JASON]) {
-		playerSmall->ChangeAnimation(new PlayerMovingState());
-		playerSmall->vy = 0;
-		switch (playerSmall->scene_id) {
-		case 0:
-			// set end of scene 1 and start of scene 2
-			if (playerSmall->x >= 560 && playerSmall->nx > 0) {
-				playerSmall->ChangeAnimation(new PlayerStandingState());
-				playerSmall->IsTouchPortal = false;
-			}
-			else if (playerSmall->x <= 432 && playerSmall->nx < 0) {
-				playerSmall->ChangeAnimation(new PlayerStandingState());
-				playerSmall->IsTouchPortal = false;
-			}
-			//set camera scene 1
-
-			SetCamPos(cx, cy);
-			break;
-		case 1:
-			if (playerSmall->x >= 1088 && playerSmall->nx > 0) {
-				playerSmall->ChangeAnimation(new PlayerStandingState());
-				playerSmall->IsTouchPortal = false;
-			}
-			else if (playerSmall->x <= 960 && playerSmall->nx < 0) {
-				playerSmall->ChangeAnimation(new PlayerStandingState());
-				playerSmall->IsTouchPortal = false;
-			}
-			break;
-			SetCamPos(cx, cy);
-		}
-	}
-
 	SetCamPos(cx, cy);
 }

@@ -18,6 +18,7 @@
 #include "PlayerStandingState.h"
 #include "PlayerOpenState.h"
 #include "PlayerJumpTurningState.h"
+#include "PlayerUpperState.h"
 
 #include "BulletMovingState.h"
 
@@ -135,17 +136,17 @@ void Sophia::ChangeScene() {
 			ChangeAnimation(new PlayerStandingState());
 			IsTouchPortal = false;
 			if (nx > 0) {
-				SetPosition(80, 1152);
+				SetPosition(80, 1165);
 			}
 			if (nx < 0) {
-				SetPosition(560, 72);
+				SetPosition(560, 1165);
 			}
 			break;
 		case 1:
 			ChangeAnimation(new PlayerStandingState());
 			IsTouchPortal = false;
 			if (nx > 0) {
-				SetPosition(123 * BIT, 72 * BIT);
+				SetPosition(123 * BIT, 1165);
 			}
 			break;
 		case 3:
@@ -270,15 +271,15 @@ Sophia* Sophia::GetInstance() {
 void Sophia::OnKeyDown(int key) {
 	switch (key) {
 	case DIK_SPACE:
+		oldCy = player->y;
 		if (!IsJumping) {
 			if (!IsUp) {
 				ChangeAnimation(new PlayerJumpingState(), NORMAL);
 				IsJumping = true;
 			}
 			else {
-				ChangeAnimation(new PlayerUpwardJumpingState());
+				ChangeAnimation(new PlayerUpperState());
 				IsJumping = true;
-				RenderOneFrame = true;
 			}
 		}
 		break;
@@ -292,7 +293,7 @@ void Sophia::OnKeyDown(int key) {
 		IsFiring = true;
 		break;
 	case DIK_Q:
-		if (Allow[SOPHIA]) {
+		if (Allow[SOPHIA] && !IsJumping && !IsUp) {
 			if (!IsOpen) {
 				IsOpen = true;
 				ChangeAnimation(new PlayerOpenState());
@@ -309,12 +310,11 @@ void Sophia::OnKeyDown(int key) {
 		nx = 1;
 		ChangeAnimation(new PlayerStandingState());
 		SetSpeed(0, 0);
-		DebugOut(L"scene_id:%d", player->scene_id);
 		if (player->scene_id != 1) {
 			Game::GetInstance()->SwitchScene(1);
 			player->scene_id = 1;
 		}
-		SetPosition(67 * BIT, 1164);
+		SetPosition(67 * BIT, 1165);
 		break;
 	case DIK_2:
 		nx = 1;
@@ -324,7 +324,7 @@ void Sophia::OnKeyDown(int key) {
 			Game::GetInstance()->SwitchScene(2);
 			player->scene_id = 2;
 		}
-		SetPosition(4 * BIT, 1164);
+		SetPosition(4 * BIT, 1165);
 		break;
 	}
 }
@@ -332,7 +332,7 @@ void Sophia::OnKeyDown(int key) {
 void Sophia::OnKeyUp(int key) {
 	switch (key) {
 	case DIK_SPACE:
-		vy += SOPHIA_GRAVITY * dt * 10;
+		vy = SOPHIA_GRAVITY * dt * 10;
 		//ChangeAnimation()
 		break;
 	case DIK_UP:

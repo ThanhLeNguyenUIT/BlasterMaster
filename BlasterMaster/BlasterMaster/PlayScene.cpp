@@ -26,8 +26,6 @@ PlayScene::PlayScene(int id, LPCWSTR filePath) :
 #define SCENE_SECTION_OBJECTS	7
 #define SCENE_SECTION_SWITCH_SCENE		8
 
-#define OBJECT_TYPE_PORTAL	50
-
 #define MAX_SCENE_LINE 1024
 
 //void PlayScene::LoadBaseObjects() {
@@ -180,7 +178,7 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 		height = (int)atoi(tokens[4].c_str()) * BIT;
 		obj = new Brick(width, height);
 		break;
-	case OBJECT_TYPE_PORTAL:
+	case PORTAL:
 	{
 		float r = atof(tokens[3].c_str()) *BIT;
 		float b = atof(tokens[4].c_str()) *BIT;
@@ -194,10 +192,10 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 		return;
 	}
 	
-	if (type != SOPHIA && type != JASON && type != OBJECT_TYPE_PORTAL)
+	if (type != SOPHIA && type != JASON && type != PORTAL)
 		obj->SetPosition(x, y);
 
-	if (type != SOPHIA && type != JASON && type != OBJECT_TYPE_PORTAL)
+	if (type != SOPHIA && type != JASON && type != PORTAL)
 		listObjects.push_back(obj);
 }
 

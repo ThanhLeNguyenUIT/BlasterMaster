@@ -36,7 +36,6 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 		// Simple fall down
 
 		vy += JASON_GRAVITY * dt;
-		DebugOut(L"vy: %f\n", player->vy);
 		state->Update();
 		
 		vector<LPCOLLISIONEVENT> coEvents;
@@ -77,7 +76,7 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 			// block 
 
 			x += min_tx * dx + nx * 0.1f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-			y += min_ty * dy + ny * 0.3f;
+			y += min_ty * dy + ny * 0.1f;
 
 			// Collision logic with Enemies
 
@@ -190,11 +189,6 @@ void Jason::Render() {
 		CurAnimation->Render(x, y, alpha, idFrame, RenderOneFrame);
 		RenderBoundingBox();
 	}
-
-	for (int i = 0; i < bullets.size(); i++) {
-		bullets[i]->Render();
-	}
-
 }
 
 void Jason::GetBoundingBox(float& left, float& top, float& right, float& bottom){
@@ -235,6 +229,7 @@ void Jason::OnKeyDown(int key) {
 				player->IsOpen = false;
 				Allow[JASON] = false;
 				Allow[SOPHIA] = true;
+				Allow[BIG_JASON] = false;
 				player->y = player->y + (SOPHIA_OPEN_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
 				player->ChangeAnimation(new PlayerStandingState());
 			}

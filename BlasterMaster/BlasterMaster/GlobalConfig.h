@@ -17,14 +17,14 @@ using namespace std;
 #define TIME_DEFAULT		0
 #define TIME_FIRING			200
 ///// JASON /////
-#define JASON_MOVING_SPEED						0.08f
-#define JASON_JUMP_SPEED_Y						0.4f
+#define JASON_MOVING_SPEED						0.06f
+#define JASON_JUMP_SPEED_Y						0.35f
 #define JASON_GRAVITY							0.001f
 #define JASON_JUMP_DEFLECT_SPEED				0.2f
 #define JASON_DIE_DEFLECT_SPEED					0.5f
 
 #define JASON_BOUNDING_BOX						114
-#define JASON_CRAWLING_BOUNDING_BOX						115
+#define JASON_CRAWLING_BOUNDING_BOX				115
 
 #define JASON_BBOX_WIDTH						10
 #define JASON_BBOX_HEIGHT						17
@@ -41,8 +41,8 @@ using namespace std;
 
 #define BIG_JASON_BOUNDING_BOX						115
 
-#define BIG_JASON_BBOX_WIDTH						10
-#define BIG_JASON_BBOX_HEIGHT						17
+#define BIG_JASON_BBOX_WIDTH						24
+#define BIG_JASON_BBOX_HEIGHT						32
 
 ///// SOPHIA /////
 #define SOPHIA_MOVING_SPEED						0.1f
@@ -90,6 +90,7 @@ extern std::unordered_map<int, bool> keyCode;	// manage info keycode have been p
 #define GAME Game::GetInstance()
 #define player Sophia::GetInstance()
 #define playerSmall Jason::GetInstance()
+#define playerBig BigJason::GetInstance()
 
 
 extern enum STATENAME {
@@ -121,7 +122,8 @@ extern enum STATENAME {
 	SOPHIA_JUMPING_TURN_2,
 	SOPHIA_JUMPING_TURN_3,
 	SOPHIA_DEAD,
-	SOPHIA_OPEN,
+	SOPHIA_OPEN_RIGHT,
+	SOPHIA_OPEN_LEFT,
 	///// JASON ////////
 	JASON_STANDING_RIGHT,
 	JASON_STANDING_LEFT,
@@ -133,7 +135,19 @@ extern enum STATENAME {
 	JASON_JUMPING_RIGHT,
 	JASON_JUMPING_LEFT,
 	JASON_FALLING_RIGHT,
-	JASON_FALLING_LEFT
+	JASON_FALLING_LEFT,
+	JASON_DEAD_RIGHT,
+	JASON_DEAD_LEFT,
+	////// BIG JASON ///////
+	BIG_JASON_STANDING_RIGHT,
+	BIG_JASON_STANDING_LEFT,
+	BIG_JASON_STANDING_UP,
+	BIG_JASON_STANDING_DOWN,
+	BIG_JASON_MOVING_RIGHT,
+	BIG_JASON_MOVING_LEFT,
+	BIG_JASON_MOVING_UP,
+	BIG_JASON_MOVING_DOWN,
+	BIG_JASON_DEAD
 };
 
 extern enum STATEOBJECT {

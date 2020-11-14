@@ -10,7 +10,7 @@ PlayerUpwardState::PlayerUpwardState() {
 	player->IsUp = true;
 	player->RenderOneFrame = false;
 
-	player->vx = 0;
+	//player->vx = 0;
 
 	if (player->nx > 0) {
 			StateName = static_cast<STATENAME>(player->idFrame + 8);

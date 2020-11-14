@@ -2,6 +2,7 @@
 #include "PlayerStandingState.h"
 #include "PlayerJumpingState.h"
 #include "PlayerJumpTurningState.h"
+#include "PlayerUpperState.h"
 
 PlayerFallingState::PlayerFallingState() {
 	if (Allow[SOPHIA]) {
@@ -90,5 +91,9 @@ void PlayerFallingState::HandleKeyboard() {
 			playerSmall->vx = -JASON_MOVING_SPEED;
 			playerSmall->ChangeAnimation(new PlayerFallingState());
 		}
-	}	
+	}
+	if (keyCode[DIK_UP]) {
+		if (Allow[SOPHIA])
+			player->ChangeAnimation(new PlayerUpperState(), NORMAL);
+	}
 }

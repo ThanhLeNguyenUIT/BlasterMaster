@@ -30,6 +30,23 @@ PlayerStandingState::PlayerStandingState() {
 		}
 		playerSmall->stateBoundingBox = JASON_BOUNDING_BOX;
 	}
+	else if (Allow[BIG_JASON]) {
+		playerBig->vx = 0;
+		playerBig->vy = 0;
+		if (playerBig->nx > 0) {
+			StateName = BIG_JASON_STANDING_RIGHT;
+		}
+		else if (playerBig->nx < 0) {
+			StateName = BIG_JASON_STANDING_LEFT;
+		}
+		else if (playerBig->ny > 0) {
+			StateName = BIG_JASON_STANDING_UP;
+		}
+		else if (playerBig->ny < 0) {
+			StateName = BIG_JASON_STANDING_DOWN;
+		}
+		playerBig->stateBoundingBox = BIG_JASON_BOUNDING_BOX;
+	}
 }
 
 PlayerStandingState::~PlayerStandingState() {
@@ -47,6 +64,8 @@ void PlayerStandingState::HandleKeyboard() {
 			player->ChangeAnimation(new PlayerStandingState(), NORMAL);
 		else if (Allow[JASON])
 			playerSmall->ChangeAnimation(new PlayerStandingState());
+		else if(Allow[BIG_JASON])
+			playerBig->ChangeAnimation(new PlayerStandingState());
 	}
 	else if (keyCode[DIK_LEFT]) {
 		if (Allow[SOPHIA]) {
@@ -61,6 +80,9 @@ void PlayerStandingState::HandleKeyboard() {
 		}
 		else if (Allow[JASON]) {
 			playerSmall->ChangeAnimation(new PlayerMovingState());
+		}
+		else if (Allow[BIG_JASON]) {
+			playerBig->ChangeAnimation(new PlayerMovingState());
 		}
 
 	}
@@ -78,10 +100,21 @@ void PlayerStandingState::HandleKeyboard() {
 		else if (Allow[JASON]) {
 			playerSmall->ChangeAnimation(new PlayerMovingState());
 		}
+		else if (Allow[BIG_JASON]) {
+			playerBig->ChangeAnimation(new PlayerMovingState());
+		}
 
 	}
 	else if (keyCode[DIK_UPARROW]) {
 		if (Allow[SOPHIA])
 			player->ChangeAnimation(new PlayerUpwardState());
+		if (Allow[BIG_JASON]) {
+			playerBig->ChangeAnimation(new PlayerMovingState());
+		}
+	}
+	else if (keyCode[DIK_DOWNARROW]) {
+		if (Allow[BIG_JASON]) {
+			playerBig->ChangeAnimation(new PlayerMovingState());
+		}
 	}
 }

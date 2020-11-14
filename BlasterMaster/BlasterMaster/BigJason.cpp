@@ -35,7 +35,7 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 
 		// Simple fall down
 
-		vy += BIG_JASON_GRAVITY * dt;
+		//vy += BIG_JASON_GRAVITY * dt;
 		DebugOut(L"vy: %f\n", player->vy);
 		state->Update();
 		
@@ -153,11 +153,6 @@ void BigJason::Render() {
 		CurAnimation->Render(x, y, alpha, idFrame, RenderOneFrame);
 		RenderBoundingBox();
 	}
-
-	for (int i = 0; i < bullets.size(); i++) {
-		bullets[i]->Render();
-	}
-
 }
 
 void BigJason::GetBoundingBox(float& left, float& top, float& right, float& bottom){
@@ -179,6 +174,15 @@ BigJason* BigJason::GetInstance() {
 
 void BigJason::OnKeyDown(int key) {
 	switch (key) {
+	case DIK_E:
+		if (Allow[BIG_JASON]) {
+			Allow[JASON] = false;
+			Allow[SOPHIA] = true;
+			Allow[BIG_JASON] = false;
+			playerBig->IsRender = false;
+			player->ChangeAnimation(new PlayerStandingState());
+		}
+		break;
 	}
 }
 
@@ -192,5 +196,3 @@ void BigJason::Reset(float x, float y) {
 	ChangeAnimation(new PlayerStandingState());
 	SetSpeed(0, 0);
 }
-
-

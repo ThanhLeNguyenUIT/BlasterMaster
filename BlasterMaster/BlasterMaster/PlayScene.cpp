@@ -192,10 +192,10 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 		return;
 	}
 	
-	if (type != SOPHIA && type != JASON && type != PORTAL)
+	if (type != SOPHIA && type != JASON && type != BIG_JASON && type != PORTAL)
 		obj->SetPosition(x, y);
 
-	if (type != SOPHIA && type != JASON && type != PORTAL)
+	if (type != SOPHIA && type != JASON && type != BIG_JASON && type != PORTAL)
 		listObjects.push_back(obj);
 }
 
@@ -255,11 +255,13 @@ void PlayScene::Load() {
 	player->Reset();
 	playerSmall->Reset();
 	playerSmall->IsRender = false;
+	playerBig->Reset();
+	playerBig->IsRender = false;
 }
 
 void PlayScene::Update(DWORD dt) {
 	vector<LPGAMEOBJECT> coObjects;
-	for (size_t i = 1; i < listObjects.size(); i++) {
+	for (size_t i = 0; i < listObjects.size(); i++) {
 		coObjects.push_back(listObjects[i]);
 	}
 	for (size_t i = 0; i < Portals.size(); i++) {
@@ -271,7 +273,7 @@ void PlayScene::Update(DWORD dt) {
 	}
 	player->Update(dt, &coObjects);
 	playerSmall->Update(dt, &coObjects);
-	
+	playerBig->Update(dt, &coObjects);
 	// create bullet
 	// SOPHIA
 	if (player->IsFiring && GetTickCount() - player->timeStartAttack >= 180) {
@@ -375,6 +377,7 @@ void PlayScene::Render() {
 	}
 	player->Render();
 	playerSmall->Render();
+	playerBig->Render();
 }
 
 void PlayScene::Unload() {
@@ -388,10 +391,7 @@ void PlayScene::Unload() {
 }
 
 void PlaySceneKeyHandler::OnKeyDown(int KeyCode){
-	Sophia* sophia = ((PlayScene*)scene)->GetSophia();
-	Jason* jason = ((PlayScene*)scene)->GetJason();
-	if (Allow[SOPHIA])
-	{
+	if (Allow[SOPHIA]){
 		keyCode[KeyCode] = true;
 		player->OnKeyDown(KeyCode);
 	}
@@ -400,12 +400,14 @@ void PlaySceneKeyHandler::OnKeyDown(int KeyCode){
 		keyCode[KeyCode] = true;
 		playerSmall->OnKeyDown(KeyCode);
 	}
+	else if (Allow[BIG_JASON])
+	{
+		keyCode[KeyCode] = true;
+		playerBig->OnKeyDown(KeyCode);
+	}
 }
 
 void PlaySceneKeyHandler::OnKeyUp(int KeyCode) {
-	Sophia* sophia = ((PlayScene*)scene)->GetSophia();
-	Jason* jason = ((PlayScene*)scene)->GetJason();
-	
 	if (Allow[SOPHIA]) {
 		keyCode[KeyCode] = false;
 		player->OnKeyUp(KeyCode);
@@ -413,6 +415,10 @@ void PlaySceneKeyHandler::OnKeyUp(int KeyCode) {
 	else if (Allow[JASON]) {
 		keyCode[KeyCode] = false;
 		playerSmall->OnKeyUp(KeyCode);
+	}
+	else if (Allow[BIG_JASON]) {
+		keyCode[KeyCode] = false;
+		playerBig->OnKeyUp(KeyCode);
 	}
 }
 

@@ -286,12 +286,4 @@
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="text\blaster-master.txt">
-      <Filter>Resource Files\text</Filter>
-    </Text>
-    <Text Include="text\scene1.txt">
-      <Filter>Resource Files\text</Filter>
-    </Text>
-  </ItemGroup>
 </Project>

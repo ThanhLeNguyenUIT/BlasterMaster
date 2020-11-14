@@ -8,6 +8,7 @@
 #include "Camera.h"
 #include "Sophia.h"
 #include "Jason.h"
+#include "BigJason.h"
 #include "Bullet.h"
 #include "Portal.h"
 

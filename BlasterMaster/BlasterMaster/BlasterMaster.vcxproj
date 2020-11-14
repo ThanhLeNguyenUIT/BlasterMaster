@@ -101,10 +101,6 @@
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Textures.h" />
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="text\blaster-master.txt" />
-    <Text Include="text\scene1.txt" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

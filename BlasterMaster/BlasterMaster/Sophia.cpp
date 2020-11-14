@@ -136,22 +136,22 @@ void Sophia::ChangeScene() {
 			ChangeAnimation(new PlayerStandingState());
 			IsTouchPortal = false;
 			if (nx > 0) {
-				SetPosition(80, 1165);
+				SetPosition(80, 1152);
 			}
 			if (nx < 0) {
-				SetPosition(560, 1165);
+				SetPosition(560, 72);
 			}
 			break;
 		case 1:
 			ChangeAnimation(new PlayerStandingState());
 			IsTouchPortal = false;
 			if (nx > 0) {
-				SetPosition(123 * BIT, 1165);
+				SetPosition(123 * BIT, 72 * BIT);
 			}
 			break;
 		case 3:
 			// change scene from scene 2 to scene 1
-			if (x >= 560 && nx > 0) {
+			/*if (x >= 560 && nx > 0) {
 				ChangeAnimation(new PlayerStandingState());
 				IsTouchPortal = false;
 			}
@@ -159,9 +159,17 @@ void Sophia::ChangeScene() {
 				ChangeAnimation(new PlayerStandingState());
 				IsTouchPortal = false;
 			}
+			break;*/
+
+			ChangeAnimation(new PlayerStandingState());
+			IsTouchPortal = false;
+			if (nx < 0) {
+				SetPosition(27 * 16, 9 * 16);
+			}
+			else SetPosition(590, 100);
 			break;
 		case 4:
-			if (x >= 1088 && nx > 0) {
+			/*if (x >= 1088 && nx > 0) {
 				ChangeAnimation(new PlayerStandingState());
 				IsTouchPortal = false;
 			}
@@ -169,7 +177,37 @@ void Sophia::ChangeScene() {
 				ChangeAnimation(new PlayerStandingState());
 				IsTouchPortal = false;
 			}
+			break;*/
+			ChangeAnimation(new PlayerStandingState());
+			IsTouchPortal = false;
+			SetPosition(4 * BIT, 54 * BIT);
 			break;
+		case 5:
+			ChangeAnimation(new PlayerStandingState());
+			IsTouchPortal = false;
+			SetPosition(59 * BIT, 88 * BIT);
+			break;
+		case 6:
+			ChangeAnimation(new PlayerStandingState());
+			IsTouchPortal = false;
+			SetPosition(68 * BIT, 24 * BIT);
+			break;
+		case 7:
+			ChangeAnimation(new PlayerStandingState());
+			IsTouchPortal = false;
+			SetPosition(100 * BIT, 24 * BIT);
+			break;
+		case 8:
+			ChangeAnimation(new PlayerStandingState());
+			IsTouchPortal = false;
+			SetPosition(91 * BIT, 40 * BIT);
+			break;
+		case 9:
+			ChangeAnimation(new PlayerStandingState());
+			IsTouchPortal = false;
+			SetPosition(68 * BIT, 56 * BIT);
+			break;
+
 		}
 	}
 }
@@ -271,15 +309,15 @@ Sophia* Sophia::GetInstance() {
 void Sophia::OnKeyDown(int key) {
 	switch (key) {
 	case DIK_SPACE:
-		oldCy = player->y;
 		if (!IsJumping) {
 			if (!IsUp) {
 				ChangeAnimation(new PlayerJumpingState(), NORMAL);
 				IsJumping = true;
 			}
 			else {
-				ChangeAnimation(new PlayerUpperState());
+				ChangeAnimation(new PlayerUpwardJumpingState());
 				IsJumping = true;
+				RenderOneFrame = true;
 			}
 		}
 		break;
@@ -293,7 +331,7 @@ void Sophia::OnKeyDown(int key) {
 		IsFiring = true;
 		break;
 	case DIK_Q:
-		if (Allow[SOPHIA] && !IsJumping && !IsUp) {
+		if (Allow[SOPHIA]) {
 			if (!IsOpen) {
 				IsOpen = true;
 				ChangeAnimation(new PlayerOpenState());
@@ -310,11 +348,12 @@ void Sophia::OnKeyDown(int key) {
 		nx = 1;
 		ChangeAnimation(new PlayerStandingState());
 		SetSpeed(0, 0);
+		DebugOut(L"scene_id:%d", player->scene_id);
 		if (player->scene_id != 1) {
 			Game::GetInstance()->SwitchScene(1);
 			player->scene_id = 1;
 		}
-		SetPosition(67 * BIT, 1165);
+		SetPosition(67 * BIT, 1164);
 		break;
 	case DIK_2:
 		nx = 1;
@@ -324,9 +363,80 @@ void Sophia::OnKeyDown(int key) {
 			Game::GetInstance()->SwitchScene(2);
 			player->scene_id = 2;
 		}
-		SetPosition(4 * BIT, 1165);
+		SetPosition(4 * BIT, 1164);
+		break;
+	case DIK_3:
+		nx = 1;
+		ChangeAnimation(new PlayerStandingState());
+		SetSpeed(0, 0);
+		if (player->scene_id != 3) {
+			Game::GetInstance()->SwitchScene(3);
+			player->scene_id = 3;
+		}
+		SetPosition(590, 100);
+		break;
+	case DIK_4:
+		nx = 1;
+		ChangeAnimation(new PlayerStandingState());
+		SetSpeed(0, 0);
+		if (player->scene_id != 4) {
+			Game::GetInstance()->SwitchScene(4);
+			player->scene_id = 4;
+		}
+		SetPosition(4 * BIT, 54 * BIT);
+		break;
+	case DIK_5:
+		nx = 1;
+		ChangeAnimation(new PlayerStandingState());
+		SetSpeed(0, 0);
+		if (player->scene_id != 5) {
+			Game::GetInstance()->SwitchScene(5);
+			player->scene_id = 5;
+		}
+		SetPosition(59 * BIT, 88 * BIT);
+		break;
+	case DIK_6:
+		nx = 1;
+		ChangeAnimation(new PlayerStandingState());
+		SetSpeed(0, 0);
+		if (player->scene_id != 6) {
+			Game::GetInstance()->SwitchScene(6);
+			player->scene_id = 6;
+		}
+		SetPosition(68 * BIT, 24 * BIT);
+		break;
+	case DIK_7:
+		nx = 1;
+		ChangeAnimation(new PlayerStandingState());
+		SetSpeed(0, 0);
+		if (player->scene_id != 7) {
+			Game::GetInstance()->SwitchScene(7);
+			player->scene_id = 7;
+		}
+		SetPosition(100 * BIT, 24 * BIT);
+		break;
+	case DIK_8:
+		nx = 1;
+		ChangeAnimation(new PlayerStandingState());
+		SetSpeed(0, 0);
+		if (player->scene_id != 8) {
+			Game::GetInstance()->SwitchScene(8);
+			player->scene_id = 8;
+		}
+		SetPosition(91 * BIT, 40 * BIT);
+		break;
+	case DIK_9:
+		nx = 1;
+		ChangeAnimation(new PlayerStandingState());
+		SetSpeed(0, 0);
+		if (player->scene_id != 9) {
+			Game::GetInstance()->SwitchScene(9);
+			player->scene_id = 9;
+		}
+		SetPosition(68 * BIT, 56 * BIT);
 		break;
 	}
+
 }
 
 void Sophia::OnKeyUp(int key) {

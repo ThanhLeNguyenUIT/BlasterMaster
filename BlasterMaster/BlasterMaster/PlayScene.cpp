@@ -259,7 +259,7 @@ void PlayScene::Load() {
 
 void PlayScene::Update(DWORD dt) {
 	vector<LPGAMEOBJECT> coObjects;
-	for (size_t i = 1; i < listObjects.size(); i++) {
+	for (size_t i = 0; i < listObjects.size(); i++) {
 		coObjects.push_back(listObjects[i]);
 	}
 	for (size_t i = 0; i < Portals.size(); i++) {

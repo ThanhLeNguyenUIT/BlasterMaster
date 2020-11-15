@@ -346,11 +346,11 @@ void PlayScene::Update(DWORD dt) {
 			}
 		}
 	}
+
 	for (int i = 0; i < bullets.size(); i++) {
 		bullets[i]->Update(dt, &coObjects);
 	}
 	
-
 	// skip the rest if scene was already unloaded (Car::Update might trigger PlayScene::Unload)
 
 	// Update camera to follow player

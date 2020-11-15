@@ -187,9 +187,9 @@ Game::~Game()
 	SweptAABB
 */
 void Game::SweptAABB(
-	float ml, float mt, float mr, float mb,
+	float ml, float mt, float mr, float mb,  //moving obj
 	float dx, float dy,
-	float sl, float st, float sr, float sb,
+	float sl, float st, float sr, float sb,	 //static obj
 	float& t, float& nx, float& ny)
 {
 
@@ -214,7 +214,7 @@ void Game::SweptAABB(
 	if (br < sl || bl > sr || bb < st || bt > sb) return;
 
 
-	if (dx == 0 && dy == 0) return;		// moving object is not moving > obvious no collision
+	if (dx == 0 && dy == 0) return;		// moving object is not moving > obvious no collision // dung di chuyen
 
 	if (dx > 0)
 	{
@@ -226,7 +226,6 @@ void Game::SweptAABB(
 		dx_entry = sr - ml;
 		dx_exit = sl - mr;
 	}
-
 
 	if (dy > 0)
 	{

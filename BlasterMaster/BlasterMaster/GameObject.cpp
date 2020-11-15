@@ -21,10 +21,10 @@ void GameObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	dy = vy * dt;
 }
 
-LPCOLLISIONEVENT GameObject::SweptAABBEx(LPGAMEOBJECT coO)
+LPCOLLISIONEVENT GameObject::SweptAABBEx(LPGAMEOBJECT coO)    //
 {
-	float sl, st, sr, sb;		// static object bbox
-	float ml, mt, mr, mb;		// moving object bbox
+	float sl, st, sr, sb;		// position static object bbox
+	float ml, mt, mr, mb;		// position moving object bbox
 	float t, nx, ny;
 
 	coO->GetBoundingBox(sl, st, sr, sb);
@@ -33,8 +33,8 @@ LPCOLLISIONEVENT GameObject::SweptAABBEx(LPGAMEOBJECT coO)
 	float svx, svy;
 	coO->GetSpeed(svx, svy);
 
-	float sdx = svx * dt;
-	float sdy = svy * dt;
+	float sdx = svx * dt;     //quang duong di duoc trong 1 khoang dt theo chieu x
+	float sdy = svy * dt;	  //quang duong di duoc trong 1 khoang dt theo chieu y
 
 	float dx = this->dx - sdx;
 	float dy = this->dy - sdy;

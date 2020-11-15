@@ -30,6 +30,8 @@ public:
 	bool IsDead;
 	bool IsUp = false;
 	bool IsTouchPortal;
+	bool IsRender = true;
+	bool IsTouchStair;
 	bool IsUntouchable = false;
 	bool IsOpen = false;
 	bool IsMoving = false;

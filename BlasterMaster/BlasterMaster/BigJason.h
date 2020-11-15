@@ -13,6 +13,7 @@ class BigJason : public GameObject
 	float start_y;
 public:
 	int scene_id;
+	int scene_gate;
 	static BigJason* _instance;
 	int stateBoundingBox;
 	PlayerState* state;
@@ -45,7 +46,7 @@ public:
 	~BigJason();
 	void SetPlayerType(TYPE playerType) { this->playerType = playerType; }
 	void ChangeAnimation(PlayerState* state, int stateChange = 0);
-	void ChangeScene();
+	void ChangeScene(int sceneId);
 	static BigJason* GetInstance();
 	void Reset(float x = 384, float y = 112);
 	void OnKeyUp(int key);

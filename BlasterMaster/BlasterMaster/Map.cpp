@@ -16,6 +16,7 @@ void Map::Render()
 {
 	Textures* textures = Textures::GetInstance();
 	LPDIRECT3DTEXTURE9 texMap;
+	//if(Allow[])
 	texMap = textures->Get(ID_TEX_MAP);
 	Sprites* sprites = Sprites::GetInstance();
 	sprites->Add(99999, 0, 0, 2048, 2048, texMap);

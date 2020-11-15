@@ -4,13 +4,14 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "Brick.h"
-//#include "SceneManager.h"
+#include "Stair.h"
 #include "Camera.h"
 #include "Sophia.h"
 #include "Jason.h"
 #include "BigJason.h"
 #include "Bullet.h"
 #include "Portal.h"
+#include "Gate.h"
 
 #include "GlobalConfig.h"
 
@@ -24,6 +25,7 @@ protected:
 	vector<Bullet*> bullets;
 	vector<LPGAMEOBJECT> listObjects;
 	vector<Portal*>Portals;
+	vector<Gate*>Gates;
 	Camera* gameCamera;
 	//Sophia* sophia;
 	void _ParseSection_TEXTURES(string line);

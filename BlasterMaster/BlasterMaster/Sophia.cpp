@@ -8,6 +8,7 @@
 #include "Portal.h"
 #include "Camera.h"
 #include "Brick.h"
+#include "Stair.h"
 
 #include "PlayerState.h"
 #include "PlayerFallingState.h"
@@ -122,6 +123,12 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 					Game::GetInstance()->SwitchScene(p->GetSceneId());
 					ChangeScene();
 				}
+
+				if (dynamic_cast<Stair*>(e->obj))
+				{
+					if (e->nx != 0) x += dx;
+					Stair* p = dynamic_cast<Stair*>(e->obj);
+				}
 			}
 		}
 		// clean up collision events
@@ -226,7 +233,7 @@ void Sophia::ChangeAnimation(PlayerState* newState, int stateChange) {
 
 void Sophia::Render() {
 	int alpha = 255;
-	if (!IsTouchPortal) {
+	if (IsRender && !IsTouchPortal) {
 		if (!RenderBack) {
 			CurAnimation->Render(x, y, alpha, idFrame, RenderOneFrame);
 		}
@@ -318,6 +325,7 @@ void Sophia::OnKeyDown(int key) {
 				Allow[SOPHIA] = false;
 				Allow[JASON] = true; // allow jason to get out of car
 				playerSmall->IsRender = true;
+				playerSmall->scene_id = scene_id;
 				playerSmall->Reset(player->x + (SOPHIA_BBOX_WIDTH / 3), player->y + 1);
 			}
 		}
@@ -381,7 +389,7 @@ void Sophia::OnKeyDown(int key) {
 			Game::GetInstance()->SwitchScene(5);
 			player->scene_id = 5;
 		}
-		SetPosition(59 * BIT, 88 * BIT);
+		SetPosition(36 * BIT, 36 * BIT);
 		break;
 	case DIK_6:
 		nx = 1;

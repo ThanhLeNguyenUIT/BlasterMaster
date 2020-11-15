@@ -121,7 +121,6 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 					IsTouchPortal = true;
 					scene_id = p->scene_id;
 					Game::GetInstance()->SwitchScene(p->GetSceneId());
-					ChangeScene();
 				}
 			}
 		}
@@ -130,11 +129,12 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	}
 }
 
-void BigJason::ChangeScene() {
-
-	if (IsTouchPortal && Allow[BIG_JASON]) {
-		switch (scene_id) {
-		
+void BigJason::ChangeScene(int scene_gate) {
+	if (Allow[BIG_JASON]) {
+		switch (scene_gate) {
+		case 10:
+			SetPosition(87.5 * BIT, 71.5 * BIT);
+			break;
 		}
 	}
 }

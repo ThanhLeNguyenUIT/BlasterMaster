@@ -49,6 +49,8 @@ void PlayScene::_ParseSection_TEXTURES(string line)
 	int B = atoi(tokens[4].c_str());
 
 	Textures::GetInstance()->Add(texID, path.c_str(), D3DCOLOR_XRGB(R, G, B));
+	DebugOut(L"[ERROR] Texture ID %d not found!\n", texID);
+
 }
 
 void PlayScene::_ParseSection_SPRITES(string line)
@@ -187,15 +189,29 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 		Portals.push_back(portal);
 	}
 	break;
+	case STAIR:
+		width = (int)atoi(tokens[3].c_str()) * BIT;
+		height = (int)atoi(tokens[4].c_str()) * BIT;
+		obj = new Stair(width, height);
+		break;
+	case GATE:
+		{
+			float r = atof(tokens[3].c_str()) * BIT;
+			float b = atof(tokens[4].c_str()) * BIT;
+			int scene_id = atoi(tokens[5].c_str());
+			Gate* gate = new Gate(x, y, r, b, scene_id);
+			Gates.push_back(gate);
+		}
+		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
 	}
 	
-	if (type != SOPHIA && type != JASON && type != BIG_JASON && type != PORTAL)
+	if (type != SOPHIA && type != JASON && type != BIG_JASON && type != PORTAL && type != GATE)
 		obj->SetPosition(x, y);
 
-	if (type != SOPHIA && type != JASON && type != BIG_JASON && type != PORTAL)
+	if (type != SOPHIA && type != JASON && type != BIG_JASON && type != PORTAL && type != GATE)
 		listObjects.push_back(obj);
 }
 
@@ -266,6 +282,9 @@ void PlayScene::Update(DWORD dt) {
 	}
 	for (size_t i = 0; i < Portals.size(); i++) {
 		coObjects.push_back(Portals[i]);
+	}
+	for (size_t i = 0; i < Gates.size(); i++) {
+		coObjects.push_back(Gates[i]);
 	}
 	for (size_t i = 0; i < listObjects.size(); i++)
 	{
@@ -372,6 +391,9 @@ void PlayScene::Render() {
 	for (int i = 0; i < Portals.size(); i++) {
 		Portals[i]->Render();
 	}
+	for (int i = 0; i < Gates.size(); i++) {
+		Gates[i]->Render();
+	}
 	for (int i = 0; i < bullets.size(); i++) {
 		bullets[i]->Render();
 	}
@@ -385,6 +407,8 @@ void PlayScene::Unload() {
 		delete listObjects[i];
 	for (int i = 0; i < Portals.size(); i++)
 		delete Portals[i];
+	for (int i = 0; i < Gates.size(); i++)
+		delete Gates[i];
 	listObjects.clear();
 	Portals.clear();
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);

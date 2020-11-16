@@ -1,4 +1,4 @@
-#include <d3dx9.h>
+﻿#include <d3dx9.h>
 #include <algorithm>
 
 #include "debug.h"
@@ -36,8 +36,8 @@ LPCOLLISIONEVENT GameObject::SweptAABBEx(LPGAMEOBJECT coO)    //
 	float sdx = svx * dt;     //quang duong di duoc trong 1 khoang dt theo chieu x
 	float sdy = svy * dt;	  //quang duong di duoc trong 1 khoang dt theo chieu y
 
-	float dx = this->dx - sdx;
-	float dy = this->dy - sdy;
+	float dx = this->dx - sdx;  //cap nhat lai dx
+	float dy = this->dy - sdy;	//cap nhat lai dy
 
 	GetBoundingBox(ml, mt, mr, mb);
 
@@ -46,13 +46,13 @@ LPCOLLISIONEVENT GameObject::SweptAABBEx(LPGAMEOBJECT coO)    //
 		dx, dy,
 		sl, st, sr, sb,
 		t, nx, ny
-	);
+	);    // tinh nx, ny ,t
 
-	CollisionEvent* e = new CollisionEvent(t, nx, ny, coO);
+	CollisionEvent* e = new CollisionEvent(t, nx, ny, coO);  
 	return e;
 }
 
-void GameObject::CalcPotentialCollisions(
+void GameObject::CalcPotentialCollisions(   // tính các va chạm có khả năng xảy ra trong frame tới
 	vector<LPGAMEOBJECT>* coObjects,
 	vector<LPCOLLISIONEVENT>& coEvents)
 {
@@ -60,16 +60,16 @@ void GameObject::CalcPotentialCollisions(
 	{
 		LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));
 
-		if (e->t > 0 && e->t <= 1.0f)
+		if (e->t > 0 && e->t <= 1.0f)  // chuan bi va cham
 			coEvents.push_back(e);
 		else
 			delete e;
 	}
 
-	std::sort(coEvents.begin(), coEvents.end(), CollisionEvent::compare);
+	std::sort(coEvents.begin(), coEvents.end(), CollisionEvent::compare); // sap xep theo va cham theo thoi gian xay ra nhanh nhat
 }
 
-void GameObject::FilterCollision(
+void GameObject::FilterCollision(   //lọc va chạm tìm sự kiện gần xảy ra nhất theo chiều x và chiều y
 	vector<LPCOLLISIONEVENT>& coEvents,
 	vector<LPCOLLISIONEVENT>& coEventsResult,
 	float& min_tx, float& min_ty,

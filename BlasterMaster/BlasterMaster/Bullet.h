@@ -16,13 +16,14 @@ typedef Bullet* LPBULLET;
 class Bullet : public GameObject {
 public:
 	DWORD timeStartCol = TIME_DEFAULT;
+	bool isDead = false;
 	bool IsHitting = false;
 	Animation* CurAnimation;
 	TYPE typeBullet;
 	STATEOBJECT StateObject;
 	void ChangeAnimation(STATEOBJECT StateObject);
 	STATEOBJECT GetStateObject() { return this->StateObject; }
-	void SetType(TYPE type) { this->typeBullet = type; }
+	//void SetType(TYPE type) { this->typeBullet = type; }
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();

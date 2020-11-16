@@ -2,6 +2,9 @@
 #include "Bullet.h"
 #include "Goomba.h"
 #include "Jason.h"
+#include "Brick.h"
+#include "Portal.h"
+
 
 void Bullet::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -36,7 +39,7 @@ void Bullet::ChangeAnimation(STATEOBJECT StateObject) {
 		vx = 0;
 		vy = 0;
 		IsHitting = true;
-		if (timeStartCol = TIME_DEFAULT) timeStartCol = GetTickCount();
+		//if (timeStartCol == TIME_DEFAULT) timeStartCol = GetTickCount();
 		break;
 	default:
 		break;
@@ -44,9 +47,11 @@ void Bullet::ChangeAnimation(STATEOBJECT StateObject) {
 }
 
 void Bullet::Render() {
-	int alpha = 255;
-	CurAnimation->Render(x, y, alpha);
-	RenderBoundingBox();
+	if (!isDead) {
+		int alpha = 255;
+		CurAnimation->Render(x, y, alpha);
+		RenderBoundingBox();
+	}
 }
 
 void Bullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
@@ -68,13 +73,37 @@ void Bullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 		
 		// block 
-		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+		x += min_tx * dx + nx * 0.1f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
 		y += min_ty * dy + ny * 0.4f;
 
 
-		if (nx != 0) ChangeAnimation(BULLET_SMALL_HIT);
-		if (ny != 0) ChangeAnimation(BULLET_SMALL_HIT);
 		
+		for (int i = 0; i < coEvents.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (dynamic_cast<Brick*>(e->obj)) {
+				if (nx != 0) ChangeAnimation(BULLET_SMALL_HIT);
+				if (ny != 0) ChangeAnimation(BULLET_SMALL_HIT);
+				//isDead = true;
+			}
+
+			else if (dynamic_cast<Portal*>(e->obj)) {
+				if (nx != 0) ChangeAnimation(BULLET_SMALL_HIT);
+				if (ny != 0) ChangeAnimation(BULLET_SMALL_HIT);
+				//isDead = true;
+			}
+
+			else if (dynamic_cast<Bullet*>(e->obj)) {
+				//isDead = true;
+				/*if (nx != 0) ChangeAnimation(BULLET_SMALL_HIT);
+				if (ny != 0) ChangeAnimation(BULLET_SMALL_HIT);*/
+			}
+		}
+
+		for (int i = 0; i < coEvents.size(); i++) {
+			delete coEvents[i];
+		}
+
 		// Collision logic with Goombas
 		//for (UINT i = 0; i < coEventsResult.size(); i++)
 		//{

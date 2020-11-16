@@ -25,7 +25,8 @@ void Animation::Render(float x, float y, int alpha, int idFrame, bool renderOneF
 {
 	DWORD now = GetTickCount();
 	if (!renderOneFrame) {
-		if (currentFrame <= -1)
+
+	if (currentFrame <= -1)
 		{
 			currentFrame = 0;
 			lastFrameTime = now;
@@ -60,7 +61,8 @@ void Animation::Render(float x, float y, int alpha, int idFrame, bool renderOneF
 	frames[currentFrame]->GetSprite()->Draw(x, y, alpha);
 }
 
-void Animation::RenderBack(float x, float y, int alpha, int idFrame, bool renderOneFrame) {
+void Animation::RenderBack(float x, float y, int alpha, int idFrame, bool renderOneFrame)
+{
 	DWORD now = GetTickCount();
 	if (!renderOneFrame) {
 		if (currentFrame <= -1)

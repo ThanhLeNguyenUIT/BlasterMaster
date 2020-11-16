@@ -38,97 +38,99 @@ Sophia::~Sophia() {
 void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	// Calculate dx, dy
 	//DebugOut(L"vy: %f\n", vy);
-	if (Allow[SOPHIA]) {
-	
-		GameObject::Update(dt);
-		// Simple fall down
+		if (Game::GetInstance()->loadDone) {
+			if (Allow[SOPHIA]) {
 
-		vy += SOPHIA_GRAVITY * dt;
-		
-		state->Update();
-		// change scene 
-		
+				GameObject::Update(dt);
+				// Simple fall down
 
-		vector<LPCOLLISIONEVENT> coEvents;
-		vector<LPCOLLISIONEVENT> coEventsResult;
+				vy += SOPHIA_GRAVITY * dt;
 
-		coEvents.clear();
+				state->Update();
+				// change scene 
 
-		// turn off collision when die 
+				vector<LPCOLLISIONEVENT> coEvents;
+				vector<LPCOLLISIONEVENT> coEventsResult;
 
-		CalcPotentialCollisions(coObjects, coEvents);
+				coEvents.clear();
 
-		// time fire bullet
-		if (GetTickCount() - timeStartAttack >= TIME_FIRING) {
-			timeStartAttack = TIME_DEFAULT;
-			IsFiring = false;
-		}
+				// turn off collision when die 
 
-		// No collision occured, proceed normally
-		if (coEvents.size() == 0)
-		{
-			x += dx;
-			y += dy;
-		}
-		else
-		{
-			float min_tx, min_ty, nx = 0, ny;
+				CalcPotentialCollisions(coObjects, coEvents);
 
-			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-			// block 
-			x += min_tx * dx + nx * 0.1f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-			y += min_ty * dy + ny * 0.4f;
-			//vy = 999;
-			// Collision logic with Enemies
-			for (UINT i = 0; i < coEventsResult.size(); i++)
-			{
-				LPCOLLISIONEVENT e = coEventsResult[i];
-	
-				/*if (dynamic_cast<Jason*>(e->obj)) {
-					if (e->nx != 0) x += dx;
-					if (e->ny != 0) y += dy;
-				}*/
-				if (dynamic_cast<Brick*>(e->obj)) {
-					if (e->nx != 0) {
-
-						if (!IsJumping) {
-							vx = 0;
-						}
-						else {
-							if (this->nx == 1)
-								vx = SOPHIA_MOVING_SPEED;
-							else
-								vx = -SOPHIA_MOVING_SPEED;
-						}
-					}
-					if (e->ny == -1)
-					{
-						vy = 0;
-						IsJumping = false;
-					}
-					else if (e->ny == 1)
-					{
-  						vy = 0;
-						//ChangeAnimation(new PlayerFallingState());
-					}
+				// time fire bullet
+				if (GetTickCount() - timeStartAttack >= TIME_FIRING) {
+					timeStartAttack = TIME_DEFAULT;
+					IsFiring = false;
 				}
 
-				if (dynamic_cast<Portal*>(e->obj))
+				// No collision occured, proceed normally
+				if (coEvents.size() == 0)
 				{
-					old_scene_id = scene_id;
-					if (e->nx != 0) x += dx;
-					Portal* p = dynamic_cast<Portal*>(e->obj);
-					IsTouchPortal = true;
-					scene_id = p->scene_id;
-					Game::GetInstance()->SwitchScene(p->GetSceneId());
-					Camera::GetInstance()->Update();
-					ChangeScene();
+					x += dx;
+					y += dy;
 				}
+				else
+				{
+					float min_tx, min_ty, nx = 0, ny;
+
+					FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+					// block 
+					x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+					y += min_ty * dy + ny * 0.4f;
+					//vy = 999;
+					// Collision logic with Enemies
+					for (UINT i = 0; i < coEventsResult.size(); i++)
+					{
+						LPCOLLISIONEVENT e = coEventsResult[i];
+
+						if (e->obj != NULL) {
+							if (dynamic_cast<Brick*>(e->obj)) {
+								if (e->nx != 0) {
+
+									if (!IsJumping) {
+										vx = 0;
+									}
+									else {
+										if (this->nx == 1)
+											vx = SOPHIA_MOVING_SPEED;
+										else
+											vx = -SOPHIA_MOVING_SPEED;
+									}
+								}
+								if (e->ny == -1)
+								{
+									vy = 0;
+									IsJumping = false;
+								}
+								else if (e->ny == 1)
+								{
+									vy = 0;
+									//ChangeAnimation(new PlayerFallingState());
+								}
+							}
+
+							if (dynamic_cast<Portal*>(e->obj))
+							{
+								old_scene_id = scene_id;
+								if (e->nx != 0) x += dx;
+								Portal* p = dynamic_cast<Portal*>(e->obj);
+								IsTouchPortal = true;
+								scene_id = p->scene_id;
+								Game::GetInstance()->SwitchScene(p->GetSceneId());
+								Camera::GetInstance()->Update();
+								ChangeScene();
+							}
+
+
+							delete coEventsResult[i];
+						}
+					}
+				}
+				// clean up collision events
+				//for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 			}
 		}
-		// clean up collision events
-		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-	}
 }
 
 void Sophia::ChangeScene() {
@@ -142,19 +144,19 @@ void Sophia::ChangeScene() {
 			}
 			break;
 		case 2:
-			
+			ChangeAnimation(new PlayerStandingState());
+			IsTouchPortal = false;
 			if (nx > 0) {
 				if (old_scene_id == 3) {
-					SetPosition(26 * BIT, 8 * BIT);
+					SetPosition(27 * BIT, 8 * BIT);
 				}
 				else if (old_scene_id == 5){
-					SetPosition(26 * BIT, 8 * BIT);
+					SetPosition(27 * BIT, 72 * BIT);
 				}
 				else if (old_scene_id == 1) {
 					SetPosition(5 * BIT, 72 * BIT);
 				}
 			}
-			IsTouchPortal = false;
 			break;
 		case 3:
 			ChangeAnimation(new PlayerStandingState());
@@ -163,7 +165,6 @@ void Sophia::ChangeScene() {
 				if (old_scene_id == 4)SetPosition(59 * BIT, 8 * BIT);
 				else if (old_scene_id == 2) SetPosition(37 * BIT, 8 * BIT);
 			}
-			
 			break;
 		case 4:
 			ChangeAnimation(new PlayerStandingState());
@@ -172,9 +173,6 @@ void Sophia::ChangeScene() {
 				if (old_scene_id == 5) SetPosition(5 * BIT, 6 * BIT);
 				else if (old_scene_id == 3) SetPosition(5 * BIT, 54 * BIT);
 			}
-				
-
-			//else SetPosition(500,900);
 			break;
 		case 5:
 			ChangeAnimation(new PlayerStandingState());
@@ -184,7 +182,6 @@ void Sophia::ChangeScene() {
 				else if (old_scene_id == 4) SetPosition(59 * BIT, 88 * BIT);
 				else if (old_scene_id == 9) SetPosition(59 * BIT, 56 * BIT);
 			}
-			
 			break;
 		case 6:
 			ChangeAnimation(new PlayerStandingState());
@@ -464,6 +461,7 @@ void Sophia::OnKeyUp(int key) {
 		ChangeAnimation(new PlayerStandingState());
 		break;
 	case DIK_RIGHT:
+		right = true;
 		if (IsUp) {
 			if (!IsJumping) {
 				ChangeAnimation(new PlayerUpwardMovingState(), NORMAL);
@@ -474,12 +472,14 @@ void Sophia::OnKeyUp(int key) {
 		}
 		break;
 	case DIK_LEFT:
-		if (IsUp) {
-			if (!IsJumping) {
-				ChangeAnimation(new PlayerUpwardMovingState(), NORMAL);
-				RenderOneFrame = true;
-				vx = 0;
-				vy = 0;
+		if (!right) {
+			if (IsUp) {
+				if (!IsJumping) {
+					ChangeAnimation(new PlayerUpwardMovingState(), NORMAL);
+					RenderOneFrame = true;
+					vx = 0;
+					vy = 0;
+				}
 			}
 		}
 		break;

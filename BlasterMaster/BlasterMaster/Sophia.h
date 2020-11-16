@@ -41,7 +41,7 @@ public:
 	bool RenderOneFrame = false;
 	bool RenderBack = false;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-
+	bool right = false;
 	Sophia();
 	~Sophia();
 	void SetPlayerType(TYPE playerType) { this->playerType = playerType; }

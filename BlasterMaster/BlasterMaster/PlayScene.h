@@ -4,6 +4,7 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "Brick.h"
+#include "Goomba.h"
 //#include "SceneManager.h"
 #include "Camera.h"
 #include "Sophia.h"
@@ -20,10 +21,12 @@ protected:
 	Sophia* sophia;
 	Jason* jason;
 	Bullet* bullet;
+	Goomba* goomba;
 	vector<Bullet*> bullets;
 	vector<LPGAMEOBJECT> listObjects;
 	vector<Portal*>Portals;
 	Camera* gameCamera;
+	bool loadDone = false;
 	//Sophia* sophia;
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
@@ -43,10 +46,10 @@ public:
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();
+	bool IsLoadDone() { return this->loadDone; }
 	void ChangeScene(int id_scene);
 	Sophia* GetSophia() { return sophia; }
 	Jason* GetJason() { return jason; }
-
 	//friend class PlaySceneKeyHandler;
 };
 

@@ -374,8 +374,9 @@ void Camera::Update()
 		}
 	}
 
+	if(!player->IsTouchPortal)
 	if (player->IsUp) {
-		cy += 16;
+		cy += 6;
 	}
 
 	//// Update camera change scene for SOPHIA

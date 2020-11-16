@@ -187,6 +187,12 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 		Portals.push_back(portal);
 	}
 	break;
+	case GOOMBA:
+	{
+		obj = new Goomba();
+		goomba = (Goomba*)obj;
+	}
+	break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -253,8 +259,10 @@ void PlayScene::Load() {
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 
 	player->Reset();
-	playerSmall->Reset();
-	playerSmall->IsRender = false;
+	//goomba->Reset();
+	//playerSmall->Reset();
+	//playerSmall->IsRender = false;
+	loadDone = true;
 }
 
 void PlayScene::Update(DWORD dt) {
@@ -294,7 +302,7 @@ void PlayScene::Update(DWORD dt) {
 			}
 		}
 
-		if (bullets.size() < 3) {
+		if (bullets.size() < 9) {
 			bullets.push_back(bullet);
 		}
 	}
@@ -329,6 +337,9 @@ void PlayScene::Update(DWORD dt) {
 					bullets[i]->CurAnimation->isLastFrame = false;
 					bullets.erase(bullets.begin() + i);
 				}
+				else {
+					bullets.erase(bullets.begin() + i);
+				}
 			}
 		}
 		else if (Allow[JASON]) {
@@ -354,6 +365,8 @@ void PlayScene::Update(DWORD dt) {
 	// skip the rest if scene was already unloaded (Car::Update might trigger PlayScene::Unload)
 
 	// Update camera to follow player
+
+	
 	Camera::GetInstance()->Update();
 }
 
@@ -375,6 +388,7 @@ void PlayScene::Render() {
 	}
 	player->Render();
 	playerSmall->Render();
+	//goomba->Render();
 }
 
 void PlayScene::Unload() {

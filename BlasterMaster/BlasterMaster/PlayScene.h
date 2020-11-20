@@ -12,6 +12,7 @@
 #include "Bullet.h"
 #include "Portal.h"
 #include "Gate.h"
+#include "Orb1.h"
 
 #include "GlobalConfig.h"
 
@@ -21,6 +22,7 @@ class PlayScene : public Scene {
 protected:
 	Sophia* sophia;
 	Jason* jason;
+	COrb1* orb1;
 	Bullet* bullet;
 	vector<Bullet*> bullets;
 	vector<LPGAMEOBJECT> listObjects;

@@ -201,6 +201,16 @@
 ##
 # Brick
 40001	408	225	424	241	20
+##============ENEMY======================
+#ORB
+#walk left
+70011	74	386	92	404	40
+#walk right
+70015	154	386	172	404	40
+#turn
+70012	134	386	152	404	40
+70013	114	386	132	404	40
+70014	94	386	112	404	40
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 #idle right
@@ -310,6 +320,14 @@
 707	20010	100	20011	100	20012	100	20013	100
 #small sophi bullet
 710	20020	200
+##===============ENEMY================
+# ==== ORB  =============
+#walk left
+921	70011	100
+#walk right
+922	70015	100
+#turn
+923	70012	50	70013	50	70014	50
 # id	ani1	ani2	ani3
 # id tuan theo define
 [ANIMATION_SETS]
@@ -324,6 +342,9 @@
 #small +big bullet
 4	4	700	0	701	1	702	2	703	4	704	5 	705	6	706	3	706	7
 8	8	710	10	706	3
+#=== ENEMY =======
+#ORB1
+11	11	921	11	922	12	923	13	923	14
 [SWITCHSCENE]
 #switch scene
 1

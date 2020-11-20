@@ -42,6 +42,7 @@
     <ClCompile Include="BigJason.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Orb1.cpp" />
     <ClCompile Include="PlayerClimbingState.cpp" />
     <ClCompile Include="PlayerCrawlingState.cpp" />
     <ClCompile Include="PlayerFallingState.cpp" />
@@ -80,6 +81,7 @@
     <ClInclude Include="BigJason.h" />
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="Orb1.h" />
     <ClInclude Include="PlayerClimbingState.h" />
     <ClInclude Include="PlayerCrawlingState.h" />
     <ClInclude Include="PlayerFallingState.h" />

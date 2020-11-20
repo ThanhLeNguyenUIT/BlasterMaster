@@ -1,6 +1,8 @@
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
-# type: 0 = PLAYER , 1 = SOPHIA, 2 = JASON, 5 = BRICK
+# type: 0 = PLAYER , 1 = SOPHIA, 2 = JASON, 5 = BRICK, 11 =ORB1
+#ORB1
+11	67	71
 # BRICK
 # SCENE 2.1
 6	63	65	1	13

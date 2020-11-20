@@ -65,6 +65,9 @@ using namespace std;
 
 #define SOPHIA_OPEN_BBOX_WIDTH					26
 #define SOPHIA_OPEN_BBOX_HEIGHT					26
+
+
+
 //CAR ANIMATIONS ID //
 
 // STATE CHANGE
@@ -73,6 +76,16 @@ using namespace std;
 #define NORMAL				3
 #define UPWARD_TO_NORMAL	4
 #define TURN_TO_NORMAL		5
+
+
+//ENEMY
+//ORB1
+#define ORB1_WALKING_SPEED						0.07f
+#define ORB1_WALKING_SPEED_TURN					0.02f
+
+#define ORB1_BBOX_WIDTH							16
+#define ORB1_BBOX_HEIGHT						15
+#define ORB1_BBOX_HEIGHT_DIE					9
 
 //// SCREEN /////
 //#define SCREEN_WIDTH 320
@@ -161,7 +174,13 @@ extern enum STATEOBJECT {
 	BULLET_BIG_HIT,
 	BULLET_ELECTRIC,
 	BRICK_NORMAL,
-	JASON_BULLET_SMALL_MOVING
+	JASON_BULLET_SMALL_MOVING,
+	//// ORB1 /////////
+	ORB1_STATE_WALKING_LEFT,
+	ORB1_STATE_WALKING_RIGHT,
+	ORB1_STATE_TURN_TOP,
+	ORB1_STATE_TURN_BOTTOM,
+
 };
 
 extern enum TYPE {
@@ -175,7 +194,8 @@ extern enum TYPE {
 	PORTAL,
 	JASON_BULLET_SMALL,
 	STAIR,
-	GATE
+	GATE,
+	ORB1,
 };
 
 

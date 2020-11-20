@@ -172,6 +172,9 @@
     <ClCompile Include="Gate.cpp">
       <Filter>Source Files\GameObjects\Item</Filter>
     </ClCompile>
+    <ClCompile Include="Orb1.cpp">
+      <Filter>Source Files\GameObjects\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprites.h">
@@ -284,6 +287,9 @@
     </ClInclude>
     <ClInclude Include="Gate.h">
       <Filter>Source Files\GameObjects\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Orb1.h">
+      <Filter>Source Files\GameObjects\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

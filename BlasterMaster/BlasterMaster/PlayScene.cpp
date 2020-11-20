@@ -203,6 +203,9 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 			Gates.push_back(gate);
 		}
 		break;
+	case ORB1:
+		obj = new COrb1();
+		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;

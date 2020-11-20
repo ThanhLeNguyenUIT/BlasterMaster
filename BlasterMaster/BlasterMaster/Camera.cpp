@@ -37,7 +37,16 @@ void Camera::Update()
 		playerBig->GetPosition(cx, cy);
 		currentSceneID = playerBig->scene_id;
 	}
-
+	if (player->IsDead) {
+		cx = player->x;
+		cy = player->y;
+		currentSceneID = player->scene_id;
+	}
+	if (playerSmall->IsDead) {
+		cx = playerSmall->x;
+		cy = playerSmall->y;
+		currentSceneID = playerSmall->scene_id;
+	}
 	Game* game = Game::GetInstance();
 	cx -= game->GetScreenWidth() / 2;
 	cy -= game->GetScreenHeight() / 2;

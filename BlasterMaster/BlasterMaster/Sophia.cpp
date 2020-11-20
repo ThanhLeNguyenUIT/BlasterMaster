@@ -9,6 +9,9 @@
 #include "Camera.h"
 #include "Brick.h"
 #include "Stair.h"
+#include "DamageBrick.h"
+#include "Orb1.h"
+#include "Power.h"
 
 #include "PlayerState.h"
 #include "PlayerFallingState.h"
@@ -21,6 +24,7 @@
 #include "PlayerOpenState.h"
 #include "PlayerJumpTurningState.h"
 #include "PlayerUpperState.h"
+#include "PlayerDeadState.h"
 
 #include "BulletMovingState.h"
 
@@ -65,6 +69,11 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 			IsFiring = false;
 		}
 
+		// change state die if health = 0
+		if (health == 0) {
+			ChangeAnimation(new PlayerDeadState());
+		}
+
 		// No collision occured, proceed normally
 		if (coEvents.size() == 0)
 		{
@@ -90,17 +99,9 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 					if (e->ny != 0) y += dy;
 				}*/
 				if (dynamic_cast<Brick*>(e->obj)) {
+					
 					if (e->nx != 0) {
-
-						if (!IsJumping) {
-							vx = 0;
-						}
-						else {
-							if (this->nx == 1)
-								vx = SOPHIA_MOVING_SPEED;
-							else
-								vx = -SOPHIA_MOVING_SPEED;
-						}
+						vx = 0;
 					}
 					if (e->ny == -1)
 					{
@@ -110,11 +111,31 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 					else if (e->ny == 1)
 					{
   						vy = 0;
-						//ChangeAnimation(new PlayerFallingState());
 					}
 				}
 
-				if (dynamic_cast<Portal*>(e->obj))
+				else if (dynamic_cast<DamageBrick*>(e->obj)) {
+					if (e->nx != 0) vx = 0;
+					if (e->ny == -1)
+					{
+						// damage
+						if (timeDamaged == TIME_DEFAULT) {
+							timeDamaged = GetTickCount();
+						}
+						vy = 0;
+						IsJumping = false;
+						if (GetTickCount() - timeDamaged >= 300) {
+							health = health - 1;
+							timeDamaged = GetTickCount();
+						}
+					}
+					else if (e->ny == 1)
+					{
+						vy = 0;
+					}
+				}
+
+				else if (dynamic_cast<Portal*>(e->obj))
 				{
 					if (e->nx != 0) x += dx;
 					Portal* p = dynamic_cast<Portal*>(e->obj);
@@ -124,10 +145,36 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 					ChangeScene();
 				}
 
-				if (dynamic_cast<Stair*>(e->obj))
+				else if (dynamic_cast<Stair*>(e->obj))
 				{
 					if (e->nx != 0) x += dx;
 					Stair* p = dynamic_cast<Stair*>(e->obj);
+				}
+
+				// collison with monster
+
+				else if (dynamic_cast<COrb1*>(e->obj)) {
+					if (e->nx != 0) x += dx;
+					if (e->ny != 0) y += dy;
+
+					/*if (timeDamaged == TIME_DEFAULT) {
+						timeDamaged = GetTickCount();
+					}
+					if (GetTickCount() - timeDamaged >= 100) {
+						health = health - 1;
+						timeDamaged = GetTickCount();
+					}*/
+					health = health - 1;
+				}
+				else if (dynamic_cast<Power*>(e->obj)) {
+
+					if (e->nx != 0) x += dx;
+					if (e->ny != 0) y += dy;
+
+					Power* p = dynamic_cast<Power*>(e->obj);
+					p->IsTouch = true;
+					if (health < 8) 
+						health = health + 1;
 				}
 			}
 		}
@@ -240,6 +287,7 @@ void Sophia::Render() {
 		else {
 			CurAnimation->RenderBack(x, y, alpha, idFrame, RenderOneFrame);
 		}
+		RenderBoundingBox();
 	}
 
 	if (IsUp) {
@@ -255,9 +303,6 @@ void Sophia::Render() {
 	for (int i = 0; i < bullets.size(); i++) {
 		bullets[i]->Render();
 	}
-
-	if(!IsTouchPortal)
-		RenderBoundingBox();
 }
 
 
@@ -282,7 +327,12 @@ void Sophia::GetBoundingBox(float& left, float& top, float& right, float& bottom
 		right = x + SOPHIA_OPEN_BBOX_WIDTH;
 		bottom = top + SOPHIA_OPEN_BBOX_HEIGHT;
 	}
-
+	else if (stateBoundingBox == SOPHIA_DEAD_BOUNDING_BOX) {
+		left = x;
+		top = y;
+		right = x + SOPHIA_DEAD_BBOX_WIDTH;
+		bottom = top + SOPHIA_DEAD_BBOX_HEIGHT;
+	}
 }
 
 Sophia* Sophia::GetInstance() {
@@ -437,7 +487,7 @@ void Sophia::OnKeyDown(int key) {
 void Sophia::OnKeyUp(int key) {
 	switch (key) {
 	case DIK_SPACE:
-		vy = SOPHIA_GRAVITY * dt * 10;
+		//vy = SOPHIA_GRAVITY * dt * 10;
 		//ChangeAnimation()
 		break;
 	case DIK_UP:
@@ -451,9 +501,10 @@ void Sophia::OnKeyUp(int key) {
 	case DIK_RIGHT:
 		if (IsUp) {
 			if (!IsJumping) {
-				ChangeAnimation(new PlayerUpwardState(), NORMAL);
-				player->y = player->y + (SOPHIA_UP_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
-				CurAnimation->currentFrame = 2;
+				ChangeAnimation(new PlayerUpwardMovingState(), NORMAL);
+				//player->y = player->y + (SOPHIA_UP_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
+				player->RenderOneFrame = true;
+				//CurAnimation->currentFrame = 2;
 				vx = 0;
 				vy = 0;
 			}
@@ -462,9 +513,10 @@ void Sophia::OnKeyUp(int key) {
 	case DIK_LEFT:
 		if (IsUp) {
 			if (!IsJumping) {
-				ChangeAnimation(new PlayerUpwardState(), NORMAL);
-				player->y = player->y + (SOPHIA_UP_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
-				CurAnimation->currentFrame = 2;
+				ChangeAnimation(new PlayerUpwardMovingState(), NORMAL);
+				//player->y = player->y + (SOPHIA_UP_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
+				player->RenderOneFrame = true;
+				//CurAnimation->currentFrame = 2;
 				vx = 0;
 				vy = 0;
 			}
@@ -475,6 +527,8 @@ void Sophia::OnKeyUp(int key) {
 
 void Sophia::Reset(float x, float y) {
 	nx = 1;
+	IsRender = true;
+	IsDead = false;
 	SetPosition(x,y);
 	ChangeAnimation(new PlayerStandingState());
 	SetSpeed(0, 0);

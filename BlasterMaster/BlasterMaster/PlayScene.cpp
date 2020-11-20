@@ -171,6 +171,7 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 	// General object setup
 
 	GameObject* obj = NULL;
+	Enemy* enemy = NULL;
 
 	AnimationSets* animation_sets = AnimationSets::GetInstance();
 
@@ -179,20 +180,31 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 		width = (int)atoi(tokens[3].c_str()) * BIT;
 		height = (int)atoi(tokens[4].c_str()) * BIT;
 		obj = new Brick(width, height);
+		obj->SetPosition(x, y);
+		listObjects.push_back(obj);
 		break;
-	case PORTAL:
+	case DAMAGE_BRICK:
+		width = (int)atoi(tokens[3].c_str()) * BIT;
+		height = (int)atoi(tokens[4].c_str()) * BIT;
+		obj = new DamageBrick(width, height);
+		obj->SetPosition(x, y);
+		listObjects.push_back(obj);
+		break;
+	case PORTAL:	
 	{
 		float r = atof(tokens[3].c_str()) *BIT;
 		float b = atof(tokens[4].c_str()) *BIT;
 		int scene_id = atoi(tokens[5].c_str());
 		Portal* portal = new Portal(x, y, r, b, scene_id);
-		Portals.push_back(portal);
+		listPortals.push_back(portal);
 	}
 	break;
 	case STAIR:
 		width = (int)atoi(tokens[3].c_str()) * BIT;
 		height = (int)atoi(tokens[4].c_str()) * BIT;
 		obj = new Stair(width, height);
+		obj->SetPosition(x, y);
+		listObjects.push_back(obj);
 		break;
 	case GATE:
 		{
@@ -200,19 +212,18 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 			float b = atof(tokens[4].c_str()) * BIT;
 			int scene_id = atoi(tokens[5].c_str());
 			Gate* gate = new Gate(x, y, r, b, scene_id);
-			Gates.push_back(gate);
+			listGates.push_back(gate);
 		}
+		break;
+	case ORB1:
+		enemy = new COrb1();
+		enemy->SetPosition(x, y);
+		listEnemies.push_back(enemy);
 		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
 	}
-	
-	if (type != SOPHIA && type != JASON && type != BIG_JASON && type != PORTAL && type != GATE)
-		obj->SetPosition(x, y);
-
-	if (type != SOPHIA && type != JASON && type != BIG_JASON && type != PORTAL && type != GATE)
-		listObjects.push_back(obj);
 }
 
 void PlayScene::Load() {
@@ -273,6 +284,7 @@ void PlayScene::Load() {
 	playerSmall->IsRender = false;
 	playerBig->Reset();
 	playerBig->IsRender = false;
+	hud = new HUD();
 }
 
 void PlayScene::Update(DWORD dt) {
@@ -280,16 +292,31 @@ void PlayScene::Update(DWORD dt) {
 	for (size_t i = 0; i < listObjects.size(); i++) {
 		coObjects.push_back(listObjects[i]);
 	}
-	for (size_t i = 0; i < Portals.size(); i++) {
-		coObjects.push_back(Portals[i]);
+	for (size_t i = 0; i < listEnemies.size(); i++) {
+		coObjects.push_back(listEnemies[i]);
 	}
-	for (size_t i = 0; i < Gates.size(); i++) {
-		coObjects.push_back(Gates[i]);
+	for (size_t i = 0; i < listPortals.size(); i++) {
+		coObjects.push_back(listPortals[i]);
+	}
+	for (size_t i = 0; i < listGates.size(); i++) {
+		coObjects.push_back(listGates[i]);
+	}
+	for (size_t i = 0; i < listItems.size(); i++) {
+		coObjects.push_back(listItems[i]);
 	}
 	for (size_t i = 0; i < listObjects.size(); i++)
 	{
 		listObjects[i]->Update(dt, &coObjects);
 	}
+	for (size_t i = 0; i < listEnemies.size(); i++)
+	{
+		listEnemies[i]->Update(dt, &coObjects);
+	}
+	for (size_t i = 0; i < listItems.size(); i++)
+	{
+		listItems[i]->Update(dt, &coObjects);
+	}
+
 	player->Update(dt, &coObjects);
 	playerSmall->Update(dt, &coObjects);
 	playerBig->Update(dt, &coObjects);
@@ -339,7 +366,7 @@ void PlayScene::Update(DWORD dt) {
 	// update bullet
 	for (int i = 0; i < bullets.size(); i++) {
 		if (Allow[SOPHIA]) {
-			if (bullets[i]->GetX() >= player->x + 150.0f || bullets[i]->GetX() <= player->x - 150.0f) {
+			if (bullets[i]->GetX() - player->x >= SCREEN_WIDTH -(player->x - Camera::GetInstance()->GetCamPosX()) || player->x - bullets[i]->GetX() >= player->x - Camera::GetInstance()->GetCamPosX()) {
 				bullets.erase(bullets.begin() + i);
 			}
 			else if (bullets[i]->GetY() <= player->y - 100.0f) {
@@ -370,12 +397,28 @@ void PlayScene::Update(DWORD dt) {
 	for (int i = 0; i < bullets.size(); i++) {
 		bullets[i]->Update(dt, &coObjects);
 	}
-	
-
+	// delete enemy
+	for (size_t i = 0; i < listEnemies.size(); i++)
+	{
+		if (listEnemies[i]->StateObject == ENEMY_DEAD) {
+			power = new Power();
+			power->SetPosition(listEnemies[i]->x, listEnemies[i]->y);
+			listItems.push_back(power);
+			listEnemies.erase(listEnemies.begin() + i);
+		}
+	}
+	//delete Item
+	for (size_t i = 0; i < listItems.size(); i++)
+	{
+		if (listItems[i]->IsTouch == true) {
+			listItems.erase(listItems.begin() + i);
+		}
+	}
 	// skip the rest if scene was already unloaded (Car::Update might trigger PlayScene::Unload)
 
 	// Update camera to follow player
 	Camera::GetInstance()->Update();
+	hud->Update();
 }
 
 void PlayScene::ChangeScene(int id_scene) {
@@ -388,29 +431,43 @@ void PlayScene::Render() {
 	for (int i = 0; i < listObjects.size(); i++) {
 		listObjects[i]->Render();
 	}
-	for (int i = 0; i < Portals.size(); i++) {
-		Portals[i]->Render();
+	for (int i = 0; i < listEnemies.size(); i++) {
+		listEnemies[i]->Render();
 	}
-	for (int i = 0; i < Gates.size(); i++) {
-		Gates[i]->Render();
+	for (int i = 0; i < listPortals.size(); i++) {
+		listPortals[i]->Render();
+	}
+	for (int i = 0; i < listGates.size(); i++) {
+		listGates[i]->Render();
 	}
 	for (int i = 0; i < bullets.size(); i++) {
 		bullets[i]->Render();
 	}
+	for (int i = 0; i < listItems.size(); i++) {
+		listItems[i]->Render();
+	}
 	player->Render();
 	playerSmall->Render();
 	playerBig->Render();
+	hud->Render();
 }
 
 void PlayScene::Unload() {
 	for (int i = 0; i < listObjects.size(); i++)
 		delete listObjects[i];
-	for (int i = 0; i < Portals.size(); i++)
-		delete Portals[i];
-	for (int i = 0; i < Gates.size(); i++)
-		delete Gates[i];
+	for (int i = 0; i < listPortals.size(); i++)
+		delete listPortals[i];
+	for (int i = 0; i < listGates.size(); i++)
+		delete listGates[i];
+	for (int i = 0; i < listEnemies.size(); i++)
+		delete listEnemies[i];
+	for (int i = 0; i < listItems.size(); i++)
+		delete listItems[i];
 	listObjects.clear();
-	Portals.clear();
+	listPortals.clear();
+	listGates.clear();
+	listEnemies.clear();
+	listItems.clear();
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
 
@@ -428,6 +485,16 @@ void PlaySceneKeyHandler::OnKeyDown(int KeyCode){
 	{
 		keyCode[KeyCode] = true;
 		playerBig->OnKeyDown(KeyCode);
+	}
+
+	if (player->IsDead) {
+		switch (KeyCode) {
+		case DIK_A:
+			Allow[SOPHIA] = true;
+			player->IsRender = true;
+			player->Reset();
+			break;
+		}
 	}
 }
 

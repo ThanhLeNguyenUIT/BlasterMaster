@@ -11,6 +11,7 @@ class Sophia : public GameObject
 	float start_x;			// initial position of Mario at scene
 	float start_y;
 public:
+	int health = 8;
 	float oldCx, oldCy;
 	int scene_id = 1;
 	static Sophia* _instance;
@@ -27,7 +28,7 @@ public:
 	bool IsWalking;
 	bool IsStop;
 	bool IsFiring = false;
-	bool IsDead;
+	bool IsDead = false;
 	bool IsUp = false;
 	bool IsTouchPortal;
 	bool IsRender = true;
@@ -37,6 +38,7 @@ public:
 	bool IsMoving = false;
 	bool IsLoad = false;
 	DWORD timeStartAttack = TIME_DEFAULT;
+	DWORD timeDamaged = TIME_DEFAULT;
 	int count = 0;
 	int idFrame = 0;
 	bool RenderOneFrame = false;

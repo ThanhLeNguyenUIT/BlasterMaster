@@ -14,6 +14,7 @@
 #include "PlayerMovingState.h"
 #include "PlayerStandingState.h"
 #include "PlayerCrawlingState.h"
+#include "PlayerOpenState.h"
 
 #include "BulletMovingState.h"
 
@@ -77,7 +78,7 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 			// block 
 
 			x += min_tx * dx + nx * 0.1f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-			y += min_ty * dy + ny * 0.3f;
+			y += min_ty * dy + ny * 0.1f;
 
 			// Collision logic with Enemies
 
@@ -116,11 +117,11 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 
 				if (dynamic_cast<Portal*>(e->obj))
 				{
-					if (e->nx != 0) x += dx;
 					Portal* p = dynamic_cast<Portal*>(e->obj);
 					IsTouchPortal = true;
-					scene_id = p->scene_id;
+					scene_gate = p->scene_id;
 					Game::GetInstance()->SwitchScene(p->GetSceneId());
+					ChangeScene(scene_gate);
 				}
 			}
 		}
@@ -133,7 +134,19 @@ void BigJason::ChangeScene(int scene_gate) {
 	if (Allow[BIG_JASON]) {
 		switch (scene_gate) {
 		case 10:
-			SetPosition(87.5 * BIT, 71.5 * BIT);
+			SetPosition(87 * BIT, 71 * BIT);
+			ny = -1;
+			break;
+		case 5:
+			player->IsRender = true;
+			playerSmall->IsRender = true;
+			playerBig->IsRender = false;
+			Allow[BIG_JASON] = false;
+			Allow[JASON] = true;
+			playerSmall->ChangeAnimation(new PlayerStandingState());
+			playerSmall->SetPosition(36.5 * BIT, 25 * BIT);
+			player->ChangeAnimation(new PlayerOpenState());
+			player->SetPosition(37 * BIT, 36 * BIT);
 			break;
 		}
 	}

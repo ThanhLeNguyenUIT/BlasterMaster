@@ -11,6 +11,7 @@ class Jason : public GameObject
 	float start_x;			// initial position of Jason at scene
 	float start_y;
 public:
+	int health = 8;
 	int scene_id;
 	int scene_gate;
 	static Jason* _instance;
@@ -23,6 +24,7 @@ public:
 	virtual void Render();
 	//bool IsJumping() { return this->isJumping; }
 	DWORD timeStartAttack = TIME_DEFAULT;
+	DWORD timeDamaged = TIME_DEFAULT;
 	bool IsJumping;
 	bool IsOnGround;
 	bool IsMoving;

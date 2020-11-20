@@ -3,6 +3,7 @@
 #include "PlayerUpwardState.h"
 #include "PlayerUpperState.h"
 #include "PlayerUpwardMovingState.h"
+#include "PlayerTurningState.h"
 
 PlayerMovingState::PlayerMovingState(DWORD timeFinish) {
 
@@ -180,8 +181,27 @@ void PlayerMovingState::HandleKeyboard() {
 		}
 		else if (keyCode[DIK_RIGHT]) {
 			if (Allow[SOPHIA]) {
-				player->nx = 1;
-				player->ChangeAnimation(new PlayerMovingState(), NORMAL);
+				if (player->nx > 0)
+					player->ChangeAnimation(new PlayerMovingState(), NORMAL);
+				else
+				{
+					player->vx = 0;
+					if (player->CurAnimation->currentFrame == 0 || player->CurAnimation->currentFrame == 4) {
+						player->idFrame = 0;
+					}
+					else if (player->CurAnimation->currentFrame == 1 || player->CurAnimation->currentFrame == 5) {
+						player->idFrame = 1;
+					}
+					else if (player->CurAnimation->currentFrame == 2 || player->CurAnimation->currentFrame == 6) {
+						player->idFrame = 2;
+					}
+					else if (player->CurAnimation->currentFrame == 3 || player->CurAnimation->currentFrame == 7) {
+						player->idFrame = 3;
+					}
+					player->ChangeAnimation(new PlayerTurningState());
+					player->CurAnimation->currentFrame = -1;
+					player->CurAnimation->isLastFrame = false;
+				}
 			}
 			else if (Allow[JASON]) {
 				playerSmall->nx = 1;
@@ -190,8 +210,27 @@ void PlayerMovingState::HandleKeyboard() {
 		}
 		else if (keyCode[DIK_LEFT]) {
 			if (Allow[SOPHIA]) {
-				player->nx = -1;
-				player->ChangeAnimation(new PlayerMovingState(), NORMAL);
+				if (player->nx < 0)
+					player->ChangeAnimation(new PlayerMovingState(), NORMAL);
+				else
+				{
+					player->vx = 0;
+					if (player->CurAnimation->currentFrame == 0 || player->CurAnimation->currentFrame == 4) {
+						player->idFrame = 0;
+					}
+					else if (player->CurAnimation->currentFrame == 1 || player->CurAnimation->currentFrame == 5) {
+						player->idFrame = 1;
+					}
+					else if (player->CurAnimation->currentFrame == 2 || player->CurAnimation->currentFrame == 6) {
+						player->idFrame = 2;
+					}
+					else if (player->CurAnimation->currentFrame == 3 || player->CurAnimation->currentFrame == 7) {
+						player->idFrame = 3;
+					}
+					player->ChangeAnimation(new PlayerTurningState());
+					player->CurAnimation->currentFrame = -1;
+					player->CurAnimation->isLastFrame = false;
+				}
 			}
 			if (Allow[JASON]) {
 				playerSmall->nx = -1;

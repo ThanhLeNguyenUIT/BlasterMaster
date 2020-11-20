@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include "GlobalConfig.h"
 
-#define BULLET_MOVING_SPEED 0.2f
+#define BULLET_MOVING_SPEED 0.3f
 
 
 // width and height of bounding box

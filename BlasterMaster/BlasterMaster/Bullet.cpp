@@ -1,7 +1,10 @@
 #pragma once
 #include "Bullet.h"
-#include "Goomba.h"
 #include "Jason.h"
+#include "Brick.h"
+#include "Gate.h"
+#include "Portal.h"
+#include "Orb1.h"
 
 void Bullet::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -72,29 +75,36 @@ void Bullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 		y += min_ty * dy + ny * 0.4f;
 
 
-		if (nx != 0) ChangeAnimation(BULLET_SMALL_HIT);
-		if (ny != 0) ChangeAnimation(BULLET_SMALL_HIT);
+		
 		
 		// Collision logic with Goombas
-		//for (UINT i = 0; i < coEventsResult.size(); i++)
-		//{
-		//	LPCOLLISIONEVENT e = coEventsResult[i];
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
 
-		//	if (dynamic_cast<CGoomba*>(e->obj)) // if e->obj is Goomba 
-		//	{
-		//		CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
-		//		
-		//		// jump on top >> kill Goomba and deflect a bit 
-		//		if (e->nx < 0 || e->nx > 0)
-		//		{
-		//			if (goomba->GetState() != GOOMBA_STATE_DIE)
-		//			{
-		//				goomba->SetState(GOOMBA_STATE_DIE);
-		//				state = BULLET_STATE_HIT;
-		//			}
-		//		}
-		//	}
-		//}
+			if (dynamic_cast<Brick*>(e->obj)) {
+				if (nx != 0) ChangeAnimation(BULLET_SMALL_HIT);
+				if (ny != 0) ChangeAnimation(BULLET_SMALL_HIT);
+			}
+
+			if (dynamic_cast<COrb1*>(e->obj)) {
+				ChangeAnimation(BULLET_SMALL_HIT);
+				COrb1* p = dynamic_cast<COrb1*>(e->obj);
+				if (e->nx != 0) p->health = p->health - 1;
+				if (e->ny != 0) p->health = p->health - 1;
+			}
+
+			if (dynamic_cast<Portal*>(e->obj)) {
+				if (nx != 0) ChangeAnimation(BULLET_SMALL_HIT);
+				if (ny != 0) ChangeAnimation(BULLET_SMALL_HIT);
+			}
+			if (dynamic_cast<Gate*>(e->obj)) {
+				if (nx != 0) ChangeAnimation(BULLET_SMALL_HIT);
+				if (ny != 0) ChangeAnimation(BULLET_SMALL_HIT);
+			}
+		}
 	}
+
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 

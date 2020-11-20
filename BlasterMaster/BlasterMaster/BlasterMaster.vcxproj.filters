@@ -42,6 +42,12 @@
     <Filter Include="Source Files\GameComponents\HUD">
       <UniqueIdentifier>{389ce24b-3dea-458e-9160-694d3713e602}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GameObjects\Construct">
+      <UniqueIdentifier>{ce06b129-eed7-4091-b27d-a16dc73d6dcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameObjects\Bullet">
+      <UniqueIdentifier>{46d77129-5e9c-4f1d-822f-16118ba1bcc4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Textures\bbox.png">
@@ -103,9 +109,6 @@
     <ClCompile Include="GlobalConfig.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Goomba.cpp">
-      <Filter>Source Files\GameObjects\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Animations.cpp">
       <Filter>Source Files\GameComponents\Images</Filter>
     </ClCompile>
@@ -126,9 +129,6 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\GameComponents</Filter>
-    </ClCompile>
-    <ClCompile Include="Portal.cpp">
-      <Filter>Source Files\GameObjects\Item</Filter>
     </ClCompile>
     <ClCompile Include="PlayerTurningState.cpp">
       <Filter>Source Files\GameObjects\Player</Filter>
@@ -160,16 +160,43 @@
     <ClCompile Include="BigJason.cpp">
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Health.cpp">
+      <Filter>Source Files\GameComponents\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerDeadState.cpp">
+      <Filter>Source Files\GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PLayerUpwardFallingState.cpp">
+      <Filter>Source Files\GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Orb1.cpp">
+      <Filter>Source Files\GameObjects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Source Files\GameObjects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Power.cpp">
+      <Filter>Source Files\GameObjects\Item</Filter>
+    </ClCompile>
     <ClCompile Include="Brick.cpp">
-      <Filter>Source Files\GameObjects\Item</Filter>
+      <Filter>Source Files\GameObjects\Construct</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>Source Files\GameObjects\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="Stair.cpp">
-      <Filter>Source Files\GameObjects\Item</Filter>
+    <ClCompile Include="DamageBrick.cpp">
+      <Filter>Source Files\GameObjects\Construct</Filter>
     </ClCompile>
     <ClCompile Include="Gate.cpp">
+      <Filter>Source Files\GameObjects\Construct</Filter>
+    </ClCompile>
+    <ClCompile Include="Portal.cpp">
+      <Filter>Source Files\GameObjects\Construct</Filter>
+    </ClCompile>
+    <ClCompile Include="Stair.cpp">
+      <Filter>Source Files\GameObjects\Construct</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Source Files\GameObjects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
       <Filter>Source Files\GameObjects\Item</Filter>
     </ClCompile>
   </ItemGroup>
@@ -213,9 +240,6 @@
     <ClInclude Include="GlobalConfig.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Goomba.h">
-      <Filter>Source Files\GameObjects\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Animations.h">
       <Filter>Source Files\GameComponents\Images</Filter>
     </ClInclude>
@@ -239,9 +263,6 @@
     </ClInclude>
     <ClInclude Include="KeyEventHandler.h">
       <Filter>Source Files\GameComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="Portal.h">
-      <Filter>Source Files\GameObjects\Item</Filter>
     </ClInclude>
     <ClInclude Include="PlayerTurningState.h">
       <Filter>Source Files\GameObjects\Player</Filter>
@@ -273,16 +294,43 @@
     <ClInclude Include="BigJason.h">
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Brick.h">
+    <ClInclude Include="Health.h">
+      <Filter>Source Files\GameComponents\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerDeadState.h">
+      <Filter>Source Files\GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PLayerUpwardFallingState.h">
+      <Filter>Source Files\GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Orb1.h">
+      <Filter>Source Files\GameObjects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Source Files\GameObjects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Power.h">
       <Filter>Source Files\GameObjects\Item</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>Source Files\GameObjects\Item</Filter>
+    <ClInclude Include="Brick.h">
+      <Filter>Source Files\GameObjects\Construct</Filter>
+    </ClInclude>
+    <ClInclude Include="DamageBrick.h">
+      <Filter>Source Files\GameObjects\Construct</Filter>
+    </ClInclude>
+    <ClInclude Include="Portal.h">
+      <Filter>Source Files\GameObjects\Construct</Filter>
     </ClInclude>
     <ClInclude Include="Stair.h">
-      <Filter>Source Files\GameObjects\Item</Filter>
+      <Filter>Source Files\GameObjects\Construct</Filter>
     </ClInclude>
     <ClInclude Include="Gate.h">
+      <Filter>Source Files\GameObjects\Construct</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Source Files\GameObjects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
       <Filter>Source Files\GameObjects\Item</Filter>
     </ClInclude>
   </ItemGroup>

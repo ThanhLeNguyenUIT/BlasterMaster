@@ -4,14 +4,18 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "Brick.h"
+#include "DamageBrick.h"
 #include "Stair.h"
 #include "Camera.h"
+#include "HUD.h"
 #include "Sophia.h"
 #include "Jason.h"
 #include "BigJason.h"
 #include "Bullet.h"
 #include "Portal.h"
 #include "Gate.h"
+#include "Orb1.h"
+#include "Power.h"
 
 #include "GlobalConfig.h"
 
@@ -22,11 +26,14 @@ protected:
 	Sophia* sophia;
 	Jason* jason;
 	Bullet* bullet;
+	Power* power;
 	vector<Bullet*> bullets;
 	vector<LPGAMEOBJECT> listObjects;
-	vector<Portal*>Portals;
-	vector<Gate*>Gates;
-	Camera* gameCamera;
+	vector<Enemy*> listEnemies;
+	vector<Portal*> listPortals;
+	vector<Gate*> listGates;
+	vector<Item*> listItems;
+	HUD* hud;
 	//Sophia* sophia;
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
@@ -44,6 +51,7 @@ public:
 	void LoadBaseTextures();*/
 	virtual void Load();
 	virtual void Update(DWORD dt);
+	void UpdateBullet(DWORD dt, vector<LPGAMEOBJECT> coObjects);
 	virtual void Render();
 	virtual void Unload();
 	void ChangeScene(int id_scene);

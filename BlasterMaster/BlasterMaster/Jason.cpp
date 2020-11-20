@@ -9,6 +9,7 @@
 #include "Gate.h"
 #include "Camera.h"
 #include "Brick.h"
+#include "DamageBrick.h"
 
 #include "PlayerState.h"
 #include "PlayerFallingState.h"
@@ -17,6 +18,7 @@
 #include "PlayerStandingState.h"
 #include "PlayerCrawlingState.h"
 #include "PlayerClimbingState.h"
+#include "PlayerDeadState.h"
 #include "BulletMovingState.h"
 
 Jason* Jason::_instance = NULL;
@@ -39,7 +41,10 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 		if(!IsTouchStair)
 			vy += JASON_GRAVITY * dt;
 		state->Update();
-		
+		if (IsTouchStair && y <= 25 * BIT) {
+			ChangeAnimation(new PlayerStandingState());
+			IsTouchStair = false;
+		}
 		vector<LPCOLLISIONEVENT> coEvents;
 		vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -63,7 +68,10 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 			timeStartAttack = TIME_DEFAULT;
 			IsFiring = false;
 		}
-
+		// change state die if health = 0
+		if (health == 0) {
+			ChangeAnimation(new PlayerDeadState());
+		}
 		// No collision occured, proceed normally
 
 		if (coEvents.size() == 0)
@@ -108,10 +116,33 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 					else {
 						if (e->nx != 0) vx = 0;
 						if (e->ny == 1) y += dy;
+						if (e->ny == -1) {
+							ChangeAnimation(new PlayerStandingState());
+							
+						}
 					}
 				}
-
-				if (dynamic_cast<Portal*>(e->obj))
+				else if (dynamic_cast<DamageBrick*>(e->obj)) {
+					if (e->nx != 0) vx = 0;
+					if (e->ny == -1)
+					{
+						// damage
+						if (timeDamaged == TIME_DEFAULT) {
+							timeDamaged = GetTickCount();
+						}
+						vy = 0;
+						IsJumping = false;
+						if (GetTickCount() - timeDamaged >= 300) {
+							health = health - 1;
+							timeDamaged = GetTickCount();
+						}
+					}
+					else if (e->ny == 1)
+					{
+						vy = 0;
+					}
+				}
+				else if (dynamic_cast<Portal*>(e->obj))
 				{
 					if (e->nx != 0) x += dx;
 					Portal* p = dynamic_cast<Portal*>(e->obj);
@@ -121,7 +152,7 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 					ChangeScene();
 				}
 
-				if (dynamic_cast<Stair*>(e->obj))
+				else if (dynamic_cast<Stair*>(e->obj))
 				{
 					Stair* p = dynamic_cast<Stair*>(e->obj);
 					if (e->nx != 0) {
@@ -131,20 +162,14 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 					}
 					if (e->ny == 1) {
 						y += dy;
-						IsTouchStair = false;
-						if (!IsJumping) {
-							ChangeAnimation(new PlayerStandingState());
-							vy += JASON_GRAVITY * dt;
-						}
-						else {
-							ChangeAnimation(new PlayerJumpingState());
-							vy += JASON_GRAVITY * dt;
-						}
 					}
-					if (e->ny == -1) y += dy;
+					if (e->ny == -1) {
+						vy = 0;
+						IsTouchStair = true;
+					}
 				}
 
-				if (dynamic_cast<Gate*>(e->obj)) {
+				else if (dynamic_cast<Gate*>(e->obj)) {
 					Gate* p = dynamic_cast<Gate*>(e->obj);
 					scene_gate = p->scene_id;
 					if (e->nx != 0) {
@@ -153,6 +178,9 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 					}
 					if (e->ny != 0) {
 						y += dy;
+						IsTouchGate = true;
+					}
+					if (e->nx == 0 || e->ny == 0) {
 						IsTouchGate = true;
 					}
 				}
@@ -249,6 +277,7 @@ Jason* Jason::GetInstance() {
 void Jason::OnKeyDown(int key) {
 	switch (key) {
 	case DIK_SPACE:
+		IsTouchStair = false;
 		ChangeAnimation(new PlayerJumpingState());
 		playerSmall->IsJumping = true;
 		break;

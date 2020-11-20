@@ -66,6 +66,7 @@ public:
 	LPANIMATION Get(STATEOBJECT type);
 };
 
+
 typedef AnimationSet* LPANIMATION_SET;
 
 /*

@@ -1,13 +1,13 @@
 #include "PlayerUpwardJumpingState.h"
 #include "PlayerUpwardMovingState.h"
+#include "PlayerUpwardFallingState.h"
 #include "PlayerUpwardState.h"
-#include "PLayerUpwardFallingState.h"
 
-PlayerUpwardJumpingState::PlayerUpwardJumpingState() {
+PlayerUpwardFallingState::PlayerUpwardFallingState() {
 
 	player->IsUp = true;
 	player->RenderOneFrame = true;
-	if(!player->IsJumping)
+	if (!player->IsJumping)
 		player->vy = -SOPHIA_JUMPING_SPEED_Y;
 
 	if (player->nx > 0) {
@@ -19,32 +19,34 @@ PlayerUpwardJumpingState::PlayerUpwardJumpingState() {
 	player->stateBoundingBox = SOPHIA_UP_BOUNDING_BOX;
 }
 
-PlayerUpwardJumpingState::~PlayerUpwardJumpingState() {
+PlayerUpwardFallingState::~PlayerUpwardFallingState() {
 
 }
 
-void PlayerUpwardJumpingState::Update() {
+void PlayerUpwardFallingState::Update() {
 	if (Allow[SOPHIA]) {
-		if (player->vy > 0) {
-			player->ChangeAnimation(new PlayerUpwardFallingState(), NORMAL);
+		if (!player->IsJumping) {
+			player->ChangeAnimation(new PlayerUpwardState(), NORMAL);
+			player->CurAnimation->currentFrame = 2;
+			player->RenderOneFrame = true;
+			player->vx = 0;
 			return;
 		}
 	}
-	
 	this->HandleKeyboard();
 }
 
-void PlayerUpwardJumpingState::HandleKeyboard() {
+void PlayerUpwardFallingState::HandleKeyboard() {
 	if (keyCode[DIK_RIGHT]) {
 		player->nx = 1;
 		player->vx = SOPHIA_MOVING_SPEED;
-		player->ChangeAnimation(new PlayerUpwardMovingState(), NORMAL);
+		player->ChangeAnimation(new PlayerUpwardFallingState(), NORMAL);
 		player->RenderOneFrame = false;
 	}
 	else if (keyCode[DIK_LEFT]) {
 		player->nx = -1;
 		player->vx = -SOPHIA_MOVING_SPEED;
-		player->ChangeAnimation(new PlayerUpwardMovingState(), NORMAL);
+		player->ChangeAnimation(new PlayerUpwardFallingState(), NORMAL);
 		player->RenderOneFrame = false;
 	}
 }

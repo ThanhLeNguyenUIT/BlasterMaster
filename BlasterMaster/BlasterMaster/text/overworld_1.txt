@@ -1,2 +1,4 @@
 [TEXTURES]
 50	Textures/overworld.png	255	255	255
+[OBJECTS]
+7	87	71	1	1	5

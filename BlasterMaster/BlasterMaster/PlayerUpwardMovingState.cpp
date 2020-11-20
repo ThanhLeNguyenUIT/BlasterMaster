@@ -20,7 +20,12 @@ PlayerUpwardMovingState::PlayerUpwardMovingState() {
 }
 
 PlayerUpwardMovingState::~PlayerUpwardMovingState() {
-
+	if (!player->IsJumping) {
+		player->ChangeAnimation(new PlayerUpwardMovingState(), NORMAL);
+		player->vx = 0;
+		player->RenderOneFrame = true;
+		return;
+	}
 }
 
 void PlayerUpwardMovingState::Update() {

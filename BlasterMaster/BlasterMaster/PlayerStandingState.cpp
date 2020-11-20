@@ -69,8 +69,10 @@ void PlayerStandingState::HandleKeyboard() {
 	}
 	else if (keyCode[DIK_LEFT]) {
 		if (Allow[SOPHIA]) {
-			if (player->nx < 0)
+			if (player->nx < 0) {
+				player->nx = -1;
 				player->ChangeAnimation(new PlayerMovingState(), STAND_TO_MOVE);
+			}
 			else
 			{
 				player->ChangeAnimation(new PlayerTurningState(), NORMAL);
@@ -88,8 +90,10 @@ void PlayerStandingState::HandleKeyboard() {
 	}
 	else if (keyCode[DIK_RIGHT]) {
 		if (Allow[SOPHIA]) {
-			if (player->nx > 0)
+			if (player->nx > 0) {
+				player->nx = 1;
 				player->ChangeAnimation(new PlayerMovingState(), STAND_TO_MOVE);
+			}
 			else
 			{
 				player->ChangeAnimation(new PlayerTurningState(), NORMAL);

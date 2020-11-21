@@ -1,8 +1,22 @@
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
-# type: 0 = PLAYER , 1 = SOPHIA, 2 = JASON, 5 = BRICK, 11 =ORB1
+# type: 0 = PLAYER , 1 = SOPHIA, 2 = JASON, 5 = BRICK, 11 = ORB1, 12 = WORM,	13 = FLOATER, 14 = SKULL, 15 = ORB2, 16 = JUMPER, 17 = INSECT
 #ORB1
-11	67	71
+#11	67	71
+#WORM
+#12	78	66
+#12	118	66
+#FLOATER
+#13	117	66
+#13	106	67
+#SKULL
+#14	102	69
+#ORB2
+#15	79	66
+#JUMPER
+#16	75	68
+#INSECT
+#17	74	68
 # BRICK
 # SCENE 2.1
 6	63	65	1	13

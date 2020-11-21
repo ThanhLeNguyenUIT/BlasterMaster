@@ -13,6 +13,12 @@
 #include "Portal.h"
 #include "Gate.h"
 #include "Orb1.h"
+#include "Worm.h"
+#include "Floater.h"
+#include "Skull.h"
+#include "Orb2.h"
+#include "Jumper.h"
+#include "Insect.h"
 
 #include "GlobalConfig.h"
 
@@ -23,6 +29,12 @@ protected:
 	Sophia* sophia;
 	Jason* jason;
 	COrb1* orb1;
+	CWorm* worm;
+	CFloater* floater;
+	CSkull* skull;
+	COrb2* orb2;
+	CJumper* jumber;
+	CInsect* insect;
 	Bullet* bullet;
 	vector<Bullet*> bullets;
 	vector<LPGAMEOBJECT> listObjects;

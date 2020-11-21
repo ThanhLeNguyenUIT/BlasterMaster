@@ -206,6 +206,26 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 	case ORB1:
 		obj = new COrb1();
 		break;
+	case WORM:
+		obj = new CWorm(x, y);
+		worm = (CWorm*)obj;
+		break;
+	case FLOATER:
+		obj = new CFloater(x, y);
+		floater = (CFloater*)obj;
+		break;
+	case SKULL:
+		obj = new CSkull();
+		break;
+	case ORB2:
+		obj = new COrb2();
+		break;
+	case JUMPER:
+		obj = new CJumper();
+		break;
+	case INSECT:
+		obj = new CInsect();
+		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;

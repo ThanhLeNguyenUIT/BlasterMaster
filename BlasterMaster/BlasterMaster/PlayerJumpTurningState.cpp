@@ -9,13 +9,13 @@ PlayerJumpTurningState::PlayerJumpTurningState() {
 		player->nx = -1;
 		player->vx = -SOPHIA_MOVING_SPEED;
 		player->RenderBack = false;
-		StateName = static_cast<STATENAME>(player->idFrame + 22);
+		player->StateName = static_cast<STATENAME>(player->idFrame + 22);
 	}
 	else {
 		player->nx = 1;
 		player->vx = SOPHIA_MOVING_SPEED;
 		player->RenderBack = true;
-		StateName = static_cast<STATENAME>(25 - player->idFrame);
+		player->StateName = static_cast<STATENAME>(25 - player->idFrame);
 	}
 
 	player->stateBoundingBox = SOPHIA_BOUNDING_BOX;

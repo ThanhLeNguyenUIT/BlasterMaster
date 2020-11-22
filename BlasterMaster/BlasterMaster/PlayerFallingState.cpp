@@ -8,19 +8,19 @@ PlayerFallingState::PlayerFallingState() {
 	if (Allow[SOPHIA]) {
 		player->RenderOneFrame = true;
 		if (player->nx > 0) {
-			StateName = SOPHIA_FALLING_RIGHT;
+			player->StateName = SOPHIA_FALLING_RIGHT;
 		}
 		else {
-			StateName = SOPHIA_FALLING_LEFT;
+			player->StateName = SOPHIA_FALLING_LEFT;
 		}
 		player->stateBoundingBox = SOPHIA_BOUNDING_BOX;
 	}
 	else if (Allow[JASON]) {
 		if (playerSmall->nx > 0) {
-			StateName = JASON_FALLING_RIGHT;
+			playerSmall->StateName = JASON_FALLING_RIGHT;
 		}
 		else {
-			StateName = JASON_FALLING_LEFT;
+			playerSmall->StateName = JASON_FALLING_LEFT;
 		}
 		playerSmall->stateBoundingBox = JASON_BOUNDING_BOX;
 	}

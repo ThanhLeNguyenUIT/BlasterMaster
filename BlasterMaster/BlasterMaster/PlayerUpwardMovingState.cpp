@@ -8,11 +8,11 @@ PlayerUpwardMovingState::PlayerUpwardMovingState() {
 	player->IsUp = true;
 
 	if (player->nx > 0) {
-		StateName = SOPHIA_UPWARD_MOVING_RIGHT;
+		player->StateName = SOPHIA_UPWARD_MOVING_RIGHT;
 		player->vx = SOPHIA_MOVING_SPEED;
 	}
 	else {
-		StateName = SOPHIA_UPWARD_MOVING_LEFT;
+		player->StateName = SOPHIA_UPWARD_MOVING_LEFT;
 		player->vx = -SOPHIA_MOVING_SPEED;
 	}
 

@@ -32,5 +32,8 @@ void Health::Update() {
 	else if (Allow[JASON]) {
 		curHealth = playerSmall->health;
 	}
+	else if (Allow[BIG_JASON]) {
+		curHealth = playerBig->health;
+	}
 }
 

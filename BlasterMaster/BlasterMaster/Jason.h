@@ -11,12 +11,14 @@ class Jason : public GameObject
 	float start_x;			// initial position of Jason at scene
 	float start_y;
 public:
+	float oldCx, oldCy;
 	int health = 8;
 	int scene_id;
 	int scene_gate;
 	static Jason* _instance;
 	int stateBoundingBox;
 	PlayerState* state;
+	STATENAME StateName;
 	Animation* CurAnimation;
 	TYPE playerType;
 	std::unordered_map<TYPE, bool> allow;
@@ -39,6 +41,8 @@ public:
 	bool IsUntouchable = false;
 	bool IsOpen = false;
 	bool IsRender;
+	bool IsGravity = true;
+	//bool IsLoad = true;
 	bool RenderOneFrame = false;
 	bool rev;
 	int count = 0;

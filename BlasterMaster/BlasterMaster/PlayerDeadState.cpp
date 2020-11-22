@@ -7,7 +7,7 @@ PlayerDeadState::PlayerDeadState() {
 			player->y = player->y - (SOPHIA_DEAD_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
 		player->IsDead = true;
 		player->RenderOneFrame = false;
-		StateName = SOPHIA_DEAD;
+		player->StateName = SOPHIA_DEAD;
 
 		player->stateBoundingBox = SOPHIA_DEAD_BOUNDING_BOX;
 	}
@@ -15,8 +15,8 @@ PlayerDeadState::PlayerDeadState() {
 		playerSmall->IsDead = true;
 		playerSmall->RenderOneFrame = false;
 		if (playerSmall->nx > 0)
-			StateName = JASON_DEAD_RIGHT;
-		else StateName = JASON_DEAD_LEFT;
+			playerSmall->StateName = JASON_DEAD_RIGHT;
+		else playerSmall->StateName = JASON_DEAD_LEFT;
 
 		playerSmall->stateBoundingBox = JASON_BOUNDING_BOX;
 	}

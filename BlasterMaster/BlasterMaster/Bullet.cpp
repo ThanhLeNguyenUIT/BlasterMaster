@@ -5,6 +5,7 @@
 #include "Gate.h"
 #include "Portal.h"
 #include "Orb1.h"
+#include "Worm.h"
 
 void Bullet::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -21,13 +22,13 @@ void Bullet::ChangeAnimation(STATEOBJECT StateObject) {
 	CurAnimation = animationSet->Get(this->StateObject);
 	switch (this->StateObject)
 	{
-	case BULLET_SMALL_MOVING_RIGHT:
+	case BULLET_BIG_MOVING_RIGHT:
 		vx = BULLET_MOVING_SPEED;
 		break;
-	case BULLET_SMALL_MOVING_LEFT:
+	case BULLET_BIG_MOVING_LEFT:
 		vx = -BULLET_MOVING_SPEED;
 		break;
-	case BULLET_SMALL_MOVING_UP:
+	case BULLET_BIG_MOVING_UP:
 		vy = -BULLET_MOVING_SPEED;
 		break;
 	case JASON_BULLET_SMALL_MOVING:
@@ -87,9 +88,9 @@ void Bullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 				if (ny != 0) ChangeAnimation(BULLET_SMALL_HIT);
 			}
 
-			if (dynamic_cast<COrb1*>(e->obj)) {
+			if (dynamic_cast<Enemy*>(e->obj)) {
 				ChangeAnimation(BULLET_SMALL_HIT);
-				COrb1* p = dynamic_cast<COrb1*>(e->obj);
+				Enemy* p = dynamic_cast<Enemy*>(e->obj);
 				if (e->nx != 0) p->health = p->health - 1;
 				if (e->ny != 0) p->health = p->health - 1;
 			}

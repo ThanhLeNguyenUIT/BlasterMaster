@@ -15,10 +15,10 @@ PlayerJumpingState::PlayerJumpingState() {
 			player->vy = -SOPHIA_JUMPING_SPEED_Y;
 		
 		if (player->nx > 0) {
-			StateName = SOPHIA_JUMPING_RIGHT;
+			player->StateName = SOPHIA_JUMPING_RIGHT;
 		}
 		else {
-			StateName = SOPHIA_JUMPING_LEFT;
+			player->StateName = SOPHIA_JUMPING_LEFT;
 		}
 		player->stateBoundingBox = SOPHIA_BOUNDING_BOX;
 	}
@@ -26,10 +26,10 @@ PlayerJumpingState::PlayerJumpingState() {
 		if(!playerSmall->IsJumping)
 			playerSmall->vy = -JASON_JUMP_SPEED_Y;
 		if (playerSmall->nx > 0) {
-			StateName = JASON_JUMPING_RIGHT;
+			playerSmall->StateName = JASON_JUMPING_RIGHT;
 		}
 		else {
-			StateName = JASON_JUMPING_LEFT;
+			playerSmall->StateName = JASON_JUMPING_LEFT;
 		}
 		playerSmall->stateBoundingBox = JASON_BOUNDING_BOX;
 	}

@@ -12,11 +12,13 @@ class BigJason : public GameObject
 	float start_x;			// initial position of Jason at scene
 	float start_y;
 public:
+	int health = 8;
 	int scene_id;
 	int scene_gate;
 	static BigJason* _instance;
 	int stateBoundingBox;
 	PlayerState* state;
+	STATENAME StateName;
 	Animation* CurAnimation;
 	TYPE playerType;
 	std::unordered_map<TYPE, bool> allow;
@@ -32,10 +34,12 @@ public:
 	bool IsFiring = false;
 	bool IsDead;
 	bool IsUp;
-	bool IsTouchPortal;
+	bool IsTouchGate = false;
+	bool IsChangeScene = false;
 	bool IsUntouchable = false;
 	bool IsOpen = false;
 	bool IsRender;
+	//bool IsLoad = true;
 	bool RenderOneFrame = false;
 	bool rev;
 	int count = 0;

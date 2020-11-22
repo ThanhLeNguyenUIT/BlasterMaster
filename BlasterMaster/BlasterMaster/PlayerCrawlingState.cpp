@@ -6,9 +6,9 @@ PlayerCrawlingState::PlayerCrawlingState() {
 	if (!playerSmall->IsCrawling)
 		playerSmall->y += (JASON_BBOX_HEIGHT - JASON_CRAWLING_BBOX_HEIGHT);
 	if (playerSmall->nx > 0) {
-		StateName = JASON_CRAWLING_RIGHT;
+		playerSmall->StateName = JASON_CRAWLING_RIGHT;
 	}
-	else StateName = JASON_CRAWLING_LEFT;
+	else playerSmall->StateName = JASON_CRAWLING_LEFT;
 
 	playerSmall->stateBoundingBox = JASON_CRAWLING_BOUNDING_BOX;
 }

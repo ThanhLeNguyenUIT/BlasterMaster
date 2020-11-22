@@ -118,10 +118,9 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 				if (dynamic_cast<Portal*>(e->obj))
 				{
 					Portal* p = dynamic_cast<Portal*>(e->obj);
-					IsTouchPortal = true;
+					IsTouchGate = true;
 					scene_gate = p->scene_id;
-					Game::GetInstance()->SwitchScene(p->GetSceneId());
-					ChangeScene(scene_gate);
+					IsChangeScene = true;
 				}
 			}
 		}
@@ -138,15 +137,19 @@ void BigJason::ChangeScene(int scene_gate) {
 			ny = -1;
 			break;
 		case 5:
+			IsTouchGate = false;
+			playerSmall->IsTouchGate = false;
 			player->IsRender = true;
 			playerSmall->IsRender = true;
 			playerBig->IsRender = false;
 			Allow[BIG_JASON] = false;
 			Allow[JASON] = true;
-			playerSmall->ChangeAnimation(new PlayerStandingState());
-			playerSmall->SetPosition(36.5 * BIT, 25 * BIT);
+			Allow[SOPHIA] = true;
 			player->ChangeAnimation(new PlayerOpenState());
-			player->SetPosition(37 * BIT, 36 * BIT);
+			playerSmall->ChangeAnimation(new PlayerStandingState());
+			player->SetPosition(player->oldCx, player->oldCy);
+			playerSmall->SetPosition(playerSmall->oldCx, playerSmall->oldCy - 10);
+			Allow[SOPHIA] = false;
 			break;
 		}
 	}
@@ -157,12 +160,12 @@ void BigJason::ChangeAnimation(PlayerState* newState, int stateChange) {
 	AnimationSets* animation_sets = AnimationSets::GetInstance();
 	state = newState;
 	LPANIMATION_SET animationSet = animation_sets->Get(playerType);
-	CurAnimation = animationSet->Get(newState->StateName);
+	CurAnimation = animationSet->Get(StateName);
 }
 
 void BigJason::Render() {
 	int alpha = 255;
-	if (IsRender && !IsTouchPortal) {
+	if (IsRender && !IsTouchGate) {
 		CurAnimation->Render(x, y, alpha, idFrame, RenderOneFrame);
 		RenderBoundingBox();
 	}

@@ -11,49 +11,49 @@ PlayerMovingState::PlayerMovingState(DWORD timeFinish) {
 		player->RenderOneFrame = false;
 		player->IsMoving = true;
 		if (player->nx > 0) {
-			StateName = SOPHIA_MOVING_RIGHT;
+			player->StateName = SOPHIA_MOVING_RIGHT;
 			player->vx = SOPHIA_MOVING_SPEED;
 		}
 		else {
 
-			StateName = SOPHIA_MOVING_LEFT;
+			player->StateName = SOPHIA_MOVING_LEFT;
 			player->vx = -SOPHIA_MOVING_SPEED;
 		}
 
 		player->stateBoundingBox = SOPHIA_BOUNDING_BOX;
 	}
-	else if (Allow[JASON]) {
+	if (Allow[JASON]) {
 		playerSmall->RenderOneFrame = false;
 		if (playerSmall->nx > 0) {
-			StateName = JASON_MOVING_RIGHT;
+			playerSmall->StateName = JASON_MOVING_RIGHT;
 			playerSmall->vx = JASON_MOVING_SPEED;
 		}
 		else {
-			StateName = JASON_MOVING_LEFT;
+			playerSmall->StateName = JASON_MOVING_LEFT;
 			playerSmall->vx = -JASON_MOVING_SPEED;
 		}
 
 		playerSmall->stateBoundingBox = JASON_BOUNDING_BOX;
 	}
-	else if (Allow[BIG_JASON]) {
+	if (Allow[BIG_JASON]) {
 		playerBig->RenderOneFrame = false;
 		if (playerBig->nx > 0) {
-			StateName = BIG_JASON_MOVING_RIGHT;
+			playerBig->StateName = BIG_JASON_MOVING_RIGHT;
 			playerBig->vx = BIG_JASON_MOVING_SPEED;
 			playerBig->vy = 0;
 		}
 		else if(playerBig->nx < 0) {
-			StateName = BIG_JASON_MOVING_LEFT;
+			playerBig->StateName = BIG_JASON_MOVING_LEFT;
 			playerBig->vx = -BIG_JASON_MOVING_SPEED;
 			playerBig->vy = 0;
 		}
 		else if (playerBig->ny > 0) {
-			StateName = BIG_JASON_MOVING_UP;
+			playerBig->StateName = BIG_JASON_MOVING_UP;
 			playerBig->vy = -BIG_JASON_MOVING_SPEED;
 			playerBig->vx = 0;
 		}
 		else if (playerBig->ny < 0) {
-			StateName = BIG_JASON_MOVING_DOWN;
+			playerBig->StateName = BIG_JASON_MOVING_DOWN;
 			playerBig->vy = BIG_JASON_MOVING_SPEED;
 			playerBig->vx = 0;
 		}

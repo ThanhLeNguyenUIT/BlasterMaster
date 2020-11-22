@@ -18,6 +18,7 @@ public:
 	int stateBoundingBox;
 	PlayerState* state;
 	Animation* CurAnimation;
+	STATENAME StateName;
 	TYPE playerType;
 	std::unordered_map<TYPE, bool> allow;
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
@@ -27,6 +28,7 @@ public:
 	bool IsOnGround;
 	bool IsWalking;
 	bool IsStop;
+	bool IsLoad = true;
 	bool IsFiring = false;
 	bool IsDead = false;
 	bool IsUp = false;
@@ -36,7 +38,8 @@ public:
 	bool IsUntouchable = false;
 	bool IsOpen = false;
 	bool IsMoving = false;
-	bool IsLoad = false;
+	//bool IsLoad = false;
+	bool IsChangeScene = false;
 	DWORD timeStartAttack = TIME_DEFAULT;
 	DWORD timeDamaged = TIME_DEFAULT;
 	int count = 0;

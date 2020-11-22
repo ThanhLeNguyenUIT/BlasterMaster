@@ -2,12 +2,15 @@
 #include "Enemy.h"
 
 
-
-class COrb1 : public Enemy
+class CWorm : public Enemy
 {
 public:
+	bool isIdle;
+	bool isDrop;
+	bool isWalking;
 	Animation* CurAnimation;
-	COrb1(float x = 0.0f, float y = 0.0f);
+	CWorm(float x = 0.0f, float y = 0.0f);
+	STATEOBJECT StateObject;
 	void ChangeAnimation(STATEOBJECT StateObject);
 	STATEOBJECT GetStateObject() { return this->StateObject; }
 	void SetType(TYPE type) { this->typeEnemy = type; }

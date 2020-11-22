@@ -9,12 +9,12 @@ PlayerTurningState::PlayerTurningState() {
 	if (player->nx > 0) {
 		player->nx = -1;
 		player->RenderBack = false;
-		StateName = static_cast<STATENAME>(player->idFrame + 18);
+		player->StateName = static_cast<STATENAME>(player->idFrame + 18);
 	}
 	else {
 		player->nx = 1;
 		player->RenderBack = true;
-		StateName = static_cast<STATENAME>(21 - player->idFrame);
+		player->StateName = static_cast<STATENAME>(21 - player->idFrame);
 	}
 
 	player->stateBoundingBox = SOPHIA_BOUNDING_BOX;

@@ -357,10 +357,6 @@ void Game::Load(LPCWSTR gameFile) {
 void Game::SwitchScene(int scene_id) {
 	DebugOut(L"[INFO] Switching to scene %d\n", scene_id);
 	scenes[current_scene]->Unload();
-
-	/*Sprites::GetInstance()->Clear();
-	Animations::GetInstance()->Clear();*/
-
 	current_scene = scene_id;
 	LPSCENE s = scenes[scene_id];
 	Game::GetInstance()->SetKeyHandler(s->GetKeyEventHandler());

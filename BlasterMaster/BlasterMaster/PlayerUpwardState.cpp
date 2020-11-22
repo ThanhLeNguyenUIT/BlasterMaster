@@ -13,9 +13,9 @@ PlayerUpwardState::PlayerUpwardState() {
 	//player->vx = 0;
 
 	if (player->nx > 0) {
-			StateName = static_cast<STATENAME>(player->idFrame + 8);
+		player->StateName = static_cast<STATENAME>(player->idFrame + 8);
 	}
-	else StateName = static_cast<STATENAME>(player->idFrame + 12);
+	else player->StateName = static_cast<STATENAME>(player->idFrame + 12);
 
 	player->stateBoundingBox = SOPHIA_UP_BOUNDING_BOX;
 }

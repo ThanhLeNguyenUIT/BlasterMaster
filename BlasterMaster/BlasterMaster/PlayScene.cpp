@@ -216,8 +216,11 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 		}
 		break;
 	case ORB1:
-		enemy = new COrb1();
-		enemy->SetPosition(x, y);
+		enemy = new COrb1(x,y);
+		listEnemies.push_back(enemy);
+		break;
+	case WORM:
+		enemy = new CWorm(x, y);
 		listEnemies.push_back(enemy);
 		break;
 	default:
@@ -228,10 +231,8 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 
 void PlayScene::Load() {
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
-
 	ifstream f;
 	f.open(sceneFilePath);
-
 	//curren resource section path
 	int section = SCENE_SECTION_UNKNOWN;
 	char str[MAX_SCENE_LINE];
@@ -285,10 +286,12 @@ void PlayScene::Load() {
 	playerBig->Reset();
 	playerBig->IsRender = false;
 	hud = new HUD();
+	
 }
 
 void PlayScene::Update(DWORD dt) {
 	vector<LPGAMEOBJECT> coObjects;
+	coObjects.clear();
 	for (size_t i = 0; i < listObjects.size(); i++) {
 		coObjects.push_back(listObjects[i]);
 	}
@@ -328,17 +331,17 @@ void PlayScene::Update(DWORD dt) {
 		if (!player->IsUp) {
 			if (player->nx > 0) {
 				bullet->SetPosition(player->x + SOPHIA_BBOX_WIDTH, player->y + 7 / SOPHIA_BBOX_HEIGHT);
-				bullet->ChangeAnimation(BULLET_SMALL_MOVING_RIGHT);
+				bullet->ChangeAnimation(BULLET_BIG_MOVING_RIGHT);
 			}
 			else {
 				bullet->SetPosition(player->x, player->y + 7 / SOPHIA_BBOX_HEIGHT);
-				bullet->ChangeAnimation(BULLET_SMALL_MOVING_LEFT);
+				bullet->ChangeAnimation(BULLET_BIG_MOVING_LEFT);
 			}
 		}
 		else {
 			if (player->nx != 0) {
 				bullet->SetPosition(player->x + SOPHIA_BBOX_WIDTH / 3, player->y);
-				bullet->ChangeAnimation(BULLET_SMALL_MOVING_UP);
+				bullet->ChangeAnimation(BULLET_BIG_MOVING_UP);
 			}
 		}
 
@@ -400,6 +403,7 @@ void PlayScene::Update(DWORD dt) {
 	// delete enemy
 	for (size_t i = 0; i < listEnemies.size(); i++)
 	{
+		DebugOut(L"state: %d\n", listEnemies[i]->StateObject);
 		if (listEnemies[i]->StateObject == ENEMY_DEAD) {
 			power = new Power();
 			power->SetPosition(listEnemies[i]->x, listEnemies[i]->y);
@@ -417,12 +421,24 @@ void PlayScene::Update(DWORD dt) {
 	// skip the rest if scene was already unloaded (Car::Update might trigger PlayScene::Unload)
 
 	// Update camera to follow player
+	
+	ChangeScene();
+	
 	Camera::GetInstance()->Update();
 	hud->Update();
 }
 
-void PlayScene::ChangeScene(int id_scene) {
-
+void PlayScene::ChangeScene() {
+	if (player->IsChangeScene) {
+		Game::GetInstance()->SwitchScene(player->scene_id);
+		player->ChangeScene();
+		player->IsChangeScene = false;
+	}
+	if (playerBig->IsChangeScene) {
+		Game::GetInstance()->SwitchScene(playerBig->scene_gate);
+		playerBig->ChangeScene(playerBig->scene_gate);
+		playerBig->IsChangeScene = false;
+	}
 }
 
 void PlayScene::Render() {

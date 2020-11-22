@@ -11,6 +11,7 @@
 #include "Stair.h"
 #include "DamageBrick.h"
 #include "Orb1.h"
+#include "Worm.h"
 #include "Power.h"
 
 #include "PlayerState.h"
@@ -88,7 +89,7 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 			// block 
 			x += min_tx * dx + nx * 0.1f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
 			y += min_ty * dy + ny * 0.1f;
-			//vy = 999;
+			
 			// Collision logic with Enemies
 			for (UINT i = 0; i < coEventsResult.size(); i++)
 			{
@@ -140,9 +141,8 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 					if (e->nx != 0) x += dx;
 					Portal* p = dynamic_cast<Portal*>(e->obj);
 					IsTouchPortal = true;
+					IsChangeScene = true;
 					scene_id = p->scene_id;
-					Game::GetInstance()->SwitchScene(p->GetSceneId());
-					ChangeScene();
 				}
 
 				else if (dynamic_cast<Stair*>(e->obj))
@@ -164,6 +164,12 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 						health = health - 1;
 						timeDamaged = GetTickCount();
 					}*/
+					health = health - 1;
+				}
+				else if (dynamic_cast<CWorm*>(e->obj)) {
+					if (e->nx != 0) x += dx;
+					if (e->ny != 0) y += dy;
+
 					health = health - 1;
 				}
 				else if (dynamic_cast<Power*>(e->obj)) {
@@ -275,7 +281,7 @@ void Sophia::ChangeAnimation(PlayerState* newState, int stateChange) {
 	state = newState;
 	CheckState(stateChange);
 	LPANIMATION_SET animationSet = animation_sets->Get(playerType);
-	CurAnimation = animationSet->Get(newState->StateName);
+	CurAnimation = animationSet->Get(StateName);
 }
 
 void Sophia::Render() {

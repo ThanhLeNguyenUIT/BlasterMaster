@@ -3,8 +3,10 @@
 #include "Sophia.h"
 #include "Bullet.h"
 #include "GlobalConfig.h"
-COrb1::COrb1()
+COrb1::COrb1(float x, float y)
 {
+	this->x = x;
+	this->y = y;
 	typeEnemy = ORB1;
 	Reset();
 }

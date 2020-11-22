@@ -242,7 +242,7 @@ void Jason::ChangeAnimation(PlayerState* newState, int stateChange) {
 	AnimationSets* animation_sets = AnimationSets::GetInstance();
 	state = newState;
 	LPANIMATION_SET animationSet = animation_sets->Get(playerType);
-	CurAnimation = animationSet->Get(newState->StateName);
+	CurAnimation = animationSet->Get(StateName);
 }
 
 void Jason::Render() {
@@ -315,6 +315,11 @@ void Jason::OnKeyDown(int key) {
 			ChangeAnimation(new PlayerClimbingState());
 		}
 		if (IsTouchGate) {
+			IsCrawling = false;
+			player->oldCx = player->x;
+			player->oldCy = player->y;
+			playerSmall->oldCx = playerSmall->x;
+			playerSmall->oldCy = playerSmall->y;
 			playerBig->scene_gate = scene_gate;
 			Game::GetInstance()->SwitchScene(scene_gate);
 			Allow[JASON] = false;

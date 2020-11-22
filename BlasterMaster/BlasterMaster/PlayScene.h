@@ -15,6 +15,7 @@
 #include "Portal.h"
 #include "Gate.h"
 #include "Orb1.h"
+#include "Worm.h"
 #include "Power.h"
 
 #include "GlobalConfig.h"
@@ -54,7 +55,7 @@ public:
 	void UpdateBullet(DWORD dt, vector<LPGAMEOBJECT> coObjects);
 	virtual void Render();
 	virtual void Unload();
-	void ChangeScene(int id_scene);
+	void ChangeScene();
 	Sophia* GetSophia() { return sophia; }
 	Jason* GetJason() { return jason; }
 

@@ -3,14 +3,13 @@
 HUD::HUD(int playerHP)
 {
 	healthBar_ani_set = AnimationSets::GetInstance()->Get(HEALTHBAR);
-	if(Allow[SOPHIA])
-		sophiaHP = new Health(player->health);
+	healthPlayer = new Health();
 }
 
 HUD::~HUD() {}
 
 void HUD::Update(){
-	sophiaHP->Update();
+	healthPlayer->Update();
 }
 
 void HUD::Render()
@@ -20,5 +19,5 @@ void HUD::Render()
 	float healthBarY = Camera::GetInstance()->GetCamPosY() + 9 * BIT;
 	healthBar_ani_set->Get(HEALTHBAR_NORMAL)->Render(healthBarX, healthBarY);
 	// render health
-	sophiaHP->Render(healthBarX, healthBarY);
+	healthPlayer->Render(healthBarX, healthBarY);
 }

@@ -2,7 +2,10 @@
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = PLAYER , 1 = SOPHIA, 2 = JASON, 5 = BRICK
 #ORB1
-15	67	71
+18	67	71
+#WORM
+19	73.5	66
+19	77.5	66
 # BRICK
 # SCENE 2.1
 6	63	65	1	13
@@ -36,9 +39,9 @@
 6	119	66	2	5
 #
 ##Damage Brick
-13	82	78	7	1
-13	94	78	7	1
-13	106	78	7	1
+16	82	78	7	1
+16	94	78	7	1
+16	106	78	7	1
 ##
 # --- SCENE PORTAL ----
 # type	l	t	ani_set_id	r	b	scene_id

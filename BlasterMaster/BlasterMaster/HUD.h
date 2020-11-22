@@ -11,7 +11,7 @@ using namespace std;
 
 class HUD
 {
-	Health* sophiaHP;
+	Health* healthPlayer;
 	LPANIMATION_SET healthBar_ani_set;
 public:
 	HUD(int playerHP = 8);

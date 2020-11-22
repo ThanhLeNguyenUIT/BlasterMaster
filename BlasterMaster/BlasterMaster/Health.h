@@ -11,7 +11,7 @@ private:
 	int curHealth, maxHealth;	
 	LPANIMATION health_ani;
 public:
-	Health(int health);
+	Health(int health = 8);
 	~Health();
 	void Render(float healthBarX, float healthBarY);
 	void Update();

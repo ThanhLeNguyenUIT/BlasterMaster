@@ -199,6 +199,9 @@
     <ClCompile Include="Item.cpp">
       <Filter>Source Files\GameObjects\Item</Filter>
     </ClCompile>
+    <ClCompile Include="Worm.cpp">
+      <Filter>Source Files\GameObjects\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprites.h">
@@ -332,6 +335,9 @@
     </ClInclude>
     <ClInclude Include="Item.h">
       <Filter>Source Files\GameObjects\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Worm.h">
+      <Filter>Source Files\GameObjects\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

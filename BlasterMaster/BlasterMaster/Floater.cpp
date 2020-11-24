@@ -1,5 +1,6 @@
 #include "Floater.h"
 #include "Brick.h"
+#include "Portal.h"
 CFloater::CFloater(float x, float y)
 {
 	this->x = x;
@@ -20,58 +21,7 @@ void CFloater::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	GameObject::Update(dt, coObjects);
 
-	//
-	// TO-DO: make sure Goomba can interact with the world and to each of them too!
-	// 
-
-	/*x += vx * dt;
-	y += vy * dt;
-
-
-	if (x <= 88*16 || x >= 94*16) {
-		vx = -vx;
-		if (x <= 88 * 16)
-		{
-			x = 88 * 16;
-		}
-		else if (x >= 94 * 16)
-		{
-			x = 94 * 16;
-		}
-
-	}
-
-	if (y <= 68*16 || y >= 73*16) {
-		vy = -vy;
-		if (y <= 68 * 16)
-		{
-			y = 68 * 16;
-
-		}
-		else if (y >= 73 * 16)
-		{
-			y = 73 * 16;
-
-		}
-
-	}
-	if (vx > 0 && vy > 0)
-	{
-		ChangeAnimation(FLOATER_STATE_WALKING_RIGHT_BOTTOM);
-	}
-	else if (vx < 0 && vy > 0)
-	{
-		ChangeAnimation(FLOATER_STATE_WALKING_LEFT_BOTTOM);
-	}
-	else if (vx > 0 && vy < 0)
-	{
-		ChangeAnimation(FLOATER_STATE_WALKING_RIGHT_TOP);
-	}
-	else if (vx < 0 && vy < 0)
-	{
-		ChangeAnimation(FLOATER_STATE_WALKING_LEFT_TOP);
-	}*/
-
+	
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -92,19 +42,14 @@ void CFloater::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		float rdx = 0;
 		float rdy = 0;
 
-		// TODO: This is a very ugly designed function!!!!
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-
-		// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
-		//if (rdx != 0 && rdx!=dx)
-		//	x += nx*abs(rdx); 
 
 		// block every object first!
 		x += min_tx * dx + nx * 0.4f;
 		y += min_ty * dy + ny * 0.4f;
 
-		if (nx != 0) vx = 0;
-		if (ny != 0) vy = 0;
+		/*if (nx != 0) vx = 0;
+		if (ny != 0) vy = 0;*/
 
 		
 		//
@@ -178,7 +123,54 @@ void CFloater::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					ChangeAnimation(FLOATER_STATE_WALKING_RIGHT_TOP);
 				}*/
-
+			}
+			if (dynamic_cast<Portal*>(e->obj))
+			{
+				Portal* p = dynamic_cast<Portal*>(e->obj);
+				if (e->ny > 0 && e->nx == 0)
+				{
+					if (this->vx > 0)
+					{
+						ChangeAnimation(FLOATER_STATE_WALKING_RIGHT_BOTTOM);
+					}
+					else if (this->vx < 0)
+					{
+						ChangeAnimation(FLOATER_STATE_WALKING_LEFT_BOTTOM);
+					}
+				}
+				else if (e->ny < 0 && e->nx == 0)
+				{
+					if (this->vx > 0)
+					{
+						ChangeAnimation(FLOATER_STATE_WALKING_RIGHT_TOP);
+					}
+					else if (this->vx < 0)
+					{
+						ChangeAnimation(FLOATER_STATE_WALKING_LEFT_TOP);
+					}
+				}
+				else if (e->nx > 0 && e->ny == 0)
+				{
+					if (this->vy > 0)
+					{
+						ChangeAnimation(FLOATER_STATE_WALKING_RIGHT_BOTTOM);
+					}
+					else if (this->vy < 0)
+					{
+						ChangeAnimation(FLOATER_STATE_WALKING_RIGHT_TOP);
+					}
+				}
+				else if (e->nx < 0 && e->ny == 0)
+				{
+					if (this->vy > 0)
+					{
+						ChangeAnimation(FLOATER_STATE_WALKING_LEFT_BOTTOM);
+					}
+					else if (this->vy < 0)
+					{
+						ChangeAnimation(FLOATER_STATE_WALKING_LEFT_TOP);
+					}
+				}
 			}
 		}
 	}

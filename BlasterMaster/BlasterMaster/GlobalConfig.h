@@ -100,8 +100,8 @@ using namespace std;
 #define FLOATER_WALKING_SPEED_X					0.05f
 #define FLOATER_WALKING_SPEED_Y					0.03f
 
-#define FLOATER_BBOX_WIDTH						16
-#define FLOATER_BBOX_HEIGHT						15
+#define FLOATER_BBOX_WIDTH						18
+#define FLOATER_BBOX_HEIGHT						16
 #define FLOATER_BBOX_HEIGHT_DIE					9
 
 //SKULL

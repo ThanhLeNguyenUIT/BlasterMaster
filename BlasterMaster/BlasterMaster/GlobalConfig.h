@@ -110,8 +110,8 @@ using namespace std;
 //#define SCREEN_WIDTH 320
 //#define SCREEN_HEIGHT 240
 
-#define SCREEN_WIDTH		320
-#define SCREEN_HEIGHT		240
+#define SCREEN_WIDTH		270	
+#define SCREEN_HEIGHT		270
 
 #define TITLE_WIDTH			32
 #define TITLE_HEIGHT		32

@@ -45,6 +45,17 @@
 #define	LOWEST_9TH_SCENE 1056
 #define START_9TH_SCENE 1008
 
+#define TOP_OVERWORLD_1 736
+#define BOTTOM_OVERWORLD_1 1292
+#define LEFT_OVERWORLD_1 1280
+#define RIGHT_OVERWORLD_1 1520
+
+#define TOP_OVERWORLD_2 113 * BIT
+#define BOTTOM_OVERWORLD_2  126 * BIT
+#define LEFT_OVERWORLD_2 0
+#define RIGHT_OVERWORLD_2 15 * BIT
+
+
 class Camera {
 	static Camera* __instance;
 	float camPosX, camPosY;

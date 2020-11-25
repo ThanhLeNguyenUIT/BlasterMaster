@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "PlayerState.h"
 #include "Bullet.h"
+#include <vector>
 
 
 class BigJason : public GameObject
@@ -15,6 +16,7 @@ public:
 	int health = 8;
 	int scene_id;
 	int scene_gate;
+	vector<int> sceneHistory = { 11 };
 	static BigJason* _instance;
 	int stateBoundingBox;
 	PlayerState* state;

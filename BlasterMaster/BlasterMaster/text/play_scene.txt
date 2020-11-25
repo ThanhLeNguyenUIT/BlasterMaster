@@ -362,9 +362,9 @@
 713	20023	100
 714	20024	100
 #big jason bullet explose
-715	20025	100	20026	100	20027	100
+715	20025	50	20026	50	20027	50
 #big jason grenade
-730	20030	100
+730	20030	50
 #big jason garenade explose
 731	20031	100
 # health bar

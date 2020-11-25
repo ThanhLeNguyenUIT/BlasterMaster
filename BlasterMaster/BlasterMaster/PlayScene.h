@@ -27,7 +27,6 @@ class PlayScene : public Scene {
 protected:
 	Sophia* sophia;
 	Jason* jason;
-	Bullet* bullet;
 	Power* power;
 	vector<Bullet*> bullets;
 	vector<LPGAMEOBJECT> listObjects;

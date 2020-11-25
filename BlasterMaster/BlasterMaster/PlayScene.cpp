@@ -332,50 +332,21 @@ void PlayScene::Update(DWORD dt) {
 	// create bullet
 	// SOPHIA
 	if (player->IsFiring && GetTickCount() - player->timeStartAttack >= 180) {
-		bullet = new Bullet();
-		bullet->typeBullet = BULLET_SMALL;
-		if (!player->IsUp) {
-			if (player->nx > 0) {
-				bullet->SetPosition(player->x + SOPHIA_BBOX_WIDTH, player->y + 7 / SOPHIA_BBOX_HEIGHT);
-				bullet->ChangeAnimation(BULLET_BIG_MOVING_RIGHT);
-			}
-			else {
-				bullet->SetPosition(player->x, player->y + 7 / SOPHIA_BBOX_HEIGHT);
-				bullet->ChangeAnimation(BULLET_BIG_MOVING_LEFT);
-			}
-		}
-		else {
-			if (player->nx != 0) {
-				bullet->SetPosition(player->x + SOPHIA_BBOX_WIDTH / 3, player->y);
-				bullet->ChangeAnimation(BULLET_BIG_MOVING_UP);
-			}
-		}
-
 		if (bullets.size() < 3) {
-			bullets.push_back(bullet);
+			bullets.push_back(player->bullet);
 		}
 	}
 	// JASON
 	if (playerSmall->IsFiring && GetTickCount() - playerSmall->timeStartAttack >= 180) {
-		bullet = new Bullet();
-		bullet->typeBullet = JASON_BULLET_SMALL;
-		if (playerSmall->nx > 0) {
-			bullet->SetPosition(playerSmall->x + JASON_BBOX_WIDTH, playerSmall->y + JASON_BBOX_HEIGHT / 3);
-			bullet->ChangeAnimation(JASON_BULLET_SMALL_MOVING);
-		}
-		else {
-			bullet->SetPosition(playerSmall->x, playerSmall->y + JASON_BBOX_HEIGHT / 3);
-			bullet->ChangeAnimation(JASON_BULLET_SMALL_MOVING);
-		}
-
 		if (bullets.size() < 3) {
-			bullets.push_back(bullet);
+			bullets.push_back(playerSmall->bullet);
 		}
 	}
 	//BIG JASON
 	if (playerBig->IsFiring && GetTickCount() - playerBig->timeStartAttack >= 180) {
-		bullet = new Bullet();
-		bullet->typeBullet = BIG_JASON_BULLET;
+		if (bullets.size() < 3) {
+			bullets.push_back(playerBig->bullet);
+		}
 	}
 	// update bullet
 	for (int i = 0; i < bullets.size(); i++) {
@@ -383,7 +354,7 @@ void PlayScene::Update(DWORD dt) {
 			if (bullets[i]->GetX() - player->x >= SCREEN_WIDTH -(player->x - Camera::GetInstance()->GetCamPosX()) || player->x - bullets[i]->GetX() >= player->x - Camera::GetInstance()->GetCamPosX()) {
 				bullets.erase(bullets.begin() + i);
 			}
-			else if (bullets[i]->GetY() <= player->y - 100.0f) {
+			else if (bullets[i]->GetY() <= Camera::GetInstance()->GetCamPosY()) {
 				bullets.erase(bullets.begin() + i);
 			}
 			else if (bullets[i]->GetStateObject() == BULLET_SMALL_HIT) {
@@ -394,10 +365,7 @@ void PlayScene::Update(DWORD dt) {
 			}
 		}
 		else if (Allow[JASON]) {
-			if (bullets[i]->GetX() >= playerSmall->x + 150.0f || bullets[i]->GetX() <= playerSmall->x - 150.0f) {
-				bullets.erase(bullets.begin() + i);
-			}
-			else if (bullets[i]->GetY() <= playerSmall->y - 100.0f) {
+			if (bullets[i]->GetX() - playerSmall->x >= SCREEN_WIDTH - (playerSmall->x - Camera::GetInstance()->GetCamPosX()) || playerSmall->x - bullets[i]->GetX() >= playerSmall->x - Camera::GetInstance()->GetCamPosX()) {
 				bullets.erase(bullets.begin() + i);
 			}
 			else if (bullets[i]->GetStateObject() == BULLET_SMALL_HIT) {
@@ -408,7 +376,18 @@ void PlayScene::Update(DWORD dt) {
 			}
 		}
 		else if (Allow[BIG_JASON]) {
-
+			if (bullets[i]->GetX() - playerBig->x >= SCREEN_WIDTH - (playerBig->x - Camera::GetInstance()->GetCamPosX()) || playerBig->x - bullets[i]->GetX() >= playerBig->x - Camera::GetInstance()->GetCamPosX()) {
+				bullets.erase(bullets.begin() + i);
+			}
+			else if (bullets[i]->GetY() <= Camera::GetInstance()->GetCamPosY() || bullets[i]->GetY() >= Camera::GetInstance()->GetCamPosY() + SCREEN_HEIGHT) {
+				bullets.erase(bullets.begin() + i);
+			}
+			else if (bullets[i]->GetStateObject() == BIG_JASON_BULLET_HIT) {
+				if (bullets[i]->CurAnimation->isLastFrame) {
+					bullets[i]->CurAnimation->isLastFrame = false;
+					bullets.erase(bullets.begin() + i);
+				}
+			}
 		}
 	}
 	for (int i = 0; i < bullets.size(); i++) {

@@ -1,5 +1,8 @@
 #include "Floater.h"
 #include "Brick.h"
+#include "Portal.h"
+#include "Power.h"
+#include "DamageBrick.h"
 
 CFloater::CFloater(float x, float y)
 {
@@ -32,8 +35,8 @@ void CFloater::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	// turn off collision when die 
-	//if (state != GOOMBA_STATE_DIE)
-	CalcPotentialCollisions(coObjects, coEvents);
+	if (StateObject != ENEMY_DEAD)
+		CalcPotentialCollisions(coObjects, coEvents);
 
 	if (coEvents.size() == 0)
 	{
@@ -53,10 +56,6 @@ void CFloater::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x += min_tx * dx + nx * 0.4f;
 		y += min_ty * dy + ny * 0.4f;
 
-		if (nx != 0) vx = 0;
-		if (ny != 0) vy = 0;
-
-
 		//
 		// Collision logic with other objects
 		//
@@ -66,8 +65,6 @@ void CFloater::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			if (dynamic_cast<Brick*>(e->obj)) // if e->obj is Brick
 			{
-				Brick* brick = dynamic_cast<Brick*>(e->obj);
-
 				if (e->ny > 0 && e->nx == 0)
 				{
 					if (this->vx > 0)
@@ -112,6 +109,109 @@ void CFloater::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						ChangeAnimation(FLOATER_STATE_WALKING_LEFT_TOP);
 					}
 				}
+
+			}
+			if (dynamic_cast<DamageBrick*>(e->obj)){ // if e->obj is Brick
+				if (e->ny > 0 && e->nx == 0)
+				{
+					if (this->vx > 0)
+					{
+						ChangeAnimation(FLOATER_STATE_WALKING_RIGHT_BOTTOM);
+					}
+					else if (this->vx < 0)
+					{
+						ChangeAnimation(FLOATER_STATE_WALKING_LEFT_BOTTOM);
+					}
+				}
+				else if (e->ny < 0 && e->nx == 0)
+				{
+					if (this->vx > 0)
+					{
+						ChangeAnimation(FLOATER_STATE_WALKING_RIGHT_TOP);
+					}
+					else if (this->vx < 0)
+					{
+						ChangeAnimation(FLOATER_STATE_WALKING_LEFT_TOP);
+					}
+				}
+				else if (e->nx > 0 && e->ny == 0)
+				{
+					if (this->vy > 0)
+					{
+						ChangeAnimation(FLOATER_STATE_WALKING_RIGHT_BOTTOM);
+					}
+					else if (this->vy < 0)
+					{
+						ChangeAnimation(FLOATER_STATE_WALKING_RIGHT_TOP);
+					}
+				}
+				else if (e->nx < 0 && e->ny == 0)
+				{
+					if (this->vy > 0)
+					{
+						ChangeAnimation(FLOATER_STATE_WALKING_LEFT_BOTTOM);
+					}
+					else if (this->vy < 0)
+					{
+						ChangeAnimation(FLOATER_STATE_WALKING_LEFT_TOP);
+					}
+				}
+			}
+			if (dynamic_cast<Portal*>(e->obj))
+			{
+				Portal* p = dynamic_cast<Portal*>(e->obj);
+				if (e->ny > 0 && e->nx == 0)
+				{
+					if (this->vx > 0)
+					{
+						ChangeAnimation(FLOATER_STATE_WALKING_RIGHT_BOTTOM);
+					}
+					else if (this->vx < 0)
+					{
+						ChangeAnimation(FLOATER_STATE_WALKING_LEFT_BOTTOM);
+					}
+				}
+				else if (e->ny < 0 && e->nx == 0)
+				{
+					if (this->vx > 0)
+					{
+						ChangeAnimation(FLOATER_STATE_WALKING_RIGHT_TOP);
+					}
+					else if (this->vx < 0)
+					{
+						ChangeAnimation(FLOATER_STATE_WALKING_LEFT_TOP);
+					}
+				}
+				else if (e->nx > 0 && e->ny == 0)
+				{
+					if (this->vy > 0)
+					{
+						ChangeAnimation(FLOATER_STATE_WALKING_RIGHT_BOTTOM);
+					}
+					else if (this->vy < 0)
+					{
+						ChangeAnimation(FLOATER_STATE_WALKING_RIGHT_TOP);
+					}
+				}
+				else if (e->nx < 0 && e->ny == 0)
+				{
+					if (this->vy > 0)
+					{
+						ChangeAnimation(FLOATER_STATE_WALKING_LEFT_BOTTOM);
+					}
+					else if (this->vy < 0)
+					{
+						ChangeAnimation(FLOATER_STATE_WALKING_LEFT_TOP);
+					}
+				}
+			}
+			if (dynamic_cast<Enemy*>(e->obj)) {
+				if (e->nx != 0) x += dx;
+				if (e->ny != 0) y += dy;
+			}
+			if (dynamic_cast<Power*>(e->obj)) {
+				if (e->nx != 0) x += dx;
+				if (e->ny != 0)y += dy;
 			}
 		}
 	}

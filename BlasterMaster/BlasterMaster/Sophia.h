@@ -6,11 +6,8 @@
 
 class Sophia : public GameObject
 {
-	Bullet* bullet;
-	vector<Bullet*> bullets;
-	float start_x;			// initial position of Mario at scene
-	float start_y;
 public:
+	Bullet* bullet;
 	int health = 8;
 	float oldCx, oldCy;
 	int scene_id = 1;

@@ -46,15 +46,19 @@ void Bullet::ChangeAnimation(STATEOBJECT StateObject) {
 		break;
 	case BIG_JASON_BULLET_MOVING_RIGHT:
 		vx = BULLET_MOVING_SPEED;
+		vy = 0;
 		break;
 	case BIG_JASON_BULLET_MOVING_LEFT:
 		vx = -BULLET_MOVING_SPEED;
+		vy = 0;
 		break;
 	case BIG_JASON_BULLET_MOVING_UP:
 		vy = -BULLET_MOVING_SPEED;
+		vx = 0;
 		break;
 	case BIG_JASON_BULLET_MOVING_DOWN:
 		vy = BULLET_MOVING_SPEED;
+		vx = 0;
 		break;
 	case BIG_JASON_BULLET_HIT:
 		vx = 0;
@@ -120,12 +124,17 @@ void Bullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
 			if (dynamic_cast<Brick*>(e->obj)) {
-				if (nx != 0) ChangeAnimation(BULLET_SMALL_HIT);
-				if (ny != 0) ChangeAnimation(BULLET_SMALL_HIT);
+				if(Allow[JASON]||Allow[SOPHIA])
+					ChangeAnimation(BULLET_SMALL_HIT);
+				else if(Allow[BIG_JASON])
+					ChangeAnimation(BIG_JASON_BULLET_HIT);
 			}
 
 			if (dynamic_cast<Enemy*>(e->obj)) {
-				ChangeAnimation(BULLET_SMALL_HIT);
+				if (Allow[JASON] || Allow[SOPHIA])
+					ChangeAnimation(BULLET_SMALL_HIT);
+				else if (Allow[BIG_JASON])
+					ChangeAnimation(BIG_JASON_BULLET_HIT);
 				Enemy* p = dynamic_cast<Enemy*>(e->obj);
 				if (e->nx != 0) {
 					p->health = p->health - 1;
@@ -141,12 +150,16 @@ void Bullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 			}
 
 			if (dynamic_cast<Portal*>(e->obj)) {
-				if (nx != 0) ChangeAnimation(BULLET_SMALL_HIT);
-				if (ny != 0) ChangeAnimation(BULLET_SMALL_HIT);
+				if (Allow[JASON] || Allow[SOPHIA])
+					ChangeAnimation(BULLET_SMALL_HIT);
+				else if (Allow[BIG_JASON])
+					ChangeAnimation(BIG_JASON_BULLET_HIT);
 			}
 			if (dynamic_cast<Gate*>(e->obj)) {
-				if (nx != 0) ChangeAnimation(BULLET_SMALL_HIT);
-				if (ny != 0) ChangeAnimation(BULLET_SMALL_HIT);
+				if (Allow[JASON] || Allow[SOPHIA])
+					ChangeAnimation(BULLET_SMALL_HIT);
+				else if (Allow[BIG_JASON])
+					ChangeAnimation(BIG_JASON_BULLET_HIT);
 			}
 		}
 	}

@@ -3,7 +3,8 @@
 #include "Jason.h"
 #include "Brick.h"
 #include "Camera.h"
-
+#include "Power.h"
+#include "DamageBrick.h"
 CWorm::CWorm(float x, float y)
 {
 	this->x = x;
@@ -55,8 +56,8 @@ void CWorm::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 
 		// turn off collision when die 
-		//if (state != GOOMBA_STATE_DIE)
-		CalcPotentialCollisions(coObjects, coEvents);
+		if (StateObject != ENEMY_DEAD)
+			CalcPotentialCollisions(coObjects, coEvents);
 
 		
 
@@ -100,6 +101,14 @@ void CWorm::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						Brick* brick = dynamic_cast<Brick*>(e->obj);
 
 						if (e->ny != 0) vy = 0;
+					}
+					if (dynamic_cast<Enemy*>(e->obj)) {
+						if (e->nx != 0) x += dx;
+						if (e->ny != 0)y += dy;
+					}
+					if (dynamic_cast<Power*>(e->obj)) {
+						if (e->nx != 0) x += dx;
+						if (e->ny != 0)y += dy;
 					}
 				}
 			}

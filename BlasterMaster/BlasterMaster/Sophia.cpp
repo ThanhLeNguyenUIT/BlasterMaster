@@ -69,7 +69,27 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 			timeStartAttack = TIME_DEFAULT;
 			IsFiring = false;
 		}
-
+		// create bullet when DIK_S
+		if (IsFiring) {
+			bullet = new Bullet();
+			bullet->typeBullet = BULLET_SMALL;
+			if (!IsUp) {
+				if (nx > 0) {
+					bullet->SetPosition(x + SOPHIA_BBOX_WIDTH / 3, y + 7 / SOPHIA_BBOX_HEIGHT);
+					bullet->ChangeAnimation(BULLET_BIG_MOVING_RIGHT);
+				}
+				else {
+					bullet->SetPosition(player->x + SOPHIA_BBOX_WIDTH / 3, player->y + 7 / SOPHIA_BBOX_HEIGHT);
+					bullet->ChangeAnimation(BULLET_BIG_MOVING_LEFT);
+				}
+			}
+			else {
+				if (player->nx != 0) {
+					bullet->SetPosition(player->x + SOPHIA_BBOX_WIDTH / 3, player->y);
+					bullet->ChangeAnimation(BULLET_BIG_MOVING_UP);
+				}
+			}
+		}
 		// change state die if health = 0
 		if (health == 0) {
 			ChangeAnimation(new PlayerDeadState());
@@ -106,6 +126,10 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 					}
 					if (e->ny == -1)
 					{
+						if (IsJumping) {
+							vx = 0;
+							RenderOneFrame = true;
+						}
 						vy = 0;
 						IsJumping = false;
 					}
@@ -293,9 +317,6 @@ void Sophia::Render() {
 				idFrame = 0;
 			}
 		}
-	}
-	for (int i = 0; i < bullets.size(); i++) {
-		bullets[i]->Render();
 	}
 }
 

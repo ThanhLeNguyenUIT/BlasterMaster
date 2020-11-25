@@ -2,12 +2,12 @@
 #include "GameObject.h"
 #include "GlobalConfig.h"
 
-#define BULLET_MOVING_SPEED 0.3f
+#define BULLET_MOVING_SPEED 0.4f
 
 
 // width and height of bounding box
-#define BULLET_SMALL_BBOX_WIDTH 8
-#define BULLET_SMALL_BBOX_HEIGHT 6
+#define BULLET_SMALL_BBOX_WIDTH 4
+#define BULLET_SMALL_BBOX_HEIGHT 4
 #define BULLET_BIG_BBOX_WIDTH 22
 #define BULLET_BIG_BBOX_HEIGHT 6
 

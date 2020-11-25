@@ -15,6 +15,7 @@
 #include "PlayerMovingState.h"
 #include "PlayerStandingState.h"
 #include "PlayerCrawlingState.h"
+#include "PlayerDeadState.h"
 #include "PlayerOpenState.h"
 
 #include "BulletMovingState.h"
@@ -45,16 +46,6 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 		vector<LPCOLLISIONEVENT> coEventsResult;
 
 		coEvents.clear();
-
-		for (int i = 0; i < bullets.size(); i++) {
-			bullets[i]->Update(dt, coObjects);
-		}
-		for (int i = 0; i < bullets.size(); i++) {
-			if (bullets[i]->GetStateObject() == BULLET_SMALL_HIT) {
-				bullets.erase(bullets.begin() + i);
-			}
-		}
-
 		// turn off collision when die 
 
 		CalcPotentialCollisions(coObjects, coEvents);
@@ -64,6 +55,31 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 			timeStartAttack = TIME_DEFAULT;
 			IsFiring = false;
 		}
+		// create bullet when DIK_S
+		if (IsFiring) {
+			bullet = new Bullet();
+			bullet->typeBullet = BIG_JASON_BULLET;
+			if (nx > 0) {
+				bullet->SetPosition(x + BIG_JASON_BBOX_WIDTH / 3, y + BIG_JASON_BBOX_HEIGHT / 2);
+				bullet->ChangeAnimation(BIG_JASON_BULLET_MOVING_RIGHT);
+			}
+			else if (nx < 0 ) {
+				bullet->SetPosition(x + BIG_JASON_BBOX_WIDTH / 3, y + BIG_JASON_BBOX_HEIGHT / 2);
+				bullet->ChangeAnimation(BIG_JASON_BULLET_MOVING_LEFT);
+			}
+			else if (ny > 0) {
+				bullet->SetPosition(x + 7 / BIG_JASON_BBOX_WIDTH, y + 7 / BIG_JASON_BBOX_HEIGHT);
+				bullet->ChangeAnimation(BIG_JASON_BULLET_MOVING_UP);
+			}
+			else if (ny < 0 ) {
+				bullet->SetPosition(x + 7 / BIG_JASON_BBOX_WIDTH / 2, y + BIG_JASON_BBOX_HEIGHT / 2);
+				bullet->ChangeAnimation(BIG_JASON_BULLET_MOVING_DOWN);
+			}
+		}
+		// change state die if health = 0
+		/*if (health == 0) {
+			ChangeAnimation(new PlayerDeadState());
+		}*/
 
 		// No collision occured, proceed normally
 
@@ -191,14 +207,11 @@ BigJason* BigJason::GetInstance() {
 
 void BigJason::OnKeyDown(int key) {
 	switch (key) {
-	case DIK_E:
-		if (Allow[BIG_JASON]) {
-			Allow[JASON] = false;
-			Allow[SOPHIA] = true;
-			Allow[BIG_JASON] = false;
-			playerBig->IsRender = false;
-			player->ChangeAnimation(new PlayerStandingState());
+	case DIK_S:
+		if (timeStartAttack == TIME_DEFAULT) {
+			timeStartAttack = GetTickCount();
 		}
+		IsFiring = true;
 		break;
 	}
 }

@@ -44,24 +44,16 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 		if(!IsTouchStair)
 			vy += JASON_GRAVITY * dt;
 		state->Update();
-		if (IsTouchStair && y <= 25 * BIT) {
-			ChangeAnimation(new PlayerStandingState());
-			IsTouchStair = false;
-		}
+		
 		vector<LPCOLLISIONEVENT> coEvents;
 		vector<LPCOLLISIONEVENT> coEventsResult;
 
 		coEvents.clear();
-
-		for (int i = 0; i < bullets.size(); i++) {
-			bullets[i]->Update(dt, coObjects);
+		// update when touch stair
+		if (IsTouchStair && y <= 25 * BIT) {
+			ChangeAnimation(new PlayerStandingState());
+			IsTouchStair = false;
 		}
-		for (int i = 0; i < bullets.size(); i++) {
-			if (bullets[i]->GetStateObject() == BULLET_SMALL_HIT) {
-				bullets.erase(bullets.begin() + i);
-			}
-		}
-
 		// turn off collision when die 
 
 		CalcPotentialCollisions(coObjects, coEvents);
@@ -71,6 +63,20 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 			timeStartAttack = TIME_DEFAULT;
 			IsFiring = false;
 		}
+		// create bullet when firing
+		if (IsFiring) {
+			bullet = new Bullet();
+			bullet->typeBullet = JASON_BULLET_SMALL;
+			if (nx > 0) {
+				bullet->SetPosition(x + JASON_BBOX_WIDTH / 4, y + JASON_BBOX_HEIGHT / 3);
+				bullet->ChangeAnimation(JASON_BULLET_SMALL_MOVING);
+			}
+			else {
+				bullet->SetPosition(x + JASON_BBOX_WIDTH / 4, y + JASON_BBOX_HEIGHT / 3);
+				bullet->ChangeAnimation(JASON_BULLET_SMALL_MOVING);
+			}
+		}
+
 		// change state die if health = 0
 		if (health == 0) {
 			ChangeAnimation(new PlayerDeadState());

@@ -2,6 +2,8 @@
 #include "Brick.h"
 #include "Sophia.h"
 #include "Bullet.h"
+#include "Power.h"
+
 COrb1::COrb1(float x, float y)
 {
 	this->x = x;
@@ -65,8 +67,8 @@ void COrb1::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	coEvents.clear();
 
 	// turn off collision when die 
-
-	CalcPotentialCollisions(coObjects, coEvents);
+	if (StateObject != ENEMY_DEAD)
+		CalcPotentialCollisions(coObjects, coEvents);
 
 	if (coEvents.size() == 0)
 	{
@@ -95,7 +97,14 @@ void COrb1::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 				if (e->ny != 0) ChangeAnimation(ORB1_STATE_WALKING_RIGHT);
 			}
-			
+			if (dynamic_cast<Enemy*>(e->obj)) {
+				if (e->nx != 0) x += dx;
+				if (e->ny != 0)y += dy;
+			}
+			if (dynamic_cast<Power*>(e->obj)) {
+				if (e->nx != 0) x += dx;
+				if (e->ny != 0)y += dy;
+			}
 		}
 	}
 }

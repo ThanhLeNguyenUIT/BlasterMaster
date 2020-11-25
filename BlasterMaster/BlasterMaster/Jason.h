@@ -6,11 +6,8 @@
 
 class Jason : public GameObject
 {
-	Bullet* bullet;
-	vector<Bullet*> bullets;
-	float start_x;			// initial position of Jason at scene
-	float start_y;
 public:
+	Bullet* bullet;
 	float oldCx, oldCy;
 	int health = 8;
 	int scene_id;

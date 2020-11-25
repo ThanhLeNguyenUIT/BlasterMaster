@@ -46,7 +46,7 @@ using namespace std;
 
 ///// SOPHIA /////
 #define SOPHIA_MOVING_SPEED						0.1f
-#define SOPHIA_JUMPING_SPEED_Y					0.35f
+#define SOPHIA_JUMPING_SPEED_Y					0.37f
 #define SOPHIA_GRAVITY							0.001f
 #define SOPHIA_JUMPING_DEFLECT_SPEED			0.2f
 #define SOPHIA_DIE_DEFLECT_SPEED				0.5f

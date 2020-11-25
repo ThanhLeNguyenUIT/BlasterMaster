@@ -19,6 +19,7 @@
 #include "Orb2.h"
 #include "Jumper.h"
 #include "Insect.h"
+#include "Dome.h"
 
 #include "GlobalConfig.h"
 
@@ -35,6 +36,7 @@ protected:
 	COrb2* orb2;
 	CJumper* jumber;
 	CInsect* insect;
+	CDome* dome;
 	Bullet* bullet;
 	vector<Bullet*> bullets;
 	vector<LPGAMEOBJECT> listObjects;

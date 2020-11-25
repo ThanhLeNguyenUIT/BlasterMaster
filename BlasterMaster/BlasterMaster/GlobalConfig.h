@@ -141,6 +141,19 @@ using namespace std;
 #define INSECT_BBOX_HEIGHT						15
 #define INSECT_BBOX_HEIGHT_DIE					9
 
+//DOME
+#define DOME_WALKING_SPEED						0.1f
+#define DOME_GRAVITY_X							0.01f
+#define DOME_GRAVITY_Y							0.01f
+
+#define DOME_BBOX_WIDTH							18
+#define DOME_BBOX_HEIGHT						18
+#define DOME_BBOX_HEIGHT_DIE					9
+
+
+
+
+
 
 //// SCREEN /////
 //#define SCREEN_WIDTH 320
@@ -269,6 +282,12 @@ extern enum STATEOBJECT {
 	INSECT_STATE_WALKING_LEFT,
 	INSECT_STATE_JUMP_RIGHT,
 	INSECT_STATE_JUMP_LEFT,
+	//// DOME ////
+	DOME_STATE_WALKING_LEFT,
+	DOME_STATE_WALKING_TOP,
+	DOME_STATE_WALKING_RIGHT,
+	DOME_STATE_WALKING_BOTTOM,
+	DOME_STATE_IDLE,
 
 };
 
@@ -290,7 +309,8 @@ extern enum TYPE {
 	SKULL,
 	ORB2,
 	JUMPER,
-	INSECT
+	INSECT,
+	DOME
 };
 
 

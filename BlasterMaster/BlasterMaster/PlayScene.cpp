@@ -226,6 +226,9 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 	case INSECT:
 		obj = new CInsect();
 		break;
+	case DOME:
+		obj = new CDome();
+		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;

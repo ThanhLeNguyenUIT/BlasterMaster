@@ -31,10 +31,13 @@ public:
 	bool IsDead;
 	bool IsUp = false;
 	bool IsTouchPortal;
+	bool IsRender = true;
+	bool IsTouchGate;
 	bool IsUntouchable = false;
 	bool IsOpen = false;
 	bool IsMoving = false;
 	bool IsLoad = false;
+	bool IsWalkingComplete = true;
 	DWORD timeStartAttack = TIME_DEFAULT;
 	int count = 0;
 	int idFrame = 0;
@@ -46,7 +49,7 @@ public:
 	~Sophia();
 	void SetPlayerType(TYPE playerType) { this->playerType = playerType; }
 	void ChangeAnimation(PlayerState* state, int stateChange = 0);
-	void ChangeScene();
+	void ChangeScene(DWORD dt);
 	static Sophia* GetInstance();
 	void CheckState(int stateChange);
 	void Reset(float x = 67 * BIT, float y = 72 * BIT);

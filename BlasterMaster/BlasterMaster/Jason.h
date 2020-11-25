@@ -12,6 +12,7 @@ class Jason : public GameObject
 	float start_y;
 public:
 	int scene_id;
+	int scene_gate;
 	static Jason* _instance;
 	int stateBoundingBox;
 	PlayerState* state;
@@ -31,6 +32,8 @@ public:
 	bool IsDead;
 	bool IsUp;
 	bool IsTouchPortal;
+	bool IsTouchStair;
+	bool IsTouchGate;
 	bool IsUntouchable = false;
 	bool IsOpen = false;
 	bool IsRender;

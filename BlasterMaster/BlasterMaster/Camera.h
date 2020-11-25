@@ -5,7 +5,7 @@
 #define	LOWEST_FIRST_SCENE 1302
 #define START_FIRST_SCENE 1024
 
-#define END_SECOND_SCENE 512
+#define END_SECOND_SCENE 528
 #define HIGHEST_SECOND_SCENE 0
 #define	LOWEST_SECOND_SCENE 1312
 #define START_SECOND_SCENE 0
@@ -49,15 +49,21 @@
 
 class Camera {
 	static Camera* __instance;
-	float camPosX, camPosY;
+	
 	int width, height;
 public:
+	float camPosX, camPosY;
+	bool isChangingMap=false;
+	bool ChangeFinish;
+
 	static Camera* GetInstance();
 
 	void SetCamPos(float x, float y) { camPosX = x; camPosY = y; }
 	float GetCamPosX() { return camPosX; }
 	float GetCamPosY() { return camPosY; }
 	void Update();
+	int GetWidth() { return width; }
+	int GetHeight() { return height; }
 
 	Camera();
 	~Camera();

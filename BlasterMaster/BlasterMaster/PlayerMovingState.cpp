@@ -3,9 +3,9 @@
 #include "PlayerUpwardState.h"
 #include "PlayerUpperState.h"
 #include "PlayerUpwardMovingState.h"
+#include "GlobalConfig.h"
 
 PlayerMovingState::PlayerMovingState(DWORD timeFinish) {
-
 	/////////// SOPHIA ////////////
 	if (Allow[SOPHIA]) {
 		player->RenderOneFrame = false;
@@ -15,11 +15,9 @@ PlayerMovingState::PlayerMovingState(DWORD timeFinish) {
 			player->vx = SOPHIA_MOVING_SPEED;
 		}
 		else {
-
 			StateName = SOPHIA_MOVING_LEFT;
 			player->vx = -SOPHIA_MOVING_SPEED;
 		}
-
 		player->stateBoundingBox = SOPHIA_BOUNDING_BOX;
 	}
 	/////////// JASON /////////////////
@@ -38,9 +36,37 @@ PlayerMovingState::PlayerMovingState(DWORD timeFinish) {
 	}
 }
 
+void PlayerMovingState::walking(DWORD PosTarX)
+{
+	if (player->IsTouchPortal)  {
+		if (player->x < PosTarX) {
+			if (player->x >= PosTarX - 2) {
+				timeFinish = 0;
+				player->ChangeAnimation(new PlayerStandingState());
+				//player->SetSpeed(0, 0);
+				player->IsWalkingComplete = true;
+				return;
+			}
+		}
+		else
+		{
+			if (player->x <= PosTarX + 2) {
+				timeFinish = 0;
+				player->ChangeAnimation(new PlayerStandingState());
+				//player->SetSpeed(0, 0);
+				player->IsWalkingComplete = true;
+				return;
+			}
+		}
+		player->ChangeAnimation(new PlayerMovingState(PosTarX));
+	}
+}
+
 void PlayerMovingState::Update() {
-	
-	this->HandleKeyboard();
+	/*if ((!player->IsWalkingComplete) && (timeFinish !=0)) {
+		walking(timeFinish);
+	}
+	else */ this->HandleKeyboard();
 }
 
 void PlayerMovingState::HandleKeyboard() {

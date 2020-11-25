@@ -4,6 +4,7 @@
 #include "PlayerStandingState.h"
 
 Camera* Camera::__instance = NULL;
+#define CAM_MOVING_SPEED 0.1f
 
 Camera* Camera::GetInstance()
 {
@@ -25,7 +26,7 @@ void Camera::Update()
 	float cx, cy;
 	float oldCx, oldCy;
 	if (Allow[SOPHIA]) {
-		if (!player->IsTouchPortal) {
+		if (!isChangingMap) {
 			player->GetPosition(cx, cy);
 			int currentSceneID = player->scene_id;
 			Game* game = Game::GetInstance();
@@ -195,26 +196,8 @@ void Camera::Update()
 			}
 			SetCamPos(cx, cy);
 		}
-		if (player->IsTouchPortal)
-		{
-			int sceneID = player->scene_id;
-			int oldSceneID = player->old_scene_id;
-			switch (sceneID) {
-			case 1:
-				
-				if (oldSceneID == 2)
-				{
-					SetCamPos(122 * BIT, 73 * BIT);
-				}
-				break;
-				break;
-			case 2:
-				if (oldSceneID == 3)
-				{
-					player->SetPosition(23 * BIT, 8 * BIT);
-				}
-				break;
-			}
+		else{
+			
 		}
 	}
 	else if (Allow[JASON]) {
@@ -374,7 +357,7 @@ void Camera::Update()
 		}
 	}
 
-	if(!player->IsTouchPortal)
+	
 	if (player->IsUp) {
 		cy += 6;
 	}

@@ -8,7 +8,7 @@ public:
 	DWORD timeWalk, timeFinish;
 	void Update();
 	void HandleKeyboard();
-	void walking(DWORD dt);
+	void walking(DWORD PosTarX);
 	PlayerMovingState(DWORD timeFinish = 0);
 	~PlayerMovingState();
 };

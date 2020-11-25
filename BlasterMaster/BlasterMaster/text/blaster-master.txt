@@ -12,3 +12,4 @@ start	0
 7	text/scene2_7.txt
 8	text/scene2_8.txt
 9	text/scene2_9.txt
+10	text/overworld_1.txt

@@ -35,10 +35,10 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 
 		// Simple fall down
 
-		vy += BIG_JASON_GRAVITY * dt;
+		//vy += BIG_JASON_GRAVITY * dt;
 		DebugOut(L"vy: %f\n", player->vy);
 		state->Update();
-		
+
 		vector<LPCOLLISIONEVENT> coEvents;
 		vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -121,7 +121,6 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 					IsTouchPortal = true;
 					scene_id = p->scene_id;
 					Game::GetInstance()->SwitchScene(p->GetSceneId());
-					ChangeScene();
 				}
 			}
 		}
@@ -130,11 +129,12 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	}
 }
 
-void BigJason::ChangeScene() {
-
-	if (IsTouchPortal && Allow[BIG_JASON]) {
-		switch (scene_id) {
-		
+void BigJason::ChangeScene(int scene_gate) {
+	if (Allow[BIG_JASON]) {
+		switch (scene_gate) {
+		case 10:
+			SetPosition(87.5 * BIT, 71.5 * BIT);
+			break;
 		}
 	}
 }
@@ -153,14 +153,9 @@ void BigJason::Render() {
 		CurAnimation->Render(x, y, alpha, idFrame, RenderOneFrame);
 		RenderBoundingBox();
 	}
-
-	for (int i = 0; i < bullets.size(); i++) {
-		bullets[i]->Render();
-	}
-
 }
 
-void BigJason::GetBoundingBox(float& left, float& top, float& right, float& bottom){
+void BigJason::GetBoundingBox(float& left, float& top, float& right, float& bottom) {
 	left = x;
 	top = y;
 
@@ -179,11 +174,20 @@ BigJason* BigJason::GetInstance() {
 
 void BigJason::OnKeyDown(int key) {
 	switch (key) {
+	case DIK_E:
+		if (Allow[BIG_JASON]) {
+			Allow[JASON] = false;
+			Allow[SOPHIA] = true;
+			Allow[BIG_JASON] = false;
+			playerBig->IsRender = false;
+			player->ChangeAnimation(new PlayerStandingState());
+		}
+		break;
 	}
 }
 
 void BigJason::OnKeyUp(int key) {
-	
+
 }
 
 void BigJason::Reset(float x, float y) {
@@ -192,5 +196,3 @@ void BigJason::Reset(float x, float y) {
 	ChangeAnimation(new PlayerStandingState());
 	SetSpeed(0, 0);
 }
-
-

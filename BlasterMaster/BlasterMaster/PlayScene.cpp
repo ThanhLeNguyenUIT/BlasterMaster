@@ -15,6 +15,7 @@ using namespace std;
 PlayScene::PlayScene(int id, LPCWSTR filePath) :
 	Scene(id, filePath) {
 	keyHandler = new PlaySceneKeyHandler(this);
+	gameCamera = Camera::GetInstance();
 }
 
 #define SCENE_SECTION_UNKNOWN -1
@@ -27,14 +28,6 @@ PlayScene::PlayScene(int id, LPCWSTR filePath) :
 #define SCENE_SECTION_SWITCH_SCENE		8
 
 #define MAX_SCENE_LINE 1024
-
-//void PlayScene::LoadBaseObjects() {
-//	if (car == NULL) {
-//		car = player;
-//		DebugOut(L"[INFO] CAR CREATED! \n");
-//	}
-//	gameCamera = Camera::GetInstance();
-//}
 
 void PlayScene::_ParseSection_TEXTURES(string line)
 {
@@ -259,10 +252,13 @@ void PlayScene::Load() {
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 
 	player->Reset();
+	player->IsWalkingComplete = true;
+
+	loadDone = true;
 	//goomba->Reset();
 	//playerSmall->Reset();
 	//playerSmall->IsRender = false;
-	loadDone = true;
+
 }
 
 void PlayScene::Update(DWORD dt) {
@@ -301,7 +297,6 @@ void PlayScene::Update(DWORD dt) {
 				bullet->ChangeAnimation(BULLET_SMALL_MOVING_UP);
 			}
 		}
-
 		if (bullets.size() < 9) {
 			bullets.push_back(bullet);
 		}
@@ -365,13 +360,39 @@ void PlayScene::Update(DWORD dt) {
 	// skip the rest if scene was already unloaded (Car::Update might trigger PlayScene::Unload)
 
 	// Update camera to follow player
+	if (!gameCamera->isChangingMap) {
+		gameCamera->Update();
+	}
+	else {
+		if (player->nx < 0) {
 
-	
-	Camera::GetInstance()->Update();
+			if ((gameCamera->camPosX + SCREEN_WIDTH / 2) > player->x) {
+				//Camera::GetInstance()->camPosX -= 0.2 * dt;
+				gameCamera->SetCamPos(gameCamera->camPosX - 0.2 * dt, gameCamera->camPosY);
+				DebugOut(L"%d  ", gameCamera->camPosX);
+			}
+			else {
+				Camera::GetInstance()->isChangingMap = false;
+			}
+		}
+		else {
+			if ((gameCamera->camPosX + SCREEN_WIDTH / 2) < player->x) {
+				//Camera::GetInstance()->camPosX -= 0.2 * dt;
+				gameCamera->SetCamPos(gameCamera->camPosX + 0.2 * dt, gameCamera->camPosY);
+				DebugOut(L"%d  ", gameCamera->camPosX);
+			}
+			else {
+				gameCamera->isChangingMap = false;
+			}
+		}
+	}
 }
 
-void PlayScene::ChangeScene(int id_scene) {
-
+void PlayScene::ChangeScene(float dt) {
+	Camera::GetInstance()->isChangingMap = true;
+	if (Camera::GetInstance()->GetCamPosX() + SCREEN_WIDTH / 2 < player->x) {
+		Camera::GetInstance()->SetCamPos(player->x = 0.1 * dt - SCREEN_WIDTH / 2, player->y - SCREEN_HEIGHT / 2);
+	}
 }
 
 void PlayScene::Render() {

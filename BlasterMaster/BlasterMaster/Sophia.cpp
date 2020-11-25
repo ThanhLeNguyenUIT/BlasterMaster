@@ -1,6 +1,5 @@
 #include <algorithm>
 #include <assert.h>
-
 #include "Sophia.h"
 #include "Jason.h"
 #include "Game.h"
@@ -19,7 +18,6 @@
 #include "PlayerOpenState.h"
 #include "PlayerJumpTurningState.h"
 #include "PlayerUpperState.h"
-
 #include "BulletMovingState.h"
 
 Sophia* Sophia::_instance = NULL;
@@ -36,107 +34,100 @@ Sophia::~Sophia() {
 }
 
 void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
-	// Calculate dx, dy
-	//DebugOut(L"vy: %f\n", vy);
-		if (Game::GetInstance()->loadDone) {
-			if (Allow[SOPHIA]) {
+	if (Game::GetInstance()->loadDone) {
+		if (Allow[SOPHIA]) {
+			GameObject::Update(dt);
 
-				GameObject::Update(dt);
-				// Simple fall down
+			// Simple fall down
+			vy += SOPHIA_GRAVITY * dt;
 
-				vy += SOPHIA_GRAVITY * dt;
+			state->Update();
+			// change scene 
 
-				state->Update();
-				// change scene 
+			vector<LPCOLLISIONEVENT> coEvents;
+			vector<LPCOLLISIONEVENT> coEventsResult;
 
-				vector<LPCOLLISIONEVENT> coEvents;
-				vector<LPCOLLISIONEVENT> coEventsResult;
+			coEvents.clear();
 
-				coEvents.clear();
+			// turn off collision when die 
 
-				// turn off collision when die 
+			CalcPotentialCollisions(coObjects, coEvents);
 
-				CalcPotentialCollisions(coObjects, coEvents);
+			// time fire bullet
+			if (GetTickCount() - timeStartAttack >= TIME_FIRING) {
+				timeStartAttack = TIME_DEFAULT;
+				IsFiring = false;
+			}
 
-				// time fire bullet
-				if (GetTickCount() - timeStartAttack >= TIME_FIRING) {
-					timeStartAttack = TIME_DEFAULT;
-					IsFiring = false;
-				}
-
-				// No collision occured, proceed normally
-				if (coEvents.size() == 0)
+			// No collision occured, proceed normally
+			if (coEvents.size() == 0)
+			{
+				x += dx;
+				y += dy;
+			}
+			else
+			{
+				float min_tx, min_ty, nx = 0, ny;
+				FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+				// block 
+				x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+				y += min_ty * dy + ny * 0.4f;
+				//vy = 999;
+				// Collision logic with Enemies
+				for (UINT i = 0; i < coEventsResult.size(); i++)
 				{
-					x += dx;
-					y += dy;
-				}
-				else
-				{
-					float min_tx, min_ty, nx = 0, ny;
-
-					FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-					// block 
-					x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-					y += min_ty * dy + ny * 0.4f;
-					//vy = 999;
-					// Collision logic with Enemies
-					for (UINT i = 0; i < coEventsResult.size(); i++)
-					{
-						LPCOLLISIONEVENT e = coEventsResult[i];
-
-						if (e->obj != NULL) {
-							if (dynamic_cast<Brick*>(e->obj)) {
-								if (e->nx != 0) {
-
-									if (!IsJumping) {
-										vx = 0;
-									}
-									else {
-										if (this->nx == 1)
-											vx = SOPHIA_MOVING_SPEED;
-										else
-											vx = -SOPHIA_MOVING_SPEED;
-									}
+					LPCOLLISIONEVENT e = coEventsResult[i];
+					if (e->obj != NULL) {
+						if (dynamic_cast<Brick*>(e->obj)) {
+							if (e->nx != 0) {
+								if (!IsJumping) {
+									vx = 0;
 								}
-								if (e->ny == -1)
-								{
-									vy = 0;
-									IsJumping = false;
-								}
-								else if (e->ny == 1)
-								{
-									vy = 0;
-									//ChangeAnimation(new PlayerFallingState());
+								else {
+									if (this->nx == 1)
+										vx = SOPHIA_MOVING_SPEED;
+									else
+										vx = -SOPHIA_MOVING_SPEED;
 								}
 							}
-
-							if (dynamic_cast<Portal*>(e->obj))
+							if (e->ny == -1)
 							{
-								old_scene_id = scene_id;
-								if (e->nx != 0) x += dx;
-								Portal* p = dynamic_cast<Portal*>(e->obj);
-								IsTouchPortal = true;
-								scene_id = p->scene_id;
-								Game::GetInstance()->SwitchScene(p->GetSceneId());
-								Camera::GetInstance()->Update();
-								ChangeScene();
+								vy = 0;
+								IsJumping = false;
 							}
-
-
-							delete coEventsResult[i];
+							else if (e->ny == 1)
+							{
+								vy = 0;
+							}
 						}
+
+						if (dynamic_cast<Portal*>(e->obj))
+						{
+							old_scene_id = scene_id;
+							Portal* p = dynamic_cast<Portal*>(e->obj);
+							IsTouchPortal = true;
+							scene_id = p->scene_id;
+							if ((scene_id == 1) || (scene_id == 4)) {
+								Camera::GetInstance()->isChangingMap = false;
+							}
+							else {
+								Camera::GetInstance()->isChangingMap = true;
+							}
+							ChangeAnimation(new PlayerStandingState());
+							Game::GetInstance()->SwitchScene(p->GetSceneId());
+						}
+						delete coEventsResult[i];
 					}
 				}
-				// clean up collision events
-				//for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 			}
+			// clean up collision events
+			//for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 		}
+	}
 }
 
-void Sophia::ChangeScene() {
-	ChangeAnimation(new PlayerStandingState());
-	if (IsTouchPortal && Allow[SOPHIA]) {
-		switch (scene_id) {
+void Sophia::ChangeScene(DWORD dt) {
+		/*switch (scene_id) {
 		case 1:
 			IsTouchPortal = false;
 			if (nx > 0) {
@@ -150,7 +141,7 @@ void Sophia::ChangeScene() {
 				if (old_scene_id == 3) {
 					SetPosition(27 * BIT, 8 * BIT);
 				}
-				else if (old_scene_id == 5){
+				else if (old_scene_id == 5) {
 					SetPosition(27 * BIT, 72 * BIT);
 				}
 				else if (old_scene_id == 1) {
@@ -209,8 +200,9 @@ void Sophia::ChangeScene() {
 			IsTouchPortal = false;
 			SetPosition(68 * BIT, 56 * BIT);
 			break;
-		}
-	}
+		}*/
+	//}
+
 }
 
 void Sophia::CheckState(int stateChange) {
@@ -247,7 +239,7 @@ void Sophia::ChangeAnimation(PlayerState* newState, int stateChange) {
 
 void Sophia::Render() {
 	int alpha = 255;
-	if (!IsTouchPortal) {
+	if (!IsTouchPortal && IsRender) {
 		if (!RenderBack) {
 			CurAnimation->Render(x, y, alpha, idFrame, RenderOneFrame);
 		}
@@ -255,7 +247,6 @@ void Sophia::Render() {
 			CurAnimation->RenderBack(x, y, alpha, idFrame, RenderOneFrame);
 		}
 	}
-
 	if (IsUp) {
 		if (CurAnimation->IsFinish)
 		{
@@ -269,9 +260,7 @@ void Sophia::Render() {
 	for (int i = 0; i < bullets.size(); i++) {
 		bullets[i]->Render();
 	}
-
-	if(!IsTouchPortal)
-		RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void Sophia::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -487,9 +476,106 @@ void Sophia::OnKeyUp(int key) {
 }
 
 void Sophia::Reset(float x, float y) {
-	nx = 1;
-	SetPosition(x,y);
-	ChangeAnimation(new PlayerStandingState());
-	SetSpeed(0, 0);
-}
+	switch (scene_id)
+	{
+	case 1:
+		ChangeAnimation(new PlayerStandingState());
+		SetSpeed(0, 0);
+		if (old_scene_id == 0) {
+			nx = 1;
+			SetPosition(x, y);
+		}
+		else if (old_scene_id == 2) {
+			nx = -1;
+			SetPosition(122*BIT,72*BIT);
+		}
+		break;
+	case 4:
+		ChangeAnimation(new PlayerStandingState());
+		SetSpeed(0, 0);
+		if (old_scene_id == 5) {
+			player->nx = 1;
+			SetPosition(5 * BIT, 6 * BIT);
+		}
+		else if (old_scene_id == 3) {
+			player->nx = 1;
+			SetPosition(5 * BIT, 54 * BIT);
+		}
+		break;
+	case 2:
+		//Set
+		if (old_scene_id == 1)
+		{
+			ChangeAnimation(new PlayerStandingState());
+			SetSpeed(0, 0);
+			SetPosition(4 * BIT, 72 * BIT);
+			//player->IsTouchPortal = false;
+		}
+		if (old_scene_id == 3) {
+			ChangeAnimation(new PlayerStandingState());
+			nx = -1;
+			SetPosition(26*BIT,8*BIT);
 
+		}
+		else if (old_scene_id == 5) {
+			player->nx = -1;
+			//ChangeAnimation(new PlayerStandingState());
+			SetPosition(27 * BIT, 72 * BIT);
+		}	
+		break;
+	case 3:
+		if (old_scene_id == 2) {
+			player->nx = 1;
+			SetPosition(36*BIT, 8*BIT);
+		}
+		else if (old_scene_id == 4){
+			player->nx = -1;
+			SetPosition(59*BIT,8*BIT);
+		}
+		break;
+	case 5:
+		if (old_scene_id == 6) {
+			player->nx = -1;
+			SetPosition(58 * BIT, 24 * BIT);
+		}
+		else if (old_scene_id == 4) {
+			player->nx = -1;
+			SetPosition(59 * BIT, 88 * BIT);
+		}
+		else if (old_scene_id == 9) {
+			player->nx = -1;
+			SetPosition(59 * BIT, 56 * BIT);
+		}
+		break;
+	case 6:
+		if (old_scene_id == 5) {
+			nx = 1;
+			SetPosition(68 * BIT, 24 * BIT);
+		}
+		else if (old_scene_id == 7) {
+			player->nx = -1;
+			SetPosition(91 * BIT, 24 * BIT);
+		}
+		break;
+	case 7:
+		if (old_scene_id == 6) {
+			nx = 1;
+			SetPosition(100 * BIT, 24 * BIT);
+		}
+		else if (old_scene_id == 8) {
+			nx = 1;
+			SetPosition(100 * BIT, 40 * BIT);
+		}
+		break;
+	case 8:
+		nx = -1;
+		SetPosition(91 * BIT, 40 * BIT);
+		break;
+	case 9:
+		nx = 1;
+		SetPosition(68 * BIT, 56 * BIT);
+		break;
+
+	}
+	player->IsTouchPortal = false;
+}

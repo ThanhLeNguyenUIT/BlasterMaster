@@ -47,7 +47,7 @@ public:
 	virtual void Render();
 	virtual void Unload();
 	bool IsLoadDone() { return this->loadDone; }
-	void ChangeScene(int id_scene);
+	void ChangeScene(float dt);
 	Sophia* GetSophia() { return sophia; }
 	Jason* GetJason() { return jason; }
 	//friend class PlaySceneKeyHandler;

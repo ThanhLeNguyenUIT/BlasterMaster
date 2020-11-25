@@ -90,6 +90,7 @@ extern std::unordered_map<int, bool> keyCode;	// manage info keycode have been p
 #define GAME Game::GetInstance()
 #define player Sophia::GetInstance()
 #define playerSmall Jason::GetInstance()
+#define playerBig BigJason::GetInstance()
 
 
 extern enum STATENAME {

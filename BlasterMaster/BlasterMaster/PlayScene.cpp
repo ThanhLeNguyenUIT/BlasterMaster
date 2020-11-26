@@ -15,6 +15,7 @@ using namespace std;
 PlayScene::PlayScene(int id, LPCWSTR filePath) :
 	Scene(id, filePath) {
 	keyHandler = new PlaySceneKeyHandler(this);
+	gameCamera = Camera::GetInstance();
 }
 
 #define SCENE_SECTION_UNKNOWN -1
@@ -176,7 +177,7 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 	AnimationSets* animation_sets = AnimationSets::GetInstance();
 
 	switch (type) {
-	case BRICK: 
+	case BRICK:
 		width = (int)atoi(tokens[3].c_str()) * BIT;
 		height = (int)atoi(tokens[4].c_str()) * BIT;
 		obj = new Brick(width, height);
@@ -190,10 +191,10 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 		obj->SetPosition(x, y);
 		listObjects.push_back(obj);
 		break;
-	case PORTAL:	
+	case PORTAL:
 	{
-		float r = atof(tokens[3].c_str()) *BIT;
-		float b = atof(tokens[4].c_str()) *BIT;
+		float r = atof(tokens[3].c_str()) * BIT;
+		float b = atof(tokens[4].c_str()) * BIT;
 		int scene_id = atoi(tokens[5].c_str());
 		Portal* portal = new Portal(x, y, r, b, scene_id);
 		listPortals.push_back(portal);
@@ -207,16 +208,16 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 		listObjects.push_back(obj);
 		break;
 	case GATE:
-		{
-			float r = atof(tokens[3].c_str()) * BIT;
-			float b = atof(tokens[4].c_str()) * BIT;
-			int scene_id = atoi(tokens[5].c_str());
-			Gate* gate = new Gate(x, y, r, b, scene_id);
-			listGates.push_back(gate);
-		}
-		break;
+	{
+		float r = atof(tokens[3].c_str()) * BIT;
+		float b = atof(tokens[4].c_str()) * BIT;
+		int scene_id = atoi(tokens[5].c_str());
+		Gate* gate = new Gate(x, y, r, b, scene_id);
+		listGates.push_back(gate);
+	}
+	break;
 	case ORB1:
-		enemy = new COrb1(x,y);
+		enemy = new COrb1(x, y);
 		listEnemies.push_back(enemy);
 		break;
 	case WORM:
@@ -290,7 +291,7 @@ void PlayScene::Load() {
 	playerBig->Reset();
 	playerBig->IsRender = false;
 	hud = new HUD();
-	
+
 }
 
 void PlayScene::Update(DWORD dt) {
@@ -300,7 +301,7 @@ void PlayScene::Update(DWORD dt) {
 		coObjects.push_back(listObjects[i]);
 	}
 	for (size_t i = 0; i < listEnemies.size(); i++) {
-	
+
 		coObjects.push_back(listEnemies[i]);
 	}
 	for (size_t i = 0; i < listPortals.size(); i++) {
@@ -380,7 +381,7 @@ void PlayScene::Update(DWORD dt) {
 	// update bullet
 	for (int i = 0; i < bullets.size(); i++) {
 		if (Allow[SOPHIA]) {
-			if (bullets[i]->GetX() - player->x >= SCREEN_WIDTH -(player->x - Camera::GetInstance()->GetCamPosX()) || player->x - bullets[i]->GetX() >= player->x - Camera::GetInstance()->GetCamPosX()) {
+			if (bullets[i]->GetX() - player->x >= SCREEN_WIDTH - (player->x - Camera::GetInstance()->GetCamPosX()) || player->x - bullets[i]->GetX() >= player->x - Camera::GetInstance()->GetCamPosX()) {
 				bullets.erase(bullets.begin() + i);
 			}
 			else if (bullets[i]->GetY() <= player->y - 100.0f) {
@@ -434,10 +435,49 @@ void PlayScene::Update(DWORD dt) {
 	// skip the rest if scene was already unloaded (Car::Update might trigger PlayScene::Unload)
 
 	// Update camera to follow player
-	
+
 	ChangeScene();
-	
-	Camera::GetInstance()->Update();
+
+	if (!gameCamera->isChangingMap) {
+		gameCamera->Update();
+	}
+	else {
+		if (playerBig->nx < 0) {
+
+			if ((gameCamera->camPosX + SCREEN_WIDTH / 2) > playerBig->x) {
+				gameCamera->SetCamPos(gameCamera->camPosX - 0.3 * dt, gameCamera->camPosY);
+			}
+			else {
+				Camera::GetInstance()->isChangingMap = false;
+			}
+		}
+		else if (playerBig->nx > 0) {
+			if ((gameCamera->camPosX + SCREEN_WIDTH / 8) < playerBig->x) {
+				gameCamera->SetCamPos(gameCamera->camPosX + 0.3 * dt, gameCamera->camPosY);
+			}
+			else {
+				gameCamera->isChangingMap = false;
+			}
+		}
+		else if (playerBig->ny < 0) {
+			if ((gameCamera->camPosY + SCREEN_HEIGHT / 8) < playerBig->y) {
+				gameCamera->SetCamPos(gameCamera->camPosX, gameCamera->camPosY + 0.3 * dt);
+			}
+			else {
+				Camera::GetInstance()->isChangingMap = false;
+			}
+		}
+		else if (playerBig->ny > 0) {
+			if ((gameCamera->camPosY + SCREEN_HEIGHT / 2) > playerBig->y) {
+				gameCamera->SetCamPos(gameCamera->camPosX, gameCamera->camPosY - 0.3 * dt);
+				//DebugOut(L"%d  ", gameCamera->camPosX);
+			}
+			else {
+				Camera::GetInstance()->isChangingMap = false;
+			}
+		}
+	}
+
 	hud->Update();
 }
 
@@ -500,8 +540,8 @@ void PlayScene::Unload() {
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
 
-void PlaySceneKeyHandler::OnKeyDown(int KeyCode){
-	if (Allow[SOPHIA]){
+void PlaySceneKeyHandler::OnKeyDown(int KeyCode) {
+	if (Allow[SOPHIA]) {
 		keyCode[KeyCode] = true;
 		player->OnKeyDown(KeyCode);
 	}

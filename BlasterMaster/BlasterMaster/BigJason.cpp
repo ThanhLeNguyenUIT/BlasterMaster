@@ -38,7 +38,6 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 		// Simple fall down
 
 		//vy += BIG_JASON_GRAVITY * dt;
-		DebugOut(L"vy: %f\n", player->vy);
 		state->Update();
 
 		vector<LPCOLLISIONEVENT> coEvents;
@@ -119,6 +118,7 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 				if (dynamic_cast<Gate*>(e->obj)) {
 					Gate* g = dynamic_cast<Gate*>(e->obj);
 					scene_gate = g->scene_id;
+					Camera::GetInstance()->isChangingMap = true;
 					if (e->nx != 0) {
 						x += dx;
 						IsTouchGate = true;
@@ -164,12 +164,12 @@ void BigJason::ChangeScene(int scene_gate) {
 				SetPosition(8 * BIT, 119 * BIT);
 			}
 			else if (sceneHistory.rbegin()[1] == 12) {
-				SetPosition(12 * BIT, 119 * BIT);
+				SetPosition(13 * BIT, 119 * BIT);
 			}
 			break;
 		case 12:
 			if (sceneHistory.rbegin()[1] == 11) {
-				SetPosition(19 * BIT, 119 * BIT);
+				SetPosition(18 * BIT, 119 * BIT);
 			}
 			else if (sceneHistory.rbegin()[1] == 13) {
 				SetPosition(28 * BIT, 119 * BIT);
@@ -407,11 +407,14 @@ void BigJason::ChangeAnimation(PlayerState* newState, int stateChange) {
 }
 
 void BigJason::Render() {
-	int alpha = 255;
-	if (IsRender && !IsTouchGate) {
+	int alpha = Camera::GetInstance()->isChangingMap ? 0 : 255;
+	//int alpha = 255;
+
+	if (IsRender) {
 		CurAnimation->Render(x, y, alpha, idFrame, RenderOneFrame);
 		RenderBoundingBox();
 	}
+	
 }
 
 void BigJason::GetBoundingBox(float& left, float& top, float& right, float& bottom) {
@@ -458,12 +461,16 @@ void BigJason::OnKeyDown(int key) {
 		if (Allow[BIG_JASON] && IsTouchGate) {
 			playerBig->ChangeScene(scene_gate);
 			IsTouchGate = false;
+			//nx = 0;
+			//ny = 1;
 		}
 		break;
 	case DIK_DOWN:
 		if (Allow[BIG_JASON] && IsTouchGate) {
 			playerBig->ChangeScene(scene_gate);
 			IsTouchGate = false;
+			//nx = 0;
+			//ny = -1;
 		}
 		break;
 	}
@@ -487,12 +494,16 @@ void BigJason::OnKeyUp(int key) {
 		if (Allow[BIG_JASON] && IsTouchGate) {
 			playerBig->ChangeScene(scene_gate);
 			IsTouchGate = false;
+			//nx = 0;
+			//ny = 1;
 		}
 		break;
 	case DIK_DOWN:
 		if (Allow[BIG_JASON] && IsTouchGate) {
 			playerBig->ChangeScene(scene_gate);
 			IsTouchGate = false;
+			//nx = 0;
+			//ny = -1;
 		}
 		break;
 	}
@@ -504,4 +515,6 @@ void BigJason::Reset(float x, float y) {
 	SetPosition(x, y);
 	ChangeAnimation(new PlayerStandingState());
 	SetSpeed(0, 0);
+
+
 }

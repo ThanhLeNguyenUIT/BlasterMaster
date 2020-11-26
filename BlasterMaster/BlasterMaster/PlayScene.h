@@ -29,6 +29,7 @@ protected:
 	Jason* jason;
 	Bullet* bullet;
 	Power* power;
+	Camera* gameCamera;
 	vector<Bullet*> bullets;
 	vector<LPGAMEOBJECT> listObjects;
 	vector<Enemy*> listEnemies;

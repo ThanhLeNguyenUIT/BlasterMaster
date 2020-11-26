@@ -28,6 +28,8 @@ public:
 	virtual void Render();
 	//bool IsJumping() { return this->isJumping; }
 	DWORD timeStartAttack = TIME_DEFAULT;
+	// 
+	bool IsInTranstion;
 	bool IsJumping;
 	bool IsOnGround;
 	bool IsMoving;

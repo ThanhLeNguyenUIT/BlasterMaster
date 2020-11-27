@@ -153,7 +153,7 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 				}
 				 if (dynamic_cast<Portal*>(e->obj))
 				{
-					if (e->nx != 0) x += dx;
+					//if (e->nx != 0) x += dx;
 					Portal* p = dynamic_cast<Portal*>(e->obj);
 					IsTouchPortal = true;
 					scene_id = p->scene_id;

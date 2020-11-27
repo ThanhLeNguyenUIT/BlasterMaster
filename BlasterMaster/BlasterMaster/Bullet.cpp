@@ -42,7 +42,7 @@ void Bullet::ChangeAnimation(STATEOBJECT StateObject) {
 		vx = 0;
 		vy = 0;
 		IsHitting = true;
-		if (timeStartCol = TIME_DEFAULT) timeStartCol = GetTickCount();
+		if (timeStartCol == TIME_DEFAULT) timeStartCol = GetTickCount();
 		break;
 	case BIG_JASON_BULLET_MOVING_RIGHT:
 		vx = BULLET_MOVING_SPEED;
@@ -93,7 +93,7 @@ void Bullet::Render() {
 	RenderBoundingBox();
 }
 
-void Bullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
+void Bullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> coEnemy) {
 	GameObject::Update(dt, coObjects);
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -130,19 +130,13 @@ void Bullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 					ChangeAnimation(BIG_JASON_BULLET_HIT);
 			}
 
-			if (dynamic_cast<Enemy*>(e->obj)) {
+			/*if (dynamic_cast<Enemy*>(e->obj)) {
 				if (Allow[JASON] || Allow[SOPHIA])
 					ChangeAnimation(BULLET_SMALL_HIT);
 				else if (Allow[BIG_JASON])
 					ChangeAnimation(BIG_JASON_BULLET_HIT);
-				Enemy* p = dynamic_cast<Enemy*>(e->obj);
-				if (e->nx != 0) {
-					p->health = p->health - 1;
-				}
-				if (e->ny != 0) {
-					p->health = p->health - 1;
-				}
-			}
+				
+			}*/
 
 			if (dynamic_cast<Power*>(e->obj)) {
 				if (e->nx != 0) x += dx;
@@ -165,5 +159,15 @@ void Bullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	}
 
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
+	for (int i = 0; i < coEnemy.size(); i++) {
+		if (CollisionWithObject(coEnemy[i])) {
+			if (Allow[JASON] || Allow[SOPHIA])
+				ChangeAnimation(BULLET_SMALL_HIT);
+			else if (Allow[BIG_JASON])
+				ChangeAnimation(BIG_JASON_BULLET_HIT);
+			coEnemy[i]->health -= 1;
+		}
+	}
 }
 

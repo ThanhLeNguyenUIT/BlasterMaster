@@ -16,6 +16,12 @@ using namespace std;
 
 #define TIME_DEFAULT		0
 #define TIME_FIRING			200
+#define SAFE_DELETE(ptr) \
+if(ptr) \
+{\
+	delete (ptr); \
+	ptr = nullptr; \
+} \
 ///// JASON /////
 #define JASON_MOVING_SPEED						0.06f
 #define JASON_JUMP_SPEED_Y						0.35f

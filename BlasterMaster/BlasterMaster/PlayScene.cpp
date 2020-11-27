@@ -299,10 +299,6 @@ void PlayScene::Update(DWORD dt) {
 	for (size_t i = 0; i < listObjects.size(); i++) {
 		coObjects.push_back(listObjects[i]);
 	}
-	for (size_t i = 0; i < listEnemies.size(); i++) {
-	
-		coObjects.push_back(listEnemies[i]);
-	}
 	for (size_t i = 0; i < listPortals.size(); i++) {
 		coObjects.push_back(listPortals[i]);
 	}
@@ -316,7 +312,6 @@ void PlayScene::Update(DWORD dt) {
 	{
 		listObjects[i]->Update(dt, &coObjects);
 	}
-	//DebugOut(L"size: %d\n", listEnemies.size());
 	for (size_t i = 0; i < listEnemies.size(); i++)
 	{
 		listEnemies[i]->Update(dt, &coObjects);
@@ -326,7 +321,7 @@ void PlayScene::Update(DWORD dt) {
 		listItems[i]->Update(dt, &coObjects);
 	}
 
-	player->Update(dt, &coObjects);
+	player->Update(dt, &coObjects, listEnemies); 
 	playerSmall->Update(dt, &coObjects);
 	playerBig->Update(dt, &coObjects);
 	// create bullet
@@ -358,8 +353,7 @@ void PlayScene::Update(DWORD dt) {
 				bullets.erase(bullets.begin() + i);
 			}
 			else if (bullets[i]->GetStateObject() == BULLET_SMALL_HIT) {
-				if (bullets[i]->CurAnimation->isLastFrame) {
-					bullets[i]->CurAnimation->isLastFrame = false;
+				if (GetTickCount() - bullets[i]->timeStartCol >= BULLET_TIME_EXPLOSIVE && bullets[i]->timeStartCol != TIME_DEFAULT) {
 					bullets.erase(bullets.begin() + i);
 				}
 			}
@@ -369,8 +363,7 @@ void PlayScene::Update(DWORD dt) {
 				bullets.erase(bullets.begin() + i);
 			}
 			else if (bullets[i]->GetStateObject() == BULLET_SMALL_HIT) {
-				if (bullets[i]->CurAnimation->isLastFrame) {
-					bullets[i]->CurAnimation->isLastFrame = false;
+				if (GetTickCount() - bullets[i]->timeStartCol >= BULLET_TIME_EXPLOSIVE && bullets[i]->timeStartCol != TIME_DEFAULT) {
 					bullets.erase(bullets.begin() + i);
 				}
 			}
@@ -383,15 +376,14 @@ void PlayScene::Update(DWORD dt) {
 				bullets.erase(bullets.begin() + i);
 			}
 			else if (bullets[i]->GetStateObject() == BIG_JASON_BULLET_HIT) {
-				if (bullets[i]->CurAnimation->isLastFrame) {
-					bullets[i]->CurAnimation->isLastFrame = false;
+				if (GetTickCount() - bullets[i]->timeStartCol >= BULLET_TIME_EXPLOSIVE && bullets[i]->timeStartCol != TIME_DEFAULT) {
 					bullets.erase(bullets.begin() + i);
 				}
 			}
 		}
 	}
 	for (int i = 0; i < bullets.size(); i++) {
-		bullets[i]->Update(dt, &coObjects);
+		bullets[i]->Update(dt, &coObjects, listEnemies);
 	}
 	// delete enemy
 	for (size_t i = 0; i < listEnemies.size(); i++)

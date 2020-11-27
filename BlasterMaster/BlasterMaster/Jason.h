@@ -1,3 +1,4 @@
+
 #pragma once
 #include "GameObject.h"
 #include "PlayerState.h"
@@ -21,7 +22,6 @@ public:
 	std::unordered_map<TYPE, bool> allow;
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
-	//bool IsJumping() { return this->isJumping; }
 	DWORD timeStartAttack = TIME_DEFAULT;
 	DWORD timeDamaged = TIME_DEFAULT;
 	bool IsJumping;

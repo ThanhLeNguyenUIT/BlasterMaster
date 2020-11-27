@@ -102,6 +102,23 @@ void GameObject::FilterCollision(
 	if (min_iy >= 0) coEventsResult.push_back(coEvents[min_iy]);
 }
 
+bool GameObject::CollisionWithObject(GameObject* obj)	// kt  AABB + Sweept AABB
+{
+	if (obj == NULL)
+		return false;
+	else
+	{
+		float l1, l2, b1, b2, r1, r2, t1, t2;
+		this->GetBoundingBox(l1, t1, r1, b1);
+		obj->GetBoundingBox(l2, t2, r2, b2);
+		if (Game::GetInstance()->CheckAABB(l1, t1, r1, b1, l2, t2, r2, b2))
+			return true;
+		LPCOLLISIONEVENT e = SweptAABBEx(obj);
+		bool res = e->t > 0 && e->t <= 1.0f;
+		SAFE_DELETE(e);
+		return res;
+	}
+}
 
 void GameObject::RenderBoundingBox()
 {

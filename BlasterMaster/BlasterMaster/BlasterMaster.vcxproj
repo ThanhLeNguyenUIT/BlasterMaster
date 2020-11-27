@@ -33,6 +33,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DamageBrick.cpp" />
     <ClCompile Include="debug.cpp" />
+    <ClCompile Include="Dome.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Floater.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -80,6 +81,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DamageBrick.h" />
     <ClInclude Include="debug.h" />
+    <ClInclude Include="Dome.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Floater.h" />
     <ClInclude Include="Game.h" />

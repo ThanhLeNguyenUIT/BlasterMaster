@@ -26,8 +26,7 @@ PlayerUpwardFallingState::~PlayerUpwardFallingState() {
 void PlayerUpwardFallingState::Update() {
 	if (Allow[SOPHIA]) {
 		if (!player->IsJumping) {
-			player->ChangeAnimation(new PlayerUpwardState(), NORMAL);
-			player->CurAnimation->currentFrame = 2;
+			player->ChangeAnimation(new PlayerUpwardMovingState(), NORMAL);
 			player->RenderOneFrame = true;
 			player->vx = 0;
 			return;

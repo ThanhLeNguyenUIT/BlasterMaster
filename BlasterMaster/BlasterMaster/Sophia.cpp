@@ -42,22 +42,19 @@ Sophia::~Sophia() {
 
 }
 
-void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
+void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> coEnemy) {
 	// Calculate dx, dy
 	if (Allow[SOPHIA]) {
 	
 		GameObject::Update(dt);
 		// Simple fall down
-
 		vy += SOPHIA_GRAVITY * dt;
 		
 		state->Update();
 		// change scene 
-		
 
 		vector<LPCOLLISIONEVENT> coEvents;
 		vector<LPCOLLISIONEVENT> coEventsResult;
-
 		coEvents.clear();
 
 		// turn off collision when die 
@@ -107,23 +104,16 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 
 			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 			// block 
-			x += min_tx * dx + nx * 0.1f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+			x += min_tx * dx + nx * 0.1f;
 			y += min_ty * dy + ny * 0.1f;
 			
 			// Collision logic with Enemies
 			for (UINT i = 0; i < coEventsResult.size(); i++)
 			{
 				LPCOLLISIONEVENT e = coEventsResult[i];
-	
-				/*if (dynamic_cast<Jason*>(e->obj)) {
-					if (e->nx != 0) x += dx;
-					if (e->ny != 0) y += dy;
-				}*/
 				if (dynamic_cast<Brick*>(e->obj)) {
 					
-					if (e->nx != 0) {
-						vx = 0;
-					}
+					if (e->nx != 0) vx = 0;
 					if (e->ny == -1)
 					{
 						if (IsJumping) {
@@ -138,52 +128,34 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
   						vy = 0;
 					}
 				}
-
 				else if (dynamic_cast<DamageBrick*>(e->obj)) {
 					if (e->nx != 0) vx = 0;
-					if (e->ny == -1)
+					if (e->ny != 0)
 					{
+						vy = 0;
 						// damage
 						if (timeDamaged == TIME_DEFAULT) {
 							timeDamaged = GetTickCount();
 						}
-						vy = 0;
 						IsJumping = false;
-						if (GetTickCount() - timeDamaged >= 300) {
+						if (GetTickCount() - timeDamaged >= 600) {
 							health = health - 1;
 							timeDamaged = GetTickCount();
 						}
 					}
-					else if (e->ny == 1)
-					{
-						vy = 0;
-					}
 				}
-
 				else if (dynamic_cast<Portal*>(e->obj))
 				{
-					if (e->nx != 0) x += dx;
 					Portal* p = dynamic_cast<Portal*>(e->obj);
 					IsTouchPortal = true;
 					IsChangeScene = true;
 					scene_id = p->scene_id;
 				}
-
 				else if (dynamic_cast<Stair*>(e->obj))
 				{
 					if (e->nx != 0) x += dx;
 					Stair* p = dynamic_cast<Stair*>(e->obj);
 				}
-
-				// collison with monster
-
-				else if (dynamic_cast<Enemy*>(e->obj)) {
-					if (e->nx != 0) x += dx;
-					if (e->ny != 0) y += dy;
-
-					health = health - 1;
-				}
-
 				else if (dynamic_cast<Power*>(e->obj)) {
 
 					if (e->nx != 0) x += dx;
@@ -198,6 +170,19 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 		}
 		// clean up collision events
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
+		for (int i = 0; i < coEnemy.size(); i++) {
+			if (CollisionWithObject(coEnemy[i])) {
+				// damage
+				if (timeDamaged == TIME_DEFAULT) {
+					timeDamaged = GetTickCount();
+				}
+				if (GetTickCount() - timeDamaged >= 600) {
+					health = health - 1;
+					timeDamaged = GetTickCount();
+				}
+			}
+		}
 	}
 }
 

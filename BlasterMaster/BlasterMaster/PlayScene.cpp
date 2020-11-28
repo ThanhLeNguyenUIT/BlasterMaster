@@ -438,7 +438,7 @@ void PlayScene::Update(DWORD dt) {
 
 	ChangeScene();
 
-	if (!gameCamera->isChangingMap) {
+	if (!gameCamera->isInTransition) {
 		gameCamera->Update();
 	}
 	else {
@@ -448,7 +448,7 @@ void PlayScene::Update(DWORD dt) {
 				gameCamera->SetCamPos(gameCamera->camPosX - 0.3 * dt, gameCamera->camPosY);
 			}
 			else {
-				Camera::GetInstance()->isChangingMap = false;
+				Camera::GetInstance()->isInTransition = false;
 			}
 		}
 		else if (playerBig->nx > 0) {
@@ -456,7 +456,7 @@ void PlayScene::Update(DWORD dt) {
 				gameCamera->SetCamPos(gameCamera->camPosX + 0.3 * dt, gameCamera->camPosY);
 			}
 			else {
-				gameCamera->isChangingMap = false;
+				gameCamera->isInTransition = false;
 			}
 		}
 		else if (playerBig->ny < 0) {
@@ -464,7 +464,7 @@ void PlayScene::Update(DWORD dt) {
 				gameCamera->SetCamPos(gameCamera->camPosX, gameCamera->camPosY + 0.3 * dt);
 			}
 			else {
-				Camera::GetInstance()->isChangingMap = false;
+				Camera::GetInstance()->isInTransition = false;
 			}
 		}
 		else if (playerBig->ny > 0) {
@@ -473,7 +473,7 @@ void PlayScene::Update(DWORD dt) {
 				//DebugOut(L"%d  ", gameCamera->camPosX);
 			}
 			else {
-				Camera::GetInstance()->isChangingMap = false;
+				Camera::GetInstance()->isInTransition = false;
 			}
 		}
 	}
@@ -492,6 +492,11 @@ void PlayScene::ChangeScene() {
 		playerBig->ChangeScene(playerBig->scene_gate);
 		playerBig->IsChangeScene = false;
 	}
+	/*if (playerSmall->IsChangeScene) {
+		Game::GetInstance()->SwitchScene(playerSmall->scene_gate);
+		playerSmall->ChangeScene();
+		playerSmall->IsChangeScene = false;
+	}*/
 }
 
 void PlayScene::Render() {

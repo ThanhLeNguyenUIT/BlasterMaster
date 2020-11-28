@@ -118,16 +118,22 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 				if (dynamic_cast<Gate*>(e->obj)) {
 					Gate* g = dynamic_cast<Gate*>(e->obj);
 					scene_gate = g->scene_id;
-					Camera::GetInstance()->isChangingMap = true;
+					Camera::GetInstance()->isInTransition = true;
 					if (e->nx != 0) {
 						x += dx;
 						IsTouchGate = true;
 						sceneHistory.push_back(scene_gate);
+						if (scene_gate == 5) { // || multiple conditions
+							IsChangeScene = true;
+						}
 					}
 					if (e->ny != 0) {
 						y += dy;
 						IsTouchGate = true;
 						sceneHistory.push_back(scene_gate);
+						if (scene_gate == 5) { // || multiple conditions
+							IsChangeScene = true;
+						}
 					}
 				}
 			}
@@ -141,6 +147,15 @@ void BigJason::ChangeScene(int scene_gate) {
 	scene_id = scene_gate;
 	if (Allow[BIG_JASON]) {
 		switch (scene_gate) {
+		case 40:
+			if (sceneHistory.size() == 1) {
+				SetPosition(26 * BIT, 7 * BIT);
+			}
+			else SetPosition(28 * BIT, 7 * BIT);
+			break;
+		case 41:
+			SetPosition(35 * BIT, 7 * BIT);
+			break;
 		case 10:
 			SetPosition(87.5 * BIT, 71.5 * BIT);
 			break;
@@ -155,9 +170,10 @@ void BigJason::ChangeScene(int scene_gate) {
 			Allow[SOPHIA] = true;
 			player->ChangeAnimation(new PlayerOpenState());
 			playerSmall->ChangeAnimation(new PlayerStandingState());
-			player->SetPosition(player->oldCx, player->oldCy);
+			player->SetPosition(player->oldCx, player->oldCy); // multiple conditions
 			playerSmall->SetPosition(playerSmall->oldCx, playerSmall->oldCy - 10);
 			Allow[SOPHIA] = false;
+			sceneHistory.clear();
 			break;
 		case 11:
 			if (sceneHistory[0] == 11 && sceneHistory.size() == 1) {
@@ -407,14 +423,14 @@ void BigJason::ChangeAnimation(PlayerState* newState, int stateChange) {
 }
 
 void BigJason::Render() {
-	int alpha = Camera::GetInstance()->isChangingMap ? 0 : 255;
+	int alpha = Camera::GetInstance()->isInTransition ? 0 : 255;
 	//int alpha = 255;
 
 	if (IsRender) {
 		CurAnimation->Render(x, y, alpha, idFrame, RenderOneFrame);
 		RenderBoundingBox();
 	}
-	
+
 }
 
 void BigJason::GetBoundingBox(float& left, float& top, float& right, float& bottom) {
@@ -446,28 +462,32 @@ void BigJason::OnKeyDown(int key) {
 		}
 		break;
 	case DIK_RIGHT:
-		if (Allow[BIG_JASON] && IsTouchGate) {
+		if (Allow[BIG_JASON] && (IsTouchGate || IsTouchPortal)) {
 			playerBig->ChangeScene(scene_gate);
+			IsTouchPortal = false;
 			IsTouchGate = false;
 		}
 		break;
 	case DIK_LEFT:
-		if (Allow[BIG_JASON] && IsTouchGate) {
+		if (Allow[BIG_JASON] && (IsTouchGate || IsTouchPortal)) {
 			playerBig->ChangeScene(scene_gate);
+			IsTouchPortal = false;
 			IsTouchGate = false;
 		}
 		break;
 	case DIK_UP:
-		if (Allow[BIG_JASON] && IsTouchGate) {
+		if (Allow[BIG_JASON] && (IsTouchGate || IsTouchPortal)) {
 			playerBig->ChangeScene(scene_gate);
+			IsTouchPortal = false;
 			IsTouchGate = false;
 			//nx = 0;
 			//ny = 1;
 		}
 		break;
 	case DIK_DOWN:
-		if (Allow[BIG_JASON] && IsTouchGate) {
+		if (Allow[BIG_JASON] && (IsTouchGate || IsTouchPortal)) {
 			playerBig->ChangeScene(scene_gate);
+			IsTouchPortal = false;
 			IsTouchGate = false;
 			//nx = 0;
 			//ny = -1;
@@ -479,29 +499,33 @@ void BigJason::OnKeyDown(int key) {
 void BigJason::OnKeyUp(int key) {
 	switch (key) {
 	case DIK_RIGHT:
-		if (Allow[BIG_JASON] && IsTouchGate) {
+		if (Allow[BIG_JASON] && (IsTouchGate || IsTouchPortal)) {
 			playerBig->ChangeScene(scene_gate);
+			IsTouchPortal = false;
 			IsTouchGate = false;
 		}
 		break;
 	case DIK_LEFT:
-		if (Allow[BIG_JASON] && IsTouchGate) {
+		if (Allow[BIG_JASON] && (IsTouchGate || IsTouchPortal)) {
 			playerBig->ChangeScene(scene_gate);
+			IsTouchPortal = false;
 			IsTouchGate = false;
 		}
 		break;
 	case DIK_UP:
-		if (Allow[BIG_JASON] && IsTouchGate) {
+		if (Allow[BIG_JASON] && (IsTouchGate || IsTouchPortal)) {
 			playerBig->ChangeScene(scene_gate);
+			IsTouchPortal = false;
 			IsTouchGate = false;
 			//nx = 0;
 			//ny = 1;
 		}
 		break;
 	case DIK_DOWN:
-		if (Allow[BIG_JASON] && IsTouchGate) {
+		if (Allow[BIG_JASON] && (IsTouchGate || IsTouchPortal)) {
 			playerBig->ChangeScene(scene_gate);
 			IsTouchGate = false;
+			IsTouchPortal = false;
 			//nx = 0;
 			//ny = -1;
 		}

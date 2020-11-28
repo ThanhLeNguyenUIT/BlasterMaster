@@ -7,4 +7,185 @@ D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'D
 C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
 D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\BigJason.cpp(48,21): warning C4018: '<': signed/unsigned mismatch
 D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\BigJason.cpp(51,21): warning C4018: '<': signed/unsigned mismatch
+  Camera.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(60,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(67,38): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(75,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(82,38): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(90,26): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(98,29): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(106,27): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(114,30): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(122,24): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(130,27): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(138,24): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(146,27): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(154,24): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(162,27): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(170,24): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(178,27): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(186,24): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(194,27): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(202,24): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(210,27): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(218,24): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(226,27): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(234,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(241,29): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(249,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(256,38): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(264,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(271,38): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(279,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(286,38): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(294,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(301,38): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(309,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(316,38): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(324,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(331,38): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(339,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(346,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(354,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(361,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(369,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(376,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(384,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(391,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(399,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(406,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(414,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(421,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(429,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(436,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(444,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(451,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(459,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(466,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(474,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(481,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(489,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(496,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(504,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(511,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(519,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(526,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(534,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(541,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(549,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(556,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(564,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(571,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(579,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(586,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(594,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(601,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(609,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(616,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(624,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(631,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(639,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(646,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(654,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(661,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(669,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(676,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(26,15): warning C4101: 'oldCy': unreferenced local variable
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(26,8): warning C4101: 'oldCx': unreferenced local variable
+  Game.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.cpp(244,26): warning C4305: '=': truncation from '__int64' to 'float'
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.cpp(245,24): warning C4305: '=': truncation from '__int64' to 'float'
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.cpp(255,26): warning C4305: '=': truncation from '__int64' to 'float'
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.cpp(256,24): warning C4305: '=': truncation from '__int64' to 'float'
+  HUD.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+  Health.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+  Jason.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Jason.cpp(56,21): warning C4018: '<': signed/unsigned mismatch
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Jason.cpp(59,21): warning C4018: '<': signed/unsigned mismatch
+  PlayScene.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(89,20): warning C4018: '<': signed/unsigned mismatch
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(121,21): warning C4018: '<': signed/unsigned mismatch
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(135,21): warning C4018: '<': signed/unsigned mismatch
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(164,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(165,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(196,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(197,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(212,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(213,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(382,20): warning C4018: '<': signed/unsigned mismatch
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(415,20): warning C4018: '<': signed/unsigned mismatch
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(448,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(456,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(464,68): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(472,68): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(505,20): warning C4018: '<': signed/unsigned mismatch
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(508,20): warning C4018: '<': signed/unsigned mismatch
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(511,20): warning C4018: '<': signed/unsigned mismatch
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(514,20): warning C4018: '<': signed/unsigned mismatch
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(517,20): warning C4018: '<': signed/unsigned mismatch
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(520,20): warning C4018: '<': signed/unsigned mismatch
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(530,20): warning C4018: '<': signed/unsigned mismatch
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(532,20): warning C4018: '<': signed/unsigned mismatch
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(534,20): warning C4018: '<': signed/unsigned mismatch
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(536,20): warning C4018: '<': signed/unsigned mismatch
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(538,20): warning C4018: '<': signed/unsigned mismatch
+  Sophia.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Sophia.cpp(297,20): warning C4018: '<': signed/unsigned mismatch
+  Worm.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+  main.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+  Generating Code...
   BlasterMaster.vcxproj -> D:\Game\BlasterMaster\BlasterMaster\Debug\BlasterMaster.exe

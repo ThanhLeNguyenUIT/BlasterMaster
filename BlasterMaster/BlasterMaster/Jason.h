@@ -27,6 +27,7 @@ public:
 	//bool IsJumping() { return this->isJumping; }
 	DWORD timeStartAttack = TIME_DEFAULT;
 	DWORD timeDamaged = TIME_DEFAULT;
+	bool IsChangeScene;
 	bool IsJumping;
 	bool IsOnGround;
 	bool IsMoving;

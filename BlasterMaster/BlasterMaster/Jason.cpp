@@ -41,7 +41,7 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 		GameObject::Update(dt);
 
 		// Simple fall down
-		if(!IsTouchStair)
+		if (!IsTouchStair)
 			vy += JASON_GRAVITY * dt;
 		state->Update();
 		if (IsTouchStair && y <= 25 * BIT) {
@@ -121,11 +121,11 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 						if (e->ny == 1) y += dy;
 						if (e->ny == -1) {
 							ChangeAnimation(new PlayerStandingState());
-							
+
 						}
 					}
 				}
-				 if (dynamic_cast<DamageBrick*>(e->obj)) {
+				if (dynamic_cast<DamageBrick*>(e->obj)) {
 					if (e->nx != 0) vx = 0;
 					if (e->ny == -1)
 					{
@@ -145,7 +145,7 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 						vy = 0;
 					}
 				}
-				 if (dynamic_cast<Portal*>(e->obj))
+				if (dynamic_cast<Portal*>(e->obj))
 				{
 					if (e->nx != 0) x += dx;
 					Portal* p = dynamic_cast<Portal*>(e->obj);
@@ -172,7 +172,7 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 					}
 				}
 
-				 if (dynamic_cast<Gate*>(e->obj)) {
+				if (dynamic_cast<Gate*>(e->obj)) {
 					Gate* p = dynamic_cast<Gate*>(e->obj);
 					scene_gate = p->scene_id;
 					if (e->nx != 0) {
@@ -188,23 +188,23 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 					}
 				}
 
-				  if (dynamic_cast<Enemy*>(e->obj)) {
-					 if (e->nx != 0) x += dx;
-					 if (e->ny != 0) y += dy;
+				if (dynamic_cast<Enemy*>(e->obj)) {
+					if (e->nx != 0) x += dx;
+					if (e->ny != 0) y += dy;
 
-					 health = health - 1;
-				 }
+					health = health - 1;
+				}
 
-				  if (dynamic_cast<Power*>(e->obj)) {
+				if (dynamic_cast<Power*>(e->obj)) {
 
-					  if (e->nx != 0) x += dx;
-					  if (e->ny != 0) y += dy;
+					if (e->nx != 0) x += dx;
+					if (e->ny != 0) y += dy;
 
-					  Power* p = dynamic_cast<Power*>(e->obj);
-					  p->IsTouch = true;
-					  if (health < 8)
-						  health = health + 1;
-				  }
+					Power* p = dynamic_cast<Power*>(e->obj);
+					p->IsTouch = true;
+					if (health < 8)
+						health = health + 1;
+				}
 			}
 		}
 		// clean up collision events
@@ -254,7 +254,14 @@ void Jason::ChangeScene() {
 				IsTouchPortal = false;
 			}
 			break;
+		/*case 5:
+			if (y > 25 * BIT) {
+				ChangeAnimation(new PlayerStandingState());
+				IsTouchPortal = false;
+				SetPosition(36 * BIT, 25 * BIT);
+			}*/
 		}
+
 	}
 }
 
@@ -274,7 +281,7 @@ void Jason::Render() {
 	}
 }
 
-void Jason::GetBoundingBox(float& left, float& top, float& right, float& bottom){
+void Jason::GetBoundingBox(float& left, float& top, float& right, float& bottom) {
 	left = x;
 	top = y;
 
@@ -306,7 +313,7 @@ void Jason::OnKeyDown(int key) {
 		SetPosition(565, 112);
 		break;
 	case DIK_Q: // get on the car
-		if (Allow[JASON]){
+		if (Allow[JASON]) {
 			if (x >= player->x && x <= player->x + SOPHIA_BBOX_WIDTH) {
 				playerSmall->ChangeAnimation(new PlayerJumpingState());
 				IsRender = false;

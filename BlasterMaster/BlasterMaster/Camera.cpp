@@ -51,12 +51,37 @@ void Camera::Update()
 	cx -= game->GetScreenWidth() / 2;
 	cy -= game->GetScreenHeight() / 2;
 
-	//if (playerBig->IsTouchGate) {
-	//	cx += game->GetScreenWidth() / 4;
-	//	cy += game->GetScreenHeight() / 6;
-	//}
-
 	switch (currentSceneID) {
+		case 40:
+			if (cx < LEFT_OVERWORLD_3) {
+				cx = LEFT_OVERWORLD_3;
+			}
+			else if (cx + width >= RIGHT_OVERWORLD_3) {
+				cx = RIGHT_OVERWORLD_3 - width + 30;
+			}
+			if (cy < TOP_OVERWORLD_3) {
+				cy = TOP_OVERWORLD_3;
+			}
+			else if (cy + height > BOTTOM_OVERWORLD_3)
+			{
+				cy = BOTTOM_OVERWORLD_3 - height + 78;
+			}
+			break;
+		case 41: 
+			if (cx < LEFT_OVERWORLD_4) {
+				cx = LEFT_OVERWORLD_4;
+			}
+			else if (cx + width >= RIGHT_OVERWORLD_4) {
+				cx = RIGHT_OVERWORLD_4 - width + 30;
+			}
+			if (cy < TOP_OVERWORLD_4) {
+				cy = TOP_OVERWORLD_4;
+			}
+			else if (cy + height > BOTTOM_OVERWORLD_4)
+			{
+				cy = BOTTOM_OVERWORLD_4 - height + 78;
+			}
+			break;
 		case 1:
 			if (cx < START_FIRST_SCENE) {
 				cx = START_FIRST_SCENE;

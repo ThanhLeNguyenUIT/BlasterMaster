@@ -55,13 +55,22 @@
 #define LEFT_OVERWORLD_2 0
 #define RIGHT_OVERWORLD_2 15 * BIT
 
+#define TOP_OVERWORLD_3 1 * BIT
+#define BOTTOM_OVERWORLD_3  13 * BIT
+#define LEFT_OVERWORLD_3 0
+#define RIGHT_OVERWORLD_3 31 * BIT
+
+#define TOP_OVERWORLD_4 1 * BIT
+#define BOTTOM_OVERWORLD_4  29 * BIT
+#define LEFT_OVERWORLD_4 32 * BIT
+#define RIGHT_OVERWORLD_4 63 * BIT
 
 class Camera {
 	static Camera* __instance;
 	int width, height;
 public:
 	static Camera* GetInstance();
-	bool isChangingMap = false;
+	bool isInTransition = false;
 	float camPosX, camPosY;
 	void SetCamPos(float x, float y) { camPosX = x; camPosY = y; }
 	float GetCamPosX() { return camPosX; }

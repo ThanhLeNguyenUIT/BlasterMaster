@@ -14,3 +14,4 @@ start	0
 9	text/scene2_9.txt
 10	text/overworld_1.txt
 11	text/overworld_1.txt
+40	text/overworld_1.txt

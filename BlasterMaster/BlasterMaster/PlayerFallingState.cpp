@@ -1,7 +1,7 @@
 #include "PlayerFallingState.h"
 #include "PlayerStandingState.h"
 #include "PlayerJumpingState.h"
-#include "PlayerJumpTurningState.h"
+#include "PlayerTurningState.h"
 #include "PlayerUpperState.h"
 
 PlayerFallingState::PlayerFallingState() {
@@ -50,18 +50,10 @@ void PlayerFallingState::HandleKeyboard() {
 	if ((keyCode[DIK_RIGHT]))
 	{
 		if (Allow[SOPHIA]) {
-			if (player->nx > 0) {
-				player->nx = 1;
-				player->vx = SOPHIA_MOVING_SPEED;
-				player->ChangeAnimation(new PlayerFallingState(), NORMAL);
-				player->RenderOneFrame = false;
-			}
-			else {
-				player->vx = -SOPHIA_MOVING_SPEED;
-				player->ChangeAnimation(new PlayerJumpTurningState(), NORMAL);
-				player->CurAnimation->currentFrame = -1;
-				player->CurAnimation->isLastFrame = false;
-			}
+			player->nx = 1;
+			player->vx = SOPHIA_MOVING_SPEED;
+			player->ChangeAnimation(new PlayerFallingState(), NORMAL);
+			player->RenderOneFrame = false;
 		}
 		else if (Allow[JASON]) {
 			playerSmall->nx = 1;
@@ -73,18 +65,10 @@ void PlayerFallingState::HandleKeyboard() {
 	else if ((keyCode[DIK_LEFT]))
 	{
 		if (Allow[SOPHIA]) {
-			if (player->nx < 0) {
-				player->nx = -1;
-				player->vx = -SOPHIA_MOVING_SPEED;
-				player->ChangeAnimation(new PlayerFallingState(), NORMAL);
-				player->RenderOneFrame = false;
-			}
-			else {
-				player->vx = SOPHIA_MOVING_SPEED;
-				player->ChangeAnimation(new PlayerJumpTurningState(), NORMAL);
-				player->CurAnimation->currentFrame = -1;
-				player->CurAnimation->isLastFrame = false;
-			}
+			player->nx = -1;
+			player->vx = -SOPHIA_MOVING_SPEED;
+			player->ChangeAnimation(new PlayerFallingState(), NORMAL);
+			player->RenderOneFrame = false;
 		}
 		else if (Allow[JASON]) {
 			playerSmall->nx = -1;

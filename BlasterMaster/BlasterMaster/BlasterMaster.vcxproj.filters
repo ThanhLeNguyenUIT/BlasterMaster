@@ -100,9 +100,6 @@
     <ClCompile Include="PlayerStandingState.cpp">
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerUpwardState.cpp">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -238,9 +235,6 @@
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClInclude>
     <ClInclude Include="PlayerState.h">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerUpwardState.h">
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">

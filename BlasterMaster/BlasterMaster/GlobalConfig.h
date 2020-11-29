@@ -23,7 +23,7 @@ if(ptr) \
 	ptr = nullptr; \
 } \
 ///// JASON /////
-#define JASON_MOVING_SPEED						0.06f
+#define JASON_MOVING_SPEED						0.08f
 #define JASON_JUMP_SPEED_Y						0.35f
 #define JASON_GRAVITY							0.001f
 #define JASON_JUMP_DEFLECT_SPEED				0.2f
@@ -51,7 +51,7 @@ if(ptr) \
 #define BIG_JASON_BBOX_HEIGHT						32
 
 ///// SOPHIA /////
-#define SOPHIA_MOVING_SPEED						0.1f
+#define SOPHIA_MOVING_SPEED						0.08f
 #define SOPHIA_JUMPING_SPEED_Y					0.37f
 #define SOPHIA_GRAVITY							0.001f
 #define SOPHIA_JUMPING_DEFLECT_SPEED			0.2f

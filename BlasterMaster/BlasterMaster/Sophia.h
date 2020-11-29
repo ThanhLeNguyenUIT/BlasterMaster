@@ -3,6 +3,7 @@
 #include "PlayerState.h"
 #include "Bullet.h"
 #include "Enemy.h"
+#include "Item.h"
 
 
 class Sophia : public GameObject
@@ -20,7 +21,7 @@ public:
 	STATENAME StateName;
 	TYPE playerType;
 	std::unordered_map<TYPE, bool> allow;
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects, vector<Enemy*> coEnemy);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects, vector<Enemy*> coEnemy, vector<Item*> coItem);
 	virtual void Render();
 	//bool IsJumping() { return this->isJumping; }
 	bool IsJumping = false;

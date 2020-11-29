@@ -6,7 +6,7 @@ DamageBrick::DamageBrick(int boxWidth, int boxHeight) {
 }
 
 void DamageBrick::Render() {
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void DamageBrick::GetBoundingBox(float& l, float& t, float& r, float& b) {

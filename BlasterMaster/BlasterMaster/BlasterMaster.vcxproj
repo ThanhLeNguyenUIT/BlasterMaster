@@ -62,7 +62,6 @@
     <ClCompile Include="PLayerUpwardFallingState.cpp" />
     <ClCompile Include="PlayerUpwardJumpingState.cpp" />
     <ClCompile Include="PlayerUpwardMovingState.cpp" />
-    <ClCompile Include="PlayerUpwardState.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="Power.cpp" />
@@ -112,7 +111,6 @@
     <ClInclude Include="PlayerState.h" />
     <ClInclude Include="PlayerUpwardJumpingState.h" />
     <ClInclude Include="PlayerUpwardMovingState.h" />
-    <ClInclude Include="PlayerUpwardState.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="Power.h" />
     <ClInclude Include="Scene.h" />

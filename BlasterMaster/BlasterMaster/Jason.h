@@ -3,7 +3,8 @@
 #include "GameObject.h"
 #include "PlayerState.h"
 #include "Bullet.h"
-
+#include "Item.h"
+#include "Enemy.h"
 
 class Jason : public GameObject
 {
@@ -20,7 +21,7 @@ public:
 	Animation* CurAnimation;
 	TYPE playerType;
 	std::unordered_map<TYPE, bool> allow;
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects, vector<Enemy*> coEnemy, vector<Item*> coItem);
 	virtual void Render();
 	DWORD timeStartAttack = TIME_DEFAULT;
 	DWORD timeDamaged = TIME_DEFAULT;

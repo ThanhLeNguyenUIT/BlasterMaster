@@ -3,7 +3,6 @@
 #include "PlayerFallingState.h"
 #include "PlayerUpwardJumpingState.h"
 #include "PlayerStandingState.h"
-#include "PlayerUpwardState.h"
 #include "PlayerJumpTurningState.h"
 #include "PlayerUpperState.h"
 

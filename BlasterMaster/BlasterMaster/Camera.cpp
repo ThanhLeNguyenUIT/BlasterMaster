@@ -201,9 +201,9 @@ void Camera::Update()
 			SetCamPos(cx, cy);
 		}
 	}
-	if (player->IsUp) {
+	/*if (player->IsUp && !player->IsJumping) {
 		cy += 6;
-	}
+	}*/
 
 	SetCamPos(cx, cy);
 }

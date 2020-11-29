@@ -3,7 +3,8 @@
 #include "GameObject.h"
 #include "PlayerState.h"
 #include "Bullet.h"
-
+#include "Item.h"
+#include "Enemy.h"
 
 class BigJason : public GameObject
 {
@@ -19,10 +20,10 @@ public:
 	Animation* CurAnimation;
 	TYPE playerType;
 	std::unordered_map<TYPE, bool> allow;
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects, vector<Enemy*> coEnemy, vector<Item*> coItem);
 	virtual void Render();
-	//bool IsJumping() { return this->isJumping; }
 	DWORD timeStartAttack = TIME_DEFAULT;
+	DWORD timeDamaged = TIME_DEFAULT;
 	bool IsJumping;
 	bool IsOnGround;
 	bool IsMoving;

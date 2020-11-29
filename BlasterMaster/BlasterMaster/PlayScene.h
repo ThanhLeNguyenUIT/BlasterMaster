@@ -60,7 +60,9 @@ public:
 	void ChangeScene();
 	Sophia* GetSophia() { return sophia; }
 	Jason* GetJason() { return jason; }
-
+	bool randomItem(){
+		return 0 + (rand() % (1 - 0 + 1)) == 1;
+	}
 	//friend class PlaySceneKeyHandler;
 };
 

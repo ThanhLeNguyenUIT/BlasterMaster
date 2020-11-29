@@ -303,9 +303,6 @@ void PlayScene::Update(DWORD dt) {
 	for (size_t i = 0; i < listGates.size(); i++) {
 		coObjects.push_back(listGates[i]);
 	}
-	for (size_t i = 0; i < listItems.size(); i++) {
-		coObjects.push_back(listItems[i]);
-	}
 	for (size_t i = 0; i < listObjects.size(); i++)
 	{
 		listObjects[i]->Update(dt, &coObjects);
@@ -319,9 +316,9 @@ void PlayScene::Update(DWORD dt) {
 		listItems[i]->Update(dt, &coObjects);
 	}
 
-	player->Update(dt, &coObjects, listEnemies); 
-	playerSmall->Update(dt, &coObjects);
-	playerBig->Update(dt, &coObjects);
+	player->Update(dt, &coObjects, listEnemies, listItems); 
+	playerSmall->Update(dt, &coObjects, listEnemies, listItems);
+	playerBig->Update(dt, &coObjects, listEnemies, listItems);
 	// create bullet
 	// SOPHIA
 	if (player->IsFiring && GetTickCount() - player->timeStartAttack >= 180) {
@@ -387,9 +384,11 @@ void PlayScene::Update(DWORD dt) {
 	for (size_t i = 0; i < listEnemies.size(); i++)
 	{
 		if (listEnemies[i]->StateObject == ENEMY_DEAD) {
-			power = new Power();
-			power->SetPosition(listEnemies[i]->x, listEnemies[i]->y);
-			listItems.push_back(power);
+			if (randomItem()) {
+				power = new Power();
+				power->SetPosition(listEnemies[i]->x, listEnemies[i]->y);
+				listItems.push_back(power);
+			}
 			listEnemies.erase(listEnemies.begin() + i);
 		}
 	}
@@ -413,9 +412,7 @@ void PlayScene::Update(DWORD dt) {
 		if (player->nx < 0) {
 
 			if ((gameCamera->GetCamPosX() + SCREEN_WIDTH / 2) > player->x) {
-				//Camera::GetInstance()->camPosX -= 0.2 * dt;
-				gameCamera->SetCamPos(gameCamera->GetCamPosX() - 0.3 * dt, gameCamera->GetCamPosY());
-				DebugOut(L"%d  ", gameCamera->GetCamPosX());
+				gameCamera->SetCamPos(gameCamera->GetCamPosX() - 0.2 * dt, gameCamera->GetCamPosY());
 				player->IsRender = false;
 			}
 			else {
@@ -425,9 +422,7 @@ void PlayScene::Update(DWORD dt) {
 		}
 		else {
 			if ((gameCamera->GetCamPosX() + SCREEN_WIDTH / 2) < player->x) {
-				//Camera::GetInstance()->camPosX -= 0.2 * dt;
 				gameCamera->SetCamPos(gameCamera->GetCamPosX() + 0.3 * dt, gameCamera->GetCamPosY());
-				DebugOut(L"%d  ", gameCamera->GetCamPosX());
 				player->IsRender = false;
 			}
 			else {

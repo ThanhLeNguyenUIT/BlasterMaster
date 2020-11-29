@@ -1,7 +1,6 @@
 #include "PlayerUpwardJumpingState.h"
 #include "PlayerUpwardMovingState.h"
 #include "PlayerUpwardFallingState.h"
-#include "PlayerUpwardState.h"
 
 PlayerUpwardFallingState::PlayerUpwardFallingState() {
 

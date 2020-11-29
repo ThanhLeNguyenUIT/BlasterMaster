@@ -1,9 +1,10 @@
 #include "PlayerUpperState.h"
 #include "PlayerMovingState.h"
 #include "PlayerUpwardMovingState.h"
-#include "PlayerUpwardState.h"
 
 PlayerUpperState::PlayerUpperState() {
+	if (!player->IsJumping && !player->IsUp)
+		player->y = player->y - (SOPHIA_UP_BBOX_HEIGHT - SOPHIA_BBOX_HEIGHT);
 	player->RenderOneFrame = false;
 	player->IsUp = true;
 	if (player->nx > 0) {
@@ -33,7 +34,7 @@ void PlayerUpperState::Update() {
 }
 
 void PlayerUpperState::HandleKeyboard() {
-	if (player->count >= 2) {
+	if (player->count >= 3) {
 		player->CurAnimation->currentFrame = -1;
 		if (keyCode[DIK_RIGHT]) {
 			player->nx = 1;
@@ -44,10 +45,8 @@ void PlayerUpperState::HandleKeyboard() {
 			player->ChangeAnimation(new PlayerUpwardMovingState());
 		}
 		else if (keyCode[DIK_UP]) {
-			player->ChangeAnimation(new PlayerUpwardMovingState());
-			player->CurAnimation->currentFrame = 2;
-			player->RenderOneFrame = true;
-			player->vx = 0;
+			player->ChangeAnimation(new PlayerUpperState());
+			player->CurAnimation->currentFrame = 3;
 		}
 	}
 }

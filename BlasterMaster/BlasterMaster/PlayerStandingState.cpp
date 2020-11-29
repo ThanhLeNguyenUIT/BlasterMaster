@@ -1,6 +1,6 @@
 #include "PlayerStandingState.h"
 #include "PlayerMovingState.h"
-#include "PlayerUpwardState.h"
+#include "PlayerUpperState.h"
 #include "PlayerTurningState.h"
 
 PlayerStandingState::PlayerStandingState() {
@@ -111,7 +111,7 @@ void PlayerStandingState::HandleKeyboard() {
 	}
 	else if (keyCode[DIK_UPARROW]) {
 		if (Allow[SOPHIA])
-			player->ChangeAnimation(new PlayerUpwardState());
+			player->ChangeAnimation(new PlayerUpperState());
 		if (Allow[BIG_JASON]) {
 			playerBig->ChangeAnimation(new PlayerMovingState());
 		}

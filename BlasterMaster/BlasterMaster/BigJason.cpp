@@ -8,6 +8,7 @@
 #include "Camera.h"
 #include "Brick.h"
 #include "Gate.h"
+#include "Enemy.h"
 
 #include "PlayerState.h"
 #include "PlayerFallingState.h"
@@ -32,7 +33,7 @@ BigJason::~BigJason() {
 
 }
 
-void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
+void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> coEnemy, vector<Item*> coItem) {
 	if (Allow[BIG_JASON]) {
 		GameObject::Update(dt);
 
@@ -128,7 +129,6 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 					else if (e->ny == 1)
 					{
 						vy = 0;
-						//ChangeAnimation(new PlayerFallingState());
 					}
 				}
 
@@ -143,6 +143,27 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 		}
 		// clean up collision events
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
+		for (int i = 0; i < coEnemy.size(); i++) {
+			if (CollisionWithObject(coEnemy[i])) {
+				// damage
+				if (timeDamaged == TIME_DEFAULT) {
+					timeDamaged = GetTickCount();
+				}
+				if (GetTickCount() - timeDamaged >= 600) {
+					health = health - 1;
+					timeDamaged = GetTickCount();
+				}
+			}
+		}
+		// Collison with item 
+		for (int i = 0; i < coItem.size(); i++) {
+			if (CollisionWithObject(coItem[i])) {
+				coItem[i]->IsTouch = true;
+				if (health < 8)
+					health = health + 1;
+			}
+		}
 	}
 }
 

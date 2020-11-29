@@ -36,7 +36,7 @@ Jason::~Jason() {
 
 }
 
-void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
+void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> coEnemy, vector<Item*> coItem) {
 	if (Allow[JASON]) {
 		GameObject::Update(dt);
 
@@ -131,7 +131,7 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 						}
 					}
 				}
-				 if (dynamic_cast<DamageBrick*>(e->obj)) {
+				if (dynamic_cast<DamageBrick*>(e->obj)) {
 					if (e->nx != 0) vx = 0;
 					if (e->ny == -1)
 					{
@@ -151,7 +151,7 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 						vy = 0;
 					}
 				}
-				 if (dynamic_cast<Portal*>(e->obj))
+				if (dynamic_cast<Portal*>(e->obj))
 				{
 					//if (e->nx != 0) x += dx;
 					Portal* p = dynamic_cast<Portal*>(e->obj);
@@ -161,7 +161,7 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 					ChangeScene();
 				}
 
-				else if (dynamic_cast<Stair*>(e->obj))
+				if (dynamic_cast<Stair*>(e->obj))
 				{
 					Stair* p = dynamic_cast<Stair*>(e->obj);
 					if (e->nx != 0) {
@@ -178,7 +178,7 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 					}
 				}
 
-				 if (dynamic_cast<Gate*>(e->obj)) {
+				if (dynamic_cast<Gate*>(e->obj)) {
 					Gate* p = dynamic_cast<Gate*>(e->obj);
 					scene_gate = p->scene_id;
 					if (e->nx != 0) {
@@ -194,27 +194,33 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 					}
 				}
 
-				  if (dynamic_cast<Enemy*>(e->obj)) {
-					 if (e->nx != 0) x += dx;
-					 if (e->ny != 0) y += dy;
-
-					 health = health - 1;
-				 }
-
-				  if (dynamic_cast<Power*>(e->obj)) {
-
-					  if (e->nx != 0) x += dx;
-					  if (e->ny != 0) y += dy;
-
-					  Power* p = dynamic_cast<Power*>(e->obj);
-					  p->IsTouch = true;
-					  if (health < 8)
-						  health = health + 1;
-				  }
 			}
 		}
 		// clean up collision events
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+		// Collison with enemy
+		for (int i = 0; i < coEnemy.size(); i++) {
+			if (CollisionWithObject(coEnemy[i])) {
+				// damage
+				if (timeDamaged == TIME_DEFAULT) {
+					timeDamaged = GetTickCount();
+				}
+				if (GetTickCount() - timeDamaged >= 600) {
+					health = health - 1;
+					timeDamaged = GetTickCount();
+				}
+			}
+		}
+		// Collison with item 
+		for (int i = 0; i < coItem.size(); i++) {
+			if (CollisionWithObject(coItem[i])) {
+				coItem[i]->IsTouch = true;
+				if (health < 8)
+					health = health + 1;
+			}
+		}
+
+
 	}
 }
 

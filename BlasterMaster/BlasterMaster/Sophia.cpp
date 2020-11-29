@@ -17,7 +17,6 @@
 #include "PlayerState.h"
 #include "PlayerFallingState.h"
 #include "PlayerJumpingState.h"
-#include "PlayerUpwardState.h"
 #include "PlayerUpwardJumpingState.h"
 #include "PlayerUpwardMovingState.h"
 #include "PlayerMovingState.h"
@@ -42,17 +41,23 @@ Sophia::~Sophia() {
 
 }
 
-void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> coEnemy) {
+void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> coEnemy, vector<Item*> coItem) {
 	// Calculate dx, dy
 	if (Allow[SOPHIA]) {
 	
 		GameObject::Update(dt);
 		// Simple fall down
 		vy += SOPHIA_GRAVITY * dt;
-		
+		// Update state
 		state->Update();
-		// change scene 
-
+		// Update count
+		if (IsUp) {
+			if (CurAnimation->IsFinish)
+			{
+				if (count < 3)
+					count++;
+			}
+		}
 		vector<LPCOLLISIONEVENT> coEvents;
 		vector<LPCOLLISIONEVENT> coEventsResult;
 		coEvents.clear();
@@ -105,7 +110,7 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> co
 			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 			// block 
 			x += min_tx * dx + nx * 0.1f;
-			y += min_ty * dy + ny * 0.1f;
+			y += min_ty * dy + ny * 0.4f;
 			
 			// Collision logic with Enemies
 			for (UINT i = 0; i < coEventsResult.size(); i++)
@@ -166,21 +171,11 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> co
 					if (e->nx != 0) x += dx;
 					Stair* p = dynamic_cast<Stair*>(e->obj);
 				}
-				else if (dynamic_cast<Power*>(e->obj)) {
-
-					if (e->nx != 0) x += dx;
-					if (e->ny != 0) y += dy;
-
-					Power* p = dynamic_cast<Power*>(e->obj);
-					p->IsTouch = true;
-					if (health < 8) 
-						health = health + 1;
-				}
 			}
 		}
 		// clean up collision events
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-
+		// Collision with enemy
 		for (int i = 0; i < coEnemy.size(); i++) {
 			if (CollisionWithObject(coEnemy[i])) {
 				// damage
@@ -188,9 +183,17 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> co
 					timeDamaged = GetTickCount();
 				}
 				if (GetTickCount() - timeDamaged >= 600) {
-					health = health - 1;
+					//health = health - 1;
 					timeDamaged = GetTickCount();
 				}
+			}
+		}
+		// Collison with item 
+		for (int i = 0; i < coItem.size(); i++) {
+			if (CollisionWithObject(coItem[i])) {
+				coItem[i]->IsTouch = true;
+				if (health < 8)
+					health = health + 1;
 			}
 		}
 	}
@@ -209,7 +212,7 @@ void Sophia::ChangeScene() {
 			}
 			else if (old_scene_id == 2) {
 				nx = -1;
-				SetPosition(122 * BIT, 72 * BIT);
+				SetPosition(122 * BIT, 72.6 * BIT);
 			}
 			break;
 		case 4:
@@ -230,8 +233,7 @@ void Sophia::ChangeScene() {
 			{
 				ChangeAnimation(new PlayerStandingState());
 				SetSpeed(0, 0);
-				SetPosition(4 * BIT, 72 * BIT);
-				//player->IsTouchPortal = false;
+				SetPosition(4 * BIT, 72.6 * BIT);
 			}
 			if (old_scene_id == 3) {
 				ChangeAnimation(new PlayerStandingState());
@@ -241,7 +243,6 @@ void Sophia::ChangeScene() {
 			}
 			else if (old_scene_id == 5) {
 				player->nx = -1;
-				//ChangeAnimation(new PlayerStandingState());
 				SetPosition(27 * BIT, 72 * BIT);
 			}
 			break;
@@ -328,9 +329,9 @@ void Sophia::CheckState(int stateChange) {
 
 void Sophia::ChangeAnimation(PlayerState* newState, int stateChange) {
 	delete state;
+	CheckState(stateChange);
 	AnimationSets* animation_sets = AnimationSets::GetInstance();
 	state = newState;
-	CheckState(stateChange);
 	LPANIMATION_SET animationSet = animation_sets->Get(playerType);
 	CurAnimation = animationSet->Get(StateName);
 }
@@ -344,18 +345,7 @@ void Sophia::Render() {
 		else {
 			CurAnimation->RenderBack(x, y, alpha, idFrame, RenderOneFrame);
 		}
-		RenderBoundingBox();
-	}
-
-	if (IsUp) {
-		if (CurAnimation->IsFinish)
-		{
-			count++;
-			idFrame++;
-			if (idFrame >= 2) {
-				idFrame = 0;
-			}
-		}
+		//RenderBoundingBox();
 	}
 }
 

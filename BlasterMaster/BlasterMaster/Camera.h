@@ -1,7 +1,7 @@
 #pragma once
 #include <Windows.h>
 #define END_FIRST_SCENE 2032
-#define HIGHEST_FIRST_SCENE 1040
+#define HIGHEST_FIRST_SCENE 1048
 #define	LOWEST_FIRST_SCENE 1302
 #define START_FIRST_SCENE 1024
 

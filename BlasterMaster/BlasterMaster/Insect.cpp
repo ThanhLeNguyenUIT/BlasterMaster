@@ -25,42 +25,55 @@ void CInsect::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// TO-DO: make sure Goomba can interact with the world and to each of them too!
 	// 
 
-	DWORD timenow = GetTickCount();
+	double kc = sqrt((this->x - player->x) * (this->x - player->x) + (this->y - player->y) * (this->y - player->y));
 
-	if ((timenow - dt) % 400 == 0) 
+	if (kc <= 100)
 	{
-		if (nx > 0 && this->StateObject!= INSECT_STATE_JUMP_RIGHT)
+		isWalk = true;
+	}
+	if (kc >= 200 && isWalk == true)
+	{
+		isWalk = false;
+	}
+	if (isWalk == true)
+	{
+		DWORD timenow = GetTickCount();
+
+		if ((timenow - dt) % 1200 == 0)
 		{
-			ChangeAnimation(INSECT_STATE_JUMP_RIGHT);
-		}
-		else if (nx < 0 && this->StateObject != INSECT_STATE_JUMP_LEFT)
+			if (nx > 0)
+			{
+				ChangeAnimation(INSECT_STATE_JUMP_LEFT);
+			}
+			else if (nx < 0)
+			{
+				ChangeAnimation(INSECT_STATE_JUMP_RIGHT);
+			}
+		}else if ((timenow - dt) % 400 == 0)
 		{
-			ChangeAnimation(INSECT_STATE_JUMP_LEFT);
+			if (nx > 0 && this->StateObject != INSECT_STATE_JUMP_RIGHT)
+			{
+				ChangeAnimation(INSECT_STATE_JUMP_RIGHT);
+			}
+			else if (nx < 0 && this->StateObject != INSECT_STATE_JUMP_LEFT)
+			{
+				ChangeAnimation(INSECT_STATE_JUMP_LEFT);
+			}
+
 		}
-		
-	}
-	else if(nx>0)
-	{
-		ChangeAnimation(INSECT_STATE_WALKING_RIGHT);
-	}
-	else if (nx < 0) 
-	{
-		ChangeAnimation(INSECT_STATE_WALKING_LEFT);
-	}
+		else if (nx > 0)
+		{
+			ChangeAnimation(INSECT_STATE_WALKING_RIGHT);
+		}
+		else if (nx < 0)
+		{
+			ChangeAnimation(INSECT_STATE_WALKING_LEFT);
+		}
 
-	x += (vx * dt) / 3;
-	y += vy * dt;
-
-	if (vx < 0 && x < 73*16) {
-		x = 73 * 16; 
-		ChangeAnimation(INSECT_STATE_JUMP_RIGHT);
+		x += vx * dt;
+		y += vy * dt;
 	}
-
-	if (vx > 0 && x > 79*16) {
-		x = 79 * 16; 
-		ChangeAnimation(INSECT_STATE_JUMP_LEFT);
-	}
-
+	
 
 }
 void CInsect::Render()
@@ -77,6 +90,10 @@ void CInsect::ChangeAnimation(STATEOBJECT StateObject) {
 	CurAnimation = animationSet->Get(this->StateObject);
 	switch (this->StateObject)
 	{
+	case INSECT_STATE_IDLE:
+		vx = 0;
+		vy = 0;
+		break;
 	case INSECT_STATE_JUMP_RIGHT:
 		nx = 1;
 		vy = -INSECT_WALKING_JUMP_Y;
@@ -99,7 +116,8 @@ void CInsect::ChangeAnimation(STATEOBJECT StateObject) {
 }
 
 void CInsect::Reset() {
-	nx = 1;
-	ChangeAnimation(INSECT_STATE_WALKING_RIGHT);
+	isWalk = false;
+	nx = -1;
+	ChangeAnimation(INSECT_STATE_IDLE);
 }
 

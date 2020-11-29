@@ -5,6 +5,8 @@
 class CJumper : public GameObject
 {
 public:
+	bool is;
+	bool isJump;
 	TYPE typeEnemy;
 	Animation* CurAnimation;
 	CJumper();

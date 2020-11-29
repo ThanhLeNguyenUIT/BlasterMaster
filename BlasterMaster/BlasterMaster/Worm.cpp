@@ -72,11 +72,10 @@ void CWorm::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				ChangeAnimation(WORM_STATE_DROP_LEFT);
 			}
-			else if (cex5 <= cxm && this->StateObject != WORM_STATE_DROP_RIGHT)
+			else if (cex5 < cxm && this->StateObject != WORM_STATE_DROP_RIGHT)
 			{
 				ChangeAnimation(WORM_STATE_DROP_RIGHT);
 			}
-			
 		}
 
 	}

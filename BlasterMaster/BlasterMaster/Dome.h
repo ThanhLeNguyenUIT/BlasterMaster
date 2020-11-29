@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "Sophia.h"
 
 
 
@@ -14,6 +15,7 @@ public:
 	bool bottom;
 	bool right;
 	bool left;
+	bool drop;
 	TYPE typeEnemy;
 	Animation* CurAnimation;
 	CDome();

@@ -1,6 +1,24 @@
 [CLEARANIMATIONSETS]
 6
 [OBJECTS]
+# type	x	y	ani_set_id	extra_settings per object type
+# type: 0 = PLAYER , 1 = SOPHIA, 2 = JASON, 5 = BRICK, 11 = ORB1, 12 = WORM,	13 = FLOATER, 14 = SKULL, 15 = ORB2, 16 = JUMPER, 17 = INSECT, 18 = DOME
+#FLOATER
+#13	7	69
+#13	10	72
+#13	14	70
+#DOME
+#18	20	72
+#JUMPER
+#16	2	59
+#INSECT
+#17	21	46
+#17	24	29
+#ORB2
+#15	2	20
+#15	21	20
+#WORM
+12	11	14
 # BRICK
 # SCENE 2.2
 #group1

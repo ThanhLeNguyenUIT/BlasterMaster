@@ -1,11 +1,13 @@
 #pragma once
 #include "GameObject.h"
+#include "Sophia.h"
 
 class CInsect : public GameObject
 {
 
 
 public:
+	bool isWalk;
 	TYPE typeEnemy;
 	Animation* CurAnimation;
 	CInsect();

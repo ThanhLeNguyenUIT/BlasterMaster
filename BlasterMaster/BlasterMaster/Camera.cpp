@@ -195,22 +195,6 @@ void Camera::Update()
 			cy = LOWEST_9TH_SCENE - height;
 		}
 		break;
-		/*case 10:
-			if (cx < START_FIRST_SCENE) {
-				cx = START_FIRST_SCENE;
-			}
-			else if (cx + width >= END_FIRST_SCENE) {
-				cx = END_FIRST_SCENE - width;
-			}
-
-			if (cy < HIGHEST_FIRST_SCENE) {
-				cy = HIGHEST_FIRST_SCENE;
-			}
-			else if (cy + height > LOWEST_FIRST_SCENE)
-			{
-				cy = LOWEST_FIRST_SCENE - height;
-			}
-			break;*/
 
 		if (!player->IsTouchPortal)
 		{

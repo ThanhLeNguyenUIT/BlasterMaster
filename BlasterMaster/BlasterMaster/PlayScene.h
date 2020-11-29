@@ -18,6 +18,7 @@
 #include "Worm.h"
 #include "Floater.h"
 #include "Power.h"
+#include "Dome.h"
 
 #include "GlobalConfig.h"
 
@@ -28,6 +29,7 @@ protected:
 	Sophia* sophia;
 	Jason* jason;
 	Power* power;
+	Camera* gameCamera;
 	vector<Bullet*> bullets;
 	vector<LPGAMEOBJECT> listObjects;
 	vector<Enemy*> listEnemies;

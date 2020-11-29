@@ -12,6 +12,7 @@ public:
 	int health = 8;
 	float oldCx, oldCy;
 	int scene_id = 1;
+	int old_scene_id = 0;
 	static Sophia* _instance;
 	int stateBoundingBox;
 	PlayerState* state;

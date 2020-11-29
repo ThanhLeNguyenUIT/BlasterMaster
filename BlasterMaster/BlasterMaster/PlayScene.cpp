@@ -15,6 +15,7 @@ using namespace std;
 PlayScene::PlayScene(int id, LPCWSTR filePath) :
 	Scene(id, filePath) {
 	keyHandler = new PlaySceneKeyHandler(this);
+	gameCamera = Camera::GetInstance();
 }
 
 #define SCENE_SECTION_UNKNOWN -1
@@ -28,13 +29,6 @@ PlayScene::PlayScene(int id, LPCWSTR filePath) :
 
 #define MAX_SCENE_LINE 1024
 
-//void PlayScene::LoadBaseObjects() {
-//	if (car == NULL) {
-//		car = player;
-//		DebugOut(L"[INFO] CAR CREATED! \n");
-//	}
-//	gameCamera = Camera::GetInstance();
-//}
 
 void PlayScene::_ParseSection_TEXTURES(string line)
 {
@@ -227,6 +221,10 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 		enemy = new CFloater(x, y);
 		listEnemies.push_back(enemy);
 		break;
+	case DOME:
+		enemy = new CDome(x, y);
+		listEnemies.push_back(enemy);
+		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -408,7 +406,36 @@ void PlayScene::Update(DWORD dt) {
 	
 	ChangeScene();
 	
-	Camera::GetInstance()->Update();
+	if (!gameCamera->isChangingMap) {
+		gameCamera->Update();
+	}
+	else {
+		if (player->nx < 0) {
+
+			if ((gameCamera->GetCamPosX() + SCREEN_WIDTH / 2) > player->x) {
+				//Camera::GetInstance()->camPosX -= 0.2 * dt;
+				gameCamera->SetCamPos(gameCamera->GetCamPosX() - 0.3 * dt, gameCamera->GetCamPosY());
+				DebugOut(L"%d  ", gameCamera->GetCamPosX());
+				player->IsRender = false;
+			}
+			else {
+				gameCamera->isChangingMap = false;
+				player->IsRender = true;
+			}
+		}
+		else {
+			if ((gameCamera->GetCamPosX() + SCREEN_WIDTH / 2) < player->x) {
+				//Camera::GetInstance()->camPosX -= 0.2 * dt;
+				gameCamera->SetCamPos(gameCamera->GetCamPosX() + 0.3 * dt, gameCamera->GetCamPosY());
+				DebugOut(L"%d  ", gameCamera->GetCamPosX());
+				player->IsRender = false;
+			}
+			else {
+				gameCamera->isChangingMap = false;
+				player->IsRender = true;
+			}
+		}
+	}
 	hud->Update();
 }
 

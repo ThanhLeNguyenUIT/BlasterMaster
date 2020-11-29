@@ -41,7 +41,6 @@ void CWorm::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		else if (Allow[JASON])
 			playerSmall->GetPosition(cx, cy);
 
-		//DebugOut(L"health: %d\n", health);
 		if (isInArea && StateObject != ENEMY_DEAD) {
 			vy += WORM_GRAVITY * dt;
 			if (x - cx > 0)
@@ -52,14 +51,11 @@ void CWorm::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		if (health <= 0) {
 			StateObject = ENEMY_DEAD;
-		//	DebugOut(L"imherer\n");
 		}
 
 		// turn off collision when die 
 		if (StateObject != ENEMY_DEAD)
 			CalcPotentialCollisions(coObjects, coEvents);
-
-		
 
 		// update
 		//kc = sqrt((x - cx) * (x - cx) + (y - cy) * (y - cy));
@@ -118,7 +114,6 @@ void CWorm::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	}
-	DebugOut(L"State: %d\n", StateObject);
 }
 
 void CWorm::Render()
@@ -157,7 +152,6 @@ void CWorm::ChangeAnimation(STATEOBJECT StateObject) {
 }
 
 void CWorm::Reset() {
-	//DebugOut(L"Imhere");
 	nx = -1;
 	if (player->nx > 0)
 		ChangeAnimation(WORM_STATE_IDLE_LEFT);

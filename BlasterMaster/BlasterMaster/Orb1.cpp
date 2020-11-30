@@ -1,5 +1,7 @@
 #include "Orb1.h"
 #include "GlobalConfig.h"
+#include "Brick.h"
+
 COrb1::COrb1()
 {
 	typeEnemy = ORB1;
@@ -8,21 +10,20 @@ COrb1::COrb1()
 
 void COrb1::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	/*left = x;
+	left = x;
 	top = y;
-	right = x + GOOMBA_BBOX_WIDTH;
+	right = x + ORB1_BBOX_WIDTH;
 
-	if (state == GOOMBA_STATE_DIE)
+	/*if (state == GOOMBA_STATE_DIE)
 		bottom = y + GOOMBA_BBOX_HEIGHT_DIE;
-	else
-		bottom = y + GOOMBA_BBOX_HEIGHT;*/
+	else*/
+		bottom = y + ORB1_BBOX_HEIGHT;
 }
 
 void COrb1::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	GameObject::Update(dt, coObjects);
-	DWORD timenow = GetTickCount();
-
+	/*DWORD timenow = GetTickCount();
 
 	if ((timenow - dt) % 800 == 0) {
 		if (ny == -1)
@@ -44,20 +45,66 @@ void COrb1::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			ChangeAnimation(ORB1_STATE_WALKING_LEFT);
 		}
 		vy = 0;
-	}
-	x += vx*dt;
-	y += vy*dt;
+	}*/
 	
-	if (vx < 0 && x < 64*16) {
-		x = 64*16; vx = -vx;
-		ChangeAnimation(ORB1_STATE_WALKING_RIGHT);
-	}
+	
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
 
-	if (vx > 0 && x > 80*16) {
-		x = 80*16; vx = -vx;
-		ChangeAnimation(ORB1_STATE_WALKING_LEFT);
+	coEvents.clear();
+
+	CalcPotentialCollisions(coObjects, coEvents);
+
+	if (coEvents.size() == 0)
+	{
+		x += vx * dt;
+		y += vy * dt;
 	}
-	
+	else
+	{
+		float min_tx, min_ty, nx = 0, ny;
+		float rdx = 0;
+		float rdy = 0;
+
+		// TODO: This is a very ugly designed function!!!!
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+
+		// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
+		//if (rdx != 0 && rdx!=dx)
+		//	x += nx*abs(rdx); 
+
+		// block every object first!
+		x += min_tx * dx + nx * 0.14f;
+		y += min_ty * dy + ny * 0.14f;
+
+		if (nx != 0) vx = 0;
+		if (ny != 0) vy = 0;
+
+
+		//
+		// Collision logic with other objects
+		//
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (dynamic_cast<Brick*>(e->obj)) // if e->obj is Brick
+			{
+				Brick* brick = dynamic_cast<Brick*>(e->obj);
+				if (e->nx > 0)
+				{
+					ChangeAnimation(ORB1_STATE_WALKING_RIGHT);
+				}
+				if (e->nx < 0)
+				{
+					ChangeAnimation(ORB1_STATE_WALKING_LEFT);
+				}
+				
+
+			}
+		}
+	}
+	// clean up collision events
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
 void COrb1::Render()

@@ -11,6 +11,7 @@ public:
 	bool isIdle;
 	bool isDrop;
 	bool isWalking;
+	bool left;
 	TYPE typeEnemy;
 	Animation* CurAnimation;
 	CWorm(float x = 0.0f, float y = 0.0f);

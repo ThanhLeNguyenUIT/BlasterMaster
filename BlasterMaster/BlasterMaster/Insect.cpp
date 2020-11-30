@@ -27,7 +27,7 @@ void CInsect::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	double kc = sqrt((this->x - player->x) * (this->x - player->x) + (this->y - player->y) * (this->y - player->y));
 
-	if (kc <= 100)
+	if (kc <= 120)
 	{
 		isWalk = true;
 	}

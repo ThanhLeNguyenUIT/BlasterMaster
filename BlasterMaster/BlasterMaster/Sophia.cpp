@@ -389,7 +389,8 @@ void Sophia::OnKeyDown(int key) {
 			Game::GetInstance()->SwitchScene(5);
 			player->scene_id = 5;
 		}
-		SetPosition(36 * BIT, 36 * BIT);
+		//SetPosition(36 * BIT, 36 * BIT);
+		SetPosition(59 * BIT, 88 * BIT);
 		break;
 	case DIK_6:
 		nx = 1;

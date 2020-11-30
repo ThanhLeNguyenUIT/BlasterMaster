@@ -29,10 +29,6 @@ void CWorm::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEvents.clear();
-	if (!isIdle && isWalking)
-	{
-		vy += WORM_GRAVITY;
-	}
 	
 	// turn off collision when die 
 	//if (state != GOOMBA_STATE_DIE)
@@ -49,35 +45,51 @@ void CWorm::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (coEvents.size() == 0)
 	{
-		x += dx;
-		y += dy;
-
+		if (!isIdle && isWalking)
+		{
+			vy += WORM_GRAVITY;
+			left = false;
+		}
 		if (isWalking)
 		{
 			if (cex5 <= cxm && this->StateObject != WORM_STATE_WALKING_RIGHT)
 			{
 				ChangeAnimation(WORM_STATE_WALKING_RIGHT);
 			}
-			else if (cex5 > cxm && this->StateObject != WORM_STATE_WALKING_LEFT)
+			else if (cex5 > cxm&& this->StateObject != WORM_STATE_WALKING_LEFT)
 			{
 				ChangeAnimation(WORM_STATE_WALKING_LEFT);
 			}
 			isDrop = false;
 			isIdle = false;
+			x += dx;
+			y += dy;
 		}
-		
-		if (kc4 <= 150 && isDrop)
+
+		if (kc4 <= 210 && isDrop)
 		{
-			if (cex5 > cxm && this->StateObject != WORM_STATE_DROP_LEFT)
+			if (cex5 > cxm&& this->StateObject != WORM_STATE_DROP_LEFT)
 			{
 				ChangeAnimation(WORM_STATE_DROP_LEFT);
 			}
-			else if (cex5 < cxm && this->StateObject != WORM_STATE_DROP_RIGHT)
+			else if (cex5 <= cxm && this->StateObject != WORM_STATE_DROP_RIGHT)
 			{
 				ChangeAnimation(WORM_STATE_DROP_RIGHT);
 			}
+			x += dx;
+			y += dy;
 		}
-
+		if (left == true && vx == 0)
+		{
+			vx -= WORM_GRAVITY;
+		}
+		else if (left == true && vx != 0) {
+			ChangeAnimation(WORM_STATE_WALKING_LEFT);
+			left = false;
+			x += dx;
+			y += dy;
+			isWalking = true;
+		}
 	}
 	else
 	{
@@ -110,7 +122,7 @@ void CWorm::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				Brick* brick = dynamic_cast<Brick*>(e->obj);
 
-				if (e -> ny < 0)
+				if (e->ny < 0)
 				{
 					if (cex5 < cxm && this->StateObject != WORM_STATE_WALKING_RIGHT)
 					{
@@ -123,7 +135,15 @@ void CWorm::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					isDrop = false;
 					isWalking = true;
 					isIdle = false;
+					left = false;
 				}
+				if (e->nx > 0 && isWalking == true)
+				{
+					vy = -0.04;
+					left = true;
+					isWalking = false;
+				}
+
 			}
 		}
 	}
@@ -182,5 +202,6 @@ void CWorm::Reset() {
 	isIdle = true;
 	isDrop = true;
 	isWalking = false;
+	left = false;
 }
 

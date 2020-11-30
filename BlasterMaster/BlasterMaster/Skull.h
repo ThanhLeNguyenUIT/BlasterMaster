@@ -7,6 +7,7 @@ class CSkull : public GameObject
 {
 public:
 	int ny;
+	bool jump;
 	TYPE typeEnemy;
 	Animation* CurAnimation;
 	CSkull();

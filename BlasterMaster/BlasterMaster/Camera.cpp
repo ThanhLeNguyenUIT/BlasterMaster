@@ -82,6 +82,36 @@ void Camera::Update()
 				cy = BOTTOM_OVERWORLD_4 - height + 78;
 			}
 			break;
+		case 50:
+			if (cx < LEFT_OVERWORLD_5) {
+				cx = LEFT_OVERWORLD_5;
+			}
+			else if (cx + width >= RIGHT_OVERWORLD_5) {
+				cx = RIGHT_OVERWORLD_5 - width + 30;
+			}
+			if (cy < TOP_OVERWORLD_5) {
+				cy = TOP_OVERWORLD_5;
+			}
+			else if (cy + height > BOTTOM_OVERWORLD_5)
+			{
+				cy = BOTTOM_OVERWORLD_5 - height + 78;
+			}
+			break;
+		case 51:
+			if (cx < 32 * BIT) {
+				cx = 32 * BIT;
+			}
+			else if (cx + width >= 47 * BIT) {
+				cx = 47 * BIT - width + 30;
+			}
+			if (cy < 33 * BIT) {
+				cy = 33 * BIT;
+			}
+			else if (cy + height > 46 * BIT)
+			{
+				cy = 46 * BIT - height + 62;
+			}
+			break;
 		case 1:
 			if (cx < START_FIRST_SCENE) {
 				cx = START_FIRST_SCENE;

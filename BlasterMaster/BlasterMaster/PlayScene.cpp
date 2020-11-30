@@ -445,7 +445,7 @@ void PlayScene::Update(DWORD dt) {
 		if (playerBig->nx < 0) {
 
 			if ((gameCamera->camPosX + SCREEN_WIDTH / 2) > playerBig->x) {
-				gameCamera->SetCamPos(gameCamera->camPosX - 0.3 * dt, gameCamera->camPosY);
+				gameCamera->SetCamPos(gameCamera->camPosX - 0.25 * dt, gameCamera->camPosY);
 			}
 			else {
 				Camera::GetInstance()->isInTransition = false;
@@ -453,7 +453,7 @@ void PlayScene::Update(DWORD dt) {
 		}
 		else if (playerBig->nx > 0) {
 			if ((gameCamera->camPosX + SCREEN_WIDTH / 8) < playerBig->x) {
-				gameCamera->SetCamPos(gameCamera->camPosX + 0.3 * dt, gameCamera->camPosY);
+				gameCamera->SetCamPos(gameCamera->camPosX + 0.25 * dt, gameCamera->camPosY);
 			}
 			else {
 				gameCamera->isInTransition = false;
@@ -461,7 +461,7 @@ void PlayScene::Update(DWORD dt) {
 		}
 		else if (playerBig->ny < 0) {
 			if ((gameCamera->camPosY + SCREEN_HEIGHT / 8) < playerBig->y) {
-				gameCamera->SetCamPos(gameCamera->camPosX, gameCamera->camPosY + 0.3 * dt);
+				gameCamera->SetCamPos(gameCamera->camPosX, gameCamera->camPosY + 0.25 * dt);
 			}
 			else {
 				Camera::GetInstance()->isInTransition = false;
@@ -469,7 +469,7 @@ void PlayScene::Update(DWORD dt) {
 		}
 		else if (playerBig->ny > 0) {
 			if ((gameCamera->camPosY + SCREEN_HEIGHT / 2) > playerBig->y) {
-				gameCamera->SetCamPos(gameCamera->camPosX, gameCamera->camPosY - 0.3 * dt);
+				gameCamera->SetCamPos(gameCamera->camPosX, gameCamera->camPosY - 0.25 * dt);
 				//DebugOut(L"%d  ", gameCamera->camPosX);
 			}
 			else {

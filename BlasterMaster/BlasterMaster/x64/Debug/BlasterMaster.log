@@ -1,4 +1,306 @@
-﻿Game.obj : error LNK2019: unresolved external symbol Direct3DCreate9 referenced in function "public: void __cdecl Game::Init(struct HWND__ *)" (?Init@Game@@QEAAXPEAUHWND__@@@Z)
+﻿  BigJason.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+  Bullet.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+  Camera.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(60,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(67,38): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(75,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(82,38): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(90,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(97,38): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(105,26): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(113,29): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(121,27): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(129,30): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(137,24): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(145,27): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(153,24): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(161,27): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(169,24): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(177,27): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(185,24): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(193,27): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(201,24): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(209,27): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(217,24): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(225,27): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(233,24): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(241,27): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(249,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(256,29): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(264,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(271,38): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(279,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(286,38): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(294,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(301,38): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(309,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(316,38): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(324,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(331,38): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(339,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(346,38): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(354,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(361,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(369,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(376,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(384,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(391,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(399,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(406,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(414,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(421,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(429,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(436,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(444,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(451,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(459,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(466,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(474,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(481,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(489,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(496,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(504,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(511,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(519,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(526,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(534,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(541,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(549,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(556,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(564,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(571,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(579,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(586,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(594,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(601,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(609,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(616,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(624,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(631,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(639,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(646,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(654,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(661,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(669,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(676,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(684,41): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(691,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(26,15): warning C4101: 'oldCy': unreferenced local variable
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Camera.cpp(26,8): warning C4101: 'oldCx': unreferenced local variable
+  Game.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.cpp(78,49): warning C4312: 'type cast': conversion from 'LONG' to 'HINSTANCE' of greater size
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.cpp(244,26): warning C4305: '=': truncation from '__int64' to 'float'
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.cpp(245,24): warning C4305: '=': truncation from '__int64' to 'float'
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.cpp(255,26): warning C4305: '=': truncation from '__int64' to 'float'
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.cpp(256,24): warning C4305: '=': truncation from '__int64' to 'float'
+  HUD.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+  Health.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+  Jason.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+  Map.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Map.cpp(32,24): warning C4244: 'argument': conversion from 'LONG' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Map.cpp(32,16): warning C4244: 'argument': conversion from 'LONG' to 'float', possible loss of data
+  Orb1.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+  PLayerUpwardFallingState.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+  PlayScene.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(164,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(165,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(196,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(197,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(212,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(213,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(448,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(456,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(464,68): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(472,68): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  PlayerClimbingState.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+  PlayerCrawlingState.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+  PlayerDeadState.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+  PlayerFallingState.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+  PlayerJumpTurningState.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+  PlayerJumpingState.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+  PlayerMovingState.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+  PlayerOpenState.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+  PlayerStandingState.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+  Generating Code...
+  Compiling...
+  PlayerTurningState.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+  PlayerUpperState.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+  PlayerUpwardJumpingState.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+  PlayerUpwardMovingState.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+  PlayerUpwardState.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+  Sophia.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+  Worm.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+  main.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+  Generating Code...
+Game.obj : error LNK2019: unresolved external symbol Direct3DCreate9 referenced in function "public: void __cdecl Game::Init(struct HWND__ *)" (?Init@Game@@QEAAXPEAUHWND__@@@Z)
 Game.obj : error LNK2019: unresolved external symbol D3DXCreateSprite referenced in function "public: void __cdecl Game::Init(struct HWND__ *)" (?Init@Game@@QEAAXPEAUHWND__@@@Z)
 Game.obj : error LNK2019: unresolved external symbol DirectInput8Create referenced in function "public: void __cdecl Game::InitKeyboard(void)" (?InitKeyboard@Game@@QEAAXXZ)
 Game.obj : error LNK2001: unresolved external symbol IID_IDirectInput8W

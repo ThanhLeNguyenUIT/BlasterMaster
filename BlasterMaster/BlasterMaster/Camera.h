@@ -65,6 +65,11 @@
 #define LEFT_OVERWORLD_4 32 * BIT
 #define RIGHT_OVERWORLD_4 63 * BIT
 
+#define TOP_OVERWORLD_5 14 * BIT
+#define BOTTOM_OVERWORLD_5  45 * BIT
+#define LEFT_OVERWORLD_5 0
+#define RIGHT_OVERWORLD_5 31 * BIT
+
 class Camera {
 	static Camera* __instance;
 	int width, height;

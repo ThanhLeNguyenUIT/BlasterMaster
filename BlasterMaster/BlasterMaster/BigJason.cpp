@@ -123,16 +123,18 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 						x += dx;
 						IsTouchGate = true;
 						sceneHistory.push_back(scene_gate);
-						if (scene_gate == 5) { // || multiple conditions
+						if (scene_gate == 5 || scene_gate == 9 || scene_gate == 8) { 
 							IsChangeScene = true;
+							Camera::GetInstance()->isInTransition = false;
 						}
 					}
 					if (e->ny != 0) {
 						y += dy;
 						IsTouchGate = true;
 						sceneHistory.push_back(scene_gate);
-						if (scene_gate == 5) { // || multiple conditions
+						if (scene_gate == 5 || scene_gate == 9 || scene_gate == 8) {
 							IsChangeScene = true;
+							Camera::GetInstance()->isInTransition = false;
 						}
 					}
 				}
@@ -149,17 +151,28 @@ void BigJason::ChangeScene(int scene_gate) {
 		switch (scene_gate) {
 		case 40:
 			if (sceneHistory.size() == 1) {
-				SetPosition(26 * BIT, 7 * BIT);
+				SetPosition(5 * BIT, 7 * BIT);
 			}
 			else SetPosition(28 * BIT, 7 * BIT);
 			break;
 		case 41:
 			SetPosition(35 * BIT, 7 * BIT);
 			break;
+		case 50:
+			if (sceneHistory.size() == 1) {
+				SetPosition(5 * BIT, 23 * BIT);
+			}
+			else SetPosition(28 * BIT, 39 * BIT);
+			break;
+		case 51:
+			SetPosition(35 * BIT, 39 * BIT);
+			break;
 		case 10:
 			SetPosition(87.5 * BIT, 71.5 * BIT);
 			break;
 		case 5:
+		case 8:
+		case 9:
 			IsTouchGate = false;
 			playerSmall->IsTouchGate = false;
 			player->IsRender = true;
@@ -170,10 +183,11 @@ void BigJason::ChangeScene(int scene_gate) {
 			Allow[SOPHIA] = true;
 			player->ChangeAnimation(new PlayerOpenState());
 			playerSmall->ChangeAnimation(new PlayerStandingState());
-			player->SetPosition(player->oldCx, player->oldCy); // multiple conditions
+			player->SetPosition(player->oldCx, player->oldCy);
 			playerSmall->SetPosition(playerSmall->oldCx, playerSmall->oldCy - 10);
 			Allow[SOPHIA] = false;
 			sceneHistory.clear();
+			sceneHistory.push_back(11);
 			break;
 		case 11:
 			if (sceneHistory[0] == 11 && sceneHistory.size() == 1) {

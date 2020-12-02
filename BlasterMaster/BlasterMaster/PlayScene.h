@@ -19,6 +19,8 @@
 #include "Floater.h"
 #include "Power.h"
 #include "Dome.h"
+#include "Jumper.h"
+#include "Insect.h"
 
 #include "GlobalConfig.h"
 

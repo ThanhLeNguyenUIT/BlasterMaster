@@ -189,7 +189,7 @@ void CDome::Render()
 {
 	int alpha = 255;
 	CurAnimation->Render(x, y, alpha);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CDome::ChangeAnimation(STATEOBJECT StateObject) {

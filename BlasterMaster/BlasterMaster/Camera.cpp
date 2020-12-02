@@ -64,7 +64,7 @@ void Camera::Update()
 		}
 		else if (cy + height > LOWEST_FIRST_SCENE)
 		{
-			cy = LOWEST_FIRST_SCENE - height;
+			cy = HIGHEST_FIRST_SCENE;
 		}
 		break;
 	case 2:
@@ -201,9 +201,9 @@ void Camera::Update()
 			SetCamPos(cx, cy);
 		}
 	}
-	/*if (player->IsUp && !player->IsJumping) {
-		cy += 6;
-	}*/
+	if (player->IsUp) {
+		cy += 10;
+	}
 
 	SetCamPos(cx, cy);
 }

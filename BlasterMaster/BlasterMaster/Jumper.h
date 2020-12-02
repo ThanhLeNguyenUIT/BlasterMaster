@@ -1,16 +1,14 @@
 #pragma once
 #include "Enemy.h"
-#include "EnemyBullet.h"
+#include "Sophia.h"
 
-class CFloater : public Enemy
+class CJumper : public Enemy
 {
 public:
-	EnemyBullet* bullet;
-	vector<EnemyBullet*> listBullets;
-	DWORD timeStartAttack = TIME_DEFAULT;
-	DWORD timeDamaged = TIME_DEFAULT;
+	bool is;
+	bool isJump;
 	Animation* CurAnimation;
-	CFloater(float x = 0.0f, float y = 0.0f);
+	CJumper(float x = 0.0f, float y = 0.0f);
 	void ChangeAnimation(STATEOBJECT StateObject);
 	STATEOBJECT GetStateObject() { return this->StateObject; }
 	void SetType(TYPE type) { this->typeEnemy = type; }
@@ -18,5 +16,4 @@ public:
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 	void Reset();
-	void Fire();
 };

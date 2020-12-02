@@ -90,7 +90,7 @@ void Bullet::ChangeAnimation(STATEOBJECT StateObject) {
 void Bullet::Render() {
 	int alpha = 255;
 	CurAnimation->Render(x, y, alpha);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void Bullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> coEnemy) {
@@ -98,8 +98,8 @@ void Bullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> co
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEvents.clear();
-	
-	CalcPotentialCollisions(coObjects, coEvents);
+	if(StateObject!= BULLET_SMALL_HIT)
+		CalcPotentialCollisions(coObjects, coEvents);
 
 	if (coEvents.size() == 0)
 	{
@@ -130,14 +130,6 @@ void Bullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> co
 					ChangeAnimation(BIG_JASON_BULLET_HIT);
 			}
 
-			/*if (dynamic_cast<Enemy*>(e->obj)) {
-				if (Allow[JASON] || Allow[SOPHIA])
-					ChangeAnimation(BULLET_SMALL_HIT);
-				else if (Allow[BIG_JASON])
-					ChangeAnimation(BIG_JASON_BULLET_HIT);
-				
-			}*/
-
 			if (dynamic_cast<Power*>(e->obj)) {
 				if (e->nx != 0) x += dx;
 				if (e->ny != 0) y += dy;
@@ -162,11 +154,12 @@ void Bullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> co
 
 	for (int i = 0; i < coEnemy.size(); i++) {
 		if (CollisionWithObject(coEnemy[i])) {
+			if (StateObject != BULLET_SMALL_HIT)
+				coEnemy[i]->health -= 1;
 			if (Allow[JASON] || Allow[SOPHIA])
 				ChangeAnimation(BULLET_SMALL_HIT);
 			else if (Allow[BIG_JASON])
 				ChangeAnimation(BIG_JASON_BULLET_HIT);
-			coEnemy[i]->health -= 1;
 		}
 	}
 }

@@ -48,6 +48,12 @@
     <Filter Include="Source Files\GameObjects\Bullet">
       <UniqueIdentifier>{46d77129-5e9c-4f1d-822f-16118ba1bcc4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GameComponents\Grid">
+      <UniqueIdentifier>{f38c988e-af8a-43bf-8e8f-9a28e4bea588}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameObjects\Player\State">
+      <UniqueIdentifier>{75ea80e3-8a58-408c-88f7-8087e64108ba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Textures\bbox.png">
@@ -88,18 +94,6 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerFallingState.cpp">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerJumpingState.cpp">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerMovingState.cpp">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerStandingState.cpp">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -108,12 +102,6 @@
     </ClCompile>
     <ClCompile Include="Animations.cpp">
       <Filter>Source Files\GameComponents\Images</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerUpwardMovingState.cpp">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerUpwardJumpingState.cpp">
-      <Filter>Source Files\GameObjects\Player</Filter>
     </ClCompile>
     <ClCompile Include="PlayScene.cpp">
       <Filter>Source Files\Scenes</Filter>
@@ -127,28 +115,10 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\GameComponents</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerTurningState.cpp">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerOpenState.cpp">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Jason.cpp">
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClCompile>
     <ClCompile Include="Sophia.cpp">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerUpperState.cpp">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerJumpTurningState.cpp">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerCrawlingState.cpp">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerClimbingState.cpp">
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClCompile>
     <ClCompile Include="HUD.cpp">
@@ -159,12 +129,6 @@
     </ClCompile>
     <ClCompile Include="Health.cpp">
       <Filter>Source Files\GameComponents\HUD</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerDeadState.cpp">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="PLayerUpwardFallingState.cpp">
-      <Filter>Source Files\GameObjects\Player</Filter>
     </ClCompile>
     <ClCompile Include="Orb1.cpp">
       <Filter>Source Files\GameObjects\Enemy</Filter>
@@ -205,6 +169,60 @@
     <ClCompile Include="Dome.cpp">
       <Filter>Source Files\GameObjects\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyBullet.cpp">
+      <Filter>Source Files\GameObjects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Jumper.cpp">
+      <Filter>Source Files\GameObjects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>Source Files\GameComponents\Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerClimbingState.cpp">
+      <Filter>Source Files\GameObjects\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerCrawlingState.cpp">
+      <Filter>Source Files\GameObjects\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerDeadState.cpp">
+      <Filter>Source Files\GameObjects\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerFallingState.cpp">
+      <Filter>Source Files\GameObjects\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerJumpingState.cpp">
+      <Filter>Source Files\GameObjects\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerJumpTurningState.cpp">
+      <Filter>Source Files\GameObjects\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerMovingState.cpp">
+      <Filter>Source Files\GameObjects\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerOpenState.cpp">
+      <Filter>Source Files\GameObjects\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerStandingState.cpp">
+      <Filter>Source Files\GameObjects\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerTurningState.cpp">
+      <Filter>Source Files\GameObjects\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerUpperState.cpp">
+      <Filter>Source Files\GameObjects\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="PLayerUpwardFallingState.cpp">
+      <Filter>Source Files\GameObjects\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerUpwardJumpingState.cpp">
+      <Filter>Source Files\GameObjects\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerUpwardMovingState.cpp">
+      <Filter>Source Files\GameObjects\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Insect.cpp">
+      <Filter>Source Files\GameObjects\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprites.h">
@@ -222,21 +240,6 @@
     <ClInclude Include="GameObject.h">
       <Filter>Source Files\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerFallingState.h">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerJumpingState.h">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerMovingState.h">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerStandingState.h">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerState.h">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -245,12 +248,6 @@
     </ClInclude>
     <ClInclude Include="Animations.h">
       <Filter>Source Files\GameComponents\Images</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerUpwardMovingState.h">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerUpwardJumpingState.h">
-      <Filter>Source Files\GameObjects\Player</Filter>
     </ClInclude>
     <ClInclude Include="PlayScene.h">
       <Filter>Source Files\Scenes</Filter>
@@ -267,28 +264,10 @@
     <ClInclude Include="KeyEventHandler.h">
       <Filter>Source Files\GameComponents</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerTurningState.h">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerOpenState.h">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClInclude>
     <ClInclude Include="Jason.h">
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClInclude>
     <ClInclude Include="Sophia.h">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerUpperState.h">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerJumpTurningState.h">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerCrawlingState.h">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerClimbingState.h">
       <Filter>Source Files\GameObjects\Player</Filter>
     </ClInclude>
     <ClInclude Include="HUD.h">
@@ -299,12 +278,6 @@
     </ClInclude>
     <ClInclude Include="Health.h">
       <Filter>Source Files\GameComponents\HUD</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerDeadState.h">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PLayerUpwardFallingState.h">
-      <Filter>Source Files\GameObjects\Player</Filter>
     </ClInclude>
     <ClInclude Include="Orb1.h">
       <Filter>Source Files\GameObjects\Enemy</Filter>
@@ -343,6 +316,66 @@
       <Filter>Source Files\GameObjects\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Dome.h">
+      <Filter>Source Files\GameObjects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBullet.h">
+      <Filter>Source Files\GameObjects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Jumper.h">
+      <Filter>Source Files\GameObjects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>Source Files\GameComponents\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="Cell.h">
+      <Filter>Source Files\GameComponents\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerClimbingState.h">
+      <Filter>Source Files\GameObjects\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerCrawlingState.h">
+      <Filter>Source Files\GameObjects\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerDeadState.h">
+      <Filter>Source Files\GameObjects\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerFallingState.h">
+      <Filter>Source Files\GameObjects\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerJumpingState.h">
+      <Filter>Source Files\GameObjects\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerJumpTurningState.h">
+      <Filter>Source Files\GameObjects\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerMovingState.h">
+      <Filter>Source Files\GameObjects\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerOpenState.h">
+      <Filter>Source Files\GameObjects\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerStandingState.h">
+      <Filter>Source Files\GameObjects\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState.h">
+      <Filter>Source Files\GameObjects\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerTurningState.h">
+      <Filter>Source Files\GameObjects\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerUpwardMovingState.h">
+      <Filter>Source Files\GameObjects\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerUpperState.h">
+      <Filter>Source Files\GameObjects\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="PLayerUpwardFallingState.h">
+      <Filter>Source Files\GameObjects\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerUpwardJumpingState.h">
+      <Filter>Source Files\GameObjects\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Insect.h">
       <Filter>Source Files\GameObjects\Enemy</Filter>
     </ClInclude>
   </ItemGroup>

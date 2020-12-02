@@ -113,7 +113,7 @@ void COrb1::Render()
 {
 	int alpha = 255;
 	CurAnimation->Render(x, y, alpha);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void COrb1::ChangeAnimation(STATEOBJECT StateObject) {

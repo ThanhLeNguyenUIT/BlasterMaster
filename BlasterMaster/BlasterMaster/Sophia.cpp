@@ -183,7 +183,7 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> co
 					timeDamaged = GetTickCount();
 				}
 				if (GetTickCount() - timeDamaged >= 600) {
-					//health = health - 1;
+					health = health - 1;
 					timeDamaged = GetTickCount();
 				}
 			}

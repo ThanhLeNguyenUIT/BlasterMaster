@@ -23,7 +23,7 @@ void Power::ChangeAnimation(STATEOBJECT StateObject) {
 void Power::Render() {
 	int alpha = 255;
 	CurAnimation->Render(x, y, alpha);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void Power::GetBoundingBox(float& left, float& top, float& right, float& bottom)

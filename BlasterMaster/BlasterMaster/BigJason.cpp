@@ -205,7 +205,7 @@ void BigJason::Render() {
 	int alpha = 255;
 	if (IsRender && !IsTouchGate) {
 		CurAnimation->Render(x, y, alpha, idFrame, RenderOneFrame);
-		RenderBoundingBox();
+		//RenderBoundingBox();
 	}
 }
 

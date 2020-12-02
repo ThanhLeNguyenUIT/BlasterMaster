@@ -3,6 +3,7 @@
 #include "Portal.h"
 #include "Power.h"
 #include "DamageBrick.h"
+#include "EnemyBullet.h"
 
 CFloater::CFloater(float x, float y)
 {
@@ -37,6 +38,19 @@ void CFloater::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// turn off collision when die 
 	if (StateObject != ENEMY_DEAD)
 		CalcPotentialCollisions(coObjects, coEvents);
+	// fire and delete bullet
+	Fire();
+	for (int i = 0; i < listBullets.size(); i++) {
+		listBullets[i]->Update(dt, coObjects);
+	}
+
+	for (int i = 0; i < listBullets.size(); i++) {
+		if (listBullets[i]->GetStateObject() == BULLET_SMALL_HIT) {
+			if (GetTickCount() - listBullets[i]->timeStartCol >= BULLET_TIME_EXPLOSIVE && listBullets[i]->timeStartCol != TIME_DEFAULT) {
+				listBullets.erase(listBullets.begin() + i);
+			}
+		}
+	}
 
 	if (coEvents.size() == 0)
 	{
@@ -224,7 +238,12 @@ void CFloater::Render()
 {
 	int alpha = 255;
 	CurAnimation->Render(x, y, alpha);
-	RenderBoundingBox();
+
+	for (int i = 0; i < listBullets.size(); i++) {
+		listBullets[i]->Render();
+	}
+	
+	//RenderBoundingBox();
 }
 
 void CFloater::ChangeAnimation(STATEOBJECT StateObject) {
@@ -256,5 +275,25 @@ void CFloater::ChangeAnimation(STATEOBJECT StateObject) {
 void CFloater::Reset() {
 	nx = 1;
 	ChangeAnimation(FLOATER_STATE_WALKING_LEFT_BOTTOM);
+}
+
+void CFloater::Fire() {
+	if (timeStartAttack == TIME_DEFAULT) {
+		timeStartAttack = GetTickCount();
+	}
+	if (GetTickCount() - timeStartAttack >= 2000 && timeStartAttack!=TIME_DEFAULT) {
+		bullet = new EnemyBullet();
+		bullet->typeBullet = ENEMY_BULLET;
+		if (nx > 0) {
+			bullet->SetPosition(x + FLOATER_BBOX_WIDTH / 4, y + FLOATER_BBOX_HEIGHT / 3);
+			bullet->ChangeAnimation(ENEMY_BULLET_SMALL_MOVING);
+		}
+		else {
+			bullet->SetPosition(x + FLOATER_BBOX_WIDTH / 4, y + FLOATER_BBOX_HEIGHT / 3);
+			bullet->ChangeAnimation(ENEMY_BULLET_SMALL_MOVING);
+		}
+		listBullets.push_back(bullet);
+		timeStartAttack = GetTickCount();
+	}
 }
 

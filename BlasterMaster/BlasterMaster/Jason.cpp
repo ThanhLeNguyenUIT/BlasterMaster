@@ -282,7 +282,7 @@ void Jason::Render() {
 	int alpha = 255;
 	if (IsRender && !IsTouchPortal) {
 		CurAnimation->Render(x, y, alpha, idFrame, RenderOneFrame);
-		RenderBoundingBox();
+		//RenderBoundingBox();
 	}
 }
 

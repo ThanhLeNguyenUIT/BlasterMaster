@@ -225,6 +225,14 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 		enemy = new CDome(x, y);
 		listEnemies.push_back(enemy);
 		break;
+	case JUMPER:
+		enemy = new CJumper(x, y);
+		listEnemies.push_back(enemy);
+		break;
+	case INSECT:
+		enemy = new CInsect(x, y);
+		listEnemies.push_back(enemy);
+		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;

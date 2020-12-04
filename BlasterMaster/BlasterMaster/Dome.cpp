@@ -8,7 +8,9 @@ CDome::CDome(float x, float y)
 {
 	this->x = x;
 	this->y = y;
-	typeEnemy = DOME;
+	type = DOME;
+	widthBBox = DOME_BBOX_WIDTH;
+	heightBBox = DOME_BBOX_HEIGHT;
 	Reset();
 }
 
@@ -31,6 +33,7 @@ void CDome::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (health <= 0) {
 		StateObject = ENEMY_DEAD;
+		isDead = true;
 	}
 	// turn off collision when die 
 	if (StateObject != ENEMY_DEAD)
@@ -195,7 +198,7 @@ void CDome::Render()
 void CDome::ChangeAnimation(STATEOBJECT StateObject) {
 	this->StateObject = StateObject;
 	AnimationSets* animation_sets = AnimationSets::GetInstance();
-	LPANIMATION_SET animationSet = animation_sets->Get(typeEnemy);
+	LPANIMATION_SET animationSet = animation_sets->Get(type);
 	CurAnimation = animationSet->Get(this->StateObject);
 	switch (this->StateObject)
 	{

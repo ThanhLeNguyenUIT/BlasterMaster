@@ -46,11 +46,14 @@ public:
 
 	int state;
 	DWORD dt;
-
+	TYPE type;
+	STATENAME StateName;
 	LPANIMATION_SET animation_set;
-	//
-
+	
+	float widthBBox, heightBBox;
+	bool isDead = false;
 public:
+	RECT GetRect();
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 	void GetPosition(float& x, float& y) { x = this->x; y = this->y; }
@@ -80,7 +83,6 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 	virtual void Render() = 0;
 	virtual void SetState(int state) { this->state = state; }
-	//void AddAnimation(int aniId, STATENAME NameState);
 
 	~GameObject();
 };

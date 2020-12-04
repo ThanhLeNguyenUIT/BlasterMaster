@@ -17,9 +17,7 @@ public:
 	static Jason* _instance;
 	int stateBoundingBox;
 	PlayerState* state;
-	STATENAME StateName;
 	Animation* CurAnimation;
-	TYPE playerType;
 	std::unordered_map<TYPE, bool> allow;
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects, vector<Enemy*> coEnemy, vector<Item*> coItem);
 	virtual void Render();
@@ -49,7 +47,7 @@ public:
 
 	Jason();
 	~Jason();
-	void SetPlayerType(TYPE playerType) { this->playerType = playerType; }
+	void SetPlayerType(TYPE playerType) { this->type = playerType; }
 	void ChangeAnimation(PlayerState* state, int stateChange = 0);
 	void ChangeScene();
 	static Jason* GetInstance();

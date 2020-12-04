@@ -1,6 +1,5 @@
 #pragma once
 #include "Cell.h"
-
 #define LOOP(x, y, z) for (int x = y; x <= z; x++)
 struct  Area
 {
@@ -14,26 +13,26 @@ public:
 
 	static Grid* GetInstance();
 	Grid();
-	~Grid() {};
+	~Grid();
 	int rows, cols;
-	int alphaa;
-	int SizeCell;
+	int alpha;
+	int SizeCell = 90;
 	vector<vector<Cell*>> Cells;
 	vector<LPGAMEOBJECT> CurObjectInViewPort;
 	vector<LPGAMEOBJECT> ObjectHolder;
-	Area FindCell(RECT e);
 	void Init();
-	void SetSizeCell(int s) { this->SizeCell = s; }
-	void LoadObjects(LPGAMEOBJECT& obj, float x, float y);
-	void AddStaticObject(LPGAMEOBJECT obj, float x, float y);
-	void UpdateCell();
-	void UpdateStaticObject();
 	void RenderCell();
-	bool IsOnCam(LPGAMEOBJECT obj);
-	void RemoveDeadObject();
+	void UpdateCell();
+	Area FindCell(RECT e);
+	void SetCellSize(int SizeCell) { this->SizeCell = SizeCell; }
+	
+	void LoadObject(LPGAMEOBJECT& obj, float x, float y);
+
+	void AddStaticObject(LPGAMEOBJECT obj, float x, float y);
 	void AddMovingObject(LPGAMEOBJECT obj);
+	void RemoveDeadObject();
+
 	void CalcObjectInViewPort();
 	vector<LPGAMEOBJECT> GetObjectInViewPort() { return CurObjectInViewPort; }
-
 };
 

@@ -5,7 +5,6 @@ class Enemy : public GameObject
 {
 public:
 	int health = 3;
-	TYPE typeEnemy;
 	STATEOBJECT StateObject;
 	Enemy();
 	~Enemy();

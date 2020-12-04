@@ -9,11 +9,13 @@ private:
 	int col;
 	int row;
 	int** mapTiles;
-
-
 public:
 	Map();
 	~Map();
+	int height;
+	int width;
+	int texID;
+	LPCWSTR texPATH;
 	float cam_x = 0.0f;
 	float cam_y = 0.0f;
 	void LoadResources(int level);

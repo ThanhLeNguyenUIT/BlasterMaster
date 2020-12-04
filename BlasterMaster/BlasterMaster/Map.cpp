@@ -7,19 +7,14 @@ Map* Map::_instance = NULL;
 Map::Map()
 {
 }
-void Map::LoadResources(int level)
-{
-
-}
 
 void Map::Render()
 {
 	Textures* textures = Textures::GetInstance();
 	LPDIRECT3DTEXTURE9 texMap;
-	//if(Allow[])
-	texMap = textures->Get(ID_TEX_MAP);
+	texMap = textures->Get(texID);
 	Sprites* sprites = Sprites::GetInstance();
-	sprites->Add(99999, 0, 0, 2048, 2048, texMap);
+	sprites->Add(99999, 0, 0, width, height, texMap);
 
 	Sprite* sprite = sprites->Get(99999);
 
@@ -33,16 +28,9 @@ void Map::Render()
 
 
 }
-//bool Map::IsCollision(RECT rect1, RECT rect2)
-//{
-//	if (rect1.left > rect2.right || rect1.right < rect2.left || rect1.top > rect2.bottom || rect1.bottom < rect2.top)
-//		return false;
-//	return true;
-//}
+
 void Map::Update(float dt)
 {
-	//SetCamPos(player->x - SCREEN_WIDTH / 2, player->y - SCREEN_HEIGHT / 2);
-
 }
 Map* Map::GetInstance()
 {

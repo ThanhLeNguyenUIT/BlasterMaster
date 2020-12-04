@@ -18,8 +18,6 @@ public:
 	int stateBoundingBox;
 	PlayerState* state;
 	Animation* CurAnimation;
-	STATENAME StateName;
-	TYPE playerType;
 	std::unordered_map<TYPE, bool> allow;
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects, vector<Enemy*> coEnemy, vector<Item*> coItem);
 	virtual void Render();
@@ -50,7 +48,7 @@ public:
 
 	Sophia();
 	~Sophia();
-	void SetPlayerType(TYPE playerType) { this->playerType = playerType; }
+	void SetPlayerType(TYPE playerType) { this->type = playerType; }
 	void ChangeAnimation(PlayerState* state, int stateChange = 0);
 	void ChangeScene();
 	static Sophia* GetInstance();

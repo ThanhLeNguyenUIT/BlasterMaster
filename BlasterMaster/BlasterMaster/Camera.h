@@ -57,7 +57,7 @@ public:
 	float GetCamPosX() { return camPosX; }
 	float GetCamPosY() { return camPosY; }
 	void Update();
-
+	RECT GetBound();
 	Camera();
 	~Camera();
 };

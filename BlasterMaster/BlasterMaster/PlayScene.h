@@ -22,6 +22,7 @@
 #include "Jumper.h"
 #include "Insect.h"
 
+#include "Grid.h"
 #include "GlobalConfig.h"
 
 using namespace std;
@@ -47,6 +48,7 @@ protected:
 	void _ParseSection_CLEARANIMATION_SETS(string line);
 	void _ParseSection_OBJECTS(string line);
 	void _ParseSection_SWITCHSCENE(string line);
+	void _ParseSection_MAP(string line);
 
 	//Get stage objects' link and tilemap resources
 	//void _ParseSection_SCENEFILEPATH(string line);

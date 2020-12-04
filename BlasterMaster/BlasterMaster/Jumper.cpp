@@ -5,7 +5,9 @@ CJumper::CJumper(float x, float y)
 {
 	this->x = x;
 	this->y = y;
-	typeEnemy = JUMPER;
+	type = JUMPER;
+	widthBBox = JUMPER_BBOX_WIDTH;
+	heightBBox = JUMPER_BBOX_HEIGHT;
 	Reset();
 }
 
@@ -28,6 +30,7 @@ void CJumper::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (health == 0) {
 		StateObject = ENEMY_DEAD;
+		isDead = true;
 	}
 	// turn off collision when die 
 	if (StateObject != ENEMY_DEAD)
@@ -145,7 +148,7 @@ void CJumper::Render()
 void CJumper::ChangeAnimation(STATEOBJECT StateObject) {
 	this->StateObject = StateObject;
 	AnimationSets* animation_sets = AnimationSets::GetInstance();
-	LPANIMATION_SET animationSet = animation_sets->Get(typeEnemy);
+	LPANIMATION_SET animationSet = animation_sets->Get(type);
 	CurAnimation = animationSet->Get(this->StateObject);
 	switch (this->StateObject)
 	{

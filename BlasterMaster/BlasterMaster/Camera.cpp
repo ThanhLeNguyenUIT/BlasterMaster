@@ -20,6 +20,17 @@ Camera::Camera()
 
 Camera::~Camera() {}
 
+RECT Camera::GetBound() {
+	RECT rect;
+
+	rect.left = camPosX;
+	rect.top = camPosY;
+	rect.right = camPosX + width;
+	rect.bottom = camPosY + height;
+
+	return rect;
+}
+
 void Camera::Update()
 {
 	float cx, cy;
@@ -201,8 +212,8 @@ void Camera::Update()
 			SetCamPos(cx, cy);
 		}
 	}
-	if (player->IsUp) {
-		cy += 10;
+	if (player->IsUp && player->scene_id != 1 && player->scene_id != 3) {
+		cy += 16;
 	}
 
 	SetCamPos(cx, cy);

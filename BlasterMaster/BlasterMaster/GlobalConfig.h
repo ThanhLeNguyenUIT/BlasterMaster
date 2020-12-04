@@ -133,9 +133,9 @@ if(ptr) \
 #define JUMPER_BBOX_HEIGHT_DIE					16
 
 //INSECT
-#define INSECT_WALKING_SPEED_X					0.01f
-#define INSECT_WALKING_SPEED_Y					0.015f
-#define INSECT_WALKING_JUMP_Y					2.0f
+#define INSECT_WALKING_SPEED_X					0.03f
+#define INSECT_WALKING_SPEED_Y					0.03f
+#define INSECT_WALKING_JUMP_Y					0.1f
 #define INSECT_WALKING_JUMP_X					0.1f
 
 #define INSECT_BBOX_WIDTH						16
@@ -158,7 +158,9 @@ extern std::unordered_map<int, bool> keyCode;	// manage info keycode have been p
 #define player Sophia::GetInstance()
 #define playerSmall Jason::GetInstance()
 #define playerBig BigJason::GetInstance()
-
+#define map Map::GetInstance()
+#define grid Grid::GetInstance()
+#define camera Camera::GetInstance()
 
 extern enum STATENAME {
 	///// SOPHIA ///////

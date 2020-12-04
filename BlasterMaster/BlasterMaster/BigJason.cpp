@@ -26,7 +26,7 @@ BigJason* BigJason::_instance = NULL;
 BigJason::BigJason() {
 	IsUp = false;
 	IsJumping = false;
-	playerType = BIG_JASON;
+	type = BIG_JASON;
 }
 
 BigJason::~BigJason() {
@@ -197,7 +197,7 @@ void BigJason::ChangeAnimation(PlayerState* newState, int stateChange) {
 	delete state;
 	AnimationSets* animation_sets = AnimationSets::GetInstance();
 	state = newState;
-	LPANIMATION_SET animationSet = animation_sets->Get(playerType);
+	LPANIMATION_SET animationSet = animation_sets->Get(type);
 	CurAnimation = animationSet->Get(StateName);
 }
 

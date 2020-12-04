@@ -1,6 +1,8 @@
 # Id	FilePath		R	G	B
 [TEXTURES]
 50	Textures/map2.png	255	255	255
+[MAP]
+50	2048	2048
 [OBJECTS]
 #BRICK
 6	34	126	28	1

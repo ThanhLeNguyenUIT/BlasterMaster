@@ -9,7 +9,10 @@
 60	Textures/jason.png	255	0	255
 70	Textures/HealthBar.png	255	255	0
 80	Textures/Health.png	255	255	0
+-100	Textures/bbox.png	255	255	255
 # id	left	top	right	bottom	texture_id
+[MAP]
+50	2048	2048
 [SPRITES]
 #=========== SMALL JASON =============
 #stand right

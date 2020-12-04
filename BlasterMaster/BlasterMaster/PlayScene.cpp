@@ -26,6 +26,7 @@ PlayScene::PlayScene(int id, LPCWSTR filePath) :
 #define SCENE_SECTION_CLEAR_ANIMATIONS_SETS	6
 #define SCENE_SECTION_OBJECTS	7
 #define SCENE_SECTION_SWITCH_SCENE		8
+#define SCENE_SECTION_MAP	9
 
 #define MAX_SCENE_LINE 1024
 
@@ -45,6 +46,21 @@ void PlayScene::_ParseSection_TEXTURES(string line)
 	Textures::GetInstance()->Add(texID, path.c_str(), D3DCOLOR_XRGB(R, G, B));
 	DebugOut(L"[ERROR] Texture ID %d not found!\n", texID);
 
+}
+
+void PlayScene::_ParseSection_MAP(string line) {
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 2) return; // skip invalid lines
+
+	map->texID = atoi(tokens[0].c_str());
+	map->width = atoi(tokens[1].c_str());
+	map->height = atoi(tokens[2].c_str());
+
+	// create cells
+	grid->cols = (map->width / 90) + 1;
+	grid->rows = (map->height / 90) + 1;
+	grid->Init();
 }
 
 void PlayScene::_ParseSection_SPRITES(string line)
@@ -271,6 +287,9 @@ void PlayScene::Load() {
 		if (line == "[OBJECTS]") {
 			section = SCENE_SECTION_OBJECTS; continue;
 		}
+		if (line == "[MAP]") {
+			section = SCENE_SECTION_MAP; continue;
+		}
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 
 		// data section
@@ -282,11 +301,10 @@ void PlayScene::Load() {
 		case SCENE_SECTION_CLEAR_ANIMATIONS_SETS: _ParseSection_CLEARANIMATION_SETS(line); break;
 		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
 		case SCENE_SECTION_SWITCH_SCENE: _ParseSection_SWITCHSCENE(line); break;
+		case SCENE_SECTION_MAP: _ParseSection_MAP(line); break;
 		}
 	}
 	f.close();
-
-	Textures::GetInstance()->Add(ID_TEX_BBOX, L"Textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 
@@ -296,6 +314,7 @@ void PlayScene::Load() {
 	playerBig->Reset();
 	playerBig->IsRender = false;
 	hud = new HUD();
+	
 	
 }
 
@@ -457,6 +476,7 @@ void PlayScene::ChangeScene() {
 
 void PlayScene::Render() {
 	Map::GetInstance()->Render();
+	grid->RenderCell();
 
 	for (int i = 0; i < listObjects.size(); i++) {
 		listObjects[i]->Render();

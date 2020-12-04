@@ -9,7 +9,9 @@ CFloater::CFloater(float x, float y)
 {
 	this->x = x;
 	this->y = y;
-	typeEnemy = FLOATER;
+	type = FLOATER;
+	widthBBox = FLOATER_BBOX_WIDTH;
+	heightBBox = FLOATER_BBOX_HEIGHT;
 	Reset();
 }
 
@@ -33,6 +35,7 @@ void CFloater::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (health == 0) {
 		StateObject = ENEMY_DEAD;
+		isDead = true;
 	}
 
 	// turn off collision when die 
@@ -249,7 +252,7 @@ void CFloater::Render()
 void CFloater::ChangeAnimation(STATEOBJECT StateObject) {
 	this->StateObject = StateObject;
 	AnimationSets* animation_sets = AnimationSets::GetInstance();
-	LPANIMATION_SET animationSet = animation_sets->Get(typeEnemy);
+	LPANIMATION_SET animationSet = animation_sets->Get(type);
 	CurAnimation = animationSet->Get(this->StateObject);
 	switch (this->StateObject)
 	{

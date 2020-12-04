@@ -8,7 +8,9 @@ COrb1::COrb1(float x, float y)
 {
 	this->x = x;
 	this->y = y;
-	typeEnemy = ORB1;
+	type = ORB1;
+	widthBBox = ORB1_BBOX_WIDTH;
+	heightBBox = ORB1_BBOX_HEIGHT;
 	Reset();
 }
 
@@ -27,6 +29,7 @@ void COrb1::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (health == 0) {
 		StateObject = ENEMY_DEAD;
+		isDead = true;
 	}
 
 	if ((timenow - dt) % 800 == 0) {
@@ -119,7 +122,7 @@ void COrb1::Render()
 void COrb1::ChangeAnimation(STATEOBJECT StateObject) {
 	this->StateObject = StateObject;
 	AnimationSets* animation_sets = AnimationSets::GetInstance();
-	LPANIMATION_SET animationSet = animation_sets->Get(typeEnemy);
+	LPANIMATION_SET animationSet = animation_sets->Get(type);
 	CurAnimation = animationSet->Get(this->StateObject);
 	switch (this->StateObject)
 	{

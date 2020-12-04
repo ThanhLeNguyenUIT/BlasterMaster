@@ -3,7 +3,9 @@ CInsect::CInsect(float x, float y)
 {
 	this->x = x;
 	this->y = y;
-	typeEnemy = INSECT;
+	type = INSECT;
+	widthBBox = INSECT_BBOX_WIDTH;
+	heightBBox = INSECT_BBOX_HEIGHT;
 	Reset();
 }
 
@@ -24,6 +26,7 @@ void CInsect::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (health == 0) {
 		StateObject = ENEMY_DEAD;
+		isDead = true;
 	}
 
 	// turn off collision when die 
@@ -76,8 +79,6 @@ void CInsect::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			ChangeAnimation(INSECT_STATE_WALKING_LEFT);
 		}
 
-		x += vx * dt;
-		y += vy * dt;
 	}
 
 	if (coEvents.size() == 0)
@@ -121,7 +122,7 @@ void CInsect::Render()
 void CInsect::ChangeAnimation(STATEOBJECT StateObject) {
 	this->StateObject = StateObject;
 	AnimationSets* animation_sets = AnimationSets::GetInstance();
-	LPANIMATION_SET animationSet = animation_sets->Get(typeEnemy);
+	LPANIMATION_SET animationSet = animation_sets->Get(type);
 	CurAnimation = animationSet->Get(this->StateObject);
 	switch (this->StateObject)
 	{

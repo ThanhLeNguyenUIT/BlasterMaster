@@ -29,7 +29,7 @@ Jason* Jason::_instance = NULL;
 Jason::Jason() {
 	IsUp = false;
 	IsJumping = false;
-	playerType = JASON;
+	type = JASON;
 }
 
 Jason::~Jason() {
@@ -274,7 +274,7 @@ void Jason::ChangeAnimation(PlayerState* newState, int stateChange) {
 	delete state;
 	AnimationSets* animation_sets = AnimationSets::GetInstance();
 	state = newState;
-	LPANIMATION_SET animationSet = animation_sets->Get(playerType);
+	LPANIMATION_SET animationSet = animation_sets->Get(type);
 	CurAnimation = animationSet->Get(StateName);
 }
 

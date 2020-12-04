@@ -134,8 +134,20 @@ void GameObject::RenderBoundingBox()
 	rect.top = 0;
 	rect.right = (int)r - (int)l;
 	rect.bottom = (int)b - (int)t;
-	//DebugOut(L"RenderBoundingBox: %d\n" );
 	Game::GetInstance()->Draw(l, t, bbox, rect.left, rect.top, rect.right, rect.bottom, 80);
+}
+
+RECT GameObject::GetRect()
+{
+	float l, t, r, b;
+	RECT rect;
+	GetBoundingBox(l, t, r, b);
+	rect.left = l;
+	rect.top = t;
+	rect.right = r;
+	rect.bottom = b;
+	return rect;
+
 }
 
 GameObject::~GameObject(){

@@ -1,5 +1,7 @@
 [TEXTURES]
 50	Textures/overworld.png	255	255	255
+[MAP]
+50	2048	2048
 [OBJECTS]
 #BRICK
 6	80	46	40	4

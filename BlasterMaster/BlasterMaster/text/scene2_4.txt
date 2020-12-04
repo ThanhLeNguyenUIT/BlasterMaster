@@ -1,5 +1,7 @@
 [TEXTURES]
 50	Textures/map44.png	255	255	255
+[MAP]
+50	516	992
 [OBJECTS]
 6	1	2	1	58
 6	2	1	28	1

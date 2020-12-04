@@ -13,6 +13,7 @@
 #include "Orb1.h"
 #include "Worm.h"
 #include "Power.h"
+#include "EnemyBullet.h"
 
 #include "PlayerState.h"
 #include "PlayerFallingState.h"
@@ -32,7 +33,7 @@ Sophia* Sophia::_instance = NULL;
 
 Sophia::Sophia() :GameObject() {
 	IsUp = false;
-	playerType = SOPHIA;
+	type = SOPHIA;
 	Allow[SOPHIA] = true;
 	Allow[JASON] = false;
 }
@@ -144,7 +145,7 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> co
 						}
 						IsJumping = false;
 						if (GetTickCount() - timeDamaged >= 600) {
-							health = health - 1;
+							//health = health - 1;
 							timeDamaged = GetTickCount();
 						}
 					}
@@ -171,6 +172,8 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> co
 					if (e->nx != 0) x += dx;
 					Stair* p = dynamic_cast<Stair*>(e->obj);
 				}
+
+				
 			}
 		}
 		// clean up collision events
@@ -183,7 +186,7 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> co
 					timeDamaged = GetTickCount();
 				}
 				if (GetTickCount() - timeDamaged >= 600) {
-					health = health - 1;
+					//health = health - 1;
 					timeDamaged = GetTickCount();
 				}
 			}
@@ -192,6 +195,7 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> co
 		for (int i = 0; i < coItem.size(); i++) {
 			if (CollisionWithObject(coItem[i])) {
 				coItem[i]->IsTouch = true;
+				coItem[i]->isDead = true;
 				if (health < 8)
 					health = health + 1;
 			}
@@ -332,7 +336,7 @@ void Sophia::ChangeAnimation(PlayerState* newState, int stateChange) {
 	CheckState(stateChange);
 	AnimationSets* animation_sets = AnimationSets::GetInstance();
 	state = newState;
-	LPANIMATION_SET animationSet = animation_sets->Get(playerType);
+	LPANIMATION_SET animationSet = animation_sets->Get(type);
 	CurAnimation = animationSet->Get(StateName);
 }
 
@@ -345,7 +349,7 @@ void Sophia::Render() {
 		else {
 			CurAnimation->RenderBack(x, y, alpha, idFrame, RenderOneFrame);
 		}
-		//RenderBoundingBox();
+		RenderBoundingBox();
 	}
 }
 

@@ -183,7 +183,7 @@ void CFloater::Render()
 {
 	int alpha = 255;
 	CurAnimation->Render(x, y, alpha);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CFloater::ChangeAnimation(STATEOBJECT StateObject) {

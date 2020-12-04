@@ -35,7 +35,7 @@ void CDome::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (coEvents.size() == 0)
 	{
 
-		float cxm, cym;
+		/*float cxm, cym;
 		player->GetPosition(cxm, cym);
 
 		float cex, cey;
@@ -46,7 +46,7 @@ void CDome::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (kc <= 200)
 		{
 			bottom = true;
-		}
+		}*/
 
 		if (bottom == true)
 		{
@@ -232,7 +232,7 @@ void CDome::Render()
 {
 	int alpha = 255;
 	CurAnimation->Render(x, y, alpha);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CDome::ChangeAnimation(STATEOBJECT StateObject) {
@@ -288,13 +288,13 @@ void CDome::ChangeAnimation(STATEOBJECT StateObject) {
 
 void CDome::Reset() {
 	nx = 1;
-	//top = true;
-	top = false;
+	top = true;
+	//top = false;
 	right = false;
 	bottom = false;
 	//bottom = false;
 	left = false;
 	drop = false;
-	//ChangeAnimation(DOME_STATE_WALKING_TOP);
-	ChangeAnimation(DOME_STATE_IDLE);
+	ChangeAnimation(DOME_STATE_WALKING_TOP);
+	//ChangeAnimation(DOME_STATE_IDLE);
 }

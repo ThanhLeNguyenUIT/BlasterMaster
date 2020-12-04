@@ -1,6 +1,13 @@
 [TEXTURES]
 50	Textures/map2.png	255	255	255
 [OBJECTS]
+# type	x	y	ani_set_id	extra_settings per object type
+# type: 0 = PLAYER , 1 = SOPHIA, 2 = JASON, 5 = BRICK, 11 = ORB1, 12 = WORM,	13 = FLOATER, 14 = SKULL, 15 = ORB2, 16 = JUMPER, 17 = INSECT, 18 = DOME
+#ORB2
+15	80	20
+15	86	20
+15	92	20
+#BRICK
 6	65	18	1	8
 6	66	18	2	1
 6	70	18	3	1

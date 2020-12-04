@@ -55,15 +55,15 @@ void CJumper::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		double kcx = abs(player->x - this->x);
 		double kcy = abs(player->y - this->y);
 
-		if (kcx <= 130 && kcy <= 30)
+		if (kcx <= 130 && kcy <= 40)
 		{
-			if (cex < cxm && nx > 0 && is == true /*&& cey >= 1158*/)
+			if (cex < cxm && nx > 0 && is == true )
 			{
 				is = false;
 				isJump = true;
 				ChangeAnimation(JUMPER_STATE_JUMP_RIGHT);
 			}
-			else if (cex > cxm && nx < 0 && is == true /*&& cey >= 1158*/)
+			else if (cex > cxm && nx < 0 && is == true)
 			{
 				is = false;
 				isJump = true;
@@ -78,6 +78,7 @@ void CJumper::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				ChangeAnimation(JUMPER_STATE_WALKING_LEFT);
 			}
 		}
+		
 		if (isJump == true)
 		{
 			if (nx > 0 && is == true)
@@ -126,7 +127,14 @@ void CJumper::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					is = true;
 				}
-				
+				if (e->nx > 0)
+				{
+					ChangeAnimation(JUMPER_STATE_WALKING_RIGHT);
+				}
+				if (e->nx < 0)
+				{
+					ChangeAnimation(JUMPER_STATE_WALKING_LEFT);
+				}
 			}
 		}
 	}
@@ -138,7 +146,7 @@ void CJumper::Render()
 {
 	int alpha = 255;
 	CurAnimation->Render(x, y, alpha);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CJumper::ChangeAnimation(STATEOBJECT StateObject) {

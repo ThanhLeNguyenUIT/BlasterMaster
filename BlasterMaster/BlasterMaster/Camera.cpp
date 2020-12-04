@@ -50,6 +50,7 @@ void Camera::Update()
 			cx = END_FIRST_SCENE - width;
 		}
 
+		
 		if (cy < HIGHEST_FIRST_SCENE) {
 			cy = HIGHEST_FIRST_SCENE;
 		}

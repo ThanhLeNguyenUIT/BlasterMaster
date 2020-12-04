@@ -20,7 +20,7 @@
 #WORM
 #12	21	18
 #DOME
-18	18	4
+#18	18	4
 # BRICK
 # SCENE 2.2
 #group1

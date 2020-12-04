@@ -105,7 +105,7 @@ using namespace std;
 #define FLOATER_BBOX_HEIGHT_DIE					9
 
 //SKULL
-#define SKULL_WALKING_SPEED						0.08f
+#define SKULL_WALKING_SPEED						0.15f
 #define SKULL_JUMP_Y							0.5f
 #define SKULL_GRAVITY							0.02f
 
@@ -114,7 +114,7 @@ using namespace std;
 #define SKULL_BBOX_HEIGHT_DIE					16
 
 //ORB2
-#define ORB2_WALKING_SPEED						0.12f
+#define ORB2_WALKING_SPEED						0.1f
 #define ORB2_WALKING_TURN_X						0.08f
 #define ORB2_WALKING_TURN_Y						0.09f
 
@@ -146,6 +146,7 @@ using namespace std;
 #define DOME_WALKING_SPEED						0.07f
 #define DOME_GRAVITY_X							0.01f
 #define DOME_GRAVITY_Y							0.01f
+#define DOME_DROP_FOLLOW						0.1f
 
 #define DOME_BBOX_WIDTH							18
 #define DOME_BBOX_HEIGHT						18

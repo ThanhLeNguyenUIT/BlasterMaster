@@ -7,14 +7,14 @@ CInsect::CInsect()
 
 void CInsect::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	/*left = x;
+	left = x;
 	top = y;
-	right = x + GOOMBA_BBOX_WIDTH;
+	right = x + INSECT_BBOX_WIDTH;
 
-	if (state == GOOMBA_STATE_DIE)
-		bottom = y + GOOMBA_BBOX_HEIGHT_DIE;
-	else
-		bottom = y + GOOMBA_BBOX_HEIGHT;*/
+	/*if (state == GOOMBA_STATE_DIE)
+		bottom = y + INSECT_BBOX_HEIGHT_DIE;
+	else*/
+		bottom = y + INSECT_BBOX_HEIGHT;
 }
 
 void CInsect::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -27,7 +27,7 @@ void CInsect::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	double kc = sqrt((this->x - player->x) * (this->x - player->x) + (this->y - player->y) * (this->y - player->y));
 
-	if (kc <= 120)
+	if (kc <= 150)
 	{
 		isWalk = true;
 	}
@@ -80,7 +80,7 @@ void CInsect::Render()
 {
 	int alpha = 255;
 	CurAnimation->Render(x, y, alpha);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CInsect::ChangeAnimation(STATEOBJECT StateObject) {

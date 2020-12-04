@@ -93,7 +93,7 @@ void COrb2::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					ChangeAnimation(ORB2_STATE_WALKING_RIGHT);
 				}
-				else if (e->nx < 0)
+				if (e->nx < 0)
 				{
 					ChangeAnimation(ORB2_STATE_WALKING_LEFT);
 				}
@@ -108,7 +108,7 @@ void COrb2::Render()
 {
 	int alpha = 255;
 	CurAnimation->Render(x, y, alpha);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void COrb2::ChangeAnimation(STATEOBJECT StateObject) {

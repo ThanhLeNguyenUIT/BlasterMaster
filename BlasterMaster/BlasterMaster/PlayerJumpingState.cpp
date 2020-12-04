@@ -96,7 +96,7 @@ void PlayerJumpingState::HandleKeyboard() {
 			else {
 				player->vx = SOPHIA_MOVING_SPEED;
 				player->ChangeAnimation(new PlayerJumpTurningState(), NORMAL);
-				player->CurAnimation->currentFrame = -1;
+ 				player->CurAnimation->currentFrame = -1;
 				player->CurAnimation->isLastFrame = false;
 			}
 		}

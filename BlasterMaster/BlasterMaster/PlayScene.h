@@ -20,6 +20,7 @@
 #include "Jumper.h"
 #include "Insect.h"
 #include "Dome.h"
+#include "Mine.h"
 
 #include "GlobalConfig.h"
 
@@ -37,6 +38,7 @@ protected:
 	CJumper* jumber;
 	CInsect* insect;
 	CDome* dome;
+	CMine* mine;
 	Bullet* bullet;
 	vector<Bullet*> bullets;
 	vector<LPGAMEOBJECT> listObjects;

@@ -46,6 +46,7 @@
     <ClCompile Include="Jumper.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Mine.cpp" />
     <ClCompile Include="Orb1.cpp" />
     <ClCompile Include="Orb2.cpp" />
     <ClCompile Include="PlayerClimbingState.cpp" />
@@ -92,6 +93,7 @@
     <ClInclude Include="Jumper.h" />
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="Mine.h" />
     <ClInclude Include="Orb1.h" />
     <ClInclude Include="Orb2.h" />
     <ClInclude Include="PlayerClimbingState.h" />

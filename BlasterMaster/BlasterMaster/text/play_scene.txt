@@ -7,6 +7,7 @@
 40	Textures/enemies.png	255	0	255
 50	Textures/map2.png	255	255	255
 60	Textures/jason.png	255	0	255
+70	Textures/enemies-1.png	255	0	255
 # id	left	top	right	bottom	texture_id
 [SPRITES]
 #=========== SMALL JASON =============
@@ -261,6 +262,9 @@
 #top
 70077	83	478	101	495	40
 70078	63	478	81	494	40
+#MINE
+#idle
+70081	363	211	379	221	70
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 #idle right
@@ -422,9 +426,9 @@
 #left
 932	70033	100	70034	100
 #jump right
-933	70031	100
+933	70031	100	70032	100
 #jump left
-934	70033	100
+934	70033	100	70034	100
 #idle
 935	70033	100
 # ==== DOME  ============
@@ -446,6 +450,9 @@
 947	70076	100
 #follow left
 948	70072	100
+# ==== MINE  ===========
+#idle
+981	70081	100
 # id	ani1	ani2	ani3
 # id tuan theo define
 [ANIMATION_SETS]
@@ -477,6 +484,8 @@
 17	17	931	41	932	42	933	43	934	44	935	45
 #DOME
 18	18	943	46	944	47	941	48	942	49	945	50	946	51	947	52	948	53
+#MINE
+19	19	981	54
 [SWITCHSCENE]
 #switch scene
 1

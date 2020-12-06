@@ -229,6 +229,9 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 	case DOME:
 		obj = new CDome();
 		break;
+	case MINE:
+		obj = new CMine();
+		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;

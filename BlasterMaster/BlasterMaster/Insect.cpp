@@ -39,17 +39,7 @@ void CInsect::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		DWORD timenow = GetTickCount();
 
-		if ((timenow - dt) % 1200 == 0)
-		{
-			if (nx > 0)
-			{
-				ChangeAnimation(INSECT_STATE_JUMP_LEFT);
-			}
-			else if (nx < 0)
-			{
-				ChangeAnimation(INSECT_STATE_JUMP_RIGHT);
-			}
-		}else if ((timenow - dt) % 400 == 0)
+		if ((timenow - dt) % 400 == 0)
 		{
 			if (nx > 0 && this->StateObject != INSECT_STATE_JUMP_RIGHT)
 			{
@@ -61,17 +51,22 @@ void CInsect::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 
 		}
-		else if (nx > 0)
+		else if ((timenow - dt) % 500 == 0 && nx > 0)
 		{
 			ChangeAnimation(INSECT_STATE_WALKING_RIGHT);
 		}
-		else if (nx < 0)
+		else if ((timenow - dt) % 500 == 0 && nx < 0)
 		{
 			ChangeAnimation(INSECT_STATE_WALKING_LEFT);
 		}
 
 		x += vx * dt;
 		y += vy * dt;
+
+		if ((timenow - dt) % 1200 == 0)
+		{
+			nx = -nx;
+		}
 	}
 	
 

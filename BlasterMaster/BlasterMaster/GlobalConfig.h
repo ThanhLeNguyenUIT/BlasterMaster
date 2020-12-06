@@ -134,9 +134,9 @@ using namespace std;
 
 //INSECT
 #define INSECT_WALKING_SPEED_X					0.01f
-#define INSECT_WALKING_SPEED_Y					0.015f
-#define INSECT_WALKING_JUMP_Y					2.0f
-#define INSECT_WALKING_JUMP_X					0.1f
+#define INSECT_WALKING_SPEED_Y					0.02f
+#define INSECT_WALKING_JUMP_Y					0.06f
+#define INSECT_WALKING_JUMP_X					0.03f
 
 #define INSECT_BBOX_WIDTH						16
 #define INSECT_BBOX_HEIGHT						15
@@ -151,6 +151,11 @@ using namespace std;
 #define DOME_BBOX_WIDTH							18
 #define DOME_BBOX_HEIGHT						18
 #define DOME_BBOX_HEIGHT_DIE					9
+
+//MINE
+#define MINE_BBOX_WIDTH							16
+#define MINE_BBOX_HEIGHT						10
+
 
 
 
@@ -296,6 +301,9 @@ extern enum STATEOBJECT {
 	DOME_STATE_DROP,
 	DOME_STATE_FOLLOW_RIGHT,
 	DOME_STATE_FOLLOW_LEFT,
+	//// MINE ////
+	MINE_STATE_IDLE,
+	MINE_STATE_DIE,
 
 
 };
@@ -319,7 +327,8 @@ extern enum TYPE {
 	ORB2,
 	JUMPER,
 	INSECT,
-	DOME
+	DOME,
+	MINE
 };
 
 

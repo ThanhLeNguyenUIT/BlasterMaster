@@ -136,7 +136,7 @@ using namespace std;
 #define INSECT_WALKING_SPEED_X					0.01f
 #define INSECT_WALKING_SPEED_Y					0.02f
 #define INSECT_WALKING_JUMP_Y					0.06f
-#define INSECT_WALKING_JUMP_X					0.03f
+#define INSECT_WALKING_JUMP_X					0.02f
 
 #define INSECT_BBOX_WIDTH						16
 #define INSECT_BBOX_HEIGHT						15

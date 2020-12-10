@@ -69,17 +69,17 @@ void CJumper::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				isJump = true;
 				ChangeAnimation(JUMPER_STATE_JUMP_LEFT);
 			}
-			else if (cex > cxm && nx > 0 && this->StateObject != JUMPER_STATE_WALKING_RIGHT)
+			else if (cex > cxm && nx > 0 && is == true/*&& this->StateObject != JUMPER_STATE_WALKING_RIGHT*/)
 			{
 				ChangeAnimation(JUMPER_STATE_WALKING_RIGHT);
 			}
-			else if (cex < cxm && nx < 0 && this->StateObject != JUMPER_STATE_WALKING_LEFT)
+			else if (cex <= cxm && nx < 0 && is == true/*&& this->StateObject != JUMPER_STATE_WALKING_LEFT*/)
 			{
 				ChangeAnimation(JUMPER_STATE_WALKING_LEFT);
 			}
 		}
 		
-		if (isJump == true)
+		/*if (isJump == true)
 		{
 			if (nx > 0 && is == true)
 			{
@@ -91,7 +91,7 @@ void CJumper::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				is = false;
 				ChangeAnimation(JUMPER_STATE_JUMP_LEFT);
 			}
-		}
+		}*/
 	}
 	else
 	{
@@ -126,6 +126,7 @@ void CJumper::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (e->ny < 0)
 				{
 					is = true;
+					isJump = false;
 				}
 				if (e->nx > 0)
 				{
@@ -187,7 +188,7 @@ void CJumper::ChangeAnimation(STATEOBJECT StateObject) {
 void CJumper::Reset() {
 	is = false;
 	isJump = false;
-	nx = 1;
+	nx = -1;
 	ny = 0;
 	ChangeAnimation(JUMPER_STATE_IDLE);
 }

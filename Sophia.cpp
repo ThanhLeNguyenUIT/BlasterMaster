@@ -216,7 +216,7 @@ void Sophia::ChangeScene() {
 			}
 			else if (old_scene_id == 2) {
 				nx = -1;
-				SetPosition(122 * BIT, 72.6 * BIT);
+				SetPosition(122.6 * BIT, 72.6 * BIT);
 			}
 			break;
 		case 4:
@@ -224,11 +224,11 @@ void Sophia::ChangeScene() {
 			SetSpeed(0, 0);
 			if (old_scene_id == 5) {
 				player->nx = 1;
-				SetPosition(5 * BIT, 6 * BIT);
+				SetPosition(3.6 * BIT, 6 * BIT);
 			}
 			else if (old_scene_id == 3) {
 				player->nx = 1;
-				SetPosition(5 * BIT, 54 * BIT);
+				SetPosition(3.6 * BIT, 54 * BIT);
 			}
 			break;
 		case 2:
@@ -237,70 +237,70 @@ void Sophia::ChangeScene() {
 			{
 				ChangeAnimation(new PlayerStandingState());
 				SetSpeed(0, 0);
-				SetPosition(4 * BIT, 72.6 * BIT);
+				SetPosition(3.6 * BIT, 72.6 * BIT);
 			}
 			if (old_scene_id == 3) {
 				ChangeAnimation(new PlayerStandingState());
 				nx = -1;
-				SetPosition(26 * BIT, 8 * BIT);
+				SetPosition(27.6 * BIT, 8.6 * BIT);
 
 			}
 			else if (old_scene_id == 5) {
 				player->nx = -1;
-				SetPosition(27 * BIT, 72 * BIT);
+				SetPosition(27.6 * BIT, 72.6 * BIT);
 			}
 			break;
 		case 3:
 			if (old_scene_id == 2) {
 				player->nx = 1;
-				SetPosition(36 * BIT, 8 * BIT);
+				SetPosition(35.6 * BIT, 8.6 * BIT);
 			}
 			else if (old_scene_id == 4) {
 				player->nx = -1;
-				SetPosition(59 * BIT, 8 * BIT);
+				SetPosition(59.6 * BIT, 8.6 * BIT);
 			}
 			break;
 		case 5:
 			if (old_scene_id == 6) {
 				player->nx = -1;
-				SetPosition(58 * BIT, 24 * BIT);
+				SetPosition(59.2 * BIT, 24.6 * BIT);
 			}
 			else if (old_scene_id == 4) {
 				player->nx = -1;
-				SetPosition(59 * BIT, 88 * BIT);
+				SetPosition(59.2 * BIT, 88.6 * BIT);
 			}
 			else if (old_scene_id == 9) {
 				player->nx = -1;
-				SetPosition(59 * BIT, 56 * BIT);
+				SetPosition(59.2 * BIT, 56.6 * BIT);
 			}
 			break;
 		case 6:
 			if (old_scene_id == 5) {
 				nx = 1;
-				SetPosition(68 * BIT, 24 * BIT);
+				SetPosition(67.2 * BIT, 24.6 * BIT);
 			}
 			else if (old_scene_id == 7) {
 				player->nx = -1;
-				SetPosition(91 * BIT, 24 * BIT);
+				SetPosition(91.2 * BIT, 24.6 * BIT);
 			}
 			break;
 		case 7:
 			if (old_scene_id == 6) {
 				nx = 1;
-				SetPosition(100 * BIT, 24 * BIT);
+				SetPosition(99.5 * BIT, 24.6 * BIT);
 			}
 			else if (old_scene_id == 8) {
 				nx = 1;
-				SetPosition(100 * BIT, 40 * BIT);
+				SetPosition(99.5 * BIT, 40.6 * BIT);
 			}
 			break;
 		case 8:
 			nx = -1;
-			SetPosition(91 * BIT, 40 * BIT);
+			SetPosition(91.2 * BIT, 40.6 * BIT);
 			break;
 		case 9:
 			nx = 1;
-			SetPosition(68 * BIT, 56 * BIT);
+			SetPosition(67.2 * BIT, 56.6 * BIT);
 			break;
 
 		}
@@ -389,7 +389,6 @@ Sophia* Sophia::GetInstance() {
 	}
 	return _instance;
 }
-
 
 void Sophia::OnKeyDown(int key) {
 	switch (key) {

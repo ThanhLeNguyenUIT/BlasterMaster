@@ -310,9 +310,13 @@ void PlayScene::Load() {
 
 	player->Reset();
 	playerSmall->Reset();
-	playerSmall->IsRender = false;
+	if (!Allow[JASON]) {
+		playerSmall->IsRender = false;
+	}
 	playerBig->Reset();
-	playerBig->IsRender = false;
+	if (!Allow[BIG_JASON]) {
+		playerBig->IsRender = false;
+	}
 	hud = new HUD();
 	
 	
@@ -436,25 +440,124 @@ void PlayScene::Update(DWORD dt) {
 		gameCamera->Update();
 	}
 	else {
-		if (player->nx < 0) {
+		if (Allow[SOPHIA]) {
+			float start_map = 0, end_map = 0;
+			if (player->scene_id == 1) {
+				start_map = START_FIRST_SCENE;
+				end_map = END_FIRST_SCENE;
+			}
+			if (player->scene_id == 2) {
+				start_map = START_SECOND_SCENE;
+				end_map = END_SECOND_SCENE;
+			}
+			if (player->scene_id == 3) {
+				start_map = START_3RD_SCENE;
+				end_map = END_3RD_SCENE;
+			}
+			if (player->scene_id == 4) {
+				start_map = START_4TH_SCENE;
+				end_map = END_4TH_SCENE;
+			}
+			if (player->scene_id == 5) {
+				start_map = START_5TH_SCENE;
+				end_map = END_5TH_SCENE;
+			}
+			if (player->scene_id == 6) {
+				start_map = START_6TH_SCENE;
+				end_map = END_6TH_SCENE;
+			}
+			if (player->scene_id == 7) {
+				start_map = START_7TH_SCENE;
+				end_map = END_7TH_SCENE;
+			}
+			if (player->scene_id == 8) {
+				start_map = START_8TH_SCENE;
+				end_map = END_8TH_SCENE;
+			}
+			if (player->scene_id == 9) {
+				start_map = START_9TH_SCENE;
+				end_map = END_9TH_SCENE;
+			}
+			if (player->nx < 0) {
 
-			if ((gameCamera->GetCamPosX() + SCREEN_WIDTH / 2) > player->x) {
-				gameCamera->SetCamPos(gameCamera->GetCamPosX() - 0.15 * dt, gameCamera->GetCamPosY());
-				player->IsRender = false;
+				if ((gameCamera->GetCamPosX() + SCREEN_WIDTH) > end_map) {
+					gameCamera->SetCamPos(gameCamera->GetCamPosX() - 0.15 * dt, gameCamera->GetCamPosY());
+					player->IsRender = false;
+				}
+				else {
+					gameCamera->isChangingMap = false;
+					player->IsRender = true;
+				}
 			}
 			else {
-				gameCamera->isChangingMap = false;
-				player->IsRender = true;
+				if (gameCamera->GetCamPosX() < start_map) {
+					gameCamera->SetCamPos(gameCamera->GetCamPosX() + 0.15 * dt, gameCamera->GetCamPosY());
+					player->IsRender = false;
+				}
+				else {
+					gameCamera->isChangingMap = false;
+					player->IsRender = true;
+				}
 			}
 		}
-		else {
-			if ((gameCamera->GetCamPosX() + SCREEN_WIDTH / 2) < player->x) {
-				gameCamera->SetCamPos(gameCamera->GetCamPosX() + 0.15 * dt, gameCamera->GetCamPosY());
-				player->IsRender = false;
+		else if (Allow[JASON]) {
+			float start_map = 0, end_map = 0;
+			if (playerSmall->scene_id == 1) {
+				start_map = START_FIRST_SCENE;
+				end_map = END_FIRST_SCENE;
+			}
+			if (playerSmall->scene_id == 2) {
+				start_map = START_SECOND_SCENE;
+				end_map = END_SECOND_SCENE;
+			}
+			if (playerSmall->scene_id == 3) {
+				start_map = START_3RD_SCENE;
+				end_map = END_3RD_SCENE;
+			}
+			if (playerSmall->scene_id == 4) {
+				start_map = START_4TH_SCENE;
+				end_map = END_4TH_SCENE;
+			}
+			if (playerSmall->scene_id == 5) {
+				start_map = START_5TH_SCENE;
+				end_map = END_5TH_SCENE;
+			}
+			if (playerSmall->scene_id == 6) {
+				start_map = START_6TH_SCENE;
+				end_map = END_6TH_SCENE;
+			}
+			if (playerSmall->scene_id == 7) {
+				start_map = START_7TH_SCENE;
+				end_map = END_7TH_SCENE;
+			}
+			if (playerSmall->scene_id == 8) {
+				start_map = START_8TH_SCENE;
+				end_map = END_8TH_SCENE;
+			}
+			if (playerSmall->scene_id == 9) {
+				start_map = START_9TH_SCENE;
+				end_map = END_9TH_SCENE;
+			}
+
+			if (playerSmall->nx < 0) {
+				if ((gameCamera->GetCamPosX() + SCREEN_WIDTH ) > end_map) {
+					gameCamera->SetCamPos(gameCamera->GetCamPosX() - 0.15 * dt, gameCamera->GetCamPosY());
+					playerSmall->IsRender = false;
+				}
+				else {
+					gameCamera->isChangingMap = false;
+					playerSmall->IsRender = true;
+				}
 			}
 			else {
-				gameCamera->isChangingMap = false;
-				player->IsRender = true;
+				if (gameCamera->GetCamPosX()  < start_map) {
+					gameCamera->SetCamPos(gameCamera->GetCamPosX() + 0.15 * dt, gameCamera->GetCamPosY());
+					playerSmall->IsRender = false;
+				}
+				else {
+					gameCamera->isChangingMap = false;
+					playerSmall->IsRender = true;
+				}
 			}
 		}
 	}
@@ -466,6 +569,11 @@ void PlayScene::ChangeScene() {
 		Game::GetInstance()->SwitchScene(player->scene_id);
 		player->ChangeScene();
 		player->IsChangeScene = false;
+	}
+	if (playerSmall->IsChangeScene) {
+		Game::GetInstance()->SwitchScene(playerSmall->scene_id);
+		playerSmall->ChangeScene();
+		playerSmall->IsChangeScene = false;
 	}
 	if (playerBig->IsChangeScene) {
 		Game::GetInstance()->SwitchScene(playerBig->scene_gate);

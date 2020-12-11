@@ -127,7 +127,7 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> coE
 						if (e->ny == 1) y += dy;
 						if (e->ny == -1) {
 							ChangeAnimation(new PlayerStandingState());
-							
+
 						}
 					}
 				}
@@ -153,12 +153,27 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> coE
 				}
 				if (dynamic_cast<Portal*>(e->obj))
 				{
-					//if (e->nx != 0) x += dx;
 					Portal* p = dynamic_cast<Portal*>(e->obj);
 					IsTouchPortal = true;
+					IsChangeScene = true;
+					old_scene_id = scene_id;
 					scene_id = p->scene_id;
-					Game::GetInstance()->SwitchScene(p->GetSceneId());
-					ChangeScene();
+
+					if ((scene_id == 1) || (scene_id == 4)) {
+						Camera::GetInstance()->isChangingMap = false;
+					}
+					else {
+						Camera::GetInstance()->isChangingMap = true;
+						//IsRender = false;
+					}
+					ChangeAnimation(new PlayerStandingState());
+				}
+			
+
+				else if (dynamic_cast<Stair*>(e->obj))
+				{
+					if (e->nx != 0) x += dx;
+					Stair* p = dynamic_cast<Stair*>(e->obj);
 				}
 
 				if (dynamic_cast<Stair*>(e->obj))
@@ -225,48 +240,106 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> coE
 }
 
 void Jason::ChangeScene() {
-
 	if (IsTouchPortal && Allow[JASON]) {
-		switch (scene_id) {
-		case 2:
-			ChangeAnimation(new PlayerStandingState());
-			IsTouchPortal = false;
-			if (nx > 0) {
-				SetPosition(80, 1165);
-			}
-			if (nx < 0) {
-				SetPosition(560, 1165);
-			}
-			break;
+		switch (scene_id)
+		{
 		case 1:
 			ChangeAnimation(new PlayerStandingState());
-			IsTouchPortal = false;
-			if (nx > 0) {
-				SetPosition(123 * BIT, 1165);
+			//SetSpeed(0, 0);
+			if (old_scene_id == 0) {
+				nx = 1;
+				SetPosition(x, y);
 			}
-			break;
-		case 3:
-			// change scene from scene 2 to scene 1
-			if (x >= 560 && nx > 0) {
-				ChangeAnimation(new PlayerStandingState());
-				IsTouchPortal = false;
-			}
-			else if (x <= 432 && nx < 0) {
-				ChangeAnimation(new PlayerStandingState());
-				IsTouchPortal = false;
+			else if (old_scene_id == 2) {
+				nx = -1;
+				SetPosition(122 * BIT, 72.6 * BIT);
 			}
 			break;
 		case 4:
-			if (x >= 1088 && nx > 0) {
-				ChangeAnimation(new PlayerStandingState());
-				IsTouchPortal = false;
+			ChangeAnimation(new PlayerStandingState());
+			SetSpeed(0, 0);
+			if (old_scene_id == 5) {
+				nx = 1;
+				SetPosition(4 * BIT, 6.6 * BIT);
 			}
-			else if (x <= 960 && nx < 0) {
-				ChangeAnimation(new PlayerStandingState());
-				IsTouchPortal = false;
+			else if (old_scene_id == 3) {
+				nx = 1;
+				SetPosition(4 * BIT, 54.6 * BIT);
 			}
 			break;
+		case 2:
+			//Set
+			if (old_scene_id == 1)
+			{
+				ChangeAnimation(new PlayerStandingState());
+				SetPosition(4 * BIT, 72.6 * BIT);
+			}
+			if (old_scene_id == 3) {
+				ChangeAnimation(new PlayerStandingState());
+				nx = -1;
+				SetPosition(28 * BIT, 8.6 * BIT);
+
+			}
+			else if (old_scene_id == 5) {
+				nx = -1;
+				SetPosition(27 * BIT, 72 * BIT);
+			}
+			break;
+		case 3:
+			if (old_scene_id == 2) {
+				nx = 1;
+				SetPosition(36 * BIT, 8 * BIT);
+			}
+			else if (old_scene_id == 4) {
+				nx = -1;
+				SetPosition(59 * BIT, 8 * BIT);
+			}
+			break;
+		case 5:
+			if (old_scene_id == 6) {
+				nx = -1;
+				SetPosition(58 * BIT, 24 * BIT);
+			}
+			else if (old_scene_id == 4) {
+				nx = -1;
+				SetPosition(59 * BIT, 88 * BIT);
+			}
+			else if (old_scene_id == 9) {
+				nx = -1;
+				SetPosition(59 * BIT, 56 * BIT);
+			}
+			break;
+		case 6:
+			if (old_scene_id == 5) {
+				nx = 1;
+				SetPosition(68 * BIT, 24 * BIT);
+			}
+			else if (old_scene_id == 7) {
+				nx = -1;
+				SetPosition(91 * BIT, 24 * BIT);
+			}
+			break;
+		case 7:
+			if (old_scene_id == 6) {
+				nx = 1;
+				SetPosition(100 * BIT, 24 * BIT);
+			}
+			else if (old_scene_id == 8) {
+				nx = 1;
+				SetPosition(100 * BIT, 40 * BIT);
+			}
+			break;
+		case 8:
+			nx = -1;
+			SetPosition(91 * BIT, 40 * BIT);
+			break;
+		case 9:
+			nx = 1;
+			SetPosition(68 * BIT, 56 * BIT);
+			break;
+
 		}
+		IsTouchPortal = false;
 	}
 }
 
@@ -399,7 +472,10 @@ void Jason::OnKeyUp(int key) {
 
 void Jason::Reset(float x, float y) {
 	nx = 1;
+	IsRender = true;
+	IsDead = false;
 	SetPosition(x, y);
+	ChangeScene();
 	ChangeAnimation(new PlayerStandingState());
 	SetSpeed(0, 0);
 }

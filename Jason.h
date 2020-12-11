@@ -14,6 +14,8 @@ public:
 	int health = 8;
 	int scene_id;
 	int scene_gate;
+	int old_scene_id;
+	bool IsChangeScene;
 	static Jason* _instance;
 	int stateBoundingBox;
 	PlayerState* state;

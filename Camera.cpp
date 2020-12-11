@@ -212,8 +212,12 @@ void Camera::Update()
 			SetCamPos(cx, cy);
 		}
 	}
-	if (player->IsUp && player->scene_id != 1 && player->scene_id != 3) {
-		cy += 16;
+
+	// add to fix camera 
+	if (player->IsUp && player->scene_id != 1 && player->scene_id != 3 && player->scene_id != 6 && player->scene_id != 9 ) {
+		if (!(((player->scene_id == 2) && (cy == HIGHEST_SECOND_SCENE)) || ((player->scene_id == 7) && (cy == HIGHEST_7TH_SCENE)))) {
+			cy += 16;
+		}
 	}
 
 	SetCamPos(cx, cy);

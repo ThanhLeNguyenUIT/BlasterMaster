@@ -1,34 +1,58 @@
-﻿  PlayScene.cpp
+﻿  Canon.cpp
   C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
 D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(235,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(261,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(242,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(272,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
 D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
 C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(89,20): warning C4018: '<': signed/unsigned mismatch
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(121,21): warning C4018: '<': signed/unsigned mismatch
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(135,21): warning C4018: '<': signed/unsigned mismatch
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(164,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(165,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(196,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(197,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(212,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(213,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(382,20): warning C4018: '<': signed/unsigned mismatch
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(415,20): warning C4018: '<': signed/unsigned mismatch
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(448,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(456,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(464,68): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(472,68): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(505,20): warning C4018: '<': signed/unsigned mismatch
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(508,20): warning C4018: '<': signed/unsigned mismatch
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(511,20): warning C4018: '<': signed/unsigned mismatch
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(514,20): warning C4018: '<': signed/unsigned mismatch
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(517,20): warning C4018: '<': signed/unsigned mismatch
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(520,20): warning C4018: '<': signed/unsigned mismatch
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(530,20): warning C4018: '<': signed/unsigned mismatch
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(532,20): warning C4018: '<': signed/unsigned mismatch
+  Eyeball.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(242,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(272,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+  PlayScene.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(242,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(272,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(94,20): warning C4018: '<': signed/unsigned mismatch
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(126,21): warning C4018: '<': signed/unsigned mismatch
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(140,21): warning C4018: '<': signed/unsigned mismatch
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(169,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(170,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(201,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(202,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(217,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(218,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(399,20): warning C4018: '<': signed/unsigned mismatch
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(432,20): warning C4018: '<': signed/unsigned mismatch
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(465,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(473,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(481,68): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(489,68): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(522,20): warning C4018: '<': signed/unsigned mismatch
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(525,20): warning C4018: '<': signed/unsigned mismatch
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(528,20): warning C4018: '<': signed/unsigned mismatch
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(531,20): warning C4018: '<': signed/unsigned mismatch
 D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(534,20): warning C4018: '<': signed/unsigned mismatch
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(536,20): warning C4018: '<': signed/unsigned mismatch
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(538,20): warning C4018: '<': signed/unsigned mismatch
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(537,20): warning C4018: '<': signed/unsigned mismatch
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(547,20): warning C4018: '<': signed/unsigned mismatch
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(549,20): warning C4018: '<': signed/unsigned mismatch
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(551,20): warning C4018: '<': signed/unsigned mismatch
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(553,20): warning C4018: '<': signed/unsigned mismatch
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\PlayScene.cpp(555,20): warning C4018: '<': signed/unsigned mismatch
+  Teleporters.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(183,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(242,2): warning C4091: 'extern ': ignored on left of 'STATEOBJECT' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\GlobalConfig.h(272,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Teleporters.cpp(57,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Teleporters.cpp(57,18): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Generating Code...
   BlasterMaster.vcxproj -> D:\Game\BlasterMaster\BlasterMaster\Debug\BlasterMaster.exe

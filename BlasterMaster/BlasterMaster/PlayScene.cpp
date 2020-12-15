@@ -9,6 +9,9 @@
 #include "PlayerStandingState.h"
 #include "PlayerMovingState.h"
 #include "BulletMovingState.h"
+#include "Canon.h"
+#include "Teleporters.h"
+#include "Eyeball.h"
 
 using namespace std;
 
@@ -28,6 +31,8 @@ PlayScene::PlayScene(int id, LPCWSTR filePath) :
 #define SCENE_SECTION_SWITCH_SCENE		8
 
 #define MAX_SCENE_LINE 1024
+
+#define SPEED 0.25
 
 //void PlayScene::LoadBaseObjects() {
 //	if (car == NULL) {
@@ -226,6 +231,18 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 		break;
 	case FLOATER:
 		enemy = new CFloater(x, y);
+		listEnemies.push_back(enemy);
+		break;
+	case CANON:
+		enemy = new Canon();
+		listEnemies.push_back(enemy);
+		break;
+	case TELEPORTER:
+		enemy = new Teleporter();
+		listEnemies.push_back(enemy);
+		break;
+	case EYEBALL:
+		enemy = new Eyeball();
 		listEnemies.push_back(enemy);
 		break;
 	default:
@@ -444,8 +461,8 @@ void PlayScene::Update(DWORD dt) {
 	else {
 		if (playerBig->nx < 0) {
 
-			if ((gameCamera->camPosX + SCREEN_WIDTH / 2) > playerBig->x) {
-				gameCamera->SetCamPos(gameCamera->camPosX - 0.25 * dt, gameCamera->camPosY);
+			if ((gameCamera->camPosX + SCREEN_WIDTH / 1.3555555555) > playerBig->x) {
+				gameCamera->SetCamPos(gameCamera->camPosX - SPEED * dt, gameCamera->camPosY);
 			}
 			else {
 				Camera::GetInstance()->isInTransition = false;
@@ -453,7 +470,7 @@ void PlayScene::Update(DWORD dt) {
 		}
 		else if (playerBig->nx > 0) {
 			if ((gameCamera->camPosX + SCREEN_WIDTH / 8) < playerBig->x) {
-				gameCamera->SetCamPos(gameCamera->camPosX + 0.25 * dt, gameCamera->camPosY);
+				gameCamera->SetCamPos(gameCamera->camPosX + SPEED * dt, gameCamera->camPosY);
 			}
 			else {
 				gameCamera->isInTransition = false;
@@ -461,7 +478,7 @@ void PlayScene::Update(DWORD dt) {
 		}
 		else if (playerBig->ny < 0) {
 			if ((gameCamera->camPosY + SCREEN_HEIGHT / 8) < playerBig->y) {
-				gameCamera->SetCamPos(gameCamera->camPosX, gameCamera->camPosY + 0.25 * dt);
+				gameCamera->SetCamPos(gameCamera->camPosX, gameCamera->camPosY + SPEED * dt);
 			}
 			else {
 				Camera::GetInstance()->isInTransition = false;
@@ -469,7 +486,7 @@ void PlayScene::Update(DWORD dt) {
 		}
 		else if (playerBig->ny > 0) {
 			if ((gameCamera->camPosY + SCREEN_HEIGHT / 2) > playerBig->y) {
-				gameCamera->SetCamPos(gameCamera->camPosX, gameCamera->camPosY - 0.25 * dt);
+				gameCamera->SetCamPos(gameCamera->camPosX, gameCamera->camPosY - SPEED * dt);
 				//DebugOut(L"%d  ", gameCamera->camPosX);
 			}
 			else {

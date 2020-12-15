@@ -123,7 +123,7 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 						x += dx;
 						IsTouchGate = true;
 						sceneHistory.push_back(scene_gate);
-						if (scene_gate == 5 || scene_gate == 9 || scene_gate == 8) { 
+						if (scene_gate == 5 || scene_gate == 9 || scene_gate == 8) {
 							IsChangeScene = true;
 							Camera::GetInstance()->isInTransition = false;
 						}
@@ -202,7 +202,7 @@ void BigJason::ChangeScene(int scene_gate) {
 				SetPosition(18 * BIT, 119 * BIT);
 			}
 			else if (sceneHistory.rbegin()[1] == 13) {
-				SetPosition(28 * BIT, 119 * BIT);
+				SetPosition(29 * BIT, 119 * BIT);
 			}
 			else if (sceneHistory.rbegin()[1] == 21) {
 				SetPosition(23 * BIT, 114 * BIT);
@@ -210,7 +210,7 @@ void BigJason::ChangeScene(int scene_gate) {
 			break;
 		case 13:
 			if (sceneHistory.rbegin()[1] == 12) {
-				SetPosition(35 * BIT, 119 * BIT);
+				SetPosition(34 * BIT, 119 * BIT);
 			}
 			else if (sceneHistory.rbegin()[1] == 14) {
 				SetPosition(44 * BIT, 119 * BIT);
@@ -545,7 +545,6 @@ void BigJason::OnKeyUp(int key) {
 		}
 		break;
 	}
-
 }
 
 void BigJason::Reset(float x, float y) {

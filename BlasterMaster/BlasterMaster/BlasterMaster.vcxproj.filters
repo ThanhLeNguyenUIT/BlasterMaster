@@ -205,6 +205,15 @@
     <ClCompile Include="Floater.cpp">
       <Filter>Source Files\GameObjects\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Canon.cpp">
+      <Filter>Source Files\GameObjects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Eyeball.cpp">
+      <Filter>Source Files\GameObjects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Teleporters.cpp">
+      <Filter>Source Files\GameObjects\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprites.h">
@@ -343,6 +352,15 @@
       <Filter>Source Files\GameObjects\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Floater.h">
+      <Filter>Source Files\GameObjects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Canon.h">
+      <Filter>Source Files\GameObjects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Eyeball.h">
+      <Filter>Source Files\GameObjects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Teleporters.h">
       <Filter>Source Files\GameObjects\Enemy</Filter>
     </ClInclude>
   </ItemGroup>

@@ -51,13 +51,25 @@ void Teleporter::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 			ChangeAnimation(TELEPORTERS_MOVE);
 			nx = 1;
 			//DebugOut(L"TELEPORTER MOVE");
-			DWORD timenow1 = GetTickCount();
-			int n = rand() % (93 - 82 + 1) + 82;
-			int m = rand() % (69 - 63 + 1) + 63;
-			SetPosition(n * BIT, m * BIT);	
+			//DWORD timenow1 = GetTickCount();
+			int a = rand() % 4;
+			int prevA = a;
+			while (prevA == a) {
+				a = rand() % 4;
+			}
+			DebugOut(L"%d\n", a);
+			int distance = (rand() % 50) + 1;
+			a == 0 ? SetPosition(startX + distance, startY + distance)
+				: (a == 1)
+				? SetPosition(startX - distance, startY + distance)
+				: (a == 2) 
+				? SetPosition(startX + distance, startY - distance)
+				: SetPosition(startX - distance, startY - distance);
+			/*int n = rand() % (93 - 82 + 1) + 82;
+			int m = rand() % (69 - 63 + 1) + 63;*/
+			/*SetPosition(n * BIT, m * BIT);	*/
 		}
 	}
-
 	//}
 	//else {
 	//	float min_tx, min_ty, nx = 0, ny;

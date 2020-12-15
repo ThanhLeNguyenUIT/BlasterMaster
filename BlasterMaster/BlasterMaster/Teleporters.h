@@ -15,8 +15,14 @@ class Teleporter : public Enemy
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 
 public:
+	int startX;
+	int startY;
 	bool isRender = false;
-	Teleporter() {
+	Teleporter(int x, int y) {
+		this->x = x;
+		this->y = y;
+		this->startX = x;
+		this->startY = y;
 		typeTeleporter = TELEPORTER;
 		ChangeAnimation(TELEPORTERS_IDLE);
 	}

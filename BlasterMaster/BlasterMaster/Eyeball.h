@@ -18,7 +18,9 @@ class Eyeball : public Enemy
 
 public:
 	bool isRender = false;
-	Eyeball() {
+	Eyeball(int x, int y) {
+		this->x = x;
+		this->y = y;
 		typeEyeball = EYEBALL;
 		ChangeAnimation(EYEBALL_MOVE);
 		nx = 1;

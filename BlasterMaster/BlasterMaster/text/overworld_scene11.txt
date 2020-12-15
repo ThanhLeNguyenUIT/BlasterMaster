@@ -2,7 +2,7 @@
 50	Textures/overworld.png	255	255	255
 [OBJECTS]
 23	90	63
-24	83	64
+24	24	119
 25	83	62
 #BRICK
 6	80	46	40	4

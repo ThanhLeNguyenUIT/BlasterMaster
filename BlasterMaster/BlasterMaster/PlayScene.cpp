@@ -234,15 +234,15 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 		listEnemies.push_back(enemy);
 		break;
 	case CANON:
-		enemy = new Canon();
+		enemy = new Canon(x, y);
 		listEnemies.push_back(enemy);
 		break;
 	case TELEPORTER:
-		enemy = new Teleporter();
+		enemy = new Teleporter(x, y);
 		listEnemies.push_back(enemy);
 		break;
 	case EYEBALL:
-		enemy = new Eyeball();
+		enemy = new Eyeball(x, y);
 		listEnemies.push_back(enemy);
 		break;
 	default:

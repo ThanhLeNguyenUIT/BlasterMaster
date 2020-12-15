@@ -17,7 +17,9 @@ class Canon : public Enemy
 
 public:
 	bool isRender = false;
-	Canon() {
+	Canon(int x, int y) {
+		this->x = x;
+		this->y = y;
 		typeCanon = CANON;
 		ChangeAnimation(CANON_MOVING);
 	}

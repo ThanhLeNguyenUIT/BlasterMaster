@@ -20,10 +20,10 @@ Sprites* Sprites::GetInstance()
 	return __instance;
 }
 
-void Sprite::Draw(float x, float y, int alpha)
+void Sprite::Draw(float x, float y, int alpha, D3DCOLOR color)
 {
 	Game* game = Game::GetInstance();
-	game->Draw(x, y, texture, left, top, right, bottom, alpha);
+	game->Draw(x, y, texture, left, top, right, bottom, alpha, color);
 }
 
 void Sprite::Draw(float x, float y, float left, float top, float right, float bottom) { 

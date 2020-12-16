@@ -44,21 +44,31 @@ public:
 	int nx;
 	int ny;
 
+	float width;
+	float height;
+	int scene_id;
+	int health = 0;
+	DWORD timeStartCol = TIME_DEFAULT;
 	int state;
 	DWORD dt;
 	TYPE type;
 	STATENAME StateName;
+	STATEOBJECT StateObject;
 	LPANIMATION_SET animation_set;
-	
-	float widthBBox, heightBBox;
+
 	bool isDead = false;
 public:
 	RECT GetRect();
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
+	void SetSize(float width = 0, float height = 0) { this->width = width, this->height = height; }
+	void SetSceneId(int id = 0) { this->scene_id = id; }
+	void SetType(TYPE type) { this->type = type; }
+	TYPE GetType() { return this->type; }
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 	void GetPosition(float& x, float& y) { x = this->x; y = this->y; }
 	void GetSpeed(float& vx, float& vy) { vx = this->vx; vy = this->vy; }
-
+	STATEOBJECT GetStateObject() { return this->StateObject; }
+	STATENAME GetStateName() { return this->StateName; }
 	float GetX() { return this->x; }
 	float GetY() { return this->y; }
 	int GetState() { return this->state; }

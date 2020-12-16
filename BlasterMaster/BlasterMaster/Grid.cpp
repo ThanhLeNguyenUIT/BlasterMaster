@@ -13,6 +13,7 @@ Grid* Grid::GetInstance()
 	return __instance;
 }
 
+
 Area Grid::FindCell(RECT e) {
 	return {
 		int(max(0		, e.top / SizeCell)),
@@ -23,6 +24,7 @@ Area Grid::FindCell(RECT e) {
 }
 
 void Grid::Init() {
+
 	Cells.clear();
 	for (int y = 0; y < rows; ++y)
 	{
@@ -35,34 +37,70 @@ void Grid::Init() {
 	}
 }
 
-void Grid::LoadObject(LPGAMEOBJECT& obj, float x, float y) {
+void Grid::LoadObject(LPGAMEOBJECT& obj, float x, float y, float width, float height, int scene_id) {
 	RECT e;
 	e.top = y;
 	e.left = x;
 	e.right = x + obj->GetRect().right;
 	e.bottom = y + obj->GetRect().bottom;
+	
 	auto area = FindCell(e);
 	switch (obj->type){
 	case BRICK:
 	case DAMAGE_BRICK:
-
+	case STAIR:
+	case GATE:
+	case PORTAL:
+		for (int r = area.TopCell; r <= area.BottomCell; r++)
+			for (int c = area.LeftCell; c <= area.RightCell; c++)
+			{
+				Cells[r][c]->staticObjects.insert(obj);
+			}
+		obj->SetPosition(x, y);
+		break;
+	case WORM:
+	case FLOATER:
+	case JUMPER:
+	case INSECT:
+	case DOME:
+	case ORB1:
+	case ORB2:
+	case SKULL:
+	case MINE:
+		for (int r = area.TopCell; r <= area.BottomCell; r++)
+			for (int c = area.LeftCell; c <= area.RightCell; c++)
+			{
+				Cells[r][c]->movingObjects.insert(obj);
+			}
+		obj->SetPosition(x, y);
+		break;
+	default:
+		DebugOut(L"[ERR] Invalid object TYPE: %d\n", obj->type);
 		break;
 	}
 }
 
 void Grid::RenderCell() {
-	LPDIRECT3DTEXTURE9 bbox = Textures::GetInstance()->Get(ID_TEX_BBOX);
 
+	LPDIRECT3DTEXTURE9 bbox = Textures::GetInstance()->Get(ID_TEX_BBOX);
 	auto area = FindCell(camera->GetBound());
-	for (int r = area.TopCell; r < area.BottomCell; r++) {
-		for (int c = area.LeftCell; c < area.RightCell; c++) {
-			RECT rect;
-			rect.left = Cells[r][c]->posX *	SizeCell;
-			rect.top = Cells[r][c]->posY * SizeCell;
-			rect.right = rect.left + SizeCell;
-			rect.bottom = rect.top + SizeCell;
-			alpha = alpha == 20 ? 40 : 20;
-			Game::GetInstance()->Draw(rect.left, rect.top, bbox, rect.left, rect.top, rect.right, rect.bottom, alpha);
+
+	RECT rect;
+
+	for (int r = area.TopCell; r <= area.BottomCell; r++)
+	{
+		for (int c = area.LeftCell; c <= area.RightCell; c++)
+		{
+			LPD3DXSPRITE spriteHandler = Game::GetInstance()->GetSpriteHandler();
+			
+			SetRect(&rect,
+				Cells[r][c]->posX * SizeCell,
+				Cells[r][c]->posY * SizeCell,
+				Cells[r][c]->posX * SizeCell + SizeCell,
+				Cells[r][c]->posY * SizeCell + SizeCell);
+			Game::GetInstance()->Draw(rect.left, rect.top, bbox, rect.left, rect.top, rect.left + SizeCell, rect.top + 1, 150);
+			Game::GetInstance()->Draw(rect.left, rect.top, bbox, rect.left, rect.top, rect.left + 1, rect.top + SizeCell, 150);
+
 		}
 	}
 }
@@ -79,34 +117,56 @@ void RemoveObjectIf(unordered_set<T>& container, Pred  del)
 
 void Grid::UpdateCell() {
 	auto area = FindCell(camera->GetBound());
-	unordered_set<LPGAMEOBJECT> UpdateObjects;
+	unordered_set<LPGAMEOBJECT> shouldBeUpdatedObjects;
 	bool isDeadObject = false;
 	LOOP(r, area.TopCell, area.BottomCell)
-		LOOP(c, area.LeftCell, area.RightCell) {
+		LOOP(c, area.LeftCell, area.RightCell)
+	{
 		if (Cells[r][c]->movingObjects.size() == 0) continue;
-		RemoveObjectIf(Cells[r][c]->staticObjects, [&](auto& obj) {
-			RECT e;
-			e.left = obj->x;
-			e.top = obj->y;
-			e.right = obj->x + obj->widthBBox;
-			e.bottom = obj->y + obj->heightBBox;
-			
-			auto objArea = FindCell(e);
-			if (obj->isDead) {
-				return true;
-				isDeadObject = true;
-			}
-			return false;
+		RemoveObjectIf(Cells[r][c]->movingObjects, [&](auto& obj)
+			{
+				RECT e;
+				e.left = obj->x;
+				e.top = obj->y;
+				e.right = obj->x + obj->width;
+				e.bottom = obj->y + obj->height;
+				auto objArea = FindCell(e);
+				if (obj->isDead) isDeadObject = true;
+				if (objArea.TopCell != r || objArea.RightCell != c)
+				{
+					shouldBeUpdatedObjects.emplace(obj);
+					return true;
+				}
+				return false;
 			});
 	}
-
-	for (auto& obj : UpdateObjects)
+	LOOP(r, area.TopCell, area.BottomCell)
+		LOOP(c, area.LeftCell, area.RightCell)
+	{
+		if (Cells[r][c]->staticObjects.size() == 0) continue;
+		RemoveObjectIf(Cells[r][c]->staticObjects, [&](auto& obj)
+			{
+				RECT e;
+				e.left = obj->x;
+				e.top = obj->y;
+				e.right = obj->x + obj->width;
+				e.bottom = obj->y + obj->height;
+				auto objArea = FindCell(e);
+				if (obj->isDead)
+				{
+					return true;
+					isDeadObject = true;
+				}
+				return false;
+			});
+	}
+	for (auto& obj : shouldBeUpdatedObjects)
 	{
 		RECT e;
 		e.left = obj->x;
 		e.top = obj->y;
-		e.right = obj->x + obj->widthBBox;
-		e.bottom = obj->y + obj->heightBBox;
+		e.right = obj->x + obj->width;
+		e.bottom = obj->y + obj->height;
 		auto objArea = FindCell(e);
 		LOOP(r, objArea.TopCell, objArea.BottomCell)
 			LOOP(c, objArea.LeftCell, objArea.RightCell)
@@ -122,8 +182,8 @@ void Grid::AddStaticObject(LPGAMEOBJECT obj, float x, float y) {
 	RECT e;
 	e.left = x;
 	e.top = y;
-	e.right = x + obj->widthBBox;
-	e.bottom = y + obj->heightBBox;
+	e.right = x + obj->width;
+	e.bottom = y + obj->height;
 	auto area = FindCell(e);
 	LOOP(r, area.TopCell, area.BottomCell)
 		LOOP(c, area.LeftCell, area.RightCell)
@@ -135,8 +195,8 @@ void Grid::AddMovingObject(LPGAMEOBJECT obj) {
 	RECT e;
 	e.left = obj->x;
 	e.top = obj->y;
-	e.right = obj->x + obj->widthBBox;
-	e.bottom = obj->y + obj->heightBBox;
+	e.right = obj->x + obj->width;
+	e.bottom = obj->y + obj->height;
 
 	auto area = FindCell(e);
 	LOOP(r, area.TopCell, area.BottomCell)
@@ -156,16 +216,15 @@ void Grid::RemoveDeadObject() {
 void Grid::CalcObjectInViewPort() {
 	auto area = FindCell(camera->GetBound());
 
-	unordered_set<GameObject*> result;
-	unordered_set<GameObject*> resultItem;
+	unordered_set<GameObject*> resultStaticObject;
+	unordered_set<GameObject*> resultMovingObject;
 
 	for (int r = area.TopCell; r <= area.BottomCell; r++) {
 		for (int c = area.LeftCell; c <= area.RightCell; c++) {
-			result.insert(Cells[r][c]->staticObjects.begin(), Cells[r][c]->staticObjects.end());
-			result.insert(Cells[r][c]->movingObjects.begin(), Cells[r][c]->movingObjects.end());
-			resultItem.insert(Cells[r][c]->staticObjects.begin(), Cells[r][c]->staticObjects.end());
+			resultStaticObject.insert(Cells[r][c]->staticObjects.begin(), Cells[r][c]->staticObjects.end());
+			resultMovingObject.insert(Cells[r][c]->movingObjects.begin(), Cells[r][c]->movingObjects.end());
 		}
 	}
-	ObjectHolder = { resultItem.begin(), resultItem.end() };
-	CurObjectInViewPort = { result.begin(), result.end() };
+	CurStaticObjectInViewPort = { resultStaticObject.begin(), resultStaticObject.end() };
+	CurMovingObjectInViewPort = { resultMovingObject.begin(), resultMovingObject.end() };
 }

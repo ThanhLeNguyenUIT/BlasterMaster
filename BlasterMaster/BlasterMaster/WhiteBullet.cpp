@@ -1,52 +1,40 @@
 #pragma once
-#include "EnemyBullet.h"
+#include "WhiteBullet.h"
 #include "Sophia.h"
 #include "Jason.h"
 #include "BigJason.h"
 #include "Brick.h"
 
 
-EnemyBullet::EnemyBullet() {
+WhiteBullet::WhiteBullet() {
+
+	type = WHITE_BULLET;
+}
+WhiteBullet::~WhiteBullet() {
 
 }
 
-EnemyBullet::~EnemyBullet() {
-
-}
-
-void EnemyBullet::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+void WhiteBullet::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
 	top = y;
-	right = x + BULLET_SMALL_BBOX_WIDTH;
-	bottom = y + BULLET_SMALL_BBOX_HEIGHT;
+	right = x + WHITE_BULLET_BBOX_WIDTH;
+	bottom = y + WHITE_BULLET_BBOX_HEIGHT;
 }
 
-void EnemyBullet::ChangeAnimation(STATEOBJECT StateObject) {
+void WhiteBullet::ChangeAnimation(STATEOBJECT StateObject) {
 	this->StateObject = StateObject;
 	AnimationSets* animation_sets = AnimationSets::GetInstance();
 	LPANIMATION_SET animationSet = animation_sets->Get(type);
 	CurAnimation = animationSet->Get(this->StateObject);
 	switch (StateObject)
 	{
-	case ENEMY_BULLET_SMALL_MOVING:
-		if (x - player->x < 0) {
-			vx = ENEMY_BULLET_MOVING_SPEED;
-			vy = ENEMY_BULLET_MOVING_SPEED;
-		}
-		else {
-			vx = -ENEMY_BULLET_MOVING_SPEED;
-			vy = ENEMY_BULLET_MOVING_SPEED;
-		}
-		break;
-	case MINE_BULLET_JUMPING_RIGHT:
-		vx = MINE_BULLET_MOVING_SPEED;
-		vy = -MINE_BULLET_JUMPING_SPEED;
+	case WHITE_BULLET_MOVING_RIGHT:
+		vx = WHITE_BULLET_MOVING_SPEED;
 		nx = 1;
 		break;
-	case MINE_BULLET_JUMPING_LEFT:
-		vx = -MINE_BULLET_MOVING_SPEED;
-		vy = -MINE_BULLET_JUMPING_SPEED;
+	case WHITE_BULLET_MOVING_LEFT:
+		vx = -WHITE_BULLET_MOVING_SPEED;
 		nx = -1;
 		break;
 	case BULLET_SMALL_HIT:
@@ -59,18 +47,17 @@ void EnemyBullet::ChangeAnimation(STATEOBJECT StateObject) {
 	}
 }
 
-void EnemyBullet::Render() {
+void WhiteBullet::Render() {
 	int alpha = 255;
 	CurAnimation->Render(x, y, alpha);
 	RenderBoundingBox();
 }
 
-void EnemyBullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>* coEnemy) {
+void WhiteBullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>* coEnemy) {
 	GameObject::Update(dt, coObjects);
 
-	if (StateObject != ENEMY_BULLET_SMALL_MOVING && StateObject != BULLET_SMALL_HIT) {
-		vy += ENEMY_BULLET_GRAVITY * dt;
-	}
+	vy += SOPHIA_GRAVITY * dt;
+
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEvents.clear();
@@ -97,14 +84,9 @@ void EnemyBullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
 			if (dynamic_cast<Brick*>(e->obj)) {
-				if (StateObject == MINE_BULLET_JUMPING_LEFT || StateObject == MINE_BULLET_JUMPING_RIGHT) {
-					if (e->nx != 0) x += dx;
-					if (e->ny != 0) y += dy;
-				}
-				else
-				{
-					ChangeAnimation(BULLET_SMALL_HIT);
-				}
+				/*if (e->nx != 0) ChangeAnimation(BULLET_SMALL_HIT);
+				if (e->ny == -1) vy = 0;*/
+				ChangeAnimation(BULLET_SMALL_HIT);
 			}
 		}
 	}

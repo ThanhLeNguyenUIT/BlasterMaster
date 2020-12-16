@@ -51,7 +51,10 @@
     <ClCompile Include="Jumper.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Mine.cpp" />
     <ClCompile Include="Orb1.cpp" />
+    <ClCompile Include="Orb2.cpp" />
+    <ClCompile Include="PlayerBullet.cpp" />
     <ClCompile Include="PlayerClimbingState.cpp" />
     <ClCompile Include="PlayerCrawlingState.cpp" />
     <ClCompile Include="PlayerDeadState.cpp" />
@@ -71,10 +74,12 @@
     <ClCompile Include="Power.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="Skull.cpp" />
     <ClCompile Include="Sophia.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Stair.cpp" />
     <ClCompile Include="Textures.cpp" />
+    <ClCompile Include="WhiteBullet.cpp" />
     <ClCompile Include="Worm.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -103,7 +108,10 @@
     <ClInclude Include="Jumper.h" />
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="Mine.h" />
     <ClInclude Include="Orb1.h" />
+    <ClInclude Include="Orb2.h" />
+    <ClInclude Include="PlayerBullet.h" />
     <ClInclude Include="PlayerClimbingState.h" />
     <ClInclude Include="PlayerCrawlingState.h" />
     <ClInclude Include="PlayerDeadState.h" />
@@ -124,10 +132,12 @@
     <ClInclude Include="Power.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="Skull.h" />
     <ClInclude Include="Sophia.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Stair.h" />
     <ClInclude Include="Textures.h" />
+    <ClInclude Include="WhiteBullet.h" />
     <ClInclude Include="Worm.h" />
   </ItemGroup>
   <ItemGroup>

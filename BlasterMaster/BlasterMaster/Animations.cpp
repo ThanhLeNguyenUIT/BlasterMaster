@@ -21,7 +21,7 @@ void Animation::Add(int spriteId, DWORD time)
 	frames.push_back(frame);
 }
 
-void Animation::Render(float x, float y, int alpha, int idFrame, bool renderOneFrame)
+void Animation::Render(float x, float y, int alpha, int idFrame, bool renderOneFrame, D3DCOLOR color)
 {
 	DWORD now = GetTickCount();
 	if (!renderOneFrame) {
@@ -57,7 +57,7 @@ void Animation::Render(float x, float y, int alpha, int idFrame, bool renderOneF
 		currentFrame = idFrame;
 	}
 	
-	frames[currentFrame]->GetSprite()->Draw(x, y, alpha);
+	frames[currentFrame]->GetSprite()->Draw(x, y, alpha, color);
 }
 
 void Animation::RenderBack(float x, float y, int alpha, int idFrame, bool renderOneFrame) {

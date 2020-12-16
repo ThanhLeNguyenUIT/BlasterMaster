@@ -21,7 +21,11 @@
 #include "Dome.h"
 #include "Jumper.h"
 #include "Insect.h"
-
+#include "Orb2.h"
+#include "Skull.h"
+#include "Mine.h"
+#include "WhiteBullet.h"
+#include "EnemyBullet.h"
 #include "Grid.h"
 #include "GlobalConfig.h"
 
@@ -33,11 +37,10 @@ protected:
 	Jason* jason;
 	Power* power;
 	Camera* gameCamera;
-	vector<Bullet*> bullets;
+	vector<Bullet*> listBullets;
+	vector<EnemyBullet*> listEnemyBullets;
 	vector<LPGAMEOBJECT> listObjects;
 	vector<Enemy*> listEnemies;
-	vector<Portal*> listPortals;
-	vector<Gate*> listGates;
 	vector<Item*> listItems;
 	HUD* hud;
 	//Sophia* sophia;
@@ -53,12 +56,16 @@ protected:
 	//Get stage objects' link and tilemap resources
 	//void _ParseSection_SCENEFILEPATH(string line);
 public:
+
+	vector<LPGAMEOBJECT> HolderObjects;
+	vector<LPGAMEOBJECT> staticObject;
+
 	PlayScene(int id, LPCWSTR filePath);
 	/*void LoadBaseObjects();
 	void LoadBaseTextures();*/
 	virtual void Load();
 	virtual void Update(DWORD dt);
-	void UpdateBullet(DWORD dt, vector<LPGAMEOBJECT> coObjects);
+	void UpdateBullet(DWORD dt);
 	virtual void Render();
 	virtual void Unload();
 	void ChangeScene();

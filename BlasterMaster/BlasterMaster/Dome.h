@@ -1,5 +1,6 @@
 #pragma once
 #include "Enemy.h"
+#include "Sophia.h"
 
 class CDome : public Enemy
 {
@@ -8,10 +9,10 @@ public:
 	bool bottom;
 	bool right;
 	bool left;
+	bool drop;
 	Animation* CurAnimation;
-	CDome(float x = 0.0f, float y = 0.0f);
+	CDome();
 	void ChangeAnimation(STATEOBJECT StateObject);
-	STATEOBJECT GetStateObject() { return this->StateObject; }
 	void SetType(TYPE type) { this->type = type; }
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

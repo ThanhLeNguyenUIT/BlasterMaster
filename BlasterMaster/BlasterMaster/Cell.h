@@ -12,10 +12,6 @@ public:
 	{
 		this->posX = x;
 		this->posY = y;
-		boundingBox.left = x;
-		boundingBox.top = y;
-		boundingBox.right = x + 176;
-		boundingBox.left = y + 176;
 		movingObjects.clear();
 		staticObjects.clear();
 	}

@@ -1,15 +1,18 @@
 #pragma once
 #include "Enemy.h"
 #include "Sophia.h"
+#include "Jason.h"
 
-class CJumper : public Enemy
+
+class COrb2 : public Enemy
 {
 public:
-	bool is;
-	bool isJump;
+	bool isHit = false;
 	Animation* CurAnimation;
-	CJumper();
+	COrb2();
+	STATEOBJECT StateObject;
 	void ChangeAnimation(STATEOBJECT StateObject);
+	STATEOBJECT GetStateObject() { return this->StateObject; }
 	void SetType(TYPE type) { this->type = type; }
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

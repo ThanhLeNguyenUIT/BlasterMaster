@@ -2,26 +2,26 @@
 #pragma once
 #include "GameObject.h"
 #include "PlayerState.h"
-#include "Bullet.h"
+#include "PlayerBullet.h"
 #include "Item.h"
 #include "Enemy.h"
 
 class BigJason : public GameObject
 {
 public:
-	Bullet* bullet;
-	int health = 8;
-	int scene_id;
+	PlayerBullet* bullet;
+	vector<int> sceneHistory = { 11 };
 	int scene_gate;
 	static BigJason* _instance;
 	int stateBoundingBox;
 	PlayerState* state;
 	Animation* CurAnimation;
 	std::unordered_map<TYPE, bool> allow;
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects, vector<Enemy*> coEnemy, vector<Item*> coItem);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects, vector<Enemy*>* coEnemy, vector<Item*>* coItem);
 	virtual void Render();
 	DWORD timeStartAttack = TIME_DEFAULT;
 	DWORD timeDamaged = TIME_DEFAULT;
+	bool IsTouchPortal;
 	bool IsJumping;
 	bool IsOnGround;
 	bool IsMoving;

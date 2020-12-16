@@ -18,7 +18,8 @@ public:
 	int alpha;
 	int SizeCell = 90;
 	vector<vector<Cell*>> Cells;
-	vector<LPGAMEOBJECT> CurObjectInViewPort;
+	vector<LPGAMEOBJECT> CurStaticObjectInViewPort;
+	vector<LPGAMEOBJECT> CurMovingObjectInViewPort;
 	vector<LPGAMEOBJECT> ObjectHolder;
 	void Init();
 	void RenderCell();
@@ -26,13 +27,14 @@ public:
 	Area FindCell(RECT e);
 	void SetCellSize(int SizeCell) { this->SizeCell = SizeCell; }
 	
-	void LoadObject(LPGAMEOBJECT& obj, float x, float y);
+	void LoadObject(LPGAMEOBJECT& obj, float x, float y, float width = 0, float height = 0, int scene_id = 0);
 
 	void AddStaticObject(LPGAMEOBJECT obj, float x, float y);
 	void AddMovingObject(LPGAMEOBJECT obj);
 	void RemoveDeadObject();
 
 	void CalcObjectInViewPort();
-	vector<LPGAMEOBJECT> GetObjectInViewPort() { return CurObjectInViewPort; }
+	vector<LPGAMEOBJECT> GetStaticObjectInViewPort() { return CurStaticObjectInViewPort; }
+	vector<LPGAMEOBJECT> GetMovingObjectInViewPort() { return CurMovingObjectInViewPort; }
 };
 

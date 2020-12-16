@@ -1,18 +1,17 @@
 #include "DamageBrick.h"
 
-DamageBrick::DamageBrick(int boxWidth, int boxHeight) {
-	this->boxWidth = boxWidth;
-	this->boxHeight = boxHeight;
+DamageBrick::DamageBrick() {
+	type = DAMAGE_BRICK;
 }
 
 void DamageBrick::Render() {
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void DamageBrick::GetBoundingBox(float& l, float& t, float& r, float& b) {
 	l = x;
 	t = y;
-	r = x + boxWidth;
-	b = y + boxHeight;
+	r = x + width;
+	b = y + height;
 }
 

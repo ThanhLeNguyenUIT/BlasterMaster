@@ -27,6 +27,7 @@
 Jason* Jason::_instance = NULL;
 
 Jason::Jason() {
+	health = 8;
 	IsUp = false;
 	IsJumping = false;
 	type = JASON;
@@ -36,7 +37,7 @@ Jason::~Jason() {
 
 }
 
-void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> coEnemy, vector<Item*> coItem) {
+void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>* coEnemy, vector<Item*>* coItem) {
 	if (Allow[JASON]) {
 		GameObject::Update(dt);
 
@@ -65,8 +66,8 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> coE
 		}
 		// create bullet when firing
 		if (IsFiring) {
-			bullet = new Bullet();
-			bullet->typeBullet = JASON_BULLET_SMALL;
+			bullet = new PlayerBullet();
+			bullet->type = JASON_BULLET_SMALL;
 			if (nx > 0) {
 				bullet->SetPosition(x + JASON_BBOX_WIDTH / 4, y + JASON_BBOX_HEIGHT / 3);
 				bullet->ChangeAnimation(JASON_BULLET_SMALL_MOVING);
@@ -199,8 +200,8 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> coE
 		// clean up collision events
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 		// Collison with enemy
-		for (int i = 0; i < coEnemy.size(); i++) {
-			if (CollisionWithObject(coEnemy[i])) {
+		for (int i = 0; i < coEnemy->size(); i++) {
+			if (CollisionWithObject(coEnemy->at(i))) {
 				// damage
 				if (timeDamaged == TIME_DEFAULT) {
 					timeDamaged = GetTickCount();
@@ -212,15 +213,13 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> coE
 			}
 		}
 		// Collison with item 
-		for (int i = 0; i < coItem.size(); i++) {
-			if (CollisionWithObject(coItem[i])) {
-				coItem[i]->IsTouch = true;
+		for (int i = 0; i < coItem->size(); i++) {
+			if (CollisionWithObject(coItem->at(i))) {
+				coItem->at(i)->isDead = true;
 				if (health < 8)
 					health = health + 1;
 			}
 		}
-
-
 	}
 }
 
@@ -228,45 +227,102 @@ void Jason::ChangeScene() {
 
 	if (IsTouchPortal && Allow[JASON]) {
 		switch (scene_id) {
-		case 2:
-			ChangeAnimation(new PlayerStandingState());
-			IsTouchPortal = false;
-			if (nx > 0) {
-				SetPosition(80, 1165);
-			}
-			if (nx < 0) {
-				SetPosition(560, 1165);
-			}
-			break;
 		case 1:
 			ChangeAnimation(new PlayerStandingState());
-			IsTouchPortal = false;
-			if (nx > 0) {
-				SetPosition(123 * BIT, 1165);
+			//SetSpeed(0, 0);
+			if (old_scene_id == 0) {
+				nx = 1;
+				SetPosition(x, y);
 			}
-			break;
-		case 3:
-			// change scene from scene 2 to scene 1
-			if (x >= 560 && nx > 0) {
-				ChangeAnimation(new PlayerStandingState());
-				IsTouchPortal = false;
-			}
-			else if (x <= 432 && nx < 0) {
-				ChangeAnimation(new PlayerStandingState());
-				IsTouchPortal = false;
+			else if (old_scene_id == 2) {
+				nx = -1;
+				SetPosition(122 * BIT, 72.6 * BIT);
 			}
 			break;
 		case 4:
-			if (x >= 1088 && nx > 0) {
-				ChangeAnimation(new PlayerStandingState());
-				IsTouchPortal = false;
+			ChangeAnimation(new PlayerStandingState());
+			SetSpeed(0, 0);
+			if (old_scene_id == 5) {
+				nx = 1;
+				SetPosition(4 * BIT, 6.6 * BIT);
 			}
-			else if (x <= 960 && nx < 0) {
-				ChangeAnimation(new PlayerStandingState());
-				IsTouchPortal = false;
+			else if (old_scene_id == 3) {
+				nx = 1;
+				SetPosition(4 * BIT, 54.6 * BIT);
 			}
 			break;
+		case 2:
+			//Set
+			if (old_scene_id == 1)
+			{
+				ChangeAnimation(new PlayerStandingState());
+				SetPosition(4 * BIT, 72.6 * BIT);
+			}
+			if (old_scene_id == 3) {
+				ChangeAnimation(new PlayerStandingState());
+				nx = -1;
+				SetPosition(28 * BIT, 8.6 * BIT);
+
+			}
+			else if (old_scene_id == 5) {
+				nx = -1;
+				SetPosition(27 * BIT, 72 * BIT);
+			}
+			break;
+		case 3:
+			if (old_scene_id == 2) {
+				nx = 1;
+				SetPosition(36 * BIT, 8 * BIT);
+			}
+			else if (old_scene_id == 4) {
+				nx = -1;
+				SetPosition(59 * BIT, 8 * BIT);
+			}
+			break;
+		case 5:
+			if (old_scene_id == 6) {
+				nx = -1;
+				SetPosition(58 * BIT, 24 * BIT);
+			}
+			else if (old_scene_id == 4) {
+				nx = -1;
+				SetPosition(59 * BIT, 88 * BIT);
+			}
+			else if (old_scene_id == 9) {
+				nx = -1;
+				SetPosition(59 * BIT, 56 * BIT);
+			}
+			break;
+		case 6:
+			if (old_scene_id == 5) {
+				nx = 1;
+				SetPosition(68 * BIT, 24 * BIT);
+			}
+			else if (old_scene_id == 7) {
+				nx = -1;
+				SetPosition(91 * BIT, 24 * BIT);
+			}
+			break;
+		case 7:
+			if (old_scene_id == 6) {
+				nx = 1;
+				SetPosition(100 * BIT, 24 * BIT);
+			}
+			else if (old_scene_id == 8) {
+				nx = 1;
+				SetPosition(100 * BIT, 40 * BIT);
+			}
+			break;
+		case 8:
+			nx = -1;
+			SetPosition(91 * BIT, 40 * BIT);
+			break;
+		case 9:
+			nx = 1;
+			SetPosition(68 * BIT, 56 * BIT);
+			break;
 		}
+		IsTouchPortal = false;
 	}
 }
 

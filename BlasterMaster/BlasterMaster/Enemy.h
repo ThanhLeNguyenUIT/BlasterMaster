@@ -4,8 +4,8 @@
 class Enemy : public GameObject
 {
 public:
-	int health = 3;
-	STATEOBJECT StateObject;
+	bool IsFiring = false;
+	int damage;
 	Enemy();
 	~Enemy();
 	virtual void Render() = 0;

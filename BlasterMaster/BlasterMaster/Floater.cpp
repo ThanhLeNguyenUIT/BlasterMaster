@@ -3,15 +3,12 @@
 #include "Portal.h"
 #include "Power.h"
 #include "DamageBrick.h"
-#include "EnemyBullet.h"
 
-CFloater::CFloater(float x, float y)
+CFloater::CFloater()
 {
-	this->x = x;
-	this->y = y;
 	type = FLOATER;
-	widthBBox = FLOATER_BBOX_WIDTH;
-	heightBBox = FLOATER_BBOX_HEIGHT;
+	width = FLOATER_BBOX_WIDTH;
+	height = FLOATER_BBOX_HEIGHT;
 	Reset();
 }
 
@@ -43,7 +40,7 @@ void CFloater::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		CalcPotentialCollisions(coObjects, coEvents);
 	// fire and delete bullet
 	Fire();
-	for (int i = 0; i < listBullets.size(); i++) {
+	/*for (int i = 0; i < listBullets.size(); i++) {
 		listBullets[i]->Update(dt, coObjects);
 	}
 
@@ -53,7 +50,7 @@ void CFloater::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				listBullets.erase(listBullets.begin() + i);
 			}
 		}
-	}
+	}*/
 
 	if (coEvents.size() == 0)
 	{
@@ -70,8 +67,8 @@ void CFloater::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
 		// block every object first!
-		x += min_tx * dx + nx * 0.4f;
-		y += min_ty * dy + ny * 0.4f;
+		x += min_tx * dx + nx * 0.1f;
+		y += min_ty * dy + ny * 0.1f;
 
 		//
 		// Collision logic with other objects
@@ -240,13 +237,8 @@ void CFloater::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CFloater::Render()
 {
 	int alpha = 255;
-	CurAnimation->Render(x, y, alpha);
-
-	for (int i = 0; i < listBullets.size(); i++) {
-		listBullets[i]->Render();
-	}
-	
-	//RenderBoundingBox();
+	CurAnimation->Render(x, y, alpha);	
+	RenderBoundingBox();
 }
 
 void CFloater::ChangeAnimation(STATEOBJECT StateObject) {
@@ -283,10 +275,11 @@ void CFloater::Reset() {
 void CFloater::Fire() {
 	if (timeStartAttack == TIME_DEFAULT) {
 		timeStartAttack = GetTickCount();
+		IsFiring = false;
 	}
 	if (GetTickCount() - timeStartAttack >= 2000 && timeStartAttack!=TIME_DEFAULT) {
 		bullet = new EnemyBullet();
-		bullet->typeBullet = ENEMY_BULLET;
+		bullet->type = ENEMY_BULLET;
 		if (nx > 0) {
 			bullet->SetPosition(x + FLOATER_BBOX_WIDTH / 4, y + FLOATER_BBOX_HEIGHT / 3);
 			bullet->ChangeAnimation(ENEMY_BULLET_SMALL_MOVING);
@@ -295,8 +288,8 @@ void CFloater::Fire() {
 			bullet->SetPosition(x + FLOATER_BBOX_WIDTH / 4, y + FLOATER_BBOX_HEIGHT / 3);
 			bullet->ChangeAnimation(ENEMY_BULLET_SMALL_MOVING);
 		}
-		listBullets.push_back(bullet);
-		timeStartAttack = GetTickCount();
+		IsFiring = true;
+		timeStartAttack = TIME_DEFAULT;
 	}
 }
 

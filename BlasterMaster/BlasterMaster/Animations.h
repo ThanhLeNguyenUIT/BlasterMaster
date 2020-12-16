@@ -37,7 +37,7 @@ public:
 	void Add(int spriteId, DWORD time = 0);
 	int GetCurrentFrame() { return this->currentFrame; } 	
 	void SetCurrentFrame(int currentFrame) { this->currentFrame = currentFrame; }
-	void Render(float x, float y, int alpha = 255, int idFrame = 0, bool renderOneFrame = false);
+	void Render(float x, float y, int alpha = 255, int idFrame = 0, bool renderOneFrame = false, D3DCOLOR color = NULL);
 	void RenderBack(float x, float y, int alpha = 255, int idFrame = 0, bool renderOneFrame = false);
 };
 

@@ -5,13 +5,11 @@
 #include "Camera.h"
 #include "Power.h"
 #include "DamageBrick.h"
-CWorm::CWorm(float x, float y)
+CWorm::CWorm()
 {
-	this->x = x;
-	this->y = y;
 	type = WORM;
-	widthBBox = WORM_BBOX_WIDTH;
-	heightBBox = WORM_BBOX_HEIGHT;
+	width = WORM_BBOX_WIDTH;
+	height = WORM_BBOX_HEIGHT;
 	Reset();
 
 }
@@ -43,7 +41,7 @@ void CWorm::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		else if (Allow[JASON])
 			playerSmall->GetPosition(cx, cy);
 
-		if (isInArea && StateObject != ENEMY_DEAD) {
+		if (StateObject != ENEMY_DEAD) {
 			vy += WORM_GRAVITY * dt;
 			if (x - cx > 0)
 				ChangeAnimation(WORM_STATE_WALKING_LEFT);
@@ -61,15 +59,6 @@ void CWorm::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			CalcPotentialCollisions(coObjects, coEvents);
 
 		// update
-		//kc = sqrt((x - cx) * (x - cx) + (y - cy) * (y - cy));
-		kc1 = SCREEN_WIDTH - (cx - Camera::GetInstance()->GetCamPosX());
-		kc2 = cx - Camera::GetInstance()->GetCamPosX();
-		if (StateObject != ENEMY_DEAD) {
-			if (abs(cx - x) <= kc1 && player->scene_id == 1)
-				isInArea = true;
-			else if (cx - x <= kc2 && player->scene_id == 2)
-				isInArea = true;
-
 			if (coEvents.size() == 0)
 			{
 				x += dx;
@@ -98,22 +87,21 @@ void CWorm::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (dynamic_cast<Brick*>(e->obj)) // if e->obj is Brick
 					{
 						Brick* brick = dynamic_cast<Brick*>(e->obj);
-
+						if (e->nx != 0) vx = 0;
 						if (e->ny != 0) vy = 0;
 					}
-					if (dynamic_cast<Enemy*>(e->obj)) {
-						if (e->nx != 0) x += dx;
-						if (e->ny != 0)y += dy;
+					if (dynamic_cast<DamageBrick*>(e->obj)) {
+						DamageBrick* brick = dynamic_cast<DamageBrick*>(e->obj);
+						if (e->nx != 0) vx = 0;
+						if (e->ny != 0) vy = 0;
 					}
 					if (dynamic_cast<Power*>(e->obj)) {
 						if (e->nx != 0) x += dx;
-						if (e->ny != 0)y += dy;
+						if (e->ny != 0)	y += dy;
 					}
 				}
-			}
-
-			// clean up collision events
 			
+			// clean up collision events
 		}
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	}
@@ -123,7 +111,7 @@ void CWorm::Render()
 {
 	int alpha = 255;
 	CurAnimation->Render(x, y, alpha);
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void CWorm::ChangeAnimation(STATEOBJECT StateObject) {

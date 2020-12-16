@@ -13,7 +13,7 @@
 #include "Orb1.h"
 #include "Worm.h"
 #include "Power.h"
-#include "EnemyBullet.h"
+#include "Enemy.h"
 
 #include "PlayerState.h"
 #include "PlayerFallingState.h"
@@ -27,11 +27,13 @@
 #include "PlayerUpperState.h"
 #include "PlayerDeadState.h"
 
-#include "BulletMovingState.h"
 
 Sophia* Sophia::_instance = NULL;
 
-Sophia::Sophia() :GameObject() {
+Sophia::Sophia(){
+	health = 8;
+	scene_id = 1;
+	old_scene_id = 0;
 	IsUp = false;
 	type = SOPHIA;
 	Allow[SOPHIA] = true;
@@ -42,7 +44,7 @@ Sophia::~Sophia() {
 
 }
 
-void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> coEnemy, vector<Item*> coItem) {
+void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* staticObject, vector<Enemy*>* coEnemy, vector<Item*>* coItem, vector<EnemyBullet*>* coBullet) {
 	// Calculate dx, dy
 	if (Allow[SOPHIA]) {
 	
@@ -59,47 +61,34 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> co
 					count++;
 			}
 		}
-		vector<LPCOLLISIONEVENT> coEvents;
-		vector<LPCOLLISIONEVENT> coEventsResult;
-		coEvents.clear();
+		vector<LPCOLLISIONEVENT> coStaticObjects;
+		vector<LPCOLLISIONEVENT> coStaticObjectsResult;
+		coStaticObjects.clear();
 
 		// turn off collision when die 
-		if(StateName != SOPHIA_DEAD)
-			CalcPotentialCollisions(coObjects, coEvents);
+		if (StateName != SOPHIA_DEAD) {
+			CalcPotentialCollisions(staticObject, coStaticObjects);
+		}
+		
+		Fire();
 
-		// time fire bullet
-		if (GetTickCount() - timeStartAttack >= TIME_FIRING) {
-			timeStartAttack = TIME_DEFAULT;
-			IsFiring = false;
-		}
-		// create bullet when DIK_S
-		if (IsFiring) {
-			bullet = new Bullet();
-			bullet->typeBullet = BULLET_SMALL;
-			if (!IsUp) {
-				if (nx > 0) {
-					bullet->SetPosition(x + SOPHIA_BBOX_WIDTH / 3, y + 7 / SOPHIA_BBOX_HEIGHT);
-					bullet->ChangeAnimation(BULLET_BIG_MOVING_RIGHT);
-				}
-				else {
-					bullet->SetPosition(player->x + SOPHIA_BBOX_WIDTH / 3, player->y + 7 / SOPHIA_BBOX_HEIGHT);
-					bullet->ChangeAnimation(BULLET_BIG_MOVING_LEFT);
-				}
-			}
-			else {
-				if (player->nx != 0) {
-					bullet->SetPosition(player->x + SOPHIA_BBOX_WIDTH / 3, player->y);
-					bullet->ChangeAnimation(BULLET_BIG_MOVING_UP);
-				}
-			}
-		}
 		// change state die if health = 0
 		if (health == 0) {
+			IsDamaged = false;
+			color = NULL;
 			ChangeAnimation(new PlayerDeadState());
 		}
-
+		if (IsDamaged) {
+			if (timeDamaged == TIME_DEFAULT) {
+				timeDamaged = GetTickCount();
+			}
+			if (GetTickCount() - timeDamaged >= 600) {
+				IsDamaged = false;
+				timeDamaged = TIME_DEFAULT;
+			}
+		}
 		// No collision occured, proceed normally
-		if (coEvents.size() == 0)
+		if (coStaticObjects.size() == 0)
 		{
 			x += dx;
 			y += dy;
@@ -108,15 +97,15 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> co
 		{
 			float min_tx, min_ty, nx = 0, ny;
 
-			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+			FilterCollision(coStaticObjects, coStaticObjectsResult, min_tx, min_ty, nx, ny);
 			// block 
 			x += min_tx * dx + nx * 0.1f;
-			y += min_ty * dy + ny * 0.4f;
+			y += min_ty * dy + ny * 0.1f;
 			
 			// Collision logic with Enemies
-			for (UINT i = 0; i < coEventsResult.size(); i++)
+			for (UINT i = 0; i < coStaticObjectsResult.size(); i++)
 			{
-				LPCOLLISIONEVENT e = coEventsResult[i];
+				LPCOLLISIONEVENT e = coStaticObjectsResult[i];
 				if (dynamic_cast<Brick*>(e->obj)) {
 					
 					if (e->nx != 0) vx = 0;
@@ -124,7 +113,7 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> co
 					{
 						if (IsJumping) {
 							vx = 0;
-							RenderOneFrame = true;
+							//RenderOneFrame = true;
 						}
 						vy = 0;
 						IsJumping = false;
@@ -134,7 +123,7 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> co
   						vy = 0;
 					}
 				}
-				else if (dynamic_cast<DamageBrick*>(e->obj)) {
+				if (dynamic_cast<DamageBrick*>(e->obj)) {
 					if (e->nx != 0) vx = 0;
 					if (e->ny != 0)
 					{
@@ -150,7 +139,7 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> co
 						}
 					}
 				}
-				else if (dynamic_cast<Portal*>(e->obj))
+				if (dynamic_cast<Portal*>(e->obj))
 				{
 					Portal* p = dynamic_cast<Portal*>(e->obj);
 					IsTouchPortal = true;
@@ -167,37 +156,82 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*> co
 					}
 					ChangeAnimation(new PlayerStandingState());
 				}
-				else if (dynamic_cast<Stair*>(e->obj))
+				if (dynamic_cast<Stair*>(e->obj))
 				{
 					if (e->nx != 0) x += dx;
 					Stair* p = dynamic_cast<Stair*>(e->obj);
-				}
-
-				
+				}	
 			}
 		}
 		// clean up collision events
-		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+		for (UINT i = 0; i < coStaticObjects.size(); i++) delete coStaticObjects[i];
+
+
 		// Collision with enemy
-		for (int i = 0; i < coEnemy.size(); i++) {
-			if (CollisionWithObject(coEnemy[i])) {
+		for (int i = 0; i < coEnemy->size(); i++) {
+			if (CollisionWithObject(coEnemy->at(i))) {
+
+				if (coEnemy->at(i)->type == ORB2 || coEnemy->at(i)->type == MINE) {
+					coEnemy->at(i)->health = 0;
+				}
+				//isDamaged
+				IsDamaged = true;
 				// damage
 				if (timeDamaged == TIME_DEFAULT) {
 					timeDamaged = GetTickCount();
 				}
 				if (GetTickCount() - timeDamaged >= 600) {
-					//health = health - 1;
-					timeDamaged = GetTickCount();
+					health = health - 1;
+					timeDamaged = TIME_DEFAULT;
 				}
 			}
 		}
+		// Collison with enemy bullet
+		for (int i = 0; i < coBullet->size(); i++) {
+			if (CollisionWithObject(coBullet->at(i))) {
+				if (coBullet->at(i)->GetStateObject() != BULLET_SMALL_HIT) {
+					IsDamaged = true;
+					health = health - 1;
+				}
+				coBullet->at(i)->ChangeAnimation(BULLET_SMALL_HIT);
+			}
+		}
 		// Collison with item 
-		for (int i = 0; i < coItem.size(); i++) {
-			if (CollisionWithObject(coItem[i])) {
-				coItem[i]->IsTouch = true;
-				coItem[i]->isDead = true;
+		for (int i = 0; i < coItem->size(); i++) {
+			if (CollisionWithObject(coItem->at(i))) {
+				coItem->at(i)->isDead = true;
 				if (health < 8)
 					health = health + 1;
+			}
+		}
+
+	}
+}
+
+void Sophia::Fire() {
+	// time fire bullet
+	if (GetTickCount() - timeStartAttack >= TIME_FIRING) {
+		timeStartAttack = TIME_DEFAULT;
+		IsFiring = false;
+	}
+	// create bullet when DIK_S
+	if (IsFiring) {
+		bullet = new PlayerBullet();
+		bullet->type = BULLET_SMALL;
+		if (!IsUp) {
+			if (nx > 0) {
+				bullet->SetPosition(x + SOPHIA_BBOX_WIDTH / 3, y + 7 / SOPHIA_BBOX_HEIGHT);
+				bullet->ChangeAnimation(BULLET_BIG_MOVING_RIGHT);
+			}
+			else {
+				bullet->SetPosition(player->x + SOPHIA_BBOX_WIDTH / 3, player->y + 7 / SOPHIA_BBOX_HEIGHT);
+				bullet->ChangeAnimation(BULLET_BIG_MOVING_LEFT);
+			}
+		}
+		else {
+			if (player->nx != 0) {
+				bullet->SetPosition(player->x + SOPHIA_BBOX_WIDTH / 3, player->y);
+				bullet->ChangeAnimation(BULLET_BIG_MOVING_UP);
 			}
 		}
 	}
@@ -216,7 +250,7 @@ void Sophia::ChangeScene() {
 			}
 			else if (old_scene_id == 2) {
 				nx = -1;
-				SetPosition(122 * BIT, 72.6 * BIT);
+				SetPosition(122.6 * BIT, 72.6 * BIT);
 			}
 			break;
 		case 4:
@@ -224,11 +258,11 @@ void Sophia::ChangeScene() {
 			SetSpeed(0, 0);
 			if (old_scene_id == 5) {
 				player->nx = 1;
-				SetPosition(5 * BIT, 6 * BIT);
+				SetPosition(3.6 * BIT, 6 * BIT);
 			}
 			else if (old_scene_id == 3) {
 				player->nx = 1;
-				SetPosition(5 * BIT, 54 * BIT);
+				SetPosition(3.6 * BIT, 54 * BIT);
 			}
 			break;
 		case 2:
@@ -237,70 +271,70 @@ void Sophia::ChangeScene() {
 			{
 				ChangeAnimation(new PlayerStandingState());
 				SetSpeed(0, 0);
-				SetPosition(4 * BIT, 72.6 * BIT);
+				SetPosition(3.6 * BIT, 72.6 * BIT);
 			}
 			if (old_scene_id == 3) {
 				ChangeAnimation(new PlayerStandingState());
 				nx = -1;
-				SetPosition(26 * BIT, 8 * BIT);
+				SetPosition(27.6 * BIT, 8.6 * BIT);
 
 			}
 			else if (old_scene_id == 5) {
 				player->nx = -1;
-				SetPosition(27 * BIT, 72 * BIT);
+				SetPosition(27.6 * BIT, 72.6 * BIT);
 			}
 			break;
 		case 3:
 			if (old_scene_id == 2) {
 				player->nx = 1;
-				SetPosition(36 * BIT, 8 * BIT);
+				SetPosition(35.6 * BIT, 8.6 * BIT);
 			}
 			else if (old_scene_id == 4) {
 				player->nx = -1;
-				SetPosition(59 * BIT, 8 * BIT);
+				SetPosition(59.6 * BIT, 8.6 * BIT);
 			}
 			break;
 		case 5:
 			if (old_scene_id == 6) {
 				player->nx = -1;
-				SetPosition(58 * BIT, 24 * BIT);
+				SetPosition(59.2 * BIT, 24.6 * BIT);
 			}
 			else if (old_scene_id == 4) {
 				player->nx = -1;
-				SetPosition(59 * BIT, 88 * BIT);
+				SetPosition(59.2 * BIT, 88.6 * BIT);
 			}
 			else if (old_scene_id == 9) {
 				player->nx = -1;
-				SetPosition(59 * BIT, 56 * BIT);
+				SetPosition(59.2 * BIT, 56.6 * BIT);
 			}
 			break;
 		case 6:
 			if (old_scene_id == 5) {
 				nx = 1;
-				SetPosition(68 * BIT, 24 * BIT);
+				SetPosition(67.2 * BIT, 24.6 * BIT);
 			}
 			else if (old_scene_id == 7) {
 				player->nx = -1;
-				SetPosition(91 * BIT, 24 * BIT);
+				SetPosition(91.2 * BIT, 24.6 * BIT);
 			}
 			break;
 		case 7:
 			if (old_scene_id == 6) {
 				nx = 1;
-				SetPosition(100 * BIT, 24 * BIT);
+				SetPosition(99.5 * BIT, 24.6 * BIT);
 			}
 			else if (old_scene_id == 8) {
 				nx = 1;
-				SetPosition(100 * BIT, 40 * BIT);
+				SetPosition(99.5 * BIT, 40.6 * BIT);
 			}
 			break;
 		case 8:
 			nx = -1;
-			SetPosition(91 * BIT, 40 * BIT);
+			SetPosition(91.2 * BIT, 40.6 * BIT);
 			break;
 		case 9:
 			nx = 1;
-			SetPosition(68 * BIT, 56 * BIT);
+			SetPosition(67.2 * BIT, 56.6 * BIT);
 			break;
 
 		}
@@ -341,15 +375,38 @@ void Sophia::ChangeAnimation(PlayerState* newState, int stateChange) {
 }
 
 void Sophia::Render() {
+	
 	int alpha = 255;
+	D3DCOLOR colorOrange = D3DCOLOR_ARGB(alpha, 248, 120, 88);
+	D3DCOLOR colorGreen = D3DCOLOR_ARGB(alpha, 0, 157, 64);
+	D3DCOLOR colorGrey = D3DCOLOR_ARGB(alpha, 188, 186, 182);
+
+	if (IsDamaged) {
+		if (countColor == 0) {
+			color = colorOrange;
+			countColor++;
+		}
+		else if (countColor == 1) {
+			color = colorGreen;
+			countColor++;
+		}
+		else {
+			color = colorGrey;
+			countColor = 0;
+		}
+	}
+
 	if (IsRender && !IsTouchPortal) {
 		if (!RenderBack) {
-			CurAnimation->Render(x, y, alpha, idFrame, RenderOneFrame);
+			if(!IsDamaged)
+				CurAnimation->Render(x, y, alpha, idFrame, RenderOneFrame);
+			else 
+				CurAnimation->Render(x, y, alpha, idFrame, RenderOneFrame, color);
 		}
 		else {
 			CurAnimation->RenderBack(x, y, alpha, idFrame, RenderOneFrame);
 		}
-		RenderBoundingBox();
+		//RenderBoundingBox();
 	}
 }
 
@@ -442,7 +499,6 @@ void Sophia::OnKeyDown(int key) {
 		nx = 1;
 		ChangeAnimation(new PlayerStandingState());
 		SetSpeed(0, 0);
-		DebugOut(L"scene_id:%d", player->scene_id);
 		if (player->scene_id != 1) {
 			Game::GetInstance()->SwitchScene(1);
 			player->scene_id = 1;

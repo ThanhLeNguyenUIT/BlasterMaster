@@ -1,13 +1,11 @@
 #include "Jumper.h"
 #include "Brick.h"
 
-CJumper::CJumper(float x, float y)
+CJumper::CJumper()
 {
-	this->x = x;
-	this->y = y;
 	type = JUMPER;
-	widthBBox = JUMPER_BBOX_WIDTH;
-	heightBBox = JUMPER_BBOX_HEIGHT;
+	width = JUMPER_BBOX_WIDTH;
+	height = JUMPER_BBOX_HEIGHT;
 	Reset();
 }
 
@@ -82,7 +80,7 @@ void CJumper::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				ChangeAnimation(JUMPER_STATE_WALKING_LEFT);
 			}
 		}
-		if (isJump == true)
+	/*	if (isJump == true)
 		{
 			if (nx > 0 && is == true)
 			{
@@ -94,7 +92,7 @@ void CJumper::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				is = false;
 				ChangeAnimation(JUMPER_STATE_JUMP_LEFT);
 			}
-		}
+		}*/
 	}
 	else
 	{
@@ -129,8 +127,16 @@ void CJumper::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (e->ny < 0)
 				{
 					is = true;
+					isJump = false;
 				}
-
+				if (e->nx > 0)
+				{
+					ChangeAnimation(JUMPER_STATE_WALKING_RIGHT);
+				}
+				if (e->nx < 0)
+				{
+					ChangeAnimation(JUMPER_STATE_WALKING_LEFT);
+				}
 			}
 		}
 	}

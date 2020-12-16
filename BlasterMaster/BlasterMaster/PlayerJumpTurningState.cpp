@@ -9,13 +9,21 @@ PlayerJumpTurningState::PlayerJumpTurningState() {
 		player->nx = -1;
 		player->vx = -SOPHIA_MOVING_SPEED;
 		player->RenderBack = false;
+		DebugOut(L"id1: %d", player->idFrame);
 		player->StateName = static_cast<STATENAME>(player->idFrame + 22);
+		if (player->StateName > 25) {
+			player->StateName = static_cast<STATENAME>(player->StateName - 4);
+		}
 	}
 	else {
 		player->nx = 1;
 		player->vx = SOPHIA_MOVING_SPEED;
 		player->RenderBack = true;
+		DebugOut(L"id2: %d", player->idFrame);
 		player->StateName = static_cast<STATENAME>(25 - player->idFrame);
+		if (player->StateName < 22) {
+			player->StateName = static_cast<STATENAME>(player->StateName + 4);
+		}
 	}
 
 	player->stateBoundingBox = SOPHIA_BOUNDING_BOX;

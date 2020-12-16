@@ -10,9 +10,8 @@ public:
 	bool isWalking;
 	bool isInArea = false;
 	Animation* CurAnimation;
-	CWorm(float x = 0.0f, float y = 0.0f);
+	CWorm();
 	void ChangeAnimation(STATEOBJECT StateObject);
-	STATEOBJECT GetStateObject() { return this->StateObject; }
 	void SetType(TYPE type) { this->type = type; }
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

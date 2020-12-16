@@ -1,11 +1,9 @@
 #include "Insect.h"
-CInsect::CInsect(float x, float y)
+CInsect::CInsect()
 {
-	this->x = x;
-	this->y = y;
 	type = INSECT;
-	widthBBox = INSECT_BBOX_WIDTH;
-	heightBBox = INSECT_BBOX_HEIGHT;
+	width = INSECT_BBOX_WIDTH;
+	height = INSECT_BBOX_HEIGHT;
 	Reset();
 }
 
@@ -33,52 +31,33 @@ void CInsect::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (StateObject != ENEMY_DEAD)
 		CalcPotentialCollisions(coObjects, coEvents);
 
-	double kc = sqrt((this->x - player->x) * (this->x - player->x) + (this->y - player->y) * (this->y - player->y));
 
-	if (kc <= 120)
+	DWORD timenow = GetTickCount();
+
+	if ((timenow - dt) % 400 == 0)
 	{
-		isWalk = true;
+		if (nx > 0 && this->StateObject != INSECT_STATE_JUMP_RIGHT)
+		{
+			ChangeAnimation(INSECT_STATE_JUMP_RIGHT);
+		}
+		else if (nx < 0 && this->StateObject != INSECT_STATE_JUMP_LEFT)
+		{
+			ChangeAnimation(INSECT_STATE_JUMP_LEFT);
+		}
+
 	}
-	if (kc >= 200 && isWalk == true)
+	else if ((timenow - dt) % 500 == 0 && nx > 0)
 	{
-		isWalk = false;
+		ChangeAnimation(INSECT_STATE_WALKING_RIGHT);
 	}
-	if (isWalk == true)
+	else if ((timenow - dt) % 500 == 0 && nx < 0)
 	{
-		DWORD timenow = GetTickCount();
+		ChangeAnimation(INSECT_STATE_WALKING_LEFT);
+	}
 
-		if ((timenow - dt) % 1200 == 0)
-		{
-			if (nx > 0)
-			{
-				ChangeAnimation(INSECT_STATE_JUMP_LEFT);
-			}
-			else if (nx < 0)
-			{
-				ChangeAnimation(INSECT_STATE_JUMP_RIGHT);
-			}
-		}
-		else if ((timenow - dt) % 400 == 0)
-		{
-			if (nx > 0 && this->StateObject != INSECT_STATE_JUMP_RIGHT)
-			{
-				ChangeAnimation(INSECT_STATE_JUMP_RIGHT);
-			}
-			else if (nx < 0 && this->StateObject != INSECT_STATE_JUMP_LEFT)
-			{
-				ChangeAnimation(INSECT_STATE_JUMP_LEFT);
-			}
-
-		}
-		else if (nx > 0)
-		{
-			ChangeAnimation(INSECT_STATE_WALKING_RIGHT);
-		}
-		else if (nx < 0)
-		{
-			ChangeAnimation(INSECT_STATE_WALKING_LEFT);
-		}
-
+	if ((timenow - dt) % 1200 == 0)
+	{
+		nx = -nx;
 	}
 
 	if (coEvents.size() == 0)
@@ -95,9 +74,17 @@ void CInsect::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		// TODO: This is a very ugly designed function!!!!
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
+		// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
+		//if (rdx != 0 && rdx!=dx)
+		//	x += nx*abs(rdx); 
+
 		// block every object first!
-		x += min_tx * dx + nx * 0.4f;
-		y += min_ty * dy + ny * 0.4f;
+		x += min_tx * dx + nx * 0.14f;
+		y += min_ty * dy + ny * 0.14f;
+
+		/*if (nx != 0) vx = 0;
+		if (ny != 0) vy = 0;*/
+
 
 		//
 		// Collision logic with other objects
@@ -105,7 +92,41 @@ void CInsect::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (dynamic_cast<Brick*>(e->obj)) // if e->obj is Brick
+			{
+				Brick* brick = dynamic_cast<Brick*>(e->obj);
+				if (e->ny < 0)
+				{
+					if (vx > 0)
+					{
+						ChangeAnimation(INSECT_STATE_JUMP_RIGHT);
+					}
+					else if (vx < 0)
+					{
+						ChangeAnimation(INSECT_STATE_JUMP_LEFT);
+					}
 
+				}
+				if (e->ny > 0)
+				{
+					if (vx > 0)
+					{
+						ChangeAnimation(INSECT_STATE_WALKING_RIGHT);
+					}
+					else if (vx < 0)
+					{
+						ChangeAnimation(INSECT_STATE_WALKING_LEFT);
+					}
+				}
+				if (e->nx > 0)
+				{
+					ChangeAnimation(INSECT_STATE_WALKING_RIGHT);
+				}
+				if (e->nx < 0)
+				{
+					ChangeAnimation(INSECT_STATE_WALKING_LEFT);
+				}
+			}
 		}
 	}
 

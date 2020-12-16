@@ -181,73 +181,91 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 	// General object setup
 
 	GameObject* obj = NULL;
-	Enemy* enemy = NULL;
-
+	GameObject* enemy = NULL;
+	GameObject* item = NULL;
 	AnimationSets* animation_sets = AnimationSets::GetInstance();
 
 	switch (type) {
 	case BRICK: 
 		width = (int)atoi(tokens[3].c_str()) * BIT;
 		height = (int)atoi(tokens[4].c_str()) * BIT;
-		obj = new Brick(width, height);
+		obj = new Brick();
 		obj->SetPosition(x, y);
-		listObjects.push_back(obj);
+		obj->SetSize(width, height);
+		grid->LoadObject(obj, x, y);
 		break;
 	case DAMAGE_BRICK:
 		width = (int)atoi(tokens[3].c_str()) * BIT;
 		height = (int)atoi(tokens[4].c_str()) * BIT;
-		obj = new DamageBrick(width, height);
+		obj = new DamageBrick();
 		obj->SetPosition(x, y);
-		listObjects.push_back(obj);
+		obj->SetSize(width, height);
+		grid->LoadObject(obj, x, y);
 		break;
-	case PORTAL:	
-	{
-		float r = atof(tokens[3].c_str()) *BIT;
-		float b = atof(tokens[4].c_str()) *BIT;
-		int scene_id = atoi(tokens[5].c_str());
-		Portal* portal = new Portal(x, y, r, b, scene_id);
-		listPortals.push_back(portal);
-	}
-	break;
 	case STAIR:
 		width = (int)atoi(tokens[3].c_str()) * BIT;
 		height = (int)atoi(tokens[4].c_str()) * BIT;
-		obj = new Stair(width, height);
-		obj->SetPosition(x, y);
-		listObjects.push_back(obj);
+		obj = new Stair();
+		obj->SetSize(width, height);
+		grid->LoadObject(obj, x, y);
 		break;
+	case PORTAL:
+	{
+		float width = atof(tokens[3].c_str()) * BIT;
+		float height = atof(tokens[4].c_str()) * BIT;
+		int scene_id = atoi(tokens[5].c_str());
+		obj = new Portal();
+		obj->SetSceneId(scene_id);
+		obj->SetSize(width, height);
+		grid->LoadObject(obj, x, y);
+		break;
+	}
 	case GATE:
-		{
-			float r = atof(tokens[3].c_str()) * BIT;
-			float b = atof(tokens[4].c_str()) * BIT;
-			int scene_id = atoi(tokens[5].c_str());
-			Gate* gate = new Gate(x, y, r, b, scene_id);
-			listGates.push_back(gate);
-		}
+	{
+		float width = atof(tokens[3].c_str()) * BIT;
+		float height = atof(tokens[4].c_str()) * BIT;
+		int scene_id = atoi(tokens[5].c_str());
+		obj = new Gate();
+		obj->SetSceneId(scene_id);
+		obj->SetSize(width, height);
+		grid->LoadObject(obj, x, y);
 		break;
+	}
 	case ORB1:
-		enemy = new COrb1(x,y);
-		listEnemies.push_back(enemy);
+		enemy = new COrb1();
+		grid->LoadObject(enemy, x, y);
 		break;
 	case WORM:
-		enemy = new CWorm(x, y);
-		listEnemies.push_back(enemy);
+		enemy = new CWorm();
+		grid->LoadObject(enemy, x, y);
 		break;
 	case FLOATER:
-		enemy = new CFloater(x, y);
-		listEnemies.push_back(enemy);
+		enemy = new CFloater();
+		grid->LoadObject(enemy, x, y);
 		break;
 	case DOME:
-		enemy = new CDome(x, y);
-		listEnemies.push_back(enemy);
+		enemy = new CDome();
+		grid->LoadObject(enemy, x, y);
 		break;
 	case JUMPER:
-		enemy = new CJumper(x, y);
-		listEnemies.push_back(enemy);
+		enemy = new CJumper();
+		grid->LoadObject(enemy, x, y);
 		break;
 	case INSECT:
-		enemy = new CInsect(x, y);
-		listEnemies.push_back(enemy);
+		enemy = new CInsect();
+		grid->LoadObject(enemy, x, y);
+		break;
+	case ORB2:
+		enemy = new COrb2();
+		grid->LoadObject(enemy, x, y);
+		break;
+	case SKULL:
+		enemy = new CSkull();
+		grid->LoadObject(enemy, x, y);
+		break;
+	case MINE:
+		enemy = new CMine();
+		grid->LoadObject(enemy, x, y);
 		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
@@ -319,94 +337,76 @@ void PlayScene::Load() {
 }
 
 void PlayScene::Update(DWORD dt) {
-	vector<LPGAMEOBJECT> coObjects;
-	coObjects.clear();
-	for (size_t i = 0; i < listObjects.size(); i++) {
-		coObjects.push_back(listObjects[i]);
-	}
-	for (size_t i = 0; i < listPortals.size(); i++) {
-		coObjects.push_back(listPortals[i]);
-	}
-	for (size_t i = 0; i < listGates.size(); i++) {
-		coObjects.push_back(listGates[i]);
-	}
-	for (size_t i = 0; i < listObjects.size(); i++)
+
+	listEnemies.clear();
+	listItems.clear();
+	listObjects.clear();
+
+	grid->UpdateCell();
+	grid->CalcObjectInViewPort();
+
+	for (auto& obj : grid->GetStaticObjectInViewPort())
 	{
-		listObjects[i]->Update(dt, &coObjects);
-	}
-	for (size_t i = 0; i < listEnemies.size(); i++)
-	{
-		listEnemies[i]->Update(dt, &coObjects);
-	}
-	for (size_t i = 0; i < listItems.size(); i++)
-	{
-		listItems[i]->Update(dt, &coObjects);
+		listObjects.push_back(obj);
 	}
 
-	player->Update(dt, &coObjects, listEnemies, listItems); 
-	playerSmall->Update(dt, &coObjects, listEnemies, listItems);
-	playerBig->Update(dt, &coObjects, listEnemies, listItems);
+	for (auto& obj : grid->GetMovingObjectInViewPort())
+	{
+		switch (obj->type) {
+		case ORB1:
+		case WORM:
+		case FLOATER:
+		case DOME:
+		case JUMPER:
+		case INSECT:
+		case ORB2:
+		case MINE:
+		case SKULL:
+			listEnemies.push_back(static_cast<Enemy*>(obj));
+			break;
+		case ITEM:
+			listItems.push_back(static_cast<Item*>(obj));
+			break;
+		}
+	}
+
+	// Update player
+	player->Update(dt, &listObjects, &listEnemies, &listItems, &listEnemyBullets);
+	playerSmall->Update(dt, &listObjects, &listEnemies, &listItems);
+	playerBig->Update(dt, &listObjects, &listEnemies, &listItems);
+	// Update item and enemy
+	for (size_t i = 0; i < listEnemies.size(); i++) {
+		listEnemies[i]->Update(dt, &listObjects);
+		if (listEnemies[i]->GetType() == FLOATER && listEnemies[i]->IsFiring == true) {
+			CFloater* floater = static_cast<CFloater*>(listEnemies[i]);
+			listEnemyBullets.push_back(floater->bullet);
+		}
+	}
+	for (size_t i = 0; i < listItems.size(); i++) {
+		listItems[i]->Update(dt, &listObjects);
+	}
+#pragma region MyRegion
 	// create bullet
 	// SOPHIA
 	if (player->IsFiring && GetTickCount() - player->timeStartAttack >= 180) {
-		if (bullets.size() < 3) {
-			bullets.push_back(player->bullet);
+		if (listBullets.size() < 3) {
+			listBullets.push_back(player->bullet);
 		}
 	}
 	// JASON
 	if (playerSmall->IsFiring && GetTickCount() - playerSmall->timeStartAttack >= 180) {
-		if (bullets.size() < 3) {
-			bullets.push_back(playerSmall->bullet);
+		if (listBullets.size() < 3) {
+			listBullets.push_back(playerSmall->bullet);
 		}
 	}
 	//BIG JASON
 	if (playerBig->IsFiring && GetTickCount() - playerBig->timeStartAttack >= 180) {
-		if (bullets.size() < 3) {
-			bullets.push_back(playerBig->bullet);
+		if (listBullets.size() < 3) {
+			listBullets.push_back(playerBig->bullet);
 		}
 	}
 	// update bullet
-	for (int i = 0; i < bullets.size(); i++) {
-		if (Allow[SOPHIA]) {
-			if (bullets[i]->GetX() - player->x >= SCREEN_WIDTH -(player->x - Camera::GetInstance()->GetCamPosX()) || player->x - bullets[i]->GetX() >= player->x - Camera::GetInstance()->GetCamPosX()) {
-				bullets.erase(bullets.begin() + i);
-			}
-			else if (bullets[i]->GetY() <= Camera::GetInstance()->GetCamPosY()) {
-				bullets.erase(bullets.begin() + i);
-			}
-			else if (bullets[i]->GetStateObject() == BULLET_SMALL_HIT) {
-				if (GetTickCount() - bullets[i]->timeStartCol >= BULLET_TIME_EXPLOSIVE && bullets[i]->timeStartCol != TIME_DEFAULT) {
-					bullets.erase(bullets.begin() + i);
-				}
-			}
-		}
-		else if (Allow[JASON]) {
-			if (bullets[i]->GetX() - playerSmall->x >= SCREEN_WIDTH - (playerSmall->x - Camera::GetInstance()->GetCamPosX()) || playerSmall->x - bullets[i]->GetX() >= playerSmall->x - Camera::GetInstance()->GetCamPosX()) {
-				bullets.erase(bullets.begin() + i);
-			}
-			else if (bullets[i]->GetStateObject() == BULLET_SMALL_HIT) {
-				if (GetTickCount() - bullets[i]->timeStartCol >= BULLET_TIME_EXPLOSIVE && bullets[i]->timeStartCol != TIME_DEFAULT) {
-					bullets.erase(bullets.begin() + i);
-				}
-			}
-		}
-		else if (Allow[BIG_JASON]) {
-			if (bullets[i]->GetX() - playerBig->x >= SCREEN_WIDTH - (playerBig->x - Camera::GetInstance()->GetCamPosX()) || playerBig->x - bullets[i]->GetX() >= playerBig->x - Camera::GetInstance()->GetCamPosX()) {
-				bullets.erase(bullets.begin() + i);
-			}
-			else if (bullets[i]->GetY() <= Camera::GetInstance()->GetCamPosY() || bullets[i]->GetY() >= Camera::GetInstance()->GetCamPosY() + SCREEN_HEIGHT) {
-				bullets.erase(bullets.begin() + i);
-			}
-			else if (bullets[i]->GetStateObject() == BIG_JASON_BULLET_HIT) {
-				if (GetTickCount() - bullets[i]->timeStartCol >= BULLET_TIME_EXPLOSIVE && bullets[i]->timeStartCol != TIME_DEFAULT) {
-					bullets.erase(bullets.begin() + i);
-				}
-			}
-		}
-	}
-	for (int i = 0; i < bullets.size(); i++) {
-		bullets[i]->Update(dt, &coObjects, listEnemies);
-	}
+	UpdateBullet(dt);
 	// delete enemy
 	for (size_t i = 0; i < listEnemies.size(); i++)
 	{
@@ -414,7 +414,25 @@ void PlayScene::Update(DWORD dt) {
 			if (randomItem()) {
 				power = new Power();
 				power->SetPosition(listEnemies[i]->x, listEnemies[i]->y);
-				listItems.push_back(power);
+				grid->AddMovingObject(power);
+			}
+			if (listEnemies[i]->type == MINE) {
+				EnemyBullet* bullet1 = new EnemyBullet();
+				bullet1->type = MINE_BULLET;
+				bullet1->ChangeAnimation(MINE_BULLET_JUMPING_LEFT);
+				bullet1->SetPosition(listEnemies[i]->x, listEnemies[i]->y);
+				EnemyBullet* bullet2 = new EnemyBullet();
+				bullet2->type = MINE_BULLET;
+				bullet2->ChangeAnimation(MINE_BULLET_JUMPING_LEFT);
+				bullet2->SetPosition(listEnemies[i]->x + MINE_BBOX_WIDTH / 3 , listEnemies[i]->y + MINE_BBOX_HEIGHT /3 );
+				EnemyBullet* bullet3 = new EnemyBullet();
+				bullet3->type = MINE_BULLET;
+				bullet3->ChangeAnimation(MINE_BULLET_JUMPING_RIGHT);
+				bullet3->SetPosition(listEnemies[i]->x + MINE_BBOX_WIDTH / 3, listEnemies[i]->y + MINE_BBOX_HEIGHT / 3);
+				listEnemyBullets.push_back(bullet1);
+				listEnemyBullets.push_back(bullet2);
+				listEnemyBullets.push_back(bullet3);
+
 			}
 			listEnemies.erase(listEnemies.begin() + i);
 		}
@@ -422,43 +440,236 @@ void PlayScene::Update(DWORD dt) {
 	//delete Item
 	for (size_t i = 0; i < listItems.size(); i++)
 	{
-		if (listItems[i]->IsTouch == true) {
+		if (listItems[i]->isDead == true) {
 			listItems.erase(listItems.begin() + i);
 		}
 	}
-	// skip the rest if scene was already unloaded (Car::Update might trigger PlayScene::Unload)
-
+#pragma endregion
 	// Update camera to follow player
-	
 	ChangeScene();
 	
-	if (!gameCamera->isChangingMap) {
+	if (!gameCamera->isChangingMap && !gameCamera->isInTransition) {
 		gameCamera->Update();
 	}
-	else {
-		if (player->nx < 0) {
+	else if (gameCamera->isChangingMap){
+		if (Allow[SOPHIA]) {
+			float start_map = 0, end_map = 0;
+			if (player->scene_id == 1) {
+				start_map = START_FIRST_SCENE;
+				end_map = END_FIRST_SCENE;
+			}
+			if (player->scene_id == 2) {
+				start_map = START_SECOND_SCENE;
+				end_map = END_SECOND_SCENE;
+			}
+			if (player->scene_id == 3) {
+				start_map = START_3RD_SCENE;
+				end_map = END_3RD_SCENE;
+			}
+			if (player->scene_id == 4) {
+				start_map = START_4TH_SCENE;
+				end_map = END_4TH_SCENE;
+			}
+			if (player->scene_id == 5) {
+				start_map = START_5TH_SCENE;
+				end_map = END_5TH_SCENE;
+			}
+			if (player->scene_id == 6) {
+				start_map = START_6TH_SCENE;
+				end_map = END_6TH_SCENE;
+			}
+			if (player->scene_id == 7) {
+				start_map = START_7TH_SCENE;
+				end_map = END_7TH_SCENE;
+			}
+			if (player->scene_id == 8) {
+				start_map = START_8TH_SCENE;
+				end_map = END_8TH_SCENE;
+			}
+			if (player->scene_id == 9) {
+				start_map = START_9TH_SCENE;
+				end_map = END_9TH_SCENE;
+			}
+			if (player->nx < 0) {
 
-			if ((gameCamera->GetCamPosX() + SCREEN_WIDTH / 2) > player->x) {
-				gameCamera->SetCamPos(gameCamera->GetCamPosX() - 0.2 * dt, gameCamera->GetCamPosY());
-				player->IsRender = false;
+				if ((gameCamera->GetCamPosX() + SCREEN_WIDTH) > end_map) {
+					gameCamera->SetCamPos(gameCamera->GetCamPosX() - 0.15 * dt, gameCamera->GetCamPosY());
+					player->IsRender = false;
+				}
+				else {
+					gameCamera->isChangingMap = false;
+					player->IsRender = true;
+				}
 			}
 			else {
-				gameCamera->isChangingMap = false;
-				player->IsRender = true;
+				if (gameCamera->GetCamPosX() < start_map) {
+					gameCamera->SetCamPos(gameCamera->GetCamPosX() + 0.15 * dt, gameCamera->GetCamPosY());
+					player->IsRender = false;
+				}
+				else {
+					gameCamera->isChangingMap = false;
+					player->IsRender = true;
+				}
 			}
 		}
-		else {
-			if ((gameCamera->GetCamPosX() + SCREEN_WIDTH / 2) < player->x) {
-				gameCamera->SetCamPos(gameCamera->GetCamPosX() + 0.3 * dt, gameCamera->GetCamPosY());
-				player->IsRender = false;
+		else if (Allow[JASON]) {
+			float start_map = 0, end_map = 0;
+			if (playerSmall->scene_id == 1) {
+				start_map = START_FIRST_SCENE;
+				end_map = END_FIRST_SCENE;
+			}
+			if (playerSmall->scene_id == 2) {
+				start_map = START_SECOND_SCENE;
+				end_map = END_SECOND_SCENE;
+			}
+			if (playerSmall->scene_id == 3) {
+				start_map = START_3RD_SCENE;
+				end_map = END_3RD_SCENE;
+			}
+			if (playerSmall->scene_id == 4) {
+				start_map = START_4TH_SCENE;
+				end_map = END_4TH_SCENE;
+			}
+			if (playerSmall->scene_id == 5) {
+				start_map = START_5TH_SCENE;
+				end_map = END_5TH_SCENE;
+			}
+			if (playerSmall->scene_id == 6) {
+				start_map = START_6TH_SCENE;
+				end_map = END_6TH_SCENE;
+			}
+			if (playerSmall->scene_id == 7) {
+				start_map = START_7TH_SCENE;
+				end_map = END_7TH_SCENE;
+			}
+			if (playerSmall->scene_id == 8) {
+				start_map = START_8TH_SCENE;
+				end_map = END_8TH_SCENE;
+			}
+			if (playerSmall->scene_id == 9) {
+				start_map = START_9TH_SCENE;
+				end_map = END_9TH_SCENE;
+			}
+
+			if (playerSmall->nx < 0) {
+				if ((gameCamera->GetCamPosX() + SCREEN_WIDTH) > end_map) {
+					gameCamera->SetCamPos(gameCamera->GetCamPosX() - 0.15 * dt, gameCamera->GetCamPosY());
+					playerSmall->IsRender = false;
+				}
+				else {
+					gameCamera->isChangingMap = false;
+					playerSmall->IsRender = true;
+				}
 			}
 			else {
-				gameCamera->isChangingMap = false;
-				player->IsRender = true;
+				if (gameCamera->GetCamPosX() < start_map) {
+					gameCamera->SetCamPos(gameCamera->GetCamPosX() + 0.15 * dt, gameCamera->GetCamPosY());
+					playerSmall->IsRender = false;
+				}
+				else {
+					gameCamera->isChangingMap = false;
+					playerSmall->IsRender = true;
+				}
+			}
+		}
+	}
+	else if (gameCamera->isInTransition) {
+		if (playerBig->nx < 0) {
+
+			if ((gameCamera->camPosX + SCREEN_WIDTH / 2) > playerBig->x) {
+				gameCamera->SetCamPos(gameCamera->camPosX - 0.25 * dt, gameCamera->camPosY);
+			}
+			else {
+				Camera::GetInstance()->isInTransition = false;
+			}
+		}
+		else if (playerBig->nx > 0) {
+			if ((gameCamera->camPosX + SCREEN_WIDTH / 8) < playerBig->x) {
+				gameCamera->SetCamPos(gameCamera->camPosX + 0.25 * dt, gameCamera->camPosY);
+			}
+			else {
+				gameCamera->isInTransition = false;
+			}
+		}
+		else if (playerBig->ny < 0) {
+			if ((gameCamera->camPosY + SCREEN_HEIGHT / 8) < playerBig->y) {
+				gameCamera->SetCamPos(gameCamera->camPosX, gameCamera->camPosY + 0.25 * dt);
+			}
+			else {
+				Camera::GetInstance()->isInTransition = false;
+			}
+		}
+		else if (playerBig->ny > 0) {
+			if ((gameCamera->camPosY + SCREEN_HEIGHT / 2) > playerBig->y) {
+				gameCamera->SetCamPos(gameCamera->camPosX, gameCamera->camPosY - 0.25 * dt);
+			}
+			else {
+				Camera::GetInstance()->isInTransition = false;
 			}
 		}
 	}
 	hud->Update();
+}
+
+
+void PlayScene::UpdateBullet(DWORD dt) {
+	for (int i = 0; i < listBullets.size(); i++) {
+		if (Allow[SOPHIA]) {
+			if (listBullets[i]->GetX() - player->x >= SCREEN_WIDTH - (player->x - Camera::GetInstance()->GetCamPosX()) || player->x - listBullets[i]->GetX() >= player->x - Camera::GetInstance()->GetCamPosX()) {
+				listBullets.erase(listBullets.begin() + i);
+			}
+			else if (listBullets[i]->GetY() <= Camera::GetInstance()->GetCamPosY()) {
+				listBullets.erase(listBullets.begin() + i);
+			}
+			else if (listBullets[i]->GetStateObject() == BULLET_SMALL_HIT) {
+				if (GetTickCount() - listBullets[i]->timeStartCol >= BULLET_TIME_EXPLOSIVE && listBullets[i]->timeStartCol != TIME_DEFAULT) {
+					listBullets.erase(listBullets.begin() + i);
+				}
+			}
+		}
+		else if (Allow[JASON]) {
+			if (listBullets[i]->GetX() - playerSmall->x >= SCREEN_WIDTH - (playerSmall->x - Camera::GetInstance()->GetCamPosX()) || playerSmall->x - listBullets[i]->GetX() >= playerSmall->x - Camera::GetInstance()->GetCamPosX()) {
+				listBullets.erase(listBullets.begin() + i);
+			}
+			else if (listBullets[i]->GetStateObject() == BULLET_SMALL_HIT) {
+				if (GetTickCount() - listBullets[i]->timeStartCol >= BULLET_TIME_EXPLOSIVE && listBullets[i]->timeStartCol != TIME_DEFAULT) {
+					listBullets.erase(listBullets.begin() + i);
+				}
+			}
+		}
+		else if (Allow[BIG_JASON]) {
+			if (listBullets[i]->GetX() - playerBig->x >= SCREEN_WIDTH - (playerBig->x - Camera::GetInstance()->GetCamPosX()) || playerBig->x - listBullets[i]->GetX() >= playerBig->x - Camera::GetInstance()->GetCamPosX()) {
+				listBullets.erase(listBullets.begin() + i);
+			}
+			else if (listBullets[i]->GetY() <= Camera::GetInstance()->GetCamPosY() || listBullets[i]->GetY() >= Camera::GetInstance()->GetCamPosY() + SCREEN_HEIGHT) {
+				listBullets.erase(listBullets.begin() + i);
+			}
+			else if (listBullets[i]->GetStateObject() == BIG_JASON_BULLET_HIT) {
+				if (GetTickCount() - listBullets[i]->timeStartCol >= BULLET_TIME_EXPLOSIVE && listBullets[i]->timeStartCol != TIME_DEFAULT) {
+					listBullets.erase(listBullets.begin() + i);
+				}
+			}
+		}
+	}
+	for (int i = 0; i < listBullets.size(); i++) {
+		listBullets[i]->Update(dt, &listObjects, &listEnemies);
+	}
+
+	for (int i = 0; i < listEnemyBullets.size(); i++) {
+		listEnemyBullets[i]->Update(dt, &listObjects);
+	}
+	for (int i = 0; i < listEnemyBullets.size(); i++) {
+		if (listEnemyBullets[i]->GetStateObject() == BULLET_SMALL_HIT) {
+			if (GetTickCount() - listEnemyBullets[i]->timeStartCol >= BULLET_TIME_EXPLOSIVE && listEnemyBullets[i]->timeStartCol != TIME_DEFAULT) {
+				listEnemyBullets.erase(listEnemyBullets.begin() + i);
+			}
+		}
+	}
+	for (int i = 0; i < listEnemyBullets.size(); i++) {
+		if (listEnemyBullets[i]->y > camera->camPosY + SCREEN_HEIGHT) {
+			listEnemyBullets.erase(listEnemyBullets.begin() + i);
+		}
+	}
 }
 
 void PlayScene::ChangeScene() {
@@ -467,16 +678,26 @@ void PlayScene::ChangeScene() {
 		player->ChangeScene();
 		player->IsChangeScene = false;
 	}
+	if (playerSmall->IsChangeScene) {
+		Game::GetInstance()->SwitchScene(playerSmall->scene_id);
+		playerSmall->ChangeScene();
+		playerSmall->IsChangeScene = false;
+	}
 	if (playerBig->IsChangeScene) {
 		Game::GetInstance()->SwitchScene(playerBig->scene_gate);
-		playerBig->ChangeScene(playerBig->scene_gate);
+		playerBig->ChangeScene
+		(playerBig->scene_gate);
 		playerBig->IsChangeScene = false;
 	}
 }
 
 void PlayScene::Render() {
+
 	Map::GetInstance()->Render();
 	grid->RenderCell();
+	player->Render();
+	playerSmall->Render();
+	playerBig->Render();
 
 	for (int i = 0; i < listObjects.size(); i++) {
 		listObjects[i]->Render();
@@ -484,40 +705,39 @@ void PlayScene::Render() {
 	for (int i = 0; i < listEnemies.size(); i++) {
 		listEnemies[i]->Render();
 	}
-	for (int i = 0; i < listPortals.size(); i++) {
-		listPortals[i]->Render();
-	}
-	for (int i = 0; i < listGates.size(); i++) {
-		listGates[i]->Render();
-	}
-	for (int i = 0; i < bullets.size(); i++) {
-		bullets[i]->Render();
-	}
 	for (int i = 0; i < listItems.size(); i++) {
 		listItems[i]->Render();
 	}
-	player->Render();
-	playerSmall->Render();
-	playerBig->Render();
+	for (int i = 0; i < listBullets.size(); i++) {
+		listBullets[i]->Render();
+	}
+	for (int i = 0; i < listEnemyBullets.size(); i++) {
+		listEnemyBullets[i]->Render();
+	}
 	hud->Render();
 }
 
 void PlayScene::Unload() {
-	for (int i = 0; i < listObjects.size(); i++)
-		delete listObjects[i];
-	for (int i = 0; i < listPortals.size(); i++)
-		delete listPortals[i];
-	for (int i = 0; i < listGates.size(); i++)
-		delete listGates[i];
-	for (int i = 0; i < listEnemies.size(); i++)
+	for (int i = 0; i < HolderObjects.size(); i++)
+		delete HolderObjects[i];
+	for (int i = 0; i < listEnemies.size(); i++) {
 		delete listEnemies[i];
-	for (int i = 0; i < listItems.size(); i++)
+	}
+	for (int i = 0; i < listItems.size(); i++) {
 		delete listItems[i];
-	listObjects.clear();
-	listPortals.clear();
-	listGates.clear();
+	}
+	for (int i = 0; i < listBullets.size(); i++) {
+		delete listBullets[i];
+	}
+	for (int i = 0; i < listObjects.size(); i++) {
+		delete listObjects[i];
+	}
+	HolderObjects.clear();
 	listEnemies.clear();
 	listItems.clear();
+	listObjects.clear();
+	grid->GetStaticObjectInViewPort().clear();
+	grid->GetMovingObjectInViewPort().clear();
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
 

@@ -21,7 +21,7 @@ public:
 	int id;		// Sprite ID in the sprite database
 	Sprite(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);
 
-	void Draw(float x, float y, int alpha = 255);
+	void Draw(float x, float y, int alpha = 255, D3DCOLOR color = NULL);
 	void Draw(float x, float y, float left, float top, float right, float bottom);
 };
 

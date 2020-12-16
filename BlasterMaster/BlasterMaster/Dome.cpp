@@ -4,13 +4,11 @@
 #include "Enemy.h"
 #include "Power.h"
 
-CDome::CDome(float x, float y)
+CDome::CDome()
 {
-	this->x = x;
-	this->y = y;
 	type = DOME;
-	widthBBox = DOME_BBOX_WIDTH;
-	heightBBox = DOME_BBOX_HEIGHT;
+	width = DOME_BBOX_WIDTH;
+	height = DOME_BBOX_HEIGHT;
 	Reset();
 }
 
@@ -66,6 +64,7 @@ void CDome::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			right = false;
 			left = true;
 			top = false;
+			drop = false;
 		}
 
 		if (right == true && vx == 0)
@@ -81,7 +80,24 @@ void CDome::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			right = false;
 			left = false;
 			top = true;
+			drop = false;
 
+		}
+		double kcx = this->x - player->x;
+		if (kcx <= 32 && kcx > 0 && bottom == false)
+		{
+			ChangeAnimation(DOME_STATE_DROP);
+
+			bottom = false;
+			top = false;
+			right = false;
+			left = false;
+			drop = true;
+		}
+		if (drop == true)
+		{
+			x += dx;
+			y += dy;
 		}
 	}
 	else
@@ -90,6 +106,7 @@ void CDome::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		top = false;
 		right = false;
 		left = false;
+		//drop = false;
 		float min_tx, min_ty, nx = 0, ny;
 		float rdx = 0;
 		float rdy = 0;
@@ -119,28 +136,53 @@ void CDome::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 
 				Brick* brick = dynamic_cast<Brick*>(e->obj);
-				// flip down
 				if (e->ny > 0)
 				{
 					bottom = false;
 					right = false;
 					left = false;
 					top = true;
+					drop = false;
 					if (this->GetState() != DOME_STATE_WALKING_TOP)
 					{
 						ChangeAnimation(DOME_STATE_WALKING_TOP);
 					}
 				}
-				//flip up
 				else if (e->ny < 0)
 				{
-					bottom = true;
+					//bottom = true;
 					top = false;
 					right = false;
 					left = false;
+					//drop = false;
 					if (this->GetState() != DOME_STATE_WALKING_BOTTOM)
 					{
-						ChangeAnimation(DOME_STATE_WALKING_BOTTOM);
+						if (drop == true)
+						{
+							bottom = false;
+							if (this->x <= player->x)
+							{
+								this->nx = 1;
+								ChangeAnimation(DOME_STATE_FOLLOW_RIGHT);
+							}
+							else
+							{
+								this->nx = -1;
+								ChangeAnimation(DOME_STATE_FOLLOW_LEFT);
+							}
+						}
+						else if (this->x <= player->x)
+						{
+							this->nx = 1;
+							bottom = true;
+							ChangeAnimation(DOME_STATE_WALKING_BOTTOM);
+						}
+						else {
+							this->nx = -1;
+							bottom = true;
+							ChangeAnimation(DOME_STATE_WALKING_BOTTOM);
+						}
+
 					}
 				}
 				else if (e->nx < 0)
@@ -149,8 +191,10 @@ void CDome::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					top = false;
 					right = true;
 					left = false;
+					drop = false;
 					if (this->GetState() != DOME_STATE_WALKING_RIGHT)
 					{
+						//this->SetState(DOME_STATE_WALKING_RIGHT);
 						ChangeAnimation(DOME_STATE_WALKING_RIGHT);
 					}
 				}
@@ -160,30 +204,18 @@ void CDome::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					bottom = false;
 					top = false;
 					right = false;
+					drop = false;
 					if (this->GetState() != DOME_STATE_WALKING_LEFT)
 					{
+						nx = -1;
+						//this->SetState(DOME_STATE_WALKING_LEFT);
 						ChangeAnimation(DOME_STATE_WALKING_LEFT);
 					}
 				}
 
 			}
-
-			if (dynamic_cast<Portal*>(e->obj)) {
-				if (e->nx != 0) x += dx;
-				if (e->ny != 0) y += dy;
-			}
-
-			if (dynamic_cast<Enemy*>(e->obj)) {
-				if (e->nx != 0) x += dx;
-				if (e->ny != 0)	y += dy;
-			}
-			if (dynamic_cast<Power*>(e->obj)) {
-				if (e->nx != 0) x += dx;
-				if (e->ny != 0)	y += dy;
-			}
 		}
 	}
-
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
@@ -192,7 +224,7 @@ void CDome::Render()
 {
 	int alpha = 255;
 	CurAnimation->Render(x, y, alpha);
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void CDome::ChangeAnimation(STATEOBJECT StateObject) {
@@ -206,7 +238,28 @@ void CDome::ChangeAnimation(STATEOBJECT StateObject) {
 		vx = 0;
 		vy = 0;
 		break;
+	case DOME_STATE_DROP:
+		vy = DOME_WALKING_SPEED;
+		vx = 0;
+		break;
 	case DOME_STATE_WALKING_BOTTOM:
+		if (nx == 1)
+		{
+			vx = DOME_WALKING_SPEED;
+			vy = 0;
+			break;
+		}
+		else if (nx == -1)
+		{
+			vx = -DOME_WALKING_SPEED;
+			vy = 0;
+			break;
+		}
+	case DOME_STATE_FOLLOW_RIGHT:
+		vx = DOME_WALKING_SPEED;
+		vy = 0;
+		break;
+	case DOME_STATE_FOLLOW_LEFT:
 		vx = -DOME_WALKING_SPEED;
 		vy = 0;
 		break;
@@ -226,9 +279,13 @@ void CDome::ChangeAnimation(STATEOBJECT StateObject) {
 }
 
 void CDome::Reset() {
-	top = false;
+	nx = 1;
+	top = true;
+	//top = false;
 	right = false;
-	bottom = true;
+	bottom = false;
+	//bottom = false;
 	left = false;
-	ChangeAnimation(DOME_STATE_IDLE);
+	drop = false;
+	ChangeAnimation(DOME_STATE_WALKING_TOP);
 }

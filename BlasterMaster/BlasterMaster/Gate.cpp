@@ -1,13 +1,8 @@
 #include "Gate.h"
 
 
-Gate::Gate(float l, float t, float r, float b, int scene_id)
-{
-	this->scene_id = scene_id;
-	x = l;
-	y = t;
-	width = r;
-	height = b;
+Gate::Gate(){
+	type = GATE;
 }
 
 void Gate::Render()

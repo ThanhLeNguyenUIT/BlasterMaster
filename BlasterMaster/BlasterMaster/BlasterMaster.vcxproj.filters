@@ -223,6 +223,21 @@
     <ClCompile Include="Insect.cpp">
       <Filter>Source Files\GameObjects\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Orb2.cpp">
+      <Filter>Source Files\GameObjects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Mine.cpp">
+      <Filter>Source Files\GameObjects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Skull.cpp">
+      <Filter>Source Files\GameObjects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="WhiteBullet.cpp">
+      <Filter>Source Files\GameObjects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBullet.cpp">
+      <Filter>Source Files\GameObjects\Bullet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprites.h">
@@ -377,6 +392,21 @@
     </ClInclude>
     <ClInclude Include="Insect.h">
       <Filter>Source Files\GameObjects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Orb2.h">
+      <Filter>Source Files\GameObjects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Mine.h">
+      <Filter>Source Files\GameObjects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Skull.h">
+      <Filter>Source Files\GameObjects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="WhiteBullet.h">
+      <Filter>Source Files\GameObjects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBullet.h">
+      <Filter>Source Files\GameObjects\Bullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

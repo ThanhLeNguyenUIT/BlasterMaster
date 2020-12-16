@@ -61,7 +61,68 @@ void Camera::Update()
 	Game* game = Game::GetInstance();
 	cx -= game->GetScreenWidth() / 2;
 	cy -= game->GetScreenHeight() / 2;
+
 	switch (currentSceneID) {
+	case 40:
+		if (cx < LEFT_OVERWORLD_3) {
+			cx = LEFT_OVERWORLD_3;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_3) {
+			cx = RIGHT_OVERWORLD_3 - width + 30;
+		}
+		if (cy < TOP_OVERWORLD_3) {
+			cy = TOP_OVERWORLD_3;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_3)
+		{
+			cy = BOTTOM_OVERWORLD_3 - height + 78;
+		}
+		break;
+	case 41:
+		if (cx < LEFT_OVERWORLD_4) {
+			cx = LEFT_OVERWORLD_4;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_4) {
+			cx = RIGHT_OVERWORLD_4 - width + 30;
+		}
+		if (cy < TOP_OVERWORLD_4) {
+			cy = TOP_OVERWORLD_4;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_4)
+		{
+			cy = BOTTOM_OVERWORLD_4 - height + 78;
+		}
+		break;
+	case 50:
+		if (cx < LEFT_OVERWORLD_5) {
+			cx = LEFT_OVERWORLD_5;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_5) {
+			cx = RIGHT_OVERWORLD_5 - width + 30;
+		}
+		if (cy < TOP_OVERWORLD_5) {
+			cy = TOP_OVERWORLD_5;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_5)
+		{
+			cy = BOTTOM_OVERWORLD_5 - height + 78;
+		}
+		break;
+	case 51:
+		if (cx < 32 * BIT) {
+			cx = 32 * BIT;
+		}
+		else if (cx + width >= 47 * BIT) {
+			cx = 47 * BIT - width + 30;
+		}
+		if (cy < 33 * BIT) {
+			cy = 33 * BIT;
+		}
+		else if (cy + height > 46 * BIT)
+		{
+			cy = 46 * BIT - height + 62;
+		}
+		break;
 	case 1:
 		if (cx < START_FIRST_SCENE) {
 			cx = START_FIRST_SCENE;
@@ -75,7 +136,7 @@ void Camera::Update()
 		}
 		else if (cy + height > LOWEST_FIRST_SCENE)
 		{
-			cy = HIGHEST_FIRST_SCENE;
+			cy = LOWEST_FIRST_SCENE - height;
 		}
 		break;
 	case 2:
@@ -206,14 +267,468 @@ void Camera::Update()
 			cy = LOWEST_9TH_SCENE - height;
 		}
 		break;
+	case 10:
+		if (cx < LEFT_OVERWORLD_1) {
+			cx = LEFT_OVERWORLD_1;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_1) {
+			cx = RIGHT_OVERWORLD_1 - width + 30;
+		}
+		if (cy < TOP_OVERWORLD_1) {
+			cy = TOP_OVERWORLD_1;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_1)
+		{
+			cy = BOTTOM_OVERWORLD_1 - height;
+		}
+		break;
+	case 11:
+		if (cx < LEFT_OVERWORLD_2) {
+			cx = LEFT_OVERWORLD_2;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_2) {
+			cx = RIGHT_OVERWORLD_2 - width + 30;
+		}
+		if (cy < TOP_OVERWORLD_2) {
+			cy = TOP_OVERWORLD_2;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_2)
+		{
+			cy = BOTTOM_OVERWORLD_2 - height + 62;
+		}
+		break;
+	case 12:
+		if (cx < LEFT_OVERWORLD_2 + 256) {
+			cx = LEFT_OVERWORLD_2 + 256;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_2 + 256) {
+			cx = RIGHT_OVERWORLD_2 - width + 30 + 256;
+		}
+		if (cy < TOP_OVERWORLD_2) {
+			cy = TOP_OVERWORLD_2;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_2)
+		{
+			cy = BOTTOM_OVERWORLD_2 - height + 62;
+		}
+		break;
+	case 13:
+		if (cx < LEFT_OVERWORLD_2 + 256 * 2) {
+			cx = LEFT_OVERWORLD_2 + 256 * 2;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_2) {
+			cx = RIGHT_OVERWORLD_2 - width + 30 + 256 * 2;
+		}
+		if (cy < TOP_OVERWORLD_2) {
+			cy = TOP_OVERWORLD_2;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_2)
+		{
+			cy = BOTTOM_OVERWORLD_2 - height + 62;
+		}
+		break;
+	case 14:
+		if (cx < LEFT_OVERWORLD_2 + 256 * 3) {
+			cx = LEFT_OVERWORLD_2 + 256 * 3;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_2) {
+			cx = RIGHT_OVERWORLD_2 - width + 30 + 256 * 3;
+		}
+		if (cy < TOP_OVERWORLD_2) {
+			cy = TOP_OVERWORLD_2;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_2)
+		{
+			cy = BOTTOM_OVERWORLD_2 - height + 62;
+		}
+		break;
+	case 15:
+		if (cx < LEFT_OVERWORLD_2 + 256 * 4) {
+			cx = LEFT_OVERWORLD_2 + 256 * 4;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_2) {
+			cx = RIGHT_OVERWORLD_2 - width + 30 + 256 * 4;
+		}
+		if (cy < TOP_OVERWORLD_2) {
+			cy = TOP_OVERWORLD_2;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_2)
+		{
+			cy = BOTTOM_OVERWORLD_2 - height + 62;
+		}
+		break;
+	case 16:
+		if (cx < LEFT_OVERWORLD_2 + 256 * 5) {
+			cx = LEFT_OVERWORLD_2 + 256 * 5;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_2) {
+			cx = RIGHT_OVERWORLD_2 - width + 30 + 256 * 5;
+		}
+		if (cy < TOP_OVERWORLD_2) {
+			cy = TOP_OVERWORLD_2;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_2)
+		{
+			cy = BOTTOM_OVERWORLD_2 - height + 62;
+		}
+		break;
+	case 17:
+		if (cx < LEFT_OVERWORLD_2 + 256 * 5) {
+			cx = LEFT_OVERWORLD_2 + 256 * 5;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_2) {
+			cx = RIGHT_OVERWORLD_2 - width + 30 + 256 * 5;
+		}
+		if (cy < TOP_OVERWORLD_2 - 256) {
+			cy = TOP_OVERWORLD_2 - 256;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_2 - 256)
+		{
+			cy = BOTTOM_OVERWORLD_2 - height + 62 - 256;
+		}
+		break;
+	case 18:
+		if (cx < LEFT_OVERWORLD_2 + 256 * 4) {
+			cx = LEFT_OVERWORLD_2 + 256 * 4;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_2) {
+			cx = RIGHT_OVERWORLD_2 - width + 30 + 256 * 4;
+		}
+		if (cy < TOP_OVERWORLD_2 - 256) {
+			cy = TOP_OVERWORLD_2 - 256;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_2 - 256)
+		{
+			cy = BOTTOM_OVERWORLD_2 - height + 62 - 256;
+		}
+		break;
+	case 19:
+		if (cx < LEFT_OVERWORLD_2 + 256 * 3) {
+			cx = LEFT_OVERWORLD_2 + 256 * 3;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_2) {
+			cx = RIGHT_OVERWORLD_2 - width + 30 + 256 * 3;
+		}
+		if (cy < TOP_OVERWORLD_2 - 256) {
+			cy = TOP_OVERWORLD_2 - 256;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_2 - 256)
+		{
+			cy = BOTTOM_OVERWORLD_2 - height + 62 - 256;
+		}
+		break;
+	case 20:
+		if (cx < LEFT_OVERWORLD_2 + 256 * 2) {
+			cx = LEFT_OVERWORLD_2 + 256 * 2;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_2 + 256 * 2) {
+			cx = RIGHT_OVERWORLD_2 - width + 30 + 256 * 2;
+		}
+		if (cy < TOP_OVERWORLD_2 - 256) {
+			cy = TOP_OVERWORLD_2 - 256;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_2 - 256)
+		{
+			cy = BOTTOM_OVERWORLD_2 - height + 62 - 256;
+		}
+		break;
+	case 21:
+		if (cx < LEFT_OVERWORLD_2 + 256) {
+			cx = LEFT_OVERWORLD_2 + 256;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_2 + 256) {
+			cx = RIGHT_OVERWORLD_2 - width + 30 + 256;
+		}
+		if (cy < TOP_OVERWORLD_2 - 256) {
+			cy = TOP_OVERWORLD_2 - 256;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_2 - 256)
+		{
+			cy = BOTTOM_OVERWORLD_2 - height + 62 - 256;
+		}
+		break;
+	case 22:
+		if (cx < LEFT_OVERWORLD_2) {
+			cx = LEFT_OVERWORLD_2;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_2) {
+			cx = RIGHT_OVERWORLD_2 - width + 30;
+		}
+		if (cy < TOP_OVERWORLD_2 - 256) {
+			cy = TOP_OVERWORLD_2 - 256;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_2 - 256)
+		{
+			cy = BOTTOM_OVERWORLD_2 - height + 62 - 256;
+		}
+		break;
+	case 23:
+		if (cx < LEFT_OVERWORLD_2) {
+			cx = LEFT_OVERWORLD_2;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_2) {
+			cx = RIGHT_OVERWORLD_2 - width + 30;
+		}
+		if (cy < TOP_OVERWORLD_2 - 256 * 2) {
+			cy = TOP_OVERWORLD_2 - 256 * 2;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_2 - 256 * 2)
+		{
+			cy = BOTTOM_OVERWORLD_2 - height + 62 - 256 * 2;
+		}
+		break;
+	case 24:
+		if (cx < LEFT_OVERWORLD_2 + 256) {
+			cx = LEFT_OVERWORLD_2 + 256;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_2 + 256) {
+			cx = RIGHT_OVERWORLD_2 - width + 30 + 256;
+		}
+		if (cy < TOP_OVERWORLD_2 - 256 * 2) {
+			cy = TOP_OVERWORLD_2 - 256 * 2;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_2 - 256 * 2)
+		{
+			cy = BOTTOM_OVERWORLD_2 - height + 62 - 256 * 2;
+		}
+		break;
+	case 25:
+		if (cx < LEFT_OVERWORLD_2 + 256 * 2) {
+			cx = LEFT_OVERWORLD_2 + 256 * 2;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_2 + 256 * 2) {
+			cx = RIGHT_OVERWORLD_2 - width + 30 + 256 * 2;
+		}
+		if (cy < TOP_OVERWORLD_2 - 256 * 2) {
+			cy = TOP_OVERWORLD_2 - 256 * 2;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_2 - 256 * 2)
+		{
+			cy = BOTTOM_OVERWORLD_2 - height + 62 - 256 * 2;
+		}
+		break;
+	case 26:
+		if (cx < LEFT_OVERWORLD_2 + 256 * 3) {
+			cx = LEFT_OVERWORLD_2 + 256 * 3;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_2) {
+			cx = RIGHT_OVERWORLD_2 - width + 30 + 256 * 3;
+		}
+		if (cy < TOP_OVERWORLD_2 - 256 * 2) {
+			cy = TOP_OVERWORLD_2 - 256 * 2;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_2 - 256 * 2)
+		{
+			cy = BOTTOM_OVERWORLD_2 - height + 62 - 256 * 2;
+		}
+		break;
+	case 27:
+		if (cx < LEFT_OVERWORLD_2 + 256 * 4) {
+			cx = LEFT_OVERWORLD_2 + 256 * 4;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_2) {
+			cx = RIGHT_OVERWORLD_2 - width + 30 + 256 * 4;
+		}
+		if (cy < TOP_OVERWORLD_2 - 256 * 2) {
+			cy = TOP_OVERWORLD_2 - 256 * 2;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_2 - 256 * 2)
+		{
+			cy = BOTTOM_OVERWORLD_2 - height + 62 - 256 * 2;
+		}
+		break;
+	case 28:
+		if (cx < LEFT_OVERWORLD_2 + 256 * 5) {
+			cx = LEFT_OVERWORLD_2 + 256 * 5;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_2) {
+			cx = RIGHT_OVERWORLD_2 - width + 30 + 256 * 5;
+		}
+		if (cy < TOP_OVERWORLD_2 - 256 * 2) {
+			cy = TOP_OVERWORLD_2 - 256 * 2;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_2 - 256 * 2)
+		{
+			cy = BOTTOM_OVERWORLD_2 - height + 62 - 256 * 2;
+		}
+		break;
+	case 29:
+		if (cx < LEFT_OVERWORLD_2 + 256 * 4) {
+			cx = LEFT_OVERWORLD_2 + 256 * 4;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_2) {
+			cx = RIGHT_OVERWORLD_2 - width + 30 + 256 * 4;
+		}
+		if (cy < TOP_OVERWORLD_2 - 256 * 3) {
+			cy = TOP_OVERWORLD_2 - 256 * 3;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_2 - 256 * 3)
+		{
+			cy = BOTTOM_OVERWORLD_2 - height + 62 - 256 * 3;
+		}
+		break;
+	case 30:
+		if (cx < LEFT_OVERWORLD_2 + 256 * 3) {
+			cx = LEFT_OVERWORLD_2 + 256 * 3;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_2) {
+			cx = RIGHT_OVERWORLD_2 - width + 30 + 256 * 3;
+		}
+		if (cy < TOP_OVERWORLD_2 - 256 * 3) {
+			cy = TOP_OVERWORLD_2 - 256 * 3;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_2 - 256 * 3)
+		{
+			cy = BOTTOM_OVERWORLD_2 - height + 62 - 256 * 3;
+		}
+		break;
+	case 31:
+		if (cx < LEFT_OVERWORLD_2 + 256 * 2) {
+			cx = LEFT_OVERWORLD_2 + 256 * 2;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_2 + 256 * 2) {
+			cx = RIGHT_OVERWORLD_2 - width + 30 + 256 * 2;
+		}
+		if (cy < TOP_OVERWORLD_2 - 256 * 3) {
+			cy = TOP_OVERWORLD_2 - 256 * 3;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_2 - 256 * 3)
+		{
+			cy = BOTTOM_OVERWORLD_2 - height + 62 - 256 * 3;
+		}
+		break;
+	case 32:
+		if (cx < LEFT_OVERWORLD_2 + 256) {
+			cx = LEFT_OVERWORLD_2 + 256;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_2 + 256) {
+			cx = RIGHT_OVERWORLD_2 - width + 30 + 256;
+		}
+		if (cy < TOP_OVERWORLD_2 - 256 * 3) {
+			cy = TOP_OVERWORLD_2 - 256 * 3;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_2 - 256 * 3)
+		{
+			cy = BOTTOM_OVERWORLD_2 - height + 62 - 256 * 3;
+		}
+		break;
+	case 33:
+		if (cx < LEFT_OVERWORLD_2) {
+			cx = LEFT_OVERWORLD_2;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_2) {
+			cx = RIGHT_OVERWORLD_2 - width + 30;
+		}
+		if (cy < TOP_OVERWORLD_2 - 256 * 3) {
+			cy = TOP_OVERWORLD_2 - 256 * 3;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_2 - 256 * 3)
+		{
+			cy = BOTTOM_OVERWORLD_2 - height + 62 - 256 * 3;
+		}
+		break;
+	case 34:
+		if (cx < LEFT_OVERWORLD_2) {
+			cx = LEFT_OVERWORLD_2;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_2) {
+			cx = RIGHT_OVERWORLD_2 - width + 30;
+		}
+		if (cy < TOP_OVERWORLD_2 - 256 * 4) {
+			cy = TOP_OVERWORLD_2 - 256 * 4;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_2 - 256 * 4)
+		{
+			cy = BOTTOM_OVERWORLD_2 - height + 62 - 256 * 4;
+		}
+		break;
+	case 35:
+		if (cx < LEFT_OVERWORLD_2 + 256) {
+			cx = LEFT_OVERWORLD_2 + 256;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_2 + 256) {
+			cx = RIGHT_OVERWORLD_2 - width + 30 + 256;
+		}
+		if (cy < TOP_OVERWORLD_2 - 256 * 4) {
+			cy = TOP_OVERWORLD_2 - 256 * 4;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_2 - 256 * 4)
+		{
+			cy = BOTTOM_OVERWORLD_2 - height + 62 - 256 * 4;
+		}
+		break;
+	case 36:
+		if (cx < LEFT_OVERWORLD_2 + 256 * 2) {
+			cx = LEFT_OVERWORLD_2 + 256 * 2;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_2 + 256 * 2) {
+			cx = RIGHT_OVERWORLD_2 - width + 30 + 256 * 2;
+		}
+		if (cy < TOP_OVERWORLD_2 - 256 * 4) {
+			cy = TOP_OVERWORLD_2 - 256 * 4;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_2 - 256 * 4)
+		{
+			cy = BOTTOM_OVERWORLD_2 - height + 62 - 256 * 4;
+		}
+		break;
+	case 37:
+		if (cx < LEFT_OVERWORLD_2 + 256 * 3) {
+			cx = LEFT_OVERWORLD_2 + 256 * 3;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_2) {
+			cx = RIGHT_OVERWORLD_2 - width + 30 + 256 * 3;
+		}
+		if (cy < TOP_OVERWORLD_2 - 256 * 4) {
+			cy = TOP_OVERWORLD_2 - 256 * 4;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_2 - 256 * 4)
+		{
+			cy = BOTTOM_OVERWORLD_2 - height + 62 - 256 * 4;
+		}
+		break;
+	case 38:
+		if (cx < LEFT_OVERWORLD_2 + 256 * 4) {
+			cx = LEFT_OVERWORLD_2 + 256 * 4;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_2) {
+			cx = RIGHT_OVERWORLD_2 - width + 30 + 256 * 4;
+		}
+		if (cy < TOP_OVERWORLD_2 - 256 * 4) {
+			cy = TOP_OVERWORLD_2 - 256 * 4;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_2 - 256 * 4)
+		{
+			cy = BOTTOM_OVERWORLD_2 - height + 62 - 256 * 4;
+		}
+		break;
+	case 39:
+		if (cx < LEFT_OVERWORLD_2 + 256 * 3) {
+			cx = LEFT_OVERWORLD_2 + 256 * 3;
+		}
+		else if (cx + width >= RIGHT_OVERWORLD_2) {
+			cx = RIGHT_OVERWORLD_2 - width + 30 + 256 * 3;
+		}
+		if (cy < TOP_OVERWORLD_2 - 256 * 5) {
+			cy = TOP_OVERWORLD_2 - 256 * 5;
+		}
+		else if (cy + height > BOTTOM_OVERWORLD_2 - 256 * 5)
+		{
+			cy = BOTTOM_OVERWORLD_2 - height + 62 - 256 * 5;
+		}
+		break;
 
 		if (!player->IsTouchPortal)
 		{
 			SetCamPos(cx, cy);
 		}
 	}
-	if (player->IsUp && player->scene_id != 1 && player->scene_id != 3) {
-		cy += 16;
+
+	// add to fix camera 
+	if (player->IsUp && player->scene_id != 1 && player->scene_id != 3 && player->scene_id != 6 && player->scene_id != 9) {
+		if (!(((player->scene_id == 2) && (cy == HIGHEST_SECOND_SCENE)) || ((player->scene_id == 7) && (cy == HIGHEST_7TH_SCENE)))) {
+			cy += 16;
+		}
 	}
 
 	SetCamPos(cx, cy);

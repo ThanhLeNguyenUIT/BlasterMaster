@@ -68,12 +68,12 @@ void PlayerJumpingState::HandleKeyboard() {
 			if (player->nx > 0) {
 				player->nx = 1;
 				player->vx = SOPHIA_MOVING_SPEED;
-				player->ChangeAnimation(new PlayerJumpingState(), NORMAL);
+				player->ChangeAnimation(new PlayerJumpingState());
 				player->RenderOneFrame = false;
 			}
 			else {
 				player->vx = -SOPHIA_MOVING_SPEED;
-				player->ChangeAnimation(new PlayerJumpTurningState(), NORMAL);
+				player->ChangeAnimation(new PlayerJumpTurningState());
 				player->CurAnimation->currentFrame = -1;
 				player->CurAnimation->isLastFrame = false;
 			}
@@ -89,12 +89,12 @@ void PlayerJumpingState::HandleKeyboard() {
 			if (player->nx < 0) {
 				player->nx = -1;
 				player->vx = -SOPHIA_MOVING_SPEED;
-				player->ChangeAnimation(new PlayerJumpingState(), NORMAL);
+				player->ChangeAnimation(new PlayerJumpingState());
 				player->RenderOneFrame = false;
 			}
 			else {
 				player->vx = SOPHIA_MOVING_SPEED;
-				player->ChangeAnimation(new PlayerJumpTurningState(), NORMAL);
+				player->ChangeAnimation(new PlayerJumpTurningState());
 				player->CurAnimation->currentFrame = -1;
 				player->CurAnimation->isLastFrame = false;
 			}

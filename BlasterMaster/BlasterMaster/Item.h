@@ -3,7 +3,6 @@
 
 class Item : public GameObject {
 public:
-	STATEOBJECT StateObject;
 	bool IsTouch = false;
 	Item();
 	~Item();

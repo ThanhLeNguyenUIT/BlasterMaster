@@ -3,14 +3,13 @@
 #include "Sophia.h"
 #include "Bullet.h"
 #include "Power.h"
+#include "Stair.h"
 
-COrb1::COrb1(float x, float y)
+COrb1::COrb1()
 {
-	this->x = x;
-	this->y = y;
 	type = ORB1;
-	widthBBox = ORB1_BBOX_WIDTH;
-	heightBBox = ORB1_BBOX_HEIGHT;
+	width = ORB1_BBOX_WIDTH;
+	height = ORB1_BBOX_HEIGHT;
 	Reset();
 }
 
@@ -24,99 +23,102 @@ void COrb1::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 
 void COrb1::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	GameObject::Update(dt);
-	DWORD timenow = GetTickCount();
-
-	if (health == 0) {
-		StateObject = ENEMY_DEAD;
-		isDead = true;
-	}
-
-	if ((timenow - dt) % 800 == 0) {
-		if (ny == -1)
-		{
-			ChangeAnimation(ORB1_STATE_TURN_TOP);
-		}
-		else if (ny == 1)
-		{
-			ChangeAnimation(ORB1_STATE_TURN_BOTTOM);
-		}
-	}
-	else if ((timenow - dt) % 1000 == 0) {
-		if (nx == 1)
-		{
-			ChangeAnimation(ORB1_STATE_WALKING_RIGHT);
-		}
-		else if (nx == -1)
-		{
-			ChangeAnimation(ORB1_STATE_WALKING_LEFT);
-		}
-		vy = 0;
-	}
-
-	if (vx < 0 && x < 64 * 16) {
-		x = 64 * 16; vx = -vx;
-		ChangeAnimation(ORB1_STATE_WALKING_RIGHT);
-	}
-
-	if (vx > 0 && x > 80 * 16) {
-		x = 80 * 16; vx = -vx;
-		ChangeAnimation(ORB1_STATE_WALKING_LEFT);
-	}
+	GameObject::Update(dt, coObjects);
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
 	coEvents.clear();
-
-	// turn off collision when die 
 	if (StateObject != ENEMY_DEAD)
 		CalcPotentialCollisions(coObjects, coEvents);
 
+	if (health <= 0) {
+		StateObject = ENEMY_DEAD;
+		isDead = true;
+	}
+
 	if (coEvents.size() == 0)
 	{
-		x += dx;
-		y += dy;
+		x += vx * dt;
+		y += vy * dt;
+		DWORD timenow = GetTickCount();
+
+		if ((timenow - dt) % 800 == 0) {
+			if (ny == -1)
+			{
+				ChangeAnimation(ORB1_STATE_TURN_TOP);
+			}
+			else if (ny == 1)
+			{
+				ChangeAnimation(ORB1_STATE_TURN_BOTTOM);
+			}
+		}
+		else if ((timenow - dt) % 1000 == 0) {
+			if (nx == 1)
+			{
+				ChangeAnimation(ORB1_STATE_WALKING_RIGHT);
+			}
+			else if (nx == -1)
+			{
+				ChangeAnimation(ORB1_STATE_WALKING_LEFT);
+			}
+			vy = 0;
+		}
 	}
 	else
 	{
 		float min_tx, min_ty, nx = 0, ny;
+		float rdx = 0;
+		float rdy = 0;
 
+		// TODO: This is a very ugly designed function!!!!
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-		// block 
-		x += min_tx * dx + nx * 0.1f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-		y += min_ty * dy + ny * 0.1f;
 
+		// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
+		//if (rdx != 0 && rdx!=dx)
+		//	x += nx*abs(rdx); 
+
+		// block every object first!
+		x += min_tx * dx + nx * 0.14f;
+		y += min_ty * dy + ny * 0.14f;
+
+		if (nx != 0) vx = 0;
+		if (ny != 0) vy = 0;
+
+
+		//
+		// Collision logic with other objects
+		//
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			
-			if (dynamic_cast<Brick*>(e->obj)) {
-				if (e->nx > 0) {
+			if (dynamic_cast<Brick*>(e->obj)) // if e->obj is Brick
+			{
+				Brick* brick = dynamic_cast<Brick*>(e->obj);
+				if (e->nx > 0)
+				{
 					ChangeAnimation(ORB1_STATE_WALKING_RIGHT);
 				}
-				else {
+				if (e->nx < 0)
+				{
 					ChangeAnimation(ORB1_STATE_WALKING_LEFT);
 				}
-				if (e->ny != 0) ChangeAnimation(ORB1_STATE_WALKING_RIGHT);
 			}
-			if (dynamic_cast<Enemy*>(e->obj)) {
+			if (dynamic_cast<Stair*>(e->obj)) {
 				if (e->nx != 0) x += dx;
-				if (e->ny != 0)y += dy;
-			}
-			if (dynamic_cast<Power*>(e->obj)) {
-				if (e->nx != 0) x += dx;
-				if (e->ny != 0)y += dy;
+				if (e->ny != 0) y += dy;
 			}
 		}
 	}
+	// clean up collision events
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
 void COrb1::Render()
 {
 	int alpha = 255;
 	CurAnimation->Render(x, y, alpha);
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void COrb1::ChangeAnimation(STATEOBJECT StateObject) {
@@ -145,6 +147,10 @@ void COrb1::ChangeAnimation(STATEOBJECT StateObject) {
 		vy = ORB1_WALKING_SPEED_TURN;
 		vx = 0;
 		ny = -1;
+		break;
+	case ENEMY_DEAD:
+		vx = 0;
+		vy = 0;
 		break;
 	default:
 		break;

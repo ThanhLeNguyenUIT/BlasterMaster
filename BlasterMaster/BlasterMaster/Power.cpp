@@ -2,8 +2,8 @@
 
 Power::Power() {
 	ChangeAnimation(POWER_UP);
-	widthBBox = POWER_BBOX_WIDTH;
-	heightBBox = POWER_BBOX_HEIGHT;
+	width = POWER_BBOX_WIDTH;
+	height = POWER_BBOX_HEIGHT;
 }
 
 Power::~Power() {
@@ -25,7 +25,7 @@ void Power::ChangeAnimation(STATEOBJECT StateObject) {
 void Power::Render() {
 	int alpha = 255;
 	CurAnimation->Render(x, y, alpha);
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void Power::GetBoundingBox(float& left, float& top, float& right, float& bottom)

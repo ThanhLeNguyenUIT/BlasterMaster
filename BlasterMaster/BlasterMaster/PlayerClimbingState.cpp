@@ -6,11 +6,11 @@ PlayerClimbingState::PlayerClimbingState() {
 	playerSmall->vx = 0;
 	if (playerSmall->ny > 0) {
 		playerSmall->StateName = JASON_CLIMBING;
-		playerSmall->vy = -JASON_MOVING_SPEED;
+		playerSmall->vy = -JASON_CLIMBING_SPEED;
 	}
 	else {
 		playerSmall->StateName = JASON_CLIMBING;
-		playerSmall->vy = JASON_MOVING_SPEED;
+		playerSmall->vy = JASON_CLIMBING_SPEED;
 	}
 	playerSmall->stateBoundingBox = JASON_BOUNDING_BOX;
 }

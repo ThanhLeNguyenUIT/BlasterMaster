@@ -7,12 +7,12 @@ D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Game.h(8,1): warning C4005: 'D
 C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
 D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Teleporters.h(22,13): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Teleporters.h(23,13): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Teleporters.cpp(62,51): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Teleporters.cpp(62,32): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Teleporters.cpp(62,45): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Teleporters.cpp(62,26): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Teleporters.cpp(64,45): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Teleporters.cpp(64,26): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Teleporters.cpp(66,45): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Teleporters.cpp(66,26): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Teleporters.cpp(67,45): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Teleporters.cpp(67,26): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Teleporters.cpp(66,70): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Teleporters.cpp(66,37): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Teleporters.cpp(67,70): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Game\BlasterMaster\BlasterMaster\BlasterMaster\Teleporters.cpp(67,37): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   BlasterMaster.vcxproj -> D:\Game\BlasterMaster\BlasterMaster\Debug\BlasterMaster.exe

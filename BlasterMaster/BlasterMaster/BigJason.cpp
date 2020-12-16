@@ -552,6 +552,4 @@ void BigJason::Reset(float x, float y) {
 	SetPosition(x, y);
 	ChangeAnimation(new PlayerStandingState());
 	SetSpeed(0, 0);
-
-
 }

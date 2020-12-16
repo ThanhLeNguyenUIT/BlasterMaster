@@ -2,8 +2,6 @@
 #include <cstdlib>
 #include <ctime>
 
-
-
 void Teleporter::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
@@ -57,14 +55,16 @@ void Teleporter::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 			while (prevA == a) {
 				a = rand() % 4;
 			}
+			prevA = a;
 			DebugOut(L"%d\n", a);
-			int distance = (rand() % 50) + 1;
-			a == 0 ? SetPosition(startX + distance, startY + distance)
+			int distance = rand() % 50;
+			a == 0 
+				? SetPosition(startX + distance, startY + distance)
 				: (a == 1)
 				? SetPosition(startX - distance, startY + distance)
-				: (a == 2) 
-				? SetPosition(startX + distance, startY - distance)
-				: SetPosition(startX - distance, startY - distance);
+				: (a == 2)
+				? SetPosition(startX + distance + rand() % 20, startY - distance - rand() % 20)
+				: SetPosition(startX - distance - rand() % 20, startY - distance - rand() % 20);
 			/*int n = rand() % (93 - 82 + 1) + 82;
 			int m = rand() % (69 - 63 + 1) + 63;*/
 			/*SetPosition(n * BIT, m * BIT);	*/

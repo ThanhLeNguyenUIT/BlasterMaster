@@ -57,7 +57,6 @@ void Eyeball::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 			ChangeAnimation(EYEBALL_MOVE);
 			vx = this->nx * EYEBALL_MOVING_SPEED_X;
 			vy = this->ny * EYEBALL_MOVING_SPEED_Y;
-			DebugOut(L"canon moving");
 		}
 		else if ((vx != 0) && (vy != 0)) {
 			vx = 0;
@@ -65,7 +64,6 @@ void Eyeball::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 			//this->nx = 0;
 			//this->ny = 0;
 			ChangeAnimation(EYEBALL_IDLE);
-			DebugOut(L"canon normal");
 		}
 	}
 

@@ -2,6 +2,9 @@
 #include <cstdlib>
 #include <ctime>
 
+#define limitX (startX + 6) * BIT
+#define limitY (startY + 6) * BIT
+
 void Teleporter::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
@@ -39,7 +42,7 @@ void Teleporter::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	//if (coEvents.size() == 0)
 	//{
 	DWORD timenow = GetTickCount();
-	if ((timenow - dt) % 200 == 0) {
+	if ((timenow - dt) % 30 == 0) {
 		if (nx > 0) {
 			ChangeAnimation(TELEPORTERS_IDLE);
 			nx = -1;
@@ -50,37 +53,70 @@ void Teleporter::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 			nx = 1;
 			//DebugOut(L"TELEPORTER MOVE");
 			//DWORD timenow1 = GetTickCount();
-			int a = rand() % 4;
-			int prevA = a;
-			while (prevA == a) {
-				a = rand() % 4;
+			///////////////////////////////////////
+			//int a = rand() % 4;
+			//int prevA = a;
+			//while (prevA == a) {
+			//	a = rand() % 4;
+			//}
+			//prevA = a;
+			//DebugOut(L"%d\n", a);
+			//int distance = rand() % 50;
+			//a == 0 
+			//	? SetPosition(startX + distance, startY + distance)
+			//	: (a == 1)
+			//	? SetPosition(startX - distance, startY + distance)
+			//	: (a == 2)
+			//	? SetPosition(startX + distance + rand() % 20, startY - distance - rand() % 20)
+			//	: SetPosition(startX - distance - rand() % 20, startY - distance - rand() % 20);
+			///////////////////////////////////////
+			int a = rand() % 2; // x = 0, y = 1
+			int b = rand() % 2; // + = 0, - = 1
+			DebugOut(L"a: %d\n", a);
+			DebugOut(L"b: %d\n", b);
+			int distance = 35;
+			if (a == 0) {
+				if (b == 0) {
+					if (x + distance > startX - 4) {
+						SetPosition(x - distance, y);
+					}
+				}
+				else if (b == 1) {
+					if (x - distance < startX + 4) {
+						SetPosition(x + distance, y);
+					}
+				}
 			}
-			prevA = a;
-			DebugOut(L"%d\n", a);
-			int distance = rand() % 50;
-			a == 0 
-				? SetPosition(startX + distance, startY + distance)
-				: (a == 1)
-				? SetPosition(startX - distance, startY + distance)
-				: (a == 2)
-				? SetPosition(startX + distance + rand() % 20, startY - distance - rand() % 20)
-				: SetPosition(startX - distance - rand() % 20, startY - distance - rand() % 20);
-			/*int n = rand() % (93 - 82 + 1) + 82;
-			int m = rand() % (69 - 63 + 1) + 63;*/
-			/*SetPosition(n * BIT, m * BIT);	*/
+			else if (a == 1) {
+				if (b == 0) {
+					if (y + distance > startY + 4) {
+						SetPosition(x, y - distance);
+					}
+				}
+				else if (b == 1) {
+					if (y - distance < startY - 4) {
+						SetPosition(x, y + distance);
+					}
+				}
+			}
 		}
+		///////////////////////////////////////
+		/*int n = rand() % (93 - 82 + 1) + 82;
+		int m = rand() % (69 - 63 + 1) + 63;*/
+		/*SetPosition(n * BIT, m * BIT);	*/
 	}
-	//}
-	//else {
-	//	float min_tx, min_ty, nx = 0, ny;
-
-	//	FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-
-	//	// block 
-	//	x += min_tx * dx + nx * 0.1f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-	//	y += min_ty * dy + ny * 0.4f;
-	//	
-	//}
 }
+//}
+//else {
+//	float min_tx, min_ty, nx = 0, ny;
+
+//	FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+
+//	// block 
+//	x += min_tx * dx + nx * 0.1f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+//	y += min_ty * dy + ny * 0.4f;
+//	
+//}
+
 
 

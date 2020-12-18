@@ -22,9 +22,11 @@ public:
 		this->x = x;
 		this->y = y;
 		typeEyeball = EYEBALL;
+		int ranX = rand() % 2; // - = 0, + = 1
+		int ranY = rand() % 2;
+		ranX == 0 ? this->nx = -1 : this->nx = 1;
+		ranY == 0 ? this->ny = -1 : this->ny = 1;
 		ChangeAnimation(EYEBALL_MOVE);
-		nx = 1;
-		ny = 1;
 		vx = EYEBALL_MOVING_SPEED_X;
 		vy = EYEBALL_MOVING_SPEED_Y;
 	}

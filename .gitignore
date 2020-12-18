@@ -9,3 +9,7 @@ BlasterMaster/BlasterMaster/Debug/BlasterMaster.tlog/link.read.1.tlog
 BlasterMaster/BlasterMaster/Debug/BlasterMaster.tlog/link.write.1.tlog
 BlasterMaster/Debug/BlasterMaster.ilk
 BlasterMaster/Debug/BlasterMaster.pdb
+*.log
+*.tlog
+BlasterMaster/BlasterMaster/Debug/BlasterMaster.tlog/CL.command.1.tlog
+BlasterMaster/BlasterMaster/Debug/vc142.idb

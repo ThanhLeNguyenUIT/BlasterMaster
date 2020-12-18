@@ -531,8 +531,6 @@ void BigJason::OnKeyUp(int key) {
 			playerBig->ChangeScene(scene_gate);
 			IsTouchPortal = false;
 			IsTouchGate = false;
-			//nx = 0;
-			//ny = 1;
 		}
 		break;
 	case DIK_DOWN:
@@ -540,8 +538,6 @@ void BigJason::OnKeyUp(int key) {
 			playerBig->ChangeScene(scene_gate);
 			IsTouchGate = false;
 			IsTouchPortal = false;
-			//nx = 0;
-			//ny = -1;
 		}
 		break;
 	}

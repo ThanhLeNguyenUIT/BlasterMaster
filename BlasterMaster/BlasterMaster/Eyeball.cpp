@@ -52,13 +52,17 @@ void Eyeball::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	//if (ny != 0) vy = 0;
 
 	DWORD timenow = GetTickCount();
-	if ((timenow - dt) % 400 == 0) {
+	if ((timenow - dt) % 200 == 0) {
 		if ((vx == 0) && (vy == 0)) {
+			int ranX = rand() % 2; // - = 0, + = 1
+			int ranY = rand() % 2;
+			ranX == 0 ? this->nx = -1 : this->nx = 1;
+			ranY == 0 ? this->ny = -1 : this->ny = 1;
 			ChangeAnimation(EYEBALL_MOVE);
 			vx = this->nx * EYEBALL_MOVING_SPEED_X;
 			vy = this->ny * EYEBALL_MOVING_SPEED_Y;
 		}
-		else if ((vx != 0) && (vy != 0)) {
+		else if ((vx != 0) && (vy != 0) && rand() % 2 == 0) {
 			vx = 0;
 			vy = 0;
 			//this->nx = 0;

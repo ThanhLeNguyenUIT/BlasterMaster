@@ -23,7 +23,11 @@ void Teleporter::ChangeAnimation(STATEOBJECT StateObject) {
 
 void Teleporter::Render() {
 	//Reset();
+	int ran = rand() % 10;
 	int alpha = 255;
+	if (this->StateObject == TELEPORTERS_MOVE) {
+		alpha = ran < 7 ? 255 : 0;
+	}
 	CurAnimation->Render(x, y, alpha);
 	RenderBoundingBox();
 }
@@ -42,13 +46,16 @@ void Teleporter::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	//if (coEvents.size() == 0)
 	//{
 	DWORD timenow = GetTickCount();
-	if ((timenow - dt) % 30 == 0) {
-		if (nx > 0) {
+	int random = rand() % 2;
+	if (random == 1) {
+		if ((timenow - dt) % 1000 == 0) {
 			ChangeAnimation(TELEPORTERS_IDLE);
 			nx = -1;
 			//DebugOut(L"TELEPORTER IDLE");
 		}
-		else if (nx < 0) {
+	}
+	else if (random != 1) {
+		if ((timenow - dt) % 500 == 0) {
 			ChangeAnimation(TELEPORTERS_MOVE);
 			nx = 1;
 			//DebugOut(L"TELEPORTER MOVE");
@@ -72,38 +79,37 @@ void Teleporter::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 			///////////////////////////////////////
 			int a = rand() % 2; // x = 0, y = 1
 			int b = rand() % 2; // + = 0, - = 1
-			DebugOut(L"a: %d\n", a);
-			DebugOut(L"b: %d\n", b);
 			int distance = 35;
 			if (a == 0) {
 				if (b == 0) {
-					if (x + distance > startX - 4) {
+					if (x + distance > startX - 6) {
 						SetPosition(x - distance, y);
 					}
 				}
 				else if (b == 1) {
-					if (x - distance < startX + 4) {
+					if (x - distance < startX + 6) {
 						SetPosition(x + distance, y);
 					}
 				}
 			}
 			else if (a == 1) {
 				if (b == 0) {
-					if (y + distance > startY + 4) {
+					if (y + distance > startY + 6) {
 						SetPosition(x, y - distance);
 					}
 				}
 				else if (b == 1) {
-					if (y - distance < startY - 4) {
+					if (y - distance < startY - 6) {
 						SetPosition(x, y + distance);
 					}
 				}
 			}
+
+			///////////////////////////////////////
+			/*int n = rand() % (93 - 82 + 1) + 82;
+			int m = rand() % (69 - 63 + 1) + 63;*/
+			/*SetPosition(n * BIT, m * BIT);	*/
 		}
-		///////////////////////////////////////
-		/*int n = rand() % (93 - 82 + 1) + 82;
-		int m = rand() % (69 - 63 + 1) + 63;*/
-		/*SetPosition(n * BIT, m * BIT);	*/
 	}
 }
 //}

@@ -34,7 +34,7 @@ BigJason::~BigJason() {
 
 }
 
-void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>* coEnemy, vector<Item*>* coItem) {
+void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>* coEnemy, vector<Item*>* coItem, vector<EnemyBullet*>* coBullet) {
 	if (Allow[BIG_JASON]) {
 		GameObject::Update(dt);
 
@@ -79,7 +79,15 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>*
 		/*if (health == 0) {
 			ChangeAnimation(new PlayerDeadState());
 		}*/
-
+		if (IsDamaged) {
+			if (timeDamaged == TIME_DEFAULT) {
+				timeDamaged = GetTickCount();
+			}
+			if (GetTickCount() - timeDamaged >= 600) {
+				IsDamaged = false;
+				timeDamaged = TIME_DEFAULT;
+			}
+		}
 		// No collision occured, proceed normally
 
 		if (coEvents.size() == 0)
@@ -158,16 +166,33 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>*
 		// clean up collision events
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
+		// Collision with enemy
 		for (int i = 0; i < coEnemy->size(); i++) {
 			if (CollisionWithObject(coEnemy->at(i))) {
+
+				if (coEnemy->at(i)->type == ORB2 || coEnemy->at(i)->type == MINE) {
+					coEnemy->at(i)->health = 0;
+				}
+				//isDamaged
+				IsDamaged = true;
 				// damage
 				if (timeDamaged == TIME_DEFAULT) {
 					timeDamaged = GetTickCount();
 				}
 				if (GetTickCount() - timeDamaged >= 600) {
 					health = health - 1;
-					timeDamaged = GetTickCount();
+					timeDamaged = TIME_DEFAULT;
 				}
+			}
+		}
+		// Collison with enemy bullet
+		for (int i = 0; i < coBullet->size(); i++) {
+			if (CollisionWithObject(coBullet->at(i))) {
+				if (coBullet->at(i)->GetStateObject() != BULLET_SMALL_HIT) {
+					IsDamaged = true;
+					health = health - 1;
+				}
+				coBullet->at(i)->ChangeAnimation(BULLET_SMALL_HIT);
 			}
 		}
 		// Collison with item 
@@ -238,7 +263,7 @@ void BigJason::ChangeScene(int scene_gate) {
 				SetPosition(18 * BIT, 119 * BIT);
 			}
 			else if (sceneHistory.rbegin()[1] == 13) {
-				SetPosition(28 * BIT, 119 * BIT);
+				SetPosition(29 * BIT, 119 * BIT);
 			}
 			else if (sceneHistory.rbegin()[1] == 21) {
 				SetPosition(23 * BIT, 114 * BIT);
@@ -246,10 +271,10 @@ void BigJason::ChangeScene(int scene_gate) {
 			break;
 		case 13:
 			if (sceneHistory.rbegin()[1] == 12) {
-				SetPosition(35 * BIT, 119 * BIT);
+				SetPosition(34 * BIT, 119 * BIT);
 			}
 			else if (sceneHistory.rbegin()[1] == 14) {
-				SetPosition(44 * BIT, 119 * BIT);
+				SetPosition(45 * BIT, 119 * BIT);
 			}
 			else if (sceneHistory.rbegin()[1] == 20) {
 				SetPosition(39 * BIT, 114 * BIT);
@@ -257,10 +282,10 @@ void BigJason::ChangeScene(int scene_gate) {
 			break;
 		case 14:
 			if (sceneHistory.rbegin()[1] == 13) {
-				SetPosition(51 * BIT, 119 * BIT);
+				SetPosition(50 * BIT, 119 * BIT);
 			}
 			else if (sceneHistory.rbegin()[1] == 15) {
-				SetPosition(60 * BIT, 119 * BIT);
+				SetPosition(61 * BIT, 119 * BIT);
 			}
 			else if (sceneHistory.rbegin()[1] == 19) {
 				SetPosition(55 * BIT, 115 * BIT);
@@ -268,20 +293,20 @@ void BigJason::ChangeScene(int scene_gate) {
 			break;
 		case 15:
 			if (sceneHistory.rbegin()[1] == 14) {
-				SetPosition(67 * BIT, 119 * BIT);
+				SetPosition(66 * BIT, 119 * BIT);
 			}
 			else if (sceneHistory.rbegin()[1] == 16) {
-				SetPosition(76 * BIT, 119 * BIT);
+				SetPosition(77 * BIT, 119 * BIT);
 			}
 			break;
 		case 16:
 			if (sceneHistory.rbegin()[1] == 15) {
-				SetPosition(83 * BIT, 119 * BIT);
+				SetPosition(82 * BIT, 119 * BIT);
 			}
 			break;
 		case 17:
 			if (sceneHistory.rbegin()[1] == 18) {
-				SetPosition(83 * BIT, 103 * BIT);
+				SetPosition(82 * BIT, 103 * BIT);
 			}
 			else if (sceneHistory.rbegin()[1] == 28) {
 				SetPosition(87 * BIT, 99 * BIT);
@@ -289,10 +314,10 @@ void BigJason::ChangeScene(int scene_gate) {
 			break;
 		case 18:
 			if (sceneHistory.rbegin()[1] == 19) {
-				SetPosition(67 * BIT, 103 * BIT);
+				SetPosition(66 * BIT, 103 * BIT);
 			}
 			else if (sceneHistory.rbegin()[1] == 17) {
-				SetPosition(76 * BIT, 103 * BIT);
+				SetPosition(77 * BIT, 103 * BIT);
 			}
 			break;
 		case 19:
@@ -300,7 +325,7 @@ void BigJason::ChangeScene(int scene_gate) {
 				SetPosition(55 * BIT, 106 * BIT);
 			}
 			else if (sceneHistory.rbegin()[1] == 18) {
-				SetPosition(60 * BIT, 103 * BIT);
+				SetPosition(61 * BIT, 103 * BIT);
 			}
 			break;
 		case 20:
@@ -316,12 +341,12 @@ void BigJason::ChangeScene(int scene_gate) {
 				SetPosition(23 * BIT, 106 * BIT);
 			}
 			else if (sceneHistory.rbegin()[1] == 22) {
-				SetPosition(19 * BIT, 103 * BIT);
+				SetPosition(18 * BIT, 103 * BIT);
 			}
 			break;
 		case 22:
 			if (sceneHistory.rbegin()[1] == 21) {
-				SetPosition(12 * BIT, 103 * BIT);
+				SetPosition(13 * BIT, 103 * BIT);
 			}
 			else if (sceneHistory.rbegin()[1] == 23) {
 				SetPosition(7 * BIT, 99 * BIT);
@@ -334,7 +359,7 @@ void BigJason::ChangeScene(int scene_gate) {
 			break;
 		case 24:
 			if (sceneHistory.rbegin()[1] == 25) {
-				SetPosition(28 * BIT, 87 * BIT);
+				SetPosition(29 * BIT, 87 * BIT);
 			}
 			else if (sceneHistory.rbegin()[1] == 32) {
 				SetPosition(23 * BIT, 83 * BIT);
@@ -345,10 +370,10 @@ void BigJason::ChangeScene(int scene_gate) {
 				SetPosition(39 * BIT, 90 * BIT);
 			}
 			else if (sceneHistory.rbegin()[1] == 26) {
-				SetPosition(44 * BIT, 87 * BIT);
+				SetPosition(45 * BIT, 87 * BIT);
 			}
 			else if (sceneHistory.rbegin()[1] == 24) {
-				SetPosition(35 * BIT, 87 * BIT);
+				SetPosition(34 * BIT, 87 * BIT);
 			}
 			else if (sceneHistory.rbegin()[1] == 31) {
 				SetPosition(39 * BIT, 83 * BIT);
@@ -356,10 +381,10 @@ void BigJason::ChangeScene(int scene_gate) {
 			break;
 		case 26:
 			if (sceneHistory.rbegin()[1] == 25) {
-				SetPosition(51 * BIT, 87 * BIT);
+				SetPosition(50 * BIT, 87 * BIT);
 			}
 			else if (sceneHistory.rbegin()[1] == 27) {
-				SetPosition(60 * BIT, 87 * BIT);
+				SetPosition(61 * BIT, 87 * BIT);
 			}
 			else if (sceneHistory.rbegin()[1] == 30) {
 				SetPosition(55 * BIT, 83 * BIT);
@@ -367,7 +392,7 @@ void BigJason::ChangeScene(int scene_gate) {
 			break;
 		case 27:
 			if (sceneHistory.rbegin()[1] == 26) {
-				SetPosition(67 * BIT, 87 * BIT);
+				SetPosition(66 * BIT, 87 * BIT);
 			}
 			else if (sceneHistory.rbegin()[1] == 29) {
 				SetPosition(71 * BIT, 83 * BIT);
@@ -403,12 +428,12 @@ void BigJason::ChangeScene(int scene_gate) {
 				SetPosition(23 * BIT, 74 * BIT);
 			}
 			else if (sceneHistory.rbegin()[1] == 33) {
-				SetPosition(19 * BIT, 71 * BIT);
+				SetPosition(18 * BIT, 71 * BIT);
 			}
 			break;
 		case 33:
 			if (sceneHistory.rbegin()[1] == 32) {
-				SetPosition(12 * BIT, 71 * BIT);
+				SetPosition(13 * BIT, 71 * BIT);
 			}
 			else if (sceneHistory.rbegin()[1] == 34) {
 				SetPosition(7 * BIT, 67 * BIT);
@@ -419,31 +444,31 @@ void BigJason::ChangeScene(int scene_gate) {
 				SetPosition(7 * BIT, 58 * BIT);
 			}
 			else if (sceneHistory.rbegin()[1] == 35) {
-				SetPosition(12 * BIT, 55 * BIT);
+				SetPosition(13 * BIT, 55 * BIT);
 			}
 			break;
 		case 35:
 			if (sceneHistory.rbegin()[1] == 34) {
-				SetPosition(19 * BIT, 55 * BIT);
+				SetPosition(18 * BIT, 55 * BIT);
 			}
 			else if (sceneHistory.rbegin()[1] == 36) {
-				SetPosition(28 * BIT, 55 * BIT);
+				SetPosition(29 * BIT, 55 * BIT);
 			}
 			break;
 		case 36:
 			if (sceneHistory.rbegin()[1] == 35) {
-				SetPosition(35 * BIT, 55 * BIT);
+				SetPosition(34 * BIT, 55 * BIT);
 			}
 			else if (sceneHistory.rbegin()[1] == 31) {
 				SetPosition(39 * BIT, 58 * BIT);
 			}
 			else if (sceneHistory.rbegin()[1] == 37) {
-				SetPosition(44 * BIT, 55 * BIT);
+				SetPosition(45 * BIT, 55 * BIT);
 			}
 			break;
 		case 37:
 			if (sceneHistory.rbegin()[1] == 36) {
-				SetPosition(51 * BIT, 55 * BIT);
+				SetPosition(50 * BIT, 55 * BIT);
 			}
 			else if (sceneHistory.rbegin()[1] == 39) {
 				SetPosition(55 * BIT, 51 * BIT);
@@ -475,10 +500,31 @@ void BigJason::ChangeAnimation(PlayerState* newState, int stateChange) {
 void BigJason::Render() {
 
 	int alpha = Camera::GetInstance()->isInTransition ? 0 : 255;
+	D3DCOLOR colorOrange = D3DCOLOR_ARGB(alpha, 248, 120, 88);
+	D3DCOLOR colorGreen = D3DCOLOR_ARGB(alpha, 0, 157, 64);
+	D3DCOLOR colorGrey = D3DCOLOR_ARGB(alpha, 188, 186, 182);
 
-	if (IsRender && !IsTouchGate) {
-		CurAnimation->Render(x, y, alpha, idFrame, RenderOneFrame);
-		RenderBoundingBox();
+	if (IsDamaged) {
+		if (countColor == 0) {
+			color = colorOrange;
+			countColor++;
+		}
+		else if (countColor == 1) {
+			color = colorGreen;
+			countColor++;
+		}
+		else {
+			color = colorGrey;
+			countColor = 0;
+		}
+	}
+
+	if (IsRender && !IsTouchPortal) {
+		if (!IsDamaged)
+			CurAnimation->Render(x, y, alpha, idFrame, RenderOneFrame);
+		else
+			CurAnimation->Render(x, y, alpha, idFrame, RenderOneFrame, color);
+		//RenderBoundingBox();
 	}
 }
 

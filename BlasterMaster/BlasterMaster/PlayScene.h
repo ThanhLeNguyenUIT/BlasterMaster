@@ -24,8 +24,12 @@
 #include "Orb2.h"
 #include "Skull.h"
 #include "Mine.h"
+#include "Canon.h"
+#include "Teleporter.h"
+#include "EyeBall.h"
 #include "WhiteBullet.h"
 #include "EnemyBullet.h"
+
 #include "Grid.h"
 #include "GlobalConfig.h"
 
@@ -33,9 +37,6 @@ using namespace std;
 
 class PlayScene : public Scene {
 protected:
-	Sophia* sophia;
-	Jason* jason;
-	Power* power;
 	Camera* gameCamera;
 	vector<Bullet*> listBullets;
 	vector<EnemyBullet*> listEnemyBullets;
@@ -43,6 +44,7 @@ protected:
 	vector<Enemy*> listEnemies;
 	vector<Item*> listItems;
 	HUD* hud;
+	Power* power;
 	//Sophia* sophia;
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
@@ -69,8 +71,6 @@ public:
 	virtual void Render();
 	virtual void Unload();
 	void ChangeScene();
-	Sophia* GetSophia() { return sophia; }
-	Jason* GetJason() { return jason; }
 	bool randomItem(){
 		return 0 + (rand() % (1 - 0 + 1)) == 1;
 	}

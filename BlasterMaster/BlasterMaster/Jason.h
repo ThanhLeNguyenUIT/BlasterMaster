@@ -1,10 +1,10 @@
-
 #pragma once
 #include "GameObject.h"
 #include "PlayerState.h"
-#include "PlayerBullet.h"
-#include "Item.h"
 #include "Enemy.h"
+#include "EnemyBullet.h"
+#include "Item.h"
+#include "PlayerBullet.h"
 
 class Jason : public GameObject
 {
@@ -18,8 +18,9 @@ public:
 	int stateBoundingBox;
 	PlayerState* state;
 	Animation* CurAnimation;
+	D3DCOLOR color;
 	std::unordered_map<TYPE, bool> allow;
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects, vector<Enemy*>* coEnemy, vector<Item*>* coItem);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects, vector<Enemy*>* coEnemy, vector<Item*>* coItem, vector<EnemyBullet*>* coBullet);
 	virtual void Render();
 	DWORD timeStartAttack = TIME_DEFAULT;
 	DWORD timeDamaged = TIME_DEFAULT;
@@ -38,10 +39,12 @@ public:
 	bool IsOpen = false;
 	bool IsRender;
 	bool IsGravity = true;
+	bool IsDamaged = false;
 	//bool IsLoad = true;
 	bool RenderOneFrame = false;
 	bool rev;
 	int count = 0;
+	int countColor = 0;
 	int idFrame = 0;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 

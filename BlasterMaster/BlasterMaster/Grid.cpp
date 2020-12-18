@@ -67,6 +67,9 @@ void Grid::LoadObject(LPGAMEOBJECT& obj, float x, float y, float width, float he
 	case ORB2:
 	case SKULL:
 	case MINE:
+	case CANON:
+	case EYEBALL:
+	case TELEPORTER:
 		for (int r = area.TopCell; r <= area.BottomCell; r++)
 			for (int c = area.LeftCell; c <= area.RightCell; c++)
 			{

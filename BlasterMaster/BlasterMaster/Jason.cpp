@@ -37,7 +37,7 @@ Jason::~Jason() {
 
 }
 
-void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>* coEnemy, vector<Item*>* coItem) {
+void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>* coEnemy, vector<Item*>* coItem, vector<EnemyBullet*>* coBullet) {
 	if (Allow[JASON]) {
 		GameObject::Update(dt);
 
@@ -81,6 +81,15 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>* co
 		// change state die if health = 0
 		if (health == 0) {
 			ChangeAnimation(new PlayerDeadState());
+		}
+		if (IsDamaged) {
+			if (timeDamaged == TIME_DEFAULT) {
+				timeDamaged = GetTickCount();
+			}
+			if (GetTickCount() - timeDamaged >= 600) {
+				IsDamaged = false;
+				timeDamaged = TIME_DEFAULT;
+			}
 		}
 		// No collision occured, proceed normally
 
@@ -199,17 +208,34 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>* co
 		}
 		// clean up collision events
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-		// Collison with enemy
+		
+		// Collision with enemy
 		for (int i = 0; i < coEnemy->size(); i++) {
 			if (CollisionWithObject(coEnemy->at(i))) {
+
+				if (coEnemy->at(i)->type == ORB2 || coEnemy->at(i)->type == MINE) {
+					coEnemy->at(i)->health = 0;
+				}
+				//isDamaged
+				IsDamaged = true;
 				// damage
 				if (timeDamaged == TIME_DEFAULT) {
 					timeDamaged = GetTickCount();
 				}
 				if (GetTickCount() - timeDamaged >= 600) {
 					health = health - 1;
-					timeDamaged = GetTickCount();
+					timeDamaged = TIME_DEFAULT;
 				}
+			}
+		}
+		// Collison with enemy bullet
+		for (int i = 0; i < coBullet->size(); i++) {
+			if (CollisionWithObject(coBullet->at(i))) {
+				if (coBullet->at(i)->GetStateObject() != BULLET_SMALL_HIT) {
+					IsDamaged = true;
+					health = health - 1;
+				}
+				coBullet->at(i)->ChangeAnimation(BULLET_SMALL_HIT);
 			}
 		}
 		// Collison with item 
@@ -336,8 +362,30 @@ void Jason::ChangeAnimation(PlayerState* newState, int stateChange) {
 
 void Jason::Render() {
 	int alpha = 255;
+	D3DCOLOR colorOrange = D3DCOLOR_ARGB(alpha, 248, 120, 88);
+	D3DCOLOR colorGreen = D3DCOLOR_ARGB(alpha, 0, 157, 64);
+	D3DCOLOR colorGrey = D3DCOLOR_ARGB(alpha, 188, 186, 182);
+
+	if (IsDamaged) {
+		if (countColor == 0) {
+			color = colorOrange;
+			countColor++;
+		}
+		else if (countColor == 1) {
+			color = colorGreen;
+			countColor++;
+		}
+		else {
+			color = colorGrey;
+			countColor = 0;
+		}
+	}
+
 	if (IsRender && !IsTouchPortal) {
-		CurAnimation->Render(x, y, alpha, idFrame, RenderOneFrame);
+		if (!IsDamaged)
+			CurAnimation->Render(x, y, alpha, idFrame, RenderOneFrame);
+		else
+			CurAnimation->Render(x, y, alpha, idFrame, RenderOneFrame, color);
 		//RenderBoundingBox();
 	}
 }

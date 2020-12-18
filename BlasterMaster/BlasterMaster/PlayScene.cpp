@@ -30,6 +30,7 @@ PlayScene::PlayScene(int id, LPCWSTR filePath) :
 
 #define MAX_SCENE_LINE 1024
 
+#define SPEED 0.25
 
 void PlayScene::_ParseSection_TEXTURES(string line)
 {
@@ -267,6 +268,18 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 		enemy = new CMine();
 		grid->LoadObject(enemy, x, y);
 		break;
+	case CANON:
+		enemy = new Canon();
+		grid->LoadObject(enemy, x, y);
+		break;
+	case EYEBALL:
+		enemy = new EyeBall();
+		grid->LoadObject(enemy, x, y);
+		break;
+	case TELEPORTER:
+		enemy = new Teleporter(x,y);
+		grid->LoadObject(enemy, x, y);
+		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -362,6 +375,9 @@ void PlayScene::Update(DWORD dt) {
 		case ORB2:
 		case MINE:
 		case SKULL:
+		case CANON:
+		case EYEBALL:
+		case TELEPORTER:
 			listEnemies.push_back(static_cast<Enemy*>(obj));
 			break;
 		case ITEM:
@@ -372,14 +388,25 @@ void PlayScene::Update(DWORD dt) {
 
 	// Update player
 	player->Update(dt, &listObjects, &listEnemies, &listItems, &listEnemyBullets);
-	playerSmall->Update(dt, &listObjects, &listEnemies, &listItems);
-	playerBig->Update(dt, &listObjects, &listEnemies, &listItems);
+	playerSmall->Update(dt, &listObjects, &listEnemies, &listItems, &listEnemyBullets);
+	playerBig->Update(dt, &listObjects, &listEnemies, &listItems, &listEnemyBullets);
 	// Update item and enemy
 	for (size_t i = 0; i < listEnemies.size(); i++) {
 		listEnemies[i]->Update(dt, &listObjects);
 		if (listEnemies[i]->GetType() == FLOATER && listEnemies[i]->IsFiring == true) {
 			CFloater* floater = static_cast<CFloater*>(listEnemies[i]);
 			listEnemyBullets.push_back(floater->bullet);
+		}
+		if (listEnemies[i]->GetType() == CANON && listEnemies[i]->IsFiring == true) {
+			Canon* canon = static_cast<Canon*>(listEnemies[i]);
+			if(canon->bullet1)
+				listEnemyBullets.push_back(canon->bullet1);
+			if (canon->bullet2)
+				listEnemyBullets.push_back(canon->bullet2);
+			if (canon->bullet3)
+				listEnemyBullets.push_back(canon->bullet3);
+			if (canon->bullet4)
+				listEnemyBullets.push_back(canon->bullet4);
 		}
 	}
 	for (size_t i = 0; i < listItems.size(); i++) {
@@ -574,39 +601,40 @@ void PlayScene::Update(DWORD dt) {
 		}
 	}
 	else if (gameCamera->isInTransition) {
-		if (playerBig->nx < 0) {
+	if (playerBig->nx < 0) {
 
-			if ((gameCamera->camPosX + SCREEN_WIDTH / 2) > playerBig->x) {
-				gameCamera->SetCamPos(gameCamera->camPosX - 0.25 * dt, gameCamera->camPosY);
-			}
-			else {
-				Camera::GetInstance()->isInTransition = false;
-			}
+		if ((gameCamera->camPosX + SCREEN_WIDTH / 1.3555555555) > playerBig->x) {
+			gameCamera->SetCamPos(gameCamera->camPosX - SPEED * dt, gameCamera->camPosY);
 		}
-		else if (playerBig->nx > 0) {
-			if ((gameCamera->camPosX + SCREEN_WIDTH / 8) < playerBig->x) {
-				gameCamera->SetCamPos(gameCamera->camPosX + 0.25 * dt, gameCamera->camPosY);
-			}
-			else {
-				gameCamera->isInTransition = false;
-			}
+		else {
+			Camera::GetInstance()->isInTransition = false;
 		}
-		else if (playerBig->ny < 0) {
-			if ((gameCamera->camPosY + SCREEN_HEIGHT / 8) < playerBig->y) {
-				gameCamera->SetCamPos(gameCamera->camPosX, gameCamera->camPosY + 0.25 * dt);
-			}
-			else {
-				Camera::GetInstance()->isInTransition = false;
-			}
+	}
+	else if (playerBig->nx > 0) {
+		if ((gameCamera->camPosX + SCREEN_WIDTH / 8) < playerBig->x) {
+			gameCamera->SetCamPos(gameCamera->camPosX + SPEED * dt, gameCamera->camPosY);
 		}
-		else if (playerBig->ny > 0) {
-			if ((gameCamera->camPosY + SCREEN_HEIGHT / 2) > playerBig->y) {
-				gameCamera->SetCamPos(gameCamera->camPosX, gameCamera->camPosY - 0.25 * dt);
-			}
-			else {
-				Camera::GetInstance()->isInTransition = false;
-			}
+		else {
+			gameCamera->isInTransition = false;
 		}
+	}
+	else if (playerBig->ny < 0) {
+		if ((gameCamera->camPosY + SCREEN_HEIGHT / 8) < playerBig->y) {
+			gameCamera->SetCamPos(gameCamera->camPosX, gameCamera->camPosY + SPEED * dt);
+		}
+		else {
+			Camera::GetInstance()->isInTransition = false;
+		}
+	}
+	else if (playerBig->ny > 0) {
+		if ((gameCamera->camPosY + SCREEN_HEIGHT / 2) > playerBig->y) {
+			gameCamera->SetCamPos(gameCamera->camPosX, gameCamera->camPosY - SPEED * dt);
+			//DebugOut(L"%d  ", gameCamera->camPosX);
+		}
+		else {
+			Camera::GetInstance()->isInTransition = false;
+		}
+	}
 	}
 	hud->Update();
 }

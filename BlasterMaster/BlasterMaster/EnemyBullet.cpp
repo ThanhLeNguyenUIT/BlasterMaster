@@ -49,6 +49,26 @@ void EnemyBullet::ChangeAnimation(STATEOBJECT StateObject) {
 		vy = -MINE_BULLET_JUMPING_SPEED;
 		nx = -1;
 		break;
+	case CANON_BULLET_MOVING_LEFT:
+		vy = 0;
+		vx = -CANON_BULLET_MOVING_SPEED;
+		nx = -1;
+		break;
+	case CANON_BULLET_MOVING_RIGHT:
+		vy = 0;
+		vx = CANON_BULLET_MOVING_SPEED;
+		nx = 1;
+		break;
+	case CANON_BULLET_MOVING_DOWN:
+		vy = CANON_BULLET_MOVING_SPEED;
+		vx = 0;
+		ny = -1;
+		break;
+	case CANON_BULLET_MOVING_UP:
+		vy = -CANON_BULLET_MOVING_SPEED;
+		vx = 0;
+		ny = 1;
+		break;
 	case BULLET_SMALL_HIT:
 		vx = 0;
 		vy = 0;
@@ -68,7 +88,7 @@ void EnemyBullet::Render() {
 void EnemyBullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>* coEnemy) {
 	GameObject::Update(dt, coObjects);
 
-	if (StateObject != ENEMY_BULLET_SMALL_MOVING && StateObject != BULLET_SMALL_HIT) {
+	if (StateObject == MINE_BULLET_JUMPING_RIGHT || StateObject == MINE_BULLET_JUMPING_LEFT) {
 		vy += ENEMY_BULLET_GRAVITY * dt;
 	}
 	vector<LPCOLLISIONEVENT> coEvents;

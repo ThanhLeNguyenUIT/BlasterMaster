@@ -20,7 +20,6 @@ public:
 	D3DCOLOR color;
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* staticObject, vector<Enemy*>* coEnemy, vector<Item*>* coItem, vector<EnemyBullet*>* coBullet);
 	virtual void Render();
-	//bool IsJumping() { return this->isJumping; }
 	bool IsJumping = false;
 	bool IsOnGround;
 	bool IsWalking;

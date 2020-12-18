@@ -262,7 +262,7 @@ void Sophia::ChangeScene() {
 			}
 			else if (old_scene_id == 3) {
 				player->nx = 1;
-				SetPosition(3.6 * BIT, 54 * BIT);
+				SetPosition(3.6 * BIT, 54.7 * BIT);
 			}
 			break;
 		case 2:
@@ -476,6 +476,7 @@ void Sophia::OnKeyDown(int key) {
 		if (Allow[SOPHIA] && !IsJumping && !IsUp) {
 			if (!IsOpen) {
 				IsOpen = true;
+				IsDamaged = false;
 				ChangeAnimation(new PlayerOpenState());
 				Allow[SOPHIA] = false;
 				Allow[JASON] = true; // allow jason to get out of car

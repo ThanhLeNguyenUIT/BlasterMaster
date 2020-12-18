@@ -40,17 +40,6 @@ void CFloater::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		CalcPotentialCollisions(coObjects, coEvents);
 	// fire and delete bullet
 	Fire();
-	/*for (int i = 0; i < listBullets.size(); i++) {
-		listBullets[i]->Update(dt, coObjects);
-	}
-
-	for (int i = 0; i < listBullets.size(); i++) {
-		if (listBullets[i]->GetStateObject() == BULLET_SMALL_HIT) {
-			if (GetTickCount() - listBullets[i]->timeStartCol >= BULLET_TIME_EXPLOSIVE && listBullets[i]->timeStartCol != TIME_DEFAULT) {
-				listBullets.erase(listBullets.begin() + i);
-			}
-		}
-	}*/
 
 	if (coEvents.size() == 0)
 	{

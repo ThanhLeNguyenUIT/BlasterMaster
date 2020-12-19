@@ -41,6 +41,7 @@
     <ClCompile Include="Goomba.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="Insect.cpp" />
+    <ClCompile Include="Intro.cpp" />
     <ClCompile Include="Jason.cpp" />
     <ClCompile Include="BigJason.cpp" />
     <ClCompile Include="Jumper.cpp" />
@@ -88,6 +89,7 @@
     <ClInclude Include="Goomba.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="Insect.h" />
+    <ClInclude Include="Intro.h" />
     <ClInclude Include="Jason.h" />
     <ClInclude Include="BigJason.h" />
     <ClInclude Include="Jumper.h" />

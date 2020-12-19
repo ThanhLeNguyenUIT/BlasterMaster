@@ -21,6 +21,7 @@
 #include "Insect.h"
 #include "Dome.h"
 #include "Mine.h"
+#include "Intro.h"
 
 #include "GlobalConfig.h"
 

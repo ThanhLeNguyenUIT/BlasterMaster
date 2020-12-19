@@ -52,6 +52,10 @@ void Render()
 	LPD3DXSPRITE spriteHandler = game->GetSpriteHandler();
 
 	if (d3ddv->BeginScene()) {
+		/*int random1 = rand() % 256 + 0;
+		int random2 = rand() % 256 + 0;
+		int random3 = rand() % 256 + 0;
+		d3ddv->ColorFill(bb, NULL, D3DCOLOR_XRGB(random1, random2, random3));*/
 		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 		Game::GetInstance()->GetCurrentScene()->Render();

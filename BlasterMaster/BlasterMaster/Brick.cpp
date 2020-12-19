@@ -7,7 +7,7 @@ Brick::Brick(int boxWidth, int boxHeight) {
 
 void Brick::Render() {
 	//animation_set->Get(BRICK_NORMAL)->Render(x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void Brick::GetBoundingBox(float &l, float &t, float &r, float &b) {

@@ -227,10 +227,16 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 		obj = new CInsect();
 		break;
 	case DOME:
-		obj = new CDome();
+	{
+		int state = atoi(tokens[3].c_str());
+		obj = new CDome(state);
+	}
 		break;
 	case MINE:
 		obj = new CMine();
+		break;
+	case INTRO:
+		obj = new CIntro();
 		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);

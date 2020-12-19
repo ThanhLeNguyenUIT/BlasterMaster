@@ -173,6 +173,8 @@ using namespace std;
 #define TITLE_HEIGHT		32
 
 #define BIT					16
+
+
 /// variable ///
 extern std::unordered_map<int, bool> keyCode;	// manage info keycode have been pressed or not
 #define GAME Game::GetInstance()
@@ -304,6 +306,8 @@ extern enum STATEOBJECT {
 	//// MINE ////
 	MINE_STATE_IDLE,
 	MINE_STATE_DIE,
+	//// INTRO ////
+	Intro_STATE_IDLE
 
 
 };
@@ -328,7 +332,8 @@ extern enum TYPE {
 	JUMPER,
 	INSECT,
 	DOME,
-	MINE
+	MINE,
+	INTRO
 };
 
 

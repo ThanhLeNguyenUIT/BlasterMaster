@@ -23,29 +23,7 @@ void COrb1::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 void COrb1::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	GameObject::Update(dt, coObjects);
-	/*DWORD timenow = GetTickCount();
-
-	if ((timenow - dt) % 800 == 0) {
-		if (ny == -1)
-		{
-			ChangeAnimation(ORB1_STATE_TURN_TOP);
-		}
-		else if (ny == 1)
-		{
-			ChangeAnimation(ORB1_STATE_TURN_BOTTOM);
-		}
-	}
-	else if ((timenow - dt) % 1000 == 0) {
-		if (nx == 1)
-		{
-			ChangeAnimation(ORB1_STATE_WALKING_RIGHT);
-		}
-		else if (nx == -1)
-		{
-			ChangeAnimation(ORB1_STATE_WALKING_LEFT);
-		}
-		vy = 0;
-	}*/
+	
 	
 	
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -59,6 +37,30 @@ void COrb1::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		x += vx * dt;
 		y += vy * dt;
+
+		DWORD timenow = GetTickCount();
+
+		if ((timenow - dt) % 800 == 0) {
+			if (ny == -1)
+			{
+				ChangeAnimation(ORB1_STATE_TURN_TOP);
+			}
+			else if (ny == 1)
+			{
+				ChangeAnimation(ORB1_STATE_TURN_BOTTOM);
+			}
+		}
+		else if ((timenow - dt) % 1000 == 0) {
+			if (nx == 1)
+			{
+				ChangeAnimation(ORB1_STATE_WALKING_RIGHT);
+			}
+			else if (nx == -1)
+			{
+				ChangeAnimation(ORB1_STATE_WALKING_LEFT);
+			}
+			vy = 0;
+		}
 	}
 	else
 	{

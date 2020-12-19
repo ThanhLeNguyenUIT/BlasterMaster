@@ -1,8 +1,9 @@
 #include "Dome.h"
 #include "Brick.h"
 
-CDome::CDome()
+CDome::CDome(int state)
 {
+	SetState(state);
 	typeEnemy = DOME;
 	Reset();
 }
@@ -287,14 +288,29 @@ void CDome::ChangeAnimation(STATEOBJECT StateObject) {
 }
 
 void CDome::Reset() {
-	nx = 1;
-	top = true;
-	//top = false;
-	right = false;
-	bottom = false;
-	//bottom = false;
-	left = false;
-	drop = false;
-	ChangeAnimation(DOME_STATE_WALKING_TOP);
-	//ChangeAnimation(DOME_STATE_IDLE);
+	
+	switch (state)
+	{
+	case DOME_STATE_WALKING_LEFT:
+		top = false;
+		bottom = false;
+		right = true;
+		left = false;
+		drop = false;
+		//ChangeAnimation(static_cast<STATEOBJECT>(state));
+		ChangeAnimation(DOME_STATE_IDLE);
+		break;
+	case DOME_STATE_WALKING_RIGHT:
+		top = false;
+		bottom = true;
+		right = false;
+		left = false;
+		drop = false;
+		nx = -1;
+		ChangeAnimation(DOME_STATE_IDLE);
+		//ChangeAnimation(static_cast<STATEOBJECT>(state)); 
+		break;
+	default:
+		break;
+	}
 }

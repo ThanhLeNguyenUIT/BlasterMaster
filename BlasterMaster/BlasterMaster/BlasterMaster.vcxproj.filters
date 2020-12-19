@@ -54,6 +54,12 @@
     <Filter Include="Source Files\GameObjects\Player\State">
       <UniqueIdentifier>{75ea80e3-8a58-408c-88f7-8087e64108ba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Scenes\Intro">
+      <UniqueIdentifier>{4a4f93df-7671-4386-95bc-a22cb85bde64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scenes\EndScene">
+      <UniqueIdentifier>{1153edae-468a-4656-a17c-365e42311c6f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Textures\bbox.png">
@@ -247,6 +253,18 @@
     <ClCompile Include="Teleporter.cpp">
       <Filter>Source Files\GameObjects\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Intro.cpp">
+      <Filter>Source Files\Scenes\Intro</Filter>
+    </ClCompile>
+    <ClCompile Include="End.cpp">
+      <Filter>Source Files\Scenes\EndScene</Filter>
+    </ClCompile>
+    <ClCompile Include="End3.cpp">
+      <Filter>Source Files\Scenes\EndScene</Filter>
+    </ClCompile>
+    <ClCompile Include="End2.cpp">
+      <Filter>Source Files\Scenes\EndScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprites.h">
@@ -425,6 +443,18 @@
     </ClInclude>
     <ClInclude Include="Teleporter.h">
       <Filter>Source Files\GameObjects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Intro.h">
+      <Filter>Source Files\Scenes\Intro</Filter>
+    </ClInclude>
+    <ClInclude Include="End.h">
+      <Filter>Source Files\Scenes\EndScene</Filter>
+    </ClInclude>
+    <ClInclude Include="End3.h">
+      <Filter>Source Files\Scenes\EndScene</Filter>
+    </ClInclude>
+    <ClInclude Include="End2.h">
+      <Filter>Source Files\Scenes\EndScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

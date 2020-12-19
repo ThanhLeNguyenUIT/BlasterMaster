@@ -1,0 +1,3 @@
+[OBJECTS]
+#Intro
+35	0	0

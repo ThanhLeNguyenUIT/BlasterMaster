@@ -52,7 +52,18 @@ void Render()
 	LPD3DXSPRITE spriteHandler = game->GetSpriteHandler();
 
 	if (d3ddv->BeginScene()) {
-		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
+		if (GAME->current_scene == 100) {
+			int random1 = rand() % 256 + 0;
+			int random2 = rand() % 256 + 0;
+			int random3 = rand() % 256 + 0;
+			d3ddv->ColorFill(bb, NULL, D3DCOLOR_XRGB(random1, random2, random3));
+		}
+		else if (GAME->current_scene == 400) {
+			d3ddv->ColorFill(bb, NULL, D3DCOLOR_XRGB(0,0,0));
+		}
+		else {
+			d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
+		}
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 		Game::GetInstance()->GetCurrentScene()->Render();
 		spriteHandler->End();
@@ -160,5 +171,3 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	return 0;
 }
-
-

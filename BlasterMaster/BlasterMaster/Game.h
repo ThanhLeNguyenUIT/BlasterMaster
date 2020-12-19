@@ -33,12 +33,13 @@ class Game
 	int screen_width = SCREEN_WIDTH;
 
 	unordered_map<int, LPSCENE> scenes;
-	int current_scene;
+	
 
 	void _ParseSection_SETTINGS(string line);
 	void _ParseSection_SCENES(string line);
 
 public:
+	int current_scene;
 	void InitKeyboard();
 	void SetKeyHandler(LPKEYEVENTHANDLER handler) { keyHandler = handler; }
 	void Init(HWND hWnd);

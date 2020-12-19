@@ -30,6 +30,11 @@
 #include "WhiteBullet.h"
 #include "EnemyBullet.h"
 
+#include "Intro.h"
+#include "End.h"
+#include "End2.h"
+#include "End3.h"
+
 #include "Grid.h"
 #include "GlobalConfig.h"
 
@@ -37,14 +42,22 @@ using namespace std;
 
 class PlayScene : public Scene {
 protected:
+	CIntro* Intro;
+	End* end;
+	End2* end2;
+	End3* end3;
 	Camera* gameCamera;
 	vector<Bullet*> listBullets;
 	vector<EnemyBullet*> listEnemyBullets;
 	vector<LPGAMEOBJECT> listObjects;
 	vector<Enemy*> listEnemies;
 	vector<Item*> listItems;
-	HUD* hud;
+	vector<End*> listEnds;
+	vector<End2*> listEnd2;
+	vector<End3*> listEnd3;
 	Power* power;
+	DWORD timeEnd = TIME_DEFAULT;
+	float movingX = 0;
 	//Sophia* sophia;
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);

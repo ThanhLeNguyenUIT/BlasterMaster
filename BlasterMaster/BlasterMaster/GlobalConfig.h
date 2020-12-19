@@ -189,6 +189,8 @@ extern std::unordered_map<int, bool> keyCode;	// manage info keycode have been p
 #define map Map::GetInstance()
 #define grid Grid::GetInstance()
 #define camera Camera::GetInstance()
+#define intro CIntro::GetInstance()
+#define	hud HUD::GetInstance()
 
 extern enum STATENAME {
 	///// SOPHIA ///////
@@ -360,6 +362,34 @@ extern enum STATEOBJECT {
 	CANON_BULLET_MOVING_RIGHT,
 	CANON_BULLET_MOVING_DOWN,
 	CANON_BULLET_MOVING_UP,
+	/// INTRO //////
+	INTRO_PLAY,
+	/// END SCENE ///
+	END1_UP,
+	END2_MOUNTAIN,
+	END3_DOWN,
+	// END 2 ////
+	END_HEAD,
+	END_BACK,
+	// END 3///
+	END_BADGE,
+	END_LINE,
+	// NAME //
+	A,
+	C,
+	E,
+	G,
+	H,
+	I,
+	L,
+	M,
+	N,
+	O,
+	Q,
+	R,
+	T,
+	U,
+	Y,
 };
 
 extern enum TYPE {
@@ -398,6 +428,10 @@ extern enum TYPE {
 	CANON,
 	TELEPORTER,
 	EYEBALL,
+	INTRO,
+	END,
+	END2,
+	END3,
 };
 
 

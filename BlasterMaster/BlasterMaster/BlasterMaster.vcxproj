@@ -35,6 +35,9 @@
     <ClCompile Include="DamageBrick.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Dome.cpp" />
+    <ClCompile Include="End.cpp" />
+    <ClCompile Include="End2.cpp" />
+    <ClCompile Include="End3.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
     <ClCompile Include="EyeBall.cpp" />
@@ -47,6 +50,7 @@
     <ClCompile Include="Health.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="Insect.cpp" />
+    <ClCompile Include="Intro.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Jason.cpp" />
     <ClCompile Include="BigJason.cpp" />
@@ -95,6 +99,9 @@
     <ClInclude Include="DamageBrick.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="Dome.h" />
+    <ClInclude Include="End.h" />
+    <ClInclude Include="End2.h" />
+    <ClInclude Include="End3.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyBullet.h" />
     <ClInclude Include="EyeBall.h" />
@@ -107,6 +114,7 @@
     <ClInclude Include="Health.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="Insect.h" />
+    <ClInclude Include="Intro.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Jason.h" />
     <ClInclude Include="BigJason.h" />

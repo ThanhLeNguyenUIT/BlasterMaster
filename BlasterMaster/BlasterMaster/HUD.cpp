@@ -1,5 +1,8 @@
 #include "HUD.h"
 #include "Camera.h"
+
+HUD* HUD::_instance = NULL;
+
 HUD::HUD(int playerHP)
 {
 	healthBar_ani_set = AnimationSets::GetInstance()->Get(HEALTHBAR);
@@ -29,4 +32,11 @@ void HUD::Render()
 
 	// render health
 	healthPlayer->Render(healthBarX, healthBarY);
+}
+
+HUD* HUD::GetInstance() {
+	if (_instance == NULL) {
+		_instance = new HUD();
+	}
+	return _instance;
 }

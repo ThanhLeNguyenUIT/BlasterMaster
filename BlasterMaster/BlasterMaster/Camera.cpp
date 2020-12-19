@@ -136,7 +136,7 @@ void Camera::Update()
 		}
 		else if (cy + height > LOWEST_FIRST_SCENE)
 		{
-			cy = LOWEST_FIRST_SCENE - height;
+			cy = HIGHEST_FIRST_SCENE;
 		}
 		break;
 	case 2:
@@ -726,10 +726,12 @@ void Camera::Update()
 
 	// add to fix camera 
 	if (player->IsUp && player->scene_id != 1 && player->scene_id != 3 && player->scene_id != 6 && player->scene_id != 9) {
-		if (!(((player->scene_id == 2) && (cy == HIGHEST_SECOND_SCENE)) || ((player->scene_id == 7) && (cy == HIGHEST_7TH_SCENE)))) {
+		if (!(((player->scene_id == 2) && (cy == HIGHEST_SECOND_SCENE)) || ((player->scene_id == 7) && (cy == HIGHEST_7TH_SCENE))|| ((player->scene_id == 8) && (cy == HIGHEST_8TH_SCENE)))) {
 			cy += 16;
 		}
 	}
+
+
 
 	SetCamPos(cx, cy);
 }

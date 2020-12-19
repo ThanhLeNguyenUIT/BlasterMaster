@@ -16,3 +16,7 @@ start	0
 11	text/overworld_scene11.txt
 40	text/overworld_1.txt
 50	text/overworld_1.txt
+100	text/intro.txt
+200	text/end.txt
+300	text/end2.txt
+400	text/end3.txt

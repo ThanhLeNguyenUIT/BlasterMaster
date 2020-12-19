@@ -19,4 +19,6 @@ public:
 	~HUD();
 	void Update();
 	void Render();
+	static HUD* _instance;
+	static HUD* GetInstance();
 };

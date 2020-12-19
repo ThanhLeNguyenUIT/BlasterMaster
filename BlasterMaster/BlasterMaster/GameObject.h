@@ -3,6 +3,9 @@
 #include "Animations.h"
 #include "Sprites.h"
 
+#include <Windows.h>
+#include <d3dx9.h>
+#include <vector>
 
 using namespace std;
 

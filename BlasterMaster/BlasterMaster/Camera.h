@@ -70,6 +70,11 @@
 #define LEFT_OVERWORLD_5 0
 #define RIGHT_OVERWORLD_5 31 * BIT
 
+#define TOP_BOSS_ZONE 65*BIT
+#define BOTTOM_BOSS_ZONE 65*BIT +280
+#define LEFT_BOSS_ZONE 110*BIT
+#define RIGHT_BOSS_ZONE 122*BIT
+
 class Camera {
 	static Camera* __instance;
 	int width, height;

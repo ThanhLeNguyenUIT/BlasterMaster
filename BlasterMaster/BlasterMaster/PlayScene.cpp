@@ -9,6 +9,7 @@
 #include "PlayerStandingState.h"
 #include "PlayerMovingState.h"
 #include "BulletMovingState.h"
+#include "Boss.h"
 
 using namespace std;
 
@@ -344,6 +345,9 @@ void PlayScene::Load() {
 	playerSmall->IsRender = false;
 	playerBig->Reset();
 	playerBig->IsRender = false;
+	if (playerBig->scene_gate == 53) {
+		CBoss::GetInstance()->Reset();
+	}
 	hud = new HUD();
 	
 	
@@ -355,34 +359,52 @@ void PlayScene::Update(DWORD dt) {
 	listItems.clear();
 	listObjects.clear();
 
-	grid->UpdateCell();
-	grid->CalcObjectInViewPort();
-
-	for (auto& obj : grid->GetStaticObjectInViewPort())
-	{
-		listObjects.push_back(obj);
+	if ((playerBig->scene_gate == 39) && !playerBig->doneFlash) {
+		Game::GetInstance()->isFlashing = true;
+		if ((GetTickCount() - dt) % 5000 == 0) {
+			Game::GetInstance()->isFlashing = false;
+			playerBig->doneFlash = true;
+			playerBig->scene_gate = 53;
+			playerBig->ChangeScene(playerBig->scene_gate);
+		}
+	}
+	
+	if (CBoss::GetInstance()->isWakingUp && playerBig->scene_gate == 53) {
+		if ((GetTickCount() - dt) % 7000 == 0) {
+			CBoss::GetInstance()->isWakingUp = false;
+		}
 	}
 
-	for (auto& obj : grid->GetMovingObjectInViewPort())
-	{
-		switch (obj->type) {
-		case ORB1:
-		case WORM:
-		case FLOATER:
-		case DOME:
-		case JUMPER:
-		case INSECT:
-		case ORB2:
-		case MINE:
-		case SKULL:
-		case CANON:
-		case EYEBALL:
-		case TELEPORTER:
-			listEnemies.push_back(static_cast<Enemy*>(obj));
-			break;
-		case ITEM:
-			listItems.push_back(static_cast<Item*>(obj));
-			break;
+	grid->UpdateCell();
+	if (playerBig->scene_gate != 53) {
+		grid->CalcObjectInViewPort();
+
+		for (auto& obj : grid->GetStaticObjectInViewPort())
+		{
+			listObjects.push_back(obj);
+		}
+
+		for (auto& obj : grid->GetMovingObjectInViewPort())
+		{
+			switch (obj->type) {
+			case ORB1:
+			case WORM:
+			case FLOATER:
+			case DOME:
+			case JUMPER:
+			case INSECT:
+			case ORB2:
+			case MINE:
+			case SKULL:
+			case CANON:
+			case EYEBALL:
+			case TELEPORTER:
+				listEnemies.push_back(static_cast<Enemy*>(obj));
+				break;
+			case ITEM:
+				listItems.push_back(static_cast<Item*>(obj));
+				break;
+			}
 		}
 	}
 
@@ -390,6 +412,10 @@ void PlayScene::Update(DWORD dt) {
 	player->Update(dt, &listObjects, &listEnemies, &listItems, &listEnemyBullets);
 	playerSmall->Update(dt, &listObjects, &listEnemies, &listItems, &listEnemyBullets);
 	playerBig->Update(dt, &listObjects, &listEnemies, &listItems, &listEnemyBullets);
+	if (playerBig->scene_gate == 53) {
+		CBoss::GetInstance()->IsRender = true;
+		CBoss::GetInstance()->Update(dt, &listObjects);
+	}
 	// Update item and enemy
 	for (size_t i = 0; i < listEnemies.size(); i++) {
 		listEnemies[i]->Update(dt, &listObjects);
@@ -726,6 +752,9 @@ void PlayScene::Render() {
 	player->Render();
 	playerSmall->Render();
 	playerBig->Render();
+	if (playerBig->scene_gate == 53) {
+		CBoss::GetInstance()->Render();
+	}
 
 	for (int i = 0; i < listObjects.size(); i++) {
 		listObjects[i]->Render();

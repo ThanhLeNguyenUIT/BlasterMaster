@@ -63,6 +63,21 @@ void Camera::Update()
 	cy -= game->GetScreenHeight() / 2;
 
 	switch (currentSceneID) {
+	case 53:
+		if (cx < LEFT_BOSS_ZONE) {
+			cx = LEFT_BOSS_ZONE;
+		}
+		else if (cx + width >= RIGHT_BOSS_ZONE) {
+			cx = RIGHT_BOSS_ZONE - width + 30;
+		}
+		if (cy < TOP_BOSS_ZONE) {
+			cy = TOP_BOSS_ZONE;
+		}
+		else if (cy + height > BOTTOM_BOSS_ZONE)
+		{
+			cy = BOTTOM_BOSS_ZONE - height + 78;
+		}
+		break;
 	case 40:
 		if (cx < LEFT_OVERWORLD_3) {
 			cx = LEFT_OVERWORLD_3;

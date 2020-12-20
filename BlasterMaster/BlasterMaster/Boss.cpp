@@ -8,9 +8,9 @@
 #include <ctime>
 #define BOSS_WALKING_SPEED_X 0.03f
 #define BOSS_WALKING_SPEED_Y 0.03f
-#define BOSS_MAX_TOP 65*BIT
+#define BOSS_MAX_TOP 67*BIT
 #define BOSS_MAX_LEFT 113*BIT
-#define BOSS_MAX_BOTTOM 66*BIT
+#define BOSS_MAX_BOTTOM 68*BIT
 #define BOSS_MAX_RIGHT 125*BIT
 
 CBoss* CBoss::_instance = NULL;
@@ -30,30 +30,30 @@ CBoss::CBoss(float x, float y)
 	health = 10;
 	this->x = x;
 	this->y = y;
-	CBossArm* arm = new CBossArm(118 * BIT - 6, 66 * BIT, 1, 0.031, 0.031);
+	CBossArm* arm = new CBossArm(116 * BIT - 6, 66 * BIT, 1, 0.031, 0.031);
 	listBossArm.push_back(arm);
 
 	for (int i = 1; i < 4; i++)
 	{
-		CBossArm* arm = new CBossArm(118 * BIT - 6, 66 * BIT, 1, 0.027 + 0.0035 * (i + 1), 0.027 + 0.0035 * (i + 1));
+		CBossArm* arm = new CBossArm(116 * BIT - 6, 66 * BIT, 1, 0.027 + 0.0035 * (i + 1), 0.027 + 0.0035 * (i + 1));
 		listBossArm.push_back(arm);
 	}
 
-	CBossArm* arm1 = new CBossArm(118 * BIT + 50, 66 * BIT, 2, 0.031, 0.031);
+	CBossArm* arm1 = new CBossArm(116 * BIT + 50, 66 * BIT, 2, 0.031, 0.031);
 	listBossArm.push_back(arm1);
 
 
 	for (int i = 1; i < 4; i++)
 	{
-		CBossArm* arm = new CBossArm(118 * BIT + 54, 66 * BIT, 2, 0.027 + 0.0035 * (i + 1), 0.027 + 0.0035 * (i + 1));
+		CBossArm* arm = new CBossArm(116 * BIT + 54, 66 * BIT, 2, 0.027 + 0.0035 * (i + 1), 0.027 + 0.0035 * (i + 1));
 		listBossArm.push_back(arm);
 	}
 	float x_boss, y_boss;
 	GetPosition(x_boss, y_boss);
-	CBossHand* hand1 = new CBossHand(118 * BIT - 12, 66 * BIT + 20, 1, x_boss, y_boss);
+	CBossHand* hand1 = new CBossHand(116 * BIT - 12, 66 * BIT + 20, 1, x_boss, y_boss);
 	listBossHand.push_back(hand1);
 	//DebugOut(L"succesful2");
-	CBossHand* hand2 = new CBossHand(118 * BIT + 66, 66 * BIT + 20, 2, x_boss, y_boss);
+	CBossHand* hand2 = new CBossHand(116 * BIT + 66, 66 * BIT + 20, 2, x_boss, y_boss);
 	listBossHand.push_back(hand2);
 	//DebugOut(L"succesful3");
 }
@@ -242,9 +242,9 @@ void CBoss::Reset() {
 
 //boss dung yen khi bi ban trung
 void CBoss::Sleep() {
-	/*for (int i = 0; i < i; i++) {
+	if (isHit) {
 
-	}*/
+	}
 }
 
 

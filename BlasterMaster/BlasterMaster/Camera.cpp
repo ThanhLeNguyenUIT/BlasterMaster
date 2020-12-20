@@ -68,14 +68,14 @@ void Camera::Update()
 			cx = LEFT_BOSS_ZONE;
 		}
 		else if (cx + width >= RIGHT_BOSS_ZONE) {
-			cx = RIGHT_BOSS_ZONE - width + 30;
+			cx = RIGHT_BOSS_ZONE - width ;
 		}
 		if (cy < TOP_BOSS_ZONE) {
 			cy = TOP_BOSS_ZONE;
 		}
 		else if (cy + height > BOTTOM_BOSS_ZONE)
 		{
-			cy = BOTTOM_BOSS_ZONE - height + 78;
+			cy = BOTTOM_BOSS_ZONE - height ;
 		}
 		break;
 	case 40:

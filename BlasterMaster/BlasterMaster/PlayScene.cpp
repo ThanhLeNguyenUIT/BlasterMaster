@@ -361,7 +361,7 @@ void PlayScene::Update(DWORD dt) {
 
 	if ((playerBig->scene_gate == 39) && !playerBig->doneFlash) {
 		Game::GetInstance()->isFlashing = true;
-		if ((GetTickCount() - dt) % 5000 == 0) {
+		if ((GetTickCount() - dt) % 3000 == 0) {
 			Game::GetInstance()->isFlashing = false;
 			playerBig->doneFlash = true;
 			playerBig->scene_gate = 53;
@@ -370,41 +370,43 @@ void PlayScene::Update(DWORD dt) {
 	}
 	
 	if (CBoss::GetInstance()->isWakingUp && playerBig->scene_gate == 53) {
-		if ((GetTickCount() - dt) % 7000 == 0) {
+		if ((GetTickCount() - dt) % 3000 == 0) {
 			CBoss::GetInstance()->isWakingUp = false;
 		}
 	}
 
 	grid->UpdateCell();
-	if (playerBig->scene_gate != 53) {
-		grid->CalcObjectInViewPort();
+	/*if (playerBig->scene_gate != 53) {
+		
+	}*/
 
-		for (auto& obj : grid->GetStaticObjectInViewPort())
-		{
-			listObjects.push_back(obj);
-		}
+	grid->CalcObjectInViewPort();
 
-		for (auto& obj : grid->GetMovingObjectInViewPort())
-		{
-			switch (obj->type) {
-			case ORB1:
-			case WORM:
-			case FLOATER:
-			case DOME:
-			case JUMPER:
-			case INSECT:
-			case ORB2:
-			case MINE:
-			case SKULL:
-			case CANON:
-			case EYEBALL:
-			case TELEPORTER:
-				listEnemies.push_back(static_cast<Enemy*>(obj));
-				break;
-			case ITEM:
-				listItems.push_back(static_cast<Item*>(obj));
-				break;
-			}
+	for (auto& obj : grid->GetStaticObjectInViewPort())
+	{
+		listObjects.push_back(obj);
+	}
+
+	for (auto& obj : grid->GetMovingObjectInViewPort())
+	{
+		switch (obj->type) {
+		case ORB1:
+		case WORM:
+		case FLOATER:
+		case DOME:
+		case JUMPER:
+		case INSECT:
+		case ORB2:
+		case MINE:
+		case SKULL:
+		case CANON:
+		case EYEBALL:
+		case TELEPORTER:
+			listEnemies.push_back(static_cast<Enemy*>(obj));
+			break;
+		case ITEM:
+			listItems.push_back(static_cast<Item*>(obj));
+			break;
 		}
 	}
 

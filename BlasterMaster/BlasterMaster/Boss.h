@@ -20,7 +20,7 @@ public:
 	//vector<CBossBullet*> listBossBullet;
 	DWORD timeStartAttack = TIME_DEFAULT;
 	Animation* CurAnimation;
-	CBoss(float x = 118 * BIT, float y = 66 * BIT);
+	CBoss(float x = 116 * BIT, float y = 66 * BIT);
 	bool CheckIsHit() { return isHit; }
 	void ChangeAnimation(STATEOBJECT StateObject);
 	STATEOBJECT GetStateObject() { return this->StateObject; }

@@ -12,6 +12,7 @@ class Sophia : public GameObject
 public:
 	PlayerBullet* bullet;
 	float oldCx, oldCy;
+	bool isOnPosition = false;
 	int old_scene_id = 0;
 	static Sophia* _instance;
 	int stateBoundingBox;

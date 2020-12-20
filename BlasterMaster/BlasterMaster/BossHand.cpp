@@ -4,7 +4,7 @@
 #include "Power.h"
 #include "DamageBrick.h"
 #include "Boss.h"
-
+#include "time.h"
 
 
 
@@ -99,19 +99,11 @@ void CBossHand::Move() {
 		}
 	}
 	if (y >= hand_max_y || y <= hand_min_y) {
-		vy = 0;
-		
-		nx = rand() %3 == 1 ? 1 : -1;
-
-		vx = nx * BOSS_HAND_WALKING_SPEED_X;
-
-		/*if (typeHand == 1) {
-
-			vx = BOSS_HAND_WALKING_SPEED_X;
+		int rand1 = 0;
+		while (rand1 == 0) {
+			rand1 = rand() % 1 + (-1);
 		}
-		else {
-			vx = -BOSS_HAND_WALKING_SPEED_X;
-		}*/
-		
+		vx = rand1 * BOSS_HAND_WALKING_SPEED_X;
+		vy = 0;
 	}
 }

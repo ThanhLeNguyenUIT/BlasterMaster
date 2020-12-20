@@ -9,9 +9,9 @@
 #define BOSS_WALKING_SPEED_X 0.03f
 #define BOSS_WALKING_SPEED_Y 0.03f
 #define BOSS_MAX_TOP 65*BIT
-#define BOSS_MAX_LEFT 110*BIT
-#define BOSS_MAX_BOTTOM 66.5*BIT
-#define BOSS_MAX_RIGHT 126*BIT
+#define BOSS_MAX_LEFT 113*BIT
+#define BOSS_MAX_BOTTOM 66*BIT
+#define BOSS_MAX_RIGHT 125*BIT
 
 CBoss* CBoss::_instance = NULL;
 
@@ -60,10 +60,10 @@ CBoss::CBoss(float x, float y)
 
 void CBoss::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	/*left = x;
+	left = x;
 	top = y;
 	right = x + 60;
-	bottom = y + 66;*/
+	bottom = y + 66;
 }
 
 void CBoss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

@@ -54,6 +54,9 @@
     <Filter Include="Source Files\GameObjects\Player\State">
       <UniqueIdentifier>{75ea80e3-8a58-408c-88f7-8087e64108ba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GameObjects\Enemy\Boss">
+      <UniqueIdentifier>{725dd948-af2b-4be4-9745-111ba7c79b4e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Textures\bbox.png">
@@ -247,6 +250,15 @@
     <ClCompile Include="Teleporter.cpp">
       <Filter>Source Files\GameObjects\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>Source Files\GameObjects\Enemy\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="BossArm.cpp">
+      <Filter>Source Files\GameObjects\Enemy\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="BossHand.cpp">
+      <Filter>Source Files\GameObjects\Enemy\Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprites.h">
@@ -425,6 +437,15 @@
     </ClInclude>
     <ClInclude Include="Teleporter.h">
       <Filter>Source Files\GameObjects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss.h">
+      <Filter>Source Files\GameObjects\Enemy\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="BossArm.h">
+      <Filter>Source Files\GameObjects\Enemy\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="BossHand.h">
+      <Filter>Source Files\GameObjects\Enemy\Boss</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

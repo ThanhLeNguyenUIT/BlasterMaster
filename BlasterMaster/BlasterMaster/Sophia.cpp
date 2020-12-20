@@ -125,8 +125,9 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* staticObject, vector<Enemy*>
 				}
 				if (dynamic_cast<DamageBrick*>(e->obj)) {
 					if (e->nx != 0) vx = 0;
-					if (e->ny != 0)
+					if (e->ny !=0 )
 					{
+						
 						vy = 0;
 						// damage
 						if (timeDamaged == TIME_DEFAULT) {
@@ -134,8 +135,10 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* staticObject, vector<Enemy*>
 						}
 						IsJumping = false;
 						if (GetTickCount() - timeDamaged >= 600) {
-							//health = health - 1;
-							timeDamaged = GetTickCount();
+ 							if (e->ny != 1) {
+								health = health - 1;
+								timeDamaged = GetTickCount();
+							}
 						}
 					}
 				}

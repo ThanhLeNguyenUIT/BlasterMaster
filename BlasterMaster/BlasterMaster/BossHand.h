@@ -1,8 +1,8 @@
 #pragma once
 #include "Enemy.h"
 
-#define BOSS_HAND_WALKING_SPEED_X 0.06f
-#define BOSS_HAND_WALKING_SPEED_Y 0.06f
+#define BOSS_HAND_WALKING_SPEED_X 0.05f
+#define BOSS_HAND_WALKING_SPEED_Y 0.05f
 
 class CBossHand : public Enemy
 {

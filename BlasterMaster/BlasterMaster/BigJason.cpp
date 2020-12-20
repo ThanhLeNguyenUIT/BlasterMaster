@@ -210,6 +210,9 @@ void BigJason::ChangeScene(int scene_gate) {
 	scene_id = scene_gate;
 	if (Allow[BIG_JASON]) {
 		switch (scene_gate) {
+		case 53:
+			SetPosition(118 * BIT, 70 * BIT);
+			break;
 		case 40:
 			if (sceneHistory.size() == 1) {
 				SetPosition(5 * BIT, 7 * BIT);

@@ -39,6 +39,7 @@ class Game
 	void _ParseSection_SCENES(string line);
 
 public:
+	bool isFlashing = false;
 	int current_scene;
 	void InitKeyboard();
 	void SetKeyHandler(LPKEYEVENTHANDLER handler) { keyHandler = handler; }

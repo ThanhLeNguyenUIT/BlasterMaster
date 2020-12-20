@@ -10,6 +10,7 @@
 class BigJason : public GameObject
 {
 public:
+	bool doneFlash;
 	PlayerBullet* bullet;
 	vector<int> sceneHistory = { 11 };
 	int scene_gate;

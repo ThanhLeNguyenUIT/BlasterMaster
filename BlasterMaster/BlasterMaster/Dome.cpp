@@ -4,9 +4,10 @@
 #include "Enemy.h"
 #include "Power.h"
 
-CDome::CDome()
+CDome::CDome(int state)
 {
 	type = DOME;
+	SetState(state);
 	width = DOME_BBOX_WIDTH;
 	height = DOME_BBOX_HEIGHT;
 	Reset();
@@ -279,13 +280,27 @@ void CDome::ChangeAnimation(STATEOBJECT StateObject) {
 }
 
 void CDome::Reset() {
-	nx = 1;
-	top = true;
-	//top = false;
-	right = false;
-	bottom = false;
-	//bottom = false;
-	left = false;
-	drop = false;
-	ChangeAnimation(DOME_STATE_WALKING_TOP);
+	state = static_cast<STATEOBJECT>(state);
+	switch (state)
+	{
+	case DOME_STATE_WALKING_LEFT:
+		top = false;
+		bottom = false;
+		right = true;
+		left = false;
+		drop = false;
+		ChangeAnimation(DOME_STATE_IDLE);
+		break;
+	case DOME_STATE_WALKING_RIGHT:
+		top = false;
+		bottom = true;
+		right = false;
+		left = false;
+		drop = false;
+		nx = -1;
+		ChangeAnimation(DOME_STATE_IDLE);
+		break;
+	default:
+		break;
+	}
 }

@@ -11,7 +11,7 @@ public:
 	bool left;
 	bool drop;
 	Animation* CurAnimation;
-	CDome();
+	CDome(int state);
 	void ChangeAnimation(STATEOBJECT StateObject);
 	void SetType(TYPE type) { this->type = type; }
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);

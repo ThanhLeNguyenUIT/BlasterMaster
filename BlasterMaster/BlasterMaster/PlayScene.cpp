@@ -244,9 +244,12 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 		enemy = new CFloater();
 		grid->LoadObject(enemy, x, y);
 		break;
-	case DOME:
-		enemy = new CDome();
+	/*case DOME:
+	{
+		int state = atoi(tokens[3].c_str());
+		enemy = new CDome(state);
 		grid->LoadObject(enemy, x, y);
+	}*/
 		break;
 	case JUMPER:
 		enemy = new CJumper();
@@ -376,6 +379,9 @@ void PlayScene::Load() {
 		playerSmall->IsRender = false;
 		playerBig->Reset();
 		playerBig->IsRender = false;
+		if (playerBig->scene_gate == 53) {
+			CBoss::GetInstance()->Reset();
+		}
 	}
 }
 
@@ -436,6 +442,22 @@ void PlayScene::Update(DWORD dt) {
 		listItems.clear();
 		listObjects.clear();
 
+		if ((playerBig->scene_gate == 39) && !playerBig->doneFlash) {
+			Game::GetInstance()->isFlashing = true;
+			if ((GetTickCount() - dt) % 5000 == 0) {
+				Game::GetInstance()->isFlashing = false;
+				playerBig->doneFlash = true;
+				playerBig->scene_gate = 53;
+				playerBig->ChangeScene(playerBig->scene_gate);
+			}
+		}
+
+		if (CBoss::GetInstance()->isWakingUp && playerBig->scene_gate == 53) {
+			if ((GetTickCount() - dt) % 7000 == 0) {
+				CBoss::GetInstance()->isWakingUp = false;
+			}
+		}
+
 		grid->UpdateCell();
 		grid->CalcObjectInViewPort();
 
@@ -471,6 +493,11 @@ void PlayScene::Update(DWORD dt) {
 		player->Update(dt, &listObjects, &listEnemies, &listItems, &listEnemyBullets);
 		playerSmall->Update(dt, &listObjects, &listEnemies, &listItems, &listEnemyBullets);
 		playerBig->Update(dt, &listObjects, &listEnemies, &listItems, &listEnemyBullets);
+		// Update boss 
+		if (playerBig->scene_gate == 53) {
+			CBoss::GetInstance()->IsRender = true;
+			CBoss::GetInstance()->Update(dt, &listObjects);
+		}
 		// Update item and enemy
 		for (size_t i = 0; i < listEnemies.size(); i++) {
 			listEnemies[i]->Update(dt, &listObjects);
@@ -832,6 +859,10 @@ void PlayScene::Render() {
 		player->Render();
 		playerSmall->Render();
 		playerBig->Render();
+
+		if (playerBig->scene_gate == 53) {
+			CBoss::GetInstance()->Render();
+		}
 
 		for (int i = 0; i < listObjects.size(); i++) {
 			listObjects[i]->Render();

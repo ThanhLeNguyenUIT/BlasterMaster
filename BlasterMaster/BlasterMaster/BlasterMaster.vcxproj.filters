@@ -60,6 +60,9 @@
     <Filter Include="Source Files\Scenes\EndScene">
       <UniqueIdentifier>{1153edae-468a-4656-a17c-365e42311c6f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GameObjects\Enemy\Boss">
+      <UniqueIdentifier>{0e036234-079b-4bf7-86a1-ba0b734d0ddf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Textures\bbox.png">
@@ -265,6 +268,15 @@
     <ClCompile Include="End2.cpp">
       <Filter>Source Files\Scenes\EndScene</Filter>
     </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>Source Files\GameObjects\Enemy\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="BossArm.cpp">
+      <Filter>Source Files\GameObjects\Enemy\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="BossHand.cpp">
+      <Filter>Source Files\GameObjects\Enemy\Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprites.h">
@@ -455,6 +467,15 @@
     </ClInclude>
     <ClInclude Include="End2.h">
       <Filter>Source Files\Scenes\EndScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss.h">
+      <Filter>Source Files\GameObjects\Enemy\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="BossArm.h">
+      <Filter>Source Files\GameObjects\Enemy\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="BossHand.h">
+      <Filter>Source Files\GameObjects\Enemy\Boss</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

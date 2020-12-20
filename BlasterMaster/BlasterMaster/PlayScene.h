@@ -29,6 +29,7 @@
 #include "EyeBall.h"
 #include "WhiteBullet.h"
 #include "EnemyBullet.h"
+#include "Boss.h"
 
 #include "Intro.h"
 #include "End.h"

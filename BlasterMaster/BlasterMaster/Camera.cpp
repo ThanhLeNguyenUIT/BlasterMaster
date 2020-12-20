@@ -731,7 +731,33 @@ void Camera::Update()
 		}
 	}
 
+	if ((player->IsUp) && ((player->scene_id == 5) && (cy == HIGHEST_5TH_SCENE + 16))) {
+		cy -= 16;
+	}
 
+	if ((player->IsUp) && ((player->scene_id == 4) && (cy == HIGHEST_4TH_SCENE + 16))) {
+		cy -= 16;
+	}
+
+	if ((player->IsUp) && ((player->scene_id == 5) && (cy + 270 >= LOWEST_5TH_SCENE))) {
+		cy -= 16;
+	}
+
+
+	if ((player->IsUp) && ((player->scene_id == 2) && (cy + 270 >= LOWEST_SECOND_SCENE))) {
+		cy -= 16;
+	}
+
+	if ((player->IsUp) && ((player->scene_id == 4) && (cy + 270 >= LOWEST_4TH_SCENE))) {
+		cy -= 16;
+	}
+
+	if ((player->IsUp) && ((player->scene_id == 7) && (cy + 270 >= LOWEST_7TH_SCENE))) {
+		cy -= 16;
+	}
+	if ((player->IsUp) && ((player->scene_id == 8) && (cy + 270 >= LOWEST_8TH_SCENE))) {
+		cy -= 16;
+	}
 
 	SetCamPos(cx, cy);
 }

@@ -1,6 +1,7 @@
 #include "Map.h"
 #include "Textures.h"
 #include "Sophia.h"
+#include "Camera.h"
 
 Map* Map::_instance = NULL;
 
@@ -24,7 +25,13 @@ void Map::Render()
 	r.right = 0;
 	r.bottom = 0;
 	//if (IsCollision(cam->GetBound(), r)) // if title rect touch the Camera rect then do not draw 
-	sprite->Draw(r.left, r.top);
+	int alpha = 255;
+	if (Game::GetInstance()->isFlashing && !camera->isInTransition) {
+		alpha = rand() % 3 == 1 ? 155 : rand() % 3 == 2 ? 205 : 255;
+		sprite->Draw(r.left, r.top, alpha);
+		//DebugOut(L"dang render map : %d \n",alpha);
+	}
+	else sprite->Draw(r.left, r.top, alpha);
 
 
 }

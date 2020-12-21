@@ -87,8 +87,8 @@ if(ptr) \
 
 //ITEM
 //POWER
-#define POWER_BBOX_WIDTH						16
-#define POWER_BBOX_HEIGHT						16
+#define ITEM_BBOX_WIDTH						16
+#define ITEM_BBOX_HEIGHT					16
 
 //ENEMY
 //ORB1
@@ -186,11 +186,13 @@ extern std::unordered_map<int, bool> keyCode;	// manage info keycode have been p
 #define player Sophia::GetInstance()
 #define playerSmall Jason::GetInstance()
 #define playerBig BigJason::GetInstance()
-#define map Map::GetInstance()
+#define MAP Map::GetInstance()
 #define grid Grid::GetInstance()
 #define camera Camera::GetInstance()
 #define intro CIntro::GetInstance()
 #define	hud HUD::GetInstance()
+#define boss	CBoss::GetInstance()
+#define sound Sound::GetInstance()
 
 extern enum STATENAME {
 	///// SOPHIA ///////
@@ -270,7 +272,7 @@ extern enum STATEOBJECT {
 	//ITEM
 	POWER_UP,
 	HOVER_UP,
-	GUN_UP,
+	THUNDER_UP,
 	// ENEMY DEAD
 	ENEMY_DEAD,
 	//// ORB1 /////////
@@ -397,6 +399,8 @@ extern enum STATEOBJECT {
 	BOSS_LEFT_HAND_NORMAL,
 	BOSS_RIGHT_HAND_NORMAL,
 	BOSS_BULLET_NORMAL,
+	//BOSS BULLET
+	BOSS_BULLET,
 };
 
 extern enum TYPE {

@@ -2,7 +2,7 @@
 #include "Enemy.h"
 #include "BossArm.h"
 #include "BossHand.h"
-
+#include "EnemyBullet.h"
 
 class CBoss : public Enemy
 {
@@ -10,7 +10,13 @@ class CBoss : public Enemy
 	int old_nx;
 	int old_ny;
 public:
+	EnemyBullet* bullet;
+	bool IsDamaged = false;
+	int healthBoss = 10;
 	static CBoss* _instance;
+	D3DCOLOR color;
+	DWORD timeDamaged = TIME_DEFAULT;
+	int countColor = 0;
 	bool IsRender;
 	bool isWakingUp = true;
 	bool isMoving = false;
@@ -20,7 +26,7 @@ public:
 	//vector<CBossBullet*> listBossBullet;
 	DWORD timeStartAttack = TIME_DEFAULT;
 	Animation* CurAnimation;
-	CBoss(float x = 118 * BIT, float y = 66 * BIT);
+	CBoss(float x = 116 * BIT, float y = 66 * BIT);
 	bool CheckIsHit() { return isHit; }
 	void ChangeAnimation(STATEOBJECT StateObject);
 	STATEOBJECT GetStateObject() { return this->StateObject; }

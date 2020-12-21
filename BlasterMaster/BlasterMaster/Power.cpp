@@ -2,8 +2,8 @@
 
 Power::Power() {
 	ChangeAnimation(POWER_UP);
-	width = POWER_BBOX_WIDTH;
-	height = POWER_BBOX_HEIGHT;
+	width = ITEM_BBOX_WIDTH;
+	height = ITEM_BBOX_HEIGHT;
 }
 
 Power::~Power() {
@@ -32,6 +32,6 @@ void Power::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
 	top = y;
-	right = x + POWER_BBOX_WIDTH;
-	bottom = y + POWER_BBOX_HEIGHT;
+	right = x + ITEM_BBOX_WIDTH;
+	bottom = y + ITEM_BBOX_HEIGHT;
 }

@@ -4,7 +4,8 @@
 #include "Jason.h"
 #include "BigJason.h"
 #include "Brick.h"
-
+#include "Gate.h"
+#include "Portal.h"
 
 EnemyBullet::EnemyBullet() {
 
@@ -69,6 +70,10 @@ void EnemyBullet::ChangeAnimation(STATEOBJECT StateObject) {
 		vx = 0;
 		ny = 1;
 		break;
+	case BOSS_BULLET:
+		vy = BOSS_BULLET_MOVING_SPEED;
+		vx = 0;
+		break;
 	case BULLET_SMALL_HIT:
 		vx = 0;
 		vy = 0;
@@ -125,6 +130,13 @@ void EnemyBullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy
 				{
 					ChangeAnimation(BULLET_SMALL_HIT);
 				}
+			}
+
+			if (dynamic_cast<Gate*>(e->obj)) {
+				ChangeAnimation(BULLET_SMALL_HIT);
+			}
+			if (dynamic_cast<Portal*>(e->obj)) {
+				ChangeAnimation(BULLET_SMALL_HIT);
 			}
 		}
 	}

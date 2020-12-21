@@ -50,6 +50,8 @@ public:
 	int IsKeyUp(int KeyCode);
 	void ProcessKeyboard();
 
+	HWND GetWinHandler() { return hWnd; }
+
 	void Load(LPCWSTR gameFile);
 	LPSCENE GetCurrentScene() { return scenes[current_scene]; }
 	void SwitchScene(int idScene);

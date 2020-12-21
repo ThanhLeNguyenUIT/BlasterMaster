@@ -161,12 +161,12 @@ void CDome::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						if (drop == true)
 						{
 							bottom = false;
-							if (this->x <= player->x)
+							if (this->x <= player->x && this->GetState() != DOME_STATE_FOLLOW_LEFT && this->GetState() != DOME_STATE_FOLLOW_RIGHT)
 							{
 								this->nx = 1;
 								ChangeAnimation(DOME_STATE_FOLLOW_RIGHT);
 							}
-							else
+							else if (this->GetState() != DOME_STATE_FOLLOW_RIGHT && this->GetState() != DOME_STATE_FOLLOW_LEFT)
 							{
 								this->nx = -1;
 								ChangeAnimation(DOME_STATE_FOLLOW_LEFT);
@@ -195,7 +195,6 @@ void CDome::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					drop = false;
 					if (this->GetState() != DOME_STATE_WALKING_RIGHT)
 					{
-						//this->SetState(DOME_STATE_WALKING_RIGHT);
 						ChangeAnimation(DOME_STATE_WALKING_RIGHT);
 					}
 				}
@@ -209,7 +208,6 @@ void CDome::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (this->GetState() != DOME_STATE_WALKING_LEFT)
 					{
 						nx = -1;
-						//this->SetState(DOME_STATE_WALKING_LEFT);
 						ChangeAnimation(DOME_STATE_WALKING_LEFT);
 					}
 				}

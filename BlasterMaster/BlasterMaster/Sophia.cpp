@@ -14,6 +14,7 @@
 #include "Worm.h"
 #include "Power.h"
 #include "Enemy.h"
+#include "Sound.h"
 
 #include "PlayerState.h"
 #include "PlayerFallingState.h"
@@ -60,6 +61,10 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* staticObject, vector<Enemy*>
 				if (count < 3)
 					count++;
 			}
+		}
+
+		if (countColor == 3) {
+			countColor = 0;
 		}
 		vector<LPCOLLISIONEVENT> coStaticObjects;
 		vector<LPCOLLISIONEVENT> coStaticObjectsResult;
@@ -125,16 +130,18 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* staticObject, vector<Enemy*>
 				}
 				if (dynamic_cast<DamageBrick*>(e->obj)) {
 					if (e->nx != 0) vx = 0;
-					if (e->ny != 0)
+					if (e->ny == -1 )
 					{
 						vy = 0;
+						IsDamaged = true;
 						// damage
 						if (timeDamaged == TIME_DEFAULT) {
 							timeDamaged = GetTickCount();
 						}
 						IsJumping = false;
-						if (GetTickCount() - timeDamaged >= 600) {
-							//health = health - 1;
+						if (GetTickCount() - timeDamaged >= 300) {
+							
+							health = health - 1;
 							timeDamaged = GetTickCount();
 						}
 					}
@@ -147,7 +154,7 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* staticObject, vector<Enemy*>
 					old_scene_id = scene_id;
 					scene_id = p->scene_id;
 					
-					if ((scene_id == 1) || (scene_id == 4)) {
+					if ((scene_id = 1) || (scene_id == 4)) {
 						Camera::GetInstance()->isChangingMap = false;
 					}
 					else {
@@ -181,6 +188,7 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* staticObject, vector<Enemy*>
 					timeDamaged = GetTickCount();
 				}
 				if (GetTickCount() - timeDamaged >= 600) {
+					sound->Play(GSOUND::S_HEALTH, false);
 					health = health - 1;
 					timeDamaged = TIME_DEFAULT;
 				}
@@ -190,6 +198,7 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* staticObject, vector<Enemy*>
 		for (int i = 0; i < coBullet->size(); i++) {
 			if (CollisionWithObject(coBullet->at(i))) {
 				if (coBullet->at(i)->GetStateObject() != BULLET_SMALL_HIT) {
+					sound->Play(GSOUND::S_HEALTH, false);
 					IsDamaged = true;
 					health = health - 1;
 				}
@@ -199,6 +208,7 @@ void Sophia::Update(DWORD dt, vector<LPGAMEOBJECT>* staticObject, vector<Enemy*>
 		// Collison with item 
 		for (int i = 0; i < coItem->size(); i++) {
 			if (CollisionWithObject(coItem->at(i))) {
+				sound->Play(GSOUND::S_ITEM, false);
 				coItem->at(i)->isDead = true;
 				if (health < 8)
 					health = health + 1;
@@ -384,15 +394,12 @@ void Sophia::Render() {
 	if (IsDamaged) {
 		if (countColor == 0) {
 			color = colorOrange;
-			countColor++;
 		}
 		else if (countColor == 1) {
 			color = colorGreen;
-			countColor++;
 		}
 		else {
 			color = colorGrey;
-			countColor = 0;
 		}
 	}
 
@@ -400,8 +407,10 @@ void Sophia::Render() {
 		if (!RenderBack) {
 			if(!IsDamaged)
 				CurAnimation->Render(x, y, alpha, idFrame, RenderOneFrame);
-			else 
+			else {
 				CurAnimation->Render(x, y, alpha, idFrame, RenderOneFrame, color);
+				countColor++;
+			}
 		}
 		else {
 			CurAnimation->RenderBack(x, y, alpha, idFrame, RenderOneFrame);
@@ -452,6 +461,8 @@ void Sophia::OnKeyDown(int key) {
 	switch (key) {
 	case DIK_SPACE:
 		//oldCy = player->y;
+		sound->Stop(GSOUND::S_JUMP);
+		sound->Play(GSOUND::S_JUMP, false);
 		if (!IsJumping) {
 			if (!IsUp) {
 				ChangeAnimation(new PlayerJumpingState(), NORMAL);
@@ -470,6 +481,7 @@ void Sophia::OnKeyDown(int key) {
 		if (timeStartAttack == TIME_DEFAULT) {
 			timeStartAttack = GetTickCount();
 		}
+		sound->Play(GSOUND::S_BULLET_SOPHIA, false);
 		IsFiring = true;
 		break;
 	case DIK_Q:

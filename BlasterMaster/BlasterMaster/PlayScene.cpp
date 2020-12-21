@@ -54,13 +54,13 @@ void PlayScene::_ParseSection_MAP(string line) {
 
 	if (tokens.size() < 2) return; // skip invalid lines
 
-	map->texID = atoi(tokens[0].c_str());
-	map->width = atoi(tokens[1].c_str());
-	map->height = atoi(tokens[2].c_str());
+	MAP->texID = atoi(tokens[0].c_str());
+	MAP->width = atoi(tokens[1].c_str());
+	MAP->height = atoi(tokens[2].c_str());
 
 	// create cells
-	grid->cols = (map->width / 90) + 1;
-	grid->rows = (map->height / 90) + 1;
+	grid->cols = (MAP->width / 90) + 1;
+	grid->rows = (MAP->height / 90) + 1;
 	grid->Init();
 }
 
@@ -244,12 +244,12 @@ void PlayScene::_ParseSection_OBJECTS(string line) {
 		enemy = new CFloater();
 		grid->LoadObject(enemy, x, y);
 		break;
-	/*case DOME:
+	case DOME:
 	{
 		int state = atoi(tokens[3].c_str());
 		enemy = new CDome(state);
 		grid->LoadObject(enemy, x, y);
-	}*/
+	}
 		break;
 	case JUMPER:
 		enemy = new CJumper();
@@ -386,12 +386,15 @@ void PlayScene::Load() {
 }
 
 void PlayScene::Update(DWORD dt) {
+
+
 	// UPDATE INTRO
 	if (GAME->current_scene == 100) {
 		Intro->Update(dt, &listObjects);
 	}
 	// UPDATE ENDSCNE 1
 	else if (GAME->current_scene == 200) {
+		sound->Stop(GSOUND::S_BOSS);
 		for (int i = 0; i < listEnds.size() ; i++) {
 			if (timeEnd == TIME_DEFAULT) {
 				timeEnd = GetTickCount();
@@ -411,7 +414,7 @@ void PlayScene::Update(DWORD dt) {
 	}
 	// UPDATE ENDSCNE 2
 	else if (GAME->current_scene == 300) {
-	
+		sound->Play(GSOUND::S_ENDSCENE23, true);
 		for (int i = 0; i < listEnd2.size(); i++) {
 			listEnd2[i]->Update(dt, &listObjects);
 		}
@@ -443,8 +446,12 @@ void PlayScene::Update(DWORD dt) {
 		listObjects.clear();
 
 		if ((playerBig->scene_gate == 39) && !playerBig->doneFlash) {
+			sound->Stop(GSOUND::S_MAP);
+			sound->Play(GSOUND::S_WARNING, false);
 			Game::GetInstance()->isFlashing = true;
-			if ((GetTickCount() - dt) % 5000 == 0) {
+			if (timeEnter == TIME_DEFAULT)
+				timeEnter = GetTickCount();
+			if (GetTickCount() - timeEnter >= 6000) {
 				Game::GetInstance()->isFlashing = false;
 				playerBig->doneFlash = true;
 				playerBig->scene_gate = 53;
@@ -452,8 +459,22 @@ void PlayScene::Update(DWORD dt) {
 			}
 		}
 
+		if (playerBig->scene_gate == 10 && item == 0) {
+			thunder = new Thunder();
+			thunder->SetPosition(85 * BIT, 50 * BIT);
+			hover = new Hover();
+			hover->SetPosition(86 * BIT, 50 * BIT);
+			grid->AddMovingObject(thunder);
+			grid->AddMovingObject(hover);
+			item++;
+		}
+
 		if (CBoss::GetInstance()->isWakingUp && playerBig->scene_gate == 53) {
-			if ((GetTickCount() - dt) % 7000 == 0) {
+			if (timeBoss == TIME_DEFAULT)
+				timeBoss = GetTickCount();
+			if (GetTickCount() - timeBoss >= 500) {
+				sound->Stop(GSOUND::S_WARNING);
+				sound->Play(GSOUND::S_BOSS, true);
 				CBoss::GetInstance()->isWakingUp = false;
 			}
 		}
@@ -498,6 +519,10 @@ void PlayScene::Update(DWORD dt) {
 			CBoss::GetInstance()->IsRender = true;
 			CBoss::GetInstance()->Update(dt, &listObjects);
 		}
+
+		if (boss->bullet!=NULL)
+			listEnemyBullets.push_back(boss->bullet);
+
 		// Update item and enemy
 		for (size_t i = 0; i < listEnemies.size(); i++) {
 			listEnemies[i]->Update(dt, &listObjects);
@@ -745,6 +770,21 @@ void PlayScene::Update(DWORD dt) {
 			}
 		}
 		hud->Update();
+		
+		if (Allow[SOPHIA] || Allow[JASON])
+		{
+			sound->Play(GSOUND::S_MAP, true);
+		}
+
+		if (boss->isDead) {
+			if (timeEnd == TIME_DEFAULT)
+				timeEnd = GetTickCount();
+			if (GetTickCount() - timeEnd >= 3000) {
+				camera->SetCamPos(0, 0);
+				timeEnd = TIME_DEFAULT;
+				GAME->SwitchScene(200);
+			}
+		}
 	}
 }
 
@@ -855,7 +895,7 @@ void PlayScene::Render() {
 
 	if (GAME->current_scene != 100 && GAME->current_scene != 200 && GAME->current_scene != 300 && GAME->current_scene != 400) {
 		Map::GetInstance()->Render();
-		grid->RenderCell();
+		//grid->RenderCell();
 		player->Render();
 		playerSmall->Render();
 		playerBig->Render();
@@ -911,10 +951,14 @@ void PlaySceneKeyHandler::OnKeyDown(int KeyCode){
 	switch (KeyCode)
 	{
 	case DIK_N:
+		sound->Stop(GSOUND::S_INTRO);
 		Game::GetInstance()->SwitchScene(1);
 		break;
 	case DIK_M:
+		sound->Stop(GSOUND::S_INTRO);
+		sound->Stop(GSOUND::S_MAP);
 		Game::GetInstance()->SwitchScene(200);
+		camera->SetCamPos(0, 0);
 		break;
 	}
 

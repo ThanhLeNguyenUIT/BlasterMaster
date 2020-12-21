@@ -38,6 +38,7 @@
     <ClCompile Include="DamageBrick.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Dome.cpp" />
+    <ClCompile Include="DSutil.cpp" />
     <ClCompile Include="End.cpp" />
     <ClCompile Include="End2.cpp" />
     <ClCompile Include="End3.cpp" />
@@ -51,6 +52,7 @@
     <ClCompile Include="GlobalConfig.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="Health.cpp" />
+    <ClCompile Include="Hover.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="Insect.cpp" />
     <ClCompile Include="Intro.cpp" />
@@ -85,10 +87,12 @@
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Skull.cpp" />
     <ClCompile Include="Sophia.cpp" />
+    <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Stair.cpp" />
     <ClCompile Include="Teleporter.cpp" />
     <ClCompile Include="Textures.cpp" />
+    <ClCompile Include="Thunder.cpp" />
     <ClCompile Include="WhiteBullet.cpp" />
     <ClCompile Include="Worm.cpp" />
   </ItemGroup>
@@ -105,6 +109,7 @@
     <ClInclude Include="DamageBrick.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="Dome.h" />
+    <ClInclude Include="DSutil.h" />
     <ClInclude Include="End.h" />
     <ClInclude Include="End2.h" />
     <ClInclude Include="End3.h" />
@@ -118,6 +123,7 @@
     <ClInclude Include="GlobalConfig.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="Health.h" />
+    <ClInclude Include="Hover.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="Insect.h" />
     <ClInclude Include="Intro.h" />
@@ -153,10 +159,12 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Skull.h" />
     <ClInclude Include="Sophia.h" />
+    <ClInclude Include="Sound.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Stair.h" />
     <ClInclude Include="Teleporter.h" />
     <ClInclude Include="Textures.h" />
+    <ClInclude Include="Thunder.h" />
     <ClInclude Include="WhiteBullet.h" />
     <ClInclude Include="Worm.h" />
   </ItemGroup>

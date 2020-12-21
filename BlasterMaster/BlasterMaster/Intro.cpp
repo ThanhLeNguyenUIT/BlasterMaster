@@ -1,5 +1,6 @@
 #include "Intro.h"
 #include "Brick.h"
+#include "Sound.h"
 
 CIntro* CIntro::_instance = NULL;
 
@@ -19,8 +20,13 @@ void CIntro::GetBoundingBox(float& left, float& top, float& right, float& bottom
 
 void CIntro::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	GameObject::Update(dt, coObjects);
+	//GameObject::Update(dt, coObjects);
+	if (CurAnimation->currentFrame == 4) {
+		sound->Play(GSOUND::S_INTRO, true);
+	}
+
 	if (CurAnimation->isLastFrame) {
+		sound->Stop(GSOUND::S_INTRO);
 		Game::GetInstance()->SwitchScene(1);
 	}
 

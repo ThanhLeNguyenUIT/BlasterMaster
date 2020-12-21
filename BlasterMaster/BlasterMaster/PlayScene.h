@@ -18,6 +18,8 @@
 #include "Worm.h"
 #include "Floater.h"
 #include "Power.h"
+#include "Hover.h"
+#include "Thunder.h"
 #include "Dome.h"
 #include "Jumper.h"
 #include "Insect.h"
@@ -38,6 +40,7 @@
 
 #include "Grid.h"
 #include "GlobalConfig.h"
+#include "Sound.h"
 
 using namespace std;
 
@@ -57,6 +60,11 @@ protected:
 	vector<End2*> listEnd2;
 	vector<End3*> listEnd3;
 	Power* power;
+	Thunder* thunder;
+	Hover* hover;
+	int item = 0;
+	DWORD timeEnter = TIME_DEFAULT;
+	DWORD timeBoss = TIME_DEFAULT;
 	DWORD timeEnd = TIME_DEFAULT;
 	float movingX = 0;
 	//Sophia* sophia;

@@ -8,9 +8,9 @@
 #include <ctime>
 #define BOSS_WALKING_SPEED_X 0.03f
 #define BOSS_WALKING_SPEED_Y 0.03f
-#define BOSS_MAX_TOP 65*BIT
+#define BOSS_MAX_TOP 67*BIT
 #define BOSS_MAX_LEFT 113*BIT
-#define BOSS_MAX_BOTTOM 66*BIT
+#define BOSS_MAX_BOTTOM 68*BIT
 #define BOSS_MAX_RIGHT 125*BIT
 
 CBoss* CBoss::_instance = NULL;
@@ -27,33 +27,32 @@ CBoss::CBoss(float x, float y)
 {
 	type = BOSS;
 	Reset();
-	health = 10;
 	this->x = x;
 	this->y = y;
-	CBossArm* arm = new CBossArm(118 * BIT - 6, 66 * BIT, 1, 0.031, 0.031);
+	CBossArm* arm = new CBossArm(116 * BIT - 6, 66 * BIT, 1, 0.031, 0.031);
 	listBossArm.push_back(arm);
 
 	for (int i = 1; i < 4; i++)
 	{
-		CBossArm* arm = new CBossArm(118 * BIT - 6, 66 * BIT, 1, 0.027 + 0.0035 * (i + 1), 0.027 + 0.0035 * (i + 1));
+		CBossArm* arm = new CBossArm(116 * BIT - 6, 66 * BIT, 1, 0.027 + 0.0035 * (i + 1), 0.027 + 0.0035 * (i + 1));
 		listBossArm.push_back(arm);
 	}
 
-	CBossArm* arm1 = new CBossArm(118 * BIT + 50, 66 * BIT, 2, 0.031, 0.031);
+	CBossArm* arm1 = new CBossArm(116 * BIT + 50, 66 * BIT, 2, 0.031, 0.031);
 	listBossArm.push_back(arm1);
 
 
 	for (int i = 1; i < 4; i++)
 	{
-		CBossArm* arm = new CBossArm(118 * BIT + 54, 66 * BIT, 2, 0.027 + 0.0035 * (i + 1), 0.027 + 0.0035 * (i + 1));
+		CBossArm* arm = new CBossArm(116 * BIT + 54, 66 * BIT, 2, 0.027 + 0.0035 * (i + 1), 0.027 + 0.0035 * (i + 1));
 		listBossArm.push_back(arm);
 	}
 	float x_boss, y_boss;
 	GetPosition(x_boss, y_boss);
-	CBossHand* hand1 = new CBossHand(118 * BIT - 12, 66 * BIT + 20, 1, x_boss, y_boss);
+	CBossHand* hand1 = new CBossHand(116 * BIT - 12, 66 * BIT + 20, 1, x_boss, y_boss);
 	listBossHand.push_back(hand1);
 	//DebugOut(L"succesful2");
-	CBossHand* hand2 = new CBossHand(118 * BIT + 66, 66 * BIT + 20, 2, x_boss, y_boss);
+	CBossHand* hand2 = new CBossHand(116 * BIT + 66, 66 * BIT + 20, 2, x_boss, y_boss);
 	listBossHand.push_back(hand2);
 	//DebugOut(L"succesful3");
 }
@@ -105,7 +104,6 @@ void CBoss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		listBossHand[i]->Update(dt, coObjects);
 	}
 
-
 	//update tay
 	float x_hand_left, y_hand_left, x_hand_right, y_hand_right;
 	float x_diff_left, y_diff_left;
@@ -156,18 +154,27 @@ void CBoss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	coEvents.clear();
 
-	if (health == 0) {
-		StateObject = ENEMY_DEAD;
+	// dead
+	if (healthBoss == 0) {
+		isDead = true;
 	}
 
+	if (IsDamaged) {
+		if (timeDamaged == TIME_DEFAULT) {
+			timeDamaged = GetTickCount();
+		}
+		if (GetTickCount() - timeDamaged >= 600) {
+			IsDamaged = false;
+			timeDamaged = TIME_DEFAULT;
+		}
+	}
+
+	// create bullet
+	if (!isWakingUp && !isDead)
+		Fire();
 	// turn off collision when die 
-	if (StateObject != ENEMY_DEAD)
+	if (!isDead)
 		CalcPotentialCollisions(coObjects, coEvents);
-
-	Fire();
-
-
-
 
 	if (coEvents.size() == 0)
 	{
@@ -203,26 +210,48 @@ void CBoss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CBoss::Render()
 {
 	int alpha = 255;
-	if (isWakingUp) {
+	/*if (isWakingUp) {
 		alpha = rand() % 2 == 1 ? 50 : rand() % 2 == 1 ? 155 : 255;
-		//DebugOut(L"%d \t", alpha);
-	}
+	}*/
 	
-	CurAnimation->Render(x, y, alpha);
-	RenderBoundingBox();
+	D3DCOLOR colorOrange = D3DCOLOR_ARGB(alpha, 248, 120, 88);
+	D3DCOLOR colorGreen = D3DCOLOR_ARGB(alpha, 0, 157, 64);
+	D3DCOLOR colorGrey = D3DCOLOR_ARGB(alpha, 188, 186, 182);
 
-	for (int i = 0; i < listBossArm.size(); i++)
-	{
-		listBossArm[i]->setAlpha(alpha);
-		listBossArm[i]->Render();
+	if (IsDamaged) {
+		if (countColor == 0) {
+			color = colorOrange;
+			countColor++;
+		}
+		else if (countColor == 1) {
+			color = colorGreen;
+			countColor++;
+		}
+		else {
+			color = colorGrey;
+			countColor = 0;
+		}
 	}
-	for (int i = 0; i < listBossHand.size(); i++)
-	{
-		listBossHand[i]->setAlpha(alpha);
-		listBossHand[i]->Render();
+
+	if (!isDead) {
+		if(!IsDamaged)
+			CurAnimation->Render(x, y, alpha);
+		else 
+			CurAnimation->Render(x, y, alpha, color);
+
+		for (int i = 0; i < listBossArm.size(); i++)
+		{
+			listBossArm[i]->setAlpha(alpha);
+			listBossArm[i]->Render();
+		}
+		for (int i = 0; i < listBossHand.size(); i++)
+		{
+			listBossHand[i]->setAlpha(alpha);
+			listBossHand[i]->Render();
+		}
+
+		RenderBoundingBox();
 	}
-
-
 }
 
 void CBoss::ChangeAnimation(STATEOBJECT StateObject) {
@@ -235,8 +264,6 @@ void CBoss::ChangeAnimation(STATEOBJECT StateObject) {
 void CBoss::Reset() {
 	nx = 1;
 	ChangeAnimation(BOSS_MOVE);
-	//if(playerBig->scene_id == )
-	//else SetSpeed(, 0);
 	SetPosition(111 * BIT, 66 * BIT);
 }
 
@@ -249,23 +276,18 @@ void CBoss::Sleep() {
 
 
 void CBoss::Fire() {
-	/*if (timeStartAttack == TIME_DEFAULT) {
+	if (timeStartAttack == TIME_DEFAULT) {
 		timeStartAttack = GetTickCount();
+		IsFiring = false;
 	}
-	if (GetTickCount() - timeStartAttack >= 2000 && timeStartAttack != TIME_DEFAULT) {
-		bullet = new CBossBullet();
-		bullet->typeBullet = BOSS_BULLET;
-		if (nx > 0) {
-			bullet->SetPosition(x + 30, y + 40);
-			bullet->ChangeAnimation(BOSS_BULLET_NORMAL);
-		}
-		else {
-			bullet->SetPosition(x + FLOATER_BBOX_WIDTH / 4, y + FLOATER_BBOX_HEIGHT / 3);
-			bullet->ChangeAnimation(BOSS_BULLET_NORMAL);
-		}
-		listBossBullet.push_back(bullet);
-		timeStartAttack = GetTickCount();
-	}*/
+	if (GetTickCount() - timeStartAttack >= 1400 && timeStartAttack != TIME_DEFAULT) {
+		bullet = new EnemyBullet();
+		bullet->type = ENEMY_BULLET;
+		bullet->SetPosition(x + 60 / 2, y + 66 / 3);
+		bullet->ChangeAnimation(BOSS_BULLET);
+		IsFiring = true;
+		timeStartAttack = TIME_DEFAULT;
+	}
 }
 
 void CBoss::WakeUp() {

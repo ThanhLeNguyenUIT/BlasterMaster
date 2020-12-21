@@ -13,6 +13,7 @@
 #include "Worm.h"
 #include "Orb1.h"
 #include "Power.h"
+#include "Sound.h"
 
 #include "PlayerState.h"
 #include "PlayerFallingState.h"
@@ -223,6 +224,7 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>* co
 					timeDamaged = GetTickCount();
 				}
 				if (GetTickCount() - timeDamaged >= 600) {
+					sound->Play(GSOUND::S_HEALTH, false);
 					health = health - 1;
 					timeDamaged = TIME_DEFAULT;
 				}
@@ -232,6 +234,7 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>* co
 		for (int i = 0; i < coBullet->size(); i++) {
 			if (CollisionWithObject(coBullet->at(i))) {
 				if (coBullet->at(i)->GetStateObject() != BULLET_SMALL_HIT) {
+					sound->Play(GSOUND::S_HEALTH, false);
 					IsDamaged = true;
 					health = health - 1;
 				}
@@ -241,6 +244,7 @@ void Jason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>* co
 		// Collison with item 
 		for (int i = 0; i < coItem->size(); i++) {
 			if (CollisionWithObject(coItem->at(i))) {
+				sound->Play(GSOUND::S_ITEM, false);
 				coItem->at(i)->isDead = true;
 				if (health < 8)
 					health = health + 1;
@@ -414,6 +418,8 @@ Jason* Jason::GetInstance() {
 void Jason::OnKeyDown(int key) {
 	switch (key) {
 	case DIK_SPACE:
+		sound->Stop(GSOUND::S_JUMP);
+		sound->Play(GSOUND::S_JUMP, false);
 		IsTouchStair = false;
 		ChangeAnimation(new PlayerJumpingState());
 		playerSmall->IsJumping = true;
@@ -439,6 +445,7 @@ void Jason::OnKeyDown(int key) {
 		if (timeStartAttack == TIME_DEFAULT) {
 			timeStartAttack = GetTickCount();
 		}
+		sound->Play(GSOUND::S_BULLET_SOPHIA, false);
 		IsFiring = true;
 		break;
 	case DIK_DOWN:

@@ -9,10 +9,11 @@
 #include "Worm.h"
 #include "Power.h"
 #include "Stair.h"
-
+#include "Boss.h"
+#include "Sound.h"
 
 PlayerBullet::PlayerBullet() {
-	
+	sound->Play(GSOUND::S_BULLET_SOPHIA, false);
 }
 
 PlayerBullet::~PlayerBullet() {
@@ -49,6 +50,8 @@ void PlayerBullet::ChangeAnimation(STATEOBJECT StateObject) {
 		else vx = -BULLET_MOVING_SPEED;
 		break;
 	case BULLET_SMALL_HIT:
+		sound->Stop(GSOUND::S_BULLET_EXPLODE);
+		sound->Play(GSOUND::S_BULLET_EXPLODE, false);
 		vx = 0;
 		vy = 0;
 		IsHitting = true;
@@ -71,6 +74,8 @@ void PlayerBullet::ChangeAnimation(STATEOBJECT StateObject) {
 		vx = 0;
 		break;
 	case BIG_JASON_BULLET_HIT:
+		sound->Stop(GSOUND::S_BULLET_EXPLODE);
+		sound->Play(GSOUND::S_BULLET_EXPLODE, false);
 		vx = 0;
 		vy = 0;
 		IsHitting = true;
@@ -174,6 +179,18 @@ void PlayerBullet::Update(DWORD dt, vector<LPGAMEOBJECT>* staticObjects, vector<
 				ChangeAnimation(BULLET_SMALL_HIT);
 			else if (Allow[BIG_JASON])
 				ChangeAnimation(BIG_JASON_BULLET_HIT);
+		}
+	}
+
+	if(CollisionWithObject(boss) && boss->isDead == false){
+		ChangeAnimation(BIG_JASON_BULLET_HIT);
+		boss->IsDamaged = true;
+		if (boss->timeDamaged == TIME_DEFAULT) {
+			boss->timeDamaged = GetTickCount();
+		}
+		if (GetTickCount() - boss->timeDamaged >= 200) {
+			boss->healthBoss = boss->healthBoss - 1;
+			boss->timeDamaged = TIME_DEFAULT;
 		}
 	}
 }

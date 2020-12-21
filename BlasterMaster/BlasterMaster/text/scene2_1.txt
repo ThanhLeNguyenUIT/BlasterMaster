@@ -3,8 +3,6 @@
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = PLAYER , 1 = SOPHIA, 2 = JASON, 5 = BRICK
-#ORB1
-18	70	69
 #WORM
 19	73.5	66
 19	77.5	66
@@ -16,7 +14,8 @@
 20	115	69
 20	121	68
 #DOME
-23	73.1	67	66
+23	89.2	67	66
+23	82	72.8	68
 # BRICK
 # SCENE 2.1
 6	63	65	1	13

@@ -9,6 +9,8 @@
 #include "Brick.h"
 #include "Gate.h"
 #include "Enemy.h"
+#include "Boss.h"
+#include "Sound.h"
 
 #include "PlayerState.h"
 #include "PlayerFallingState.h"
@@ -180,6 +182,7 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>*
 					timeDamaged = GetTickCount();
 				}
 				if (GetTickCount() - timeDamaged >= 600) {
+					sound->Play(GSOUND::S_HEALTH, false);
 					health = health - 1;
 					timeDamaged = TIME_DEFAULT;
 				}
@@ -189,6 +192,7 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>*
 		for (int i = 0; i < coBullet->size(); i++) {
 			if (CollisionWithObject(coBullet->at(i))) {
 				if (coBullet->at(i)->GetStateObject() != BULLET_SMALL_HIT) {
+					sound->Play(GSOUND::S_HEALTH, false);
 					IsDamaged = true;
 					health = health - 1;
 				}
@@ -198,9 +202,21 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>*
 		// Collison with item 
 		for (int i = 0; i < coItem->size(); i++) {
 			if (CollisionWithObject(coItem->at(i))) {
+				sound->Play(GSOUND::S_ITEM, false);
 				coItem->at(i)->isDead = true;
 				if (health < 8)
 					health = health + 1;
+			}
+		}
+
+		if (CollisionWithObject(boss)) {
+			IsDamaged = true;
+			if (timeDamaged == TIME_DEFAULT) {
+				timeDamaged = GetTickCount();
+			}
+			if (GetTickCount() - timeDamaged >= 600) {
+				health = health - 1;
+				timeDamaged = TIME_DEFAULT;
 			}
 		}
 	}
@@ -211,7 +227,7 @@ void BigJason::ChangeScene(int scene_gate) {
 	if (Allow[BIG_JASON]) {
 		switch (scene_gate) {
 		case 53:
-			SetPosition(118 * BIT, 70 * BIT);
+			SetPosition(117 * BIT, 74 * BIT);
 			break;
 		case 40:
 			if (sceneHistory.size() == 1) {
@@ -554,6 +570,7 @@ void BigJason::OnKeyDown(int key) {
 		if (timeStartAttack == TIME_DEFAULT) {
 			timeStartAttack = GetTickCount();
 		}
+		sound->Play(GSOUND::S_BULLET_SOPHIA, false);
 		IsFiring = true;
 		break;
 	case DIK_RIGHT:

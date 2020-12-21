@@ -7,6 +7,7 @@ class CBossArm : public Enemy
 	float new_vx, new_vy; // xet van toc cho tay con boss
 	float x_follow, y_follow;
 	int alpha1 = 255;
+	float old_vx, old_vy;
 public:
 	Animation* CurAnimation;
 	//bool isStop = false;
@@ -31,5 +32,13 @@ public:
 	bool Stop(float x_stop, float y_stop) {
 		if (x == x_stop && y == y_stop) return true;
 		return false;
+	}
+	void SetOldSpeed() {
+		old_vx = vx;
+		old_vy = vy;
+	}
+	void GetOldSpeed(float old_vx, float old_vy) {
+		old_vx = this->old_vx;
+		old_vy = this->old_vy;
 	}
 };

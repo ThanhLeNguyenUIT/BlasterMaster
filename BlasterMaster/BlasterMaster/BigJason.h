@@ -6,6 +6,7 @@
 #include "EnemyBullet.h"
 #include "Item.h"
 #include "Enemy.h"
+#include "DamageBrick.h"
 
 class BigJason : public GameObject
 {
@@ -20,7 +21,7 @@ public:
 	PlayerState* state;
 	Animation* CurAnimation;
 	std::unordered_map<TYPE, bool> allow;
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects, vector<Enemy*>* coEnemy, vector<Item*>* coItem, vector<EnemyBullet*>* coBullet);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects, vector<Enemy*>* coEnemy, vector<Item*>* coItem, vector<EnemyBullet*>* coBullet, vector<DamageBrick*>* listDamageBrick);
 	virtual void Render();
 	DWORD timeStartAttack = TIME_DEFAULT;
 	DWORD timeDamaged = TIME_DEFAULT;
@@ -57,5 +58,6 @@ public:
 	void Reset(float x = 384, float y = 112);
 	void OnKeyUp(int key);
 	void OnKeyDown(int key);
+	bool CheckColliWithDamageBrick(DamageBrick* obj);
 };
 

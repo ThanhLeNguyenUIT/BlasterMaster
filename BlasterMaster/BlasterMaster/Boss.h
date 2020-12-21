@@ -9,7 +9,9 @@ class CBoss : public Enemy
 	bool isHit = false;
 	int old_nx;
 	int old_ny;
+	float old_vx, old_vy;
 public:
+	D3DCOLOR color;
 	static CBoss* _instance;
 	bool IsRender;
 	bool isWakingUp = true;
@@ -34,4 +36,5 @@ public:
 	void WakeUp();
 	static CBoss* GetInstance();
 	void Fire();
+	void ContinueMoving();
 };

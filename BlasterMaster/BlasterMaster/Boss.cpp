@@ -68,13 +68,19 @@ void CBoss::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 
 void CBoss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+
+	if ((GetTickCount() - dt) % 300 == 0) {
+		isHit = true;
+		DebugOut(L"isHit = true");
+	}
+	float timeStop = GetTickCount();
 	//DebugOut(L"x=%d, y=%t", this->x, this->y);
 	if (isWakingUp && !isMoving) {
 		SetSpeed(0, 0);
 		for (int i = 0; i < listBossHand.size(); i++) {
 			listBossHand[i]->SetSpeed(0, 0);
 		}
-		/*for (int i = 0; i < listBossArm.size(); i++) {
+		/*for (int i = 0; i < listBossArm.size(); i++) { 
 			listBossArm[i]->SetSpeed(0, 0);
 		}*/
 	}
@@ -89,6 +95,15 @@ void CBoss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			isMoving = true;
 		}
 	}
+
+	//if (isHit) {
+	//	Sleep();
+	//	if ((GetTickCount() - dt) % 3000 == 0) {
+	//		//isHit = false;
+	//		ContinueMoving();
+	//		DebugOut(L"isHit =false");
+	//	}
+	//}
 	
 	GameObject::Update(dt, coObjects);
 
@@ -208,8 +223,8 @@ void CBoss::Render()
 		//DebugOut(L"%d \t", alpha);
 	}
 	
-	CurAnimation->Render(x, y, alpha);
-	RenderBoundingBox();
+	//CurAnimation->Render(x, y, alpha);
+	//RenderBoundingBox();
 
 	for (int i = 0; i < listBossArm.size(); i++)
 	{
@@ -222,6 +237,21 @@ void CBoss::Render()
 		listBossHand[i]->Render();
 	}
 
+	D3DCOLOR colorOrange = D3DCOLOR_ARGB(125, 188, 100, 255);
+	D3DCOLOR colorWhite = D3DCOLOR_ARGB(125, 66, 122, 66);
+	D3DCOLOR colorGrey = D3DCOLOR_ARGB(125, 225, 225, 225);
+
+	if (IsRender) {
+		if (!isHit)
+			CurAnimation->Render(x, y, alpha);
+		else {
+			//alpha = rand() % (255 - 155 + 1) + 155;
+			color = rand() % 2 == 1 ? colorOrange : rand() % 2 == 1 ? colorWhite : colorGrey;
+			CurAnimation->Render(x, y, alpha, 0, color);
+			DebugOut(L"color= %d \t", color);
+		}
+		//RenderBoundingBox();
+	}
 
 }
 
@@ -243,10 +273,41 @@ void CBoss::Reset() {
 //boss dung yen khi bi ban trung
 void CBoss::Sleep() {
 	if (isHit) {
-
+		old_vx = vx;
+		old_vy = vy;
+		int n = listBossHand.size();
+		SetSpeed(0, 0);
+		int m = listBossArm.size();
+		for (int i = 0; i < n; i++) {
+			listBossHand[i]->SetOldSpeed();
+			listBossHand[i]->SetSpeed(0, 0);
+		}
+		for (int i = 0; i < m; i++) {
+			listBossArm[i]->SetOldSpeed();
+			listBossArm[i]->SetSpeed(0, 0);
+		}
 	}
+
 }
 
+void CBoss::ContinueMoving() {
+	SetSpeed(old_vx, old_vy);
+	int n = listBossHand.size();
+	int m = listBossArm.size();
+
+	for (int i = 0; i < n; i++) {
+		float old_vx_hand = 0, old_vy_hand = 0;
+		listBossHand[i]->GetOldSpeed(old_vx_hand,old_vy_hand);
+		//listBossHand[i]->SetOldSpeed();
+		listBossHand[i]->SetSpeed(old_vx_hand, old_vy_hand);
+	}
+	for (int i = 0; i < m; i++) {
+		float old_vx_arm = 0 , old_vy_arm = 0;
+		listBossArm[i]->GetOldSpeed(old_vx_arm, old_vy_arm);
+		//listBossArm[i]->SetOldSpeed();
+		listBossArm[i]->SetSpeed(old_vx_arm, old_vy_arm);
+	}
+}
 
 void CBoss::Fire() {
 	/*if (timeStartAttack == TIME_DEFAULT) {

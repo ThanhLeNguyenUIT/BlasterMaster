@@ -361,7 +361,7 @@ void PlayScene::Update(DWORD dt) {
 
 	if ((playerBig->scene_gate == 39) && !playerBig->doneFlash) {
 		Game::GetInstance()->isFlashing = true;
-		if ((GetTickCount() - dt) % 3000 == 0) {
+		if ((GetTickCount() - dt) % 5000 == 0) {
 			Game::GetInstance()->isFlashing = false;
 			playerBig->doneFlash = true;
 			playerBig->scene_gate = 53;
@@ -370,7 +370,7 @@ void PlayScene::Update(DWORD dt) {
 	}
 	
 	if (CBoss::GetInstance()->isWakingUp && playerBig->scene_gate == 53) {
-		if ((GetTickCount() - dt) % 3000 == 0) {
+		if ((GetTickCount() - dt) % 5000 == 0) {
 			CBoss::GetInstance()->isWakingUp = false;
 		}
 	}
@@ -384,7 +384,14 @@ void PlayScene::Update(DWORD dt) {
 
 	for (auto& obj : grid->GetStaticObjectInViewPort())
 	{
-		listObjects.push_back(obj);
+		switch (obj->type) {
+		case DAMAGE_BRICK: 
+			listDamageBricks.push_back(static_cast<DamageBrick*>(obj));
+			break;
+		default:
+			listObjects.push_back(obj);
+			break;
+		}
 	}
 
 	for (auto& obj : grid->GetMovingObjectInViewPort())
@@ -413,7 +420,7 @@ void PlayScene::Update(DWORD dt) {
 	// Update player
 	player->Update(dt, &listObjects, &listEnemies, &listItems, &listEnemyBullets);
 	playerSmall->Update(dt, &listObjects, &listEnemies, &listItems, &listEnemyBullets);
-	playerBig->Update(dt, &listObjects, &listEnemies, &listItems, &listEnemyBullets);
+	playerBig->Update(dt, &listObjects, &listEnemies, &listItems, &listEnemyBullets, &listDamageBricks);
 	if (playerBig->scene_gate == 53) {
 		CBoss::GetInstance()->IsRender = true;
 		CBoss::GetInstance()->Update(dt, &listObjects);
@@ -773,6 +780,10 @@ void PlayScene::Render() {
 	for (int i = 0; i < listEnemyBullets.size(); i++) {
 		listEnemyBullets[i]->Render();
 	}
+
+	//for (int i = 0; i < listDamageBricks.size(); i++) {
+	//	listDamageBricks[i]->Render();
+	//}
 	hud->Render();
 }
 

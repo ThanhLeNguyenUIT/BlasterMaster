@@ -9,6 +9,7 @@ class CBossHand : public Enemy
 	int typeHand;
 	float x_boss, y_boss;
 	int alpha1 = 255;
+	float old_vx, old_vy;
 public:
 	bool isStop = false;
 	Animation* CurAnimation;
@@ -25,5 +26,13 @@ public:
 	void SetBossPos(float  x_boss, float y_boss) {
 		this->x_boss = x_boss;
 		this->y_boss = y_boss;
+	}
+	void SetOldSpeed() {
+		old_vx = vx;
+		old_vy = vy;
+	}
+	void GetOldSpeed(float old_vx1, float old_vy1) {
+		old_vx1 = this->old_vx;
+		old_vy1 = this->old_vy;
 	}
 };

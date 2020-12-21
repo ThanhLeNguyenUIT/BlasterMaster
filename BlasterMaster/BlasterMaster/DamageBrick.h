@@ -1,6 +1,6 @@
 #pragma once
 #pragma once
-#include "GameObject.h"
+#include "Enemy.h"
 
 class DamageBrick : public GameObject {
 public:

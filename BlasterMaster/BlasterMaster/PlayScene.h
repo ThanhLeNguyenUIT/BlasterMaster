@@ -43,6 +43,7 @@ protected:
 	vector<LPGAMEOBJECT> listObjects;
 	vector<Enemy*> listEnemies;
 	vector<Item*> listItems;
+	vector<DamageBrick*> listDamageBricks;
 	HUD* hud;
 	Power* power;
 	//Sophia* sophia;

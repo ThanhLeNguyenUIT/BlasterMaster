@@ -34,7 +34,7 @@ BigJason::~BigJason() {
 
 }
 
-void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>* coEnemy, vector<Item*>* coItem, vector<EnemyBullet*>* coBullet) {
+void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>* coEnemy, vector<Item*>* coItem, vector<EnemyBullet*>* coBullet,vector<DamageBrick*>* listDamageBrick) {
 	if (Allow[BIG_JASON]) {
 		GameObject::Update(dt);
 
@@ -55,26 +55,7 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>*
 			IsFiring = false;
 		}
 		// create bullet when DIK_S
-		if (IsFiring) {
-			bullet = new PlayerBullet();
-			bullet->type = BIG_JASON_BULLET;
-			if (nx > 0) {
-				bullet->SetPosition(x + BIG_JASON_BBOX_WIDTH / 3, y + BIG_JASON_BBOX_HEIGHT / 2);
-				bullet->ChangeAnimation(BIG_JASON_BULLET_MOVING_RIGHT);
-			}
-			else if (nx < 0 ) {
-				bullet->SetPosition(x + BIG_JASON_BBOX_WIDTH / 3, y + BIG_JASON_BBOX_HEIGHT / 2);
-				bullet->ChangeAnimation(BIG_JASON_BULLET_MOVING_LEFT);
-			}
-			else if (ny > 0) {
-				bullet->SetPosition(x + 7 / BIG_JASON_BBOX_WIDTH, y + 7 / BIG_JASON_BBOX_HEIGHT);
-				bullet->ChangeAnimation(BIG_JASON_BULLET_MOVING_UP);
-			}
-			else if (ny < 0 ) {
-				bullet->SetPosition(x + 7 / BIG_JASON_BBOX_WIDTH / 2, y + BIG_JASON_BBOX_HEIGHT / 2);
-				bullet->ChangeAnimation(BIG_JASON_BULLET_MOVING_DOWN);
-			}
-		}
+		
 		// change state die if health = 0
 		/*if (health == 0) {
 			ChangeAnimation(new PlayerDeadState());
@@ -203,7 +184,32 @@ void BigJason::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<Enemy*>*
 					health = health + 1;
 			}
 		}
+
+		for (int i = 0; i < listDamageBrick->size(); i++) {
+			if (CheckColliWithDamageBrick(listDamageBrick->at(i))) {
+				if (timeDamaged == TIME_DEFAULT) {
+					timeDamaged = GetTickCount();
+				}
+				IsJumping = false;
+					if (GetTickCount() - timeDamaged >= 600) {
+						health = health - 1;
+						timeDamaged = GetTickCount();
+					}
+			}
+		}
+
+		
 	}
+}
+
+bool BigJason::CheckColliWithDamageBrick(DamageBrick* obj) {
+	float l1, l2, b1, b2, r1, r2, t1, t2;
+	this->GetBoundingBox(l1, t1, r1, b1);
+	obj->GetBoundingBox(l2, t2, r2, b2);
+	if (Game::GetInstance()->CheckAABB(l1, t1, r1, b1, l2, t2, r2, b2)) {
+		return true;
+	}
+	
 }
 
 void BigJason::ChangeScene(int scene_gate) {
@@ -555,6 +561,27 @@ void BigJason::OnKeyDown(int key) {
 			timeStartAttack = GetTickCount();
 		}
 		IsFiring = true;
+
+		if (IsFiring) {
+			bullet = new PlayerBullet();
+			bullet->type = BIG_JASON_BULLET;
+			if (nx > 0) {
+				bullet->SetPosition(x + BIG_JASON_BBOX_WIDTH / 3, y + BIG_JASON_BBOX_HEIGHT / 2);
+				bullet->ChangeAnimation(BIG_JASON_BULLET_MOVING_RIGHT);
+			}
+			else if (nx < 0) {
+				bullet->SetPosition(x + BIG_JASON_BBOX_WIDTH / 3, y + BIG_JASON_BBOX_HEIGHT / 2);
+				bullet->ChangeAnimation(BIG_JASON_BULLET_MOVING_LEFT);
+			}
+			else if (ny > 0) {
+				bullet->SetPosition(x + 7 / BIG_JASON_BBOX_WIDTH, y + 7 / BIG_JASON_BBOX_HEIGHT);
+				bullet->ChangeAnimation(BIG_JASON_BULLET_MOVING_UP);
+			}
+			else if (ny < 0) {
+				bullet->SetPosition(x + 7 / BIG_JASON_BBOX_WIDTH / 2, y + BIG_JASON_BBOX_HEIGHT / 2);
+				bullet->ChangeAnimation(BIG_JASON_BULLET_MOVING_DOWN);
+			}
+		}
 		break;
 	case DIK_RIGHT:
 		if (Allow[BIG_JASON] && (IsTouchGate || IsTouchPortal)) {

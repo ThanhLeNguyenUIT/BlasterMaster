@@ -7,7 +7,7 @@
 	#Nguyễn Lê Thành
 	#Trần Huy Quỳnh	
 	#Châu Quốc Thắng
-	#Châu Quốc Thắng
+	#Nguyễn Hữu Minh Quý
 	
 	
 
